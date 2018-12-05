@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script>
+		window.addEventListener('load',()=>{
+			document.getElementById('addBtn').addEventListener("click", ()=>{
+				document.getElementById('addForm').submit();
+			});
+		});
+	</script>
+	<title>Insert title here</title>
+</head>
+<body>
+<form action="addReverseauction" method="POST" id="addForm">
+	<table border="1" style="margin:0 auto;">
+		<tr>
+			<td>memberId</td><td><input type="text" name="memberId"></td>
+		</tr>
+		<tr>
+			<td>TenderLimit</td><td><input type="text" name="reverseauctionTenderLimit"></td>
+		</tr>
+		<tr>
+			<td>TendercloseDate</td><td><input type="text" name="reverseauctionTendercloseDate"></td>
+		</tr>
+		<tr>
+			<td>RoomingDate</td><td><input type="text" name="reverseauctionRoomingDate"></td>
+		</tr>
+		<tr>
+			<td>LeavingDate</td><td><input type="text" name="reverseauctionLeavingDate"></td>
+		</tr>
+		<tr>
+			<td>Title</td><td><input type="text" name="reverseauctionTitle"></td>
+		</tr>
+		<tr>
+			<td>doNo</td><td><input type="text" name="doNo"></td>
+		</tr>
+		<tr>
+			<td>siNo</td><td><input type="text" name="siNo"></td>
+		</tr>
+		<tr>
+			<td>guNo</td><td><input type="text" name="guNo"></td>
+		</tr>
+		<tr>
+			<td>Address</td><td><input type="text" name="reverseauctionAddress"></td>
+		</tr>
+		<tr>
+			<td>AddressMore</td><td><input type="text" name="reverseauctionAddressMore"></td>
+		</tr>
+		<tr>
+			<td>Content</td><td><input type="text" name="reverseauctionContent"></td>
+		</tr>
+		<tr>
+			<td><button type="button" id="addBtn">입력</button></td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

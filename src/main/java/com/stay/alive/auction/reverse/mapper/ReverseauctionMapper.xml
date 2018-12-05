@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stay.alive.auction.reverse.mapper.ReverseauctionMapper">
+  <select id="selectReverseauctionAll" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  	SELECT *
+  	FROM reverseauction_register
+  </select>
+  <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  	SELECT *
+  	FROM reverseauction_register
+  	WHERE ${sk}=#{sv}
+  </select>
+  <insert id="insertReverseauction">
+  	INSERT INTO reverseauction_register
+  	VALUES (0,
+  			#{memberId},
+  			now(),
+  			null,
+  			#{reverseauctionTenderLimit},
+  			#{reverseauctionTendercloseDate},
+  			#{reverseauctionRoomingDate},
+  			#{reverseauctionLeavingDate},
+  			#{reverseauctionTitle},
+  			#{doNo},
+  			#{siNo},
+  			#{guNo},
+  			#{reverseauctionAddress},
+  			#{reverseauctionAddressMore},
+  			0,
+  			#{reverseauctionContent},
+  			0,
+  			1,
+  			"낙찰 대기")
+  </insert>
+</mapper>

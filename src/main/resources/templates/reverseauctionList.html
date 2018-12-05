@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<title>Insert title here</title>
+</head>
+<body>
+	<h1>test</h1>
+	<a href="addReverseauction" class="btn">역경매 등록</a>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>No</td>
+				<td>memberId</td>
+				<td>RegisterDate</td>
+				<td>UpdateDate</td>
+				<td>TenderLimit</td>
+				<td>TendercloseDate</td>
+				<td>RoomingDate</td>
+				<td>LeavingDate</td>
+				<td>Title</td>
+				<td>doNo</td>
+				<td>siNo</td>
+				<td>guNo</td>
+				<td>Address</td>
+				<td>AddressMore</td>
+				<td>Hits</td>
+				<td>Content</td>
+				<td>TenderCount</td>
+				<td>auctionStateCategoryNo</td>
+				<td>auctionStateCategoryName</td>
+			</tr>
+			<tr th:each="item: ${list}">
+				<td th:text="${item.reverseauctionNo}"></td>
+				<td th:text="${item.memberId}"></td>
+				<td th:text="${item.reverseauctionRegisterDate}"></td>
+				<td th:text="${item.reverseauctionUpdateDate}"></td>
+				<td th:text="${item.reverseauctionTenderLimit}"></td>
+				<td th:text="${item.reverseauctionTendercloseDate}"></td>
+				<td th:text="${item.reverseauctionRoomingDate}"></td>
+				<td th:text="${item.reverseauctionLeavingDate}"></td>
+				<td th:text="${item.reverseauctionTitle}"></td>
+				<td th:text="${item.doNo}"></td>
+				<td th:text="${item.siNo}"></td>
+				<td th:text="${item.guNo}"></td>
+				<td th:text="${item.reverseauctionAddress}"></td>
+				<td th:text="${item.reverseauctionAddressMore}"></td>
+				<td th:text="${item.reverseauctionHits}"></td>
+				<td th:text="${item.reverseauctionContent}"></td>
+				<td th:text="${item.reverseauctionTenderCount}"></td>
+				<td th:text="${item.auctionStateCategoryNo}"></td>
+				<td th:text="${item.auctionStateCategoryName}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
