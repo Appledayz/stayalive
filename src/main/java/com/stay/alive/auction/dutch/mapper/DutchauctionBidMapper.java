@@ -1,5 +1,5 @@
 package com.stay.alive.auction.dutch.mapper;
 
-public class DutchauctionBidMapper {
+public interface DutchauctionBidMapper {
 
 }

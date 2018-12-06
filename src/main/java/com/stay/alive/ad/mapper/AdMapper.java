@@ -1,5 +1,5 @@
 package com.stay.alive.ad.mapper;
 
-public class AdMapper {
+public interface AdMapper {
 
 }
