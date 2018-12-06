@@ -1,5 +1,5 @@
 package com.stay.alive.member.service;
 
-public class memberServiceImpl {
+public class MemberService {
 
 }

@@ -1,5 +1,5 @@
 package com.stay.alive.member.mapper;
 
-public class memberMapper {
+public class MemberMapper {
 
 }
