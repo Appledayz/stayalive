@@ -1,6 +1,8 @@
 package com.stay.alive.member.controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,17 +14,18 @@ public class MemberController {
 	
 	//1-1.회원가입 폼
 	//3-1.입력폼
-		@RequestMapping(value="/member/addMember", method=RequestMethod.GET)
+		@GetMapping("/member/addMember")
 		public String addSample() {		
 			return "member/addMember";
 			// jquery, bootstrap, command객체
 		
 		}
 		//3-2.입력액션
-		@RequestMapping(value="/member/addMember", method=RequestMethod.POST)
-		public String addMember(Member memberRequest) {
-			Model.addAttribute("Mlist", MemberService.getMemberAll());
-			return "redirect:/member/addMemberList";
+		@PostMapping("addMember")
+		public String addMember(Member member, int memberNo) {
+			Member member = MemberService.getMember(memberNo);
+			model.addAttribute("member", member);
+			return "addMemberList";
 		}
 	//1-2.회원가입 액션
 	
