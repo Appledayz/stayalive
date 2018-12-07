@@ -9,7 +9,8 @@ public class BoardAdmin {
 	private int boardCategoryNo; // 게시판 카테고리 번호(FK)
 	private String boardCategoryName; // 카테고리명(게시판명)
 	private String memberId; // 관리자아이디
-	private String memberLevel; // 회원여부(회원등급)
+	private int groupNo; // 회원 그룹 번호(FK)
+	private String groupName; // 그룹명
 	private String boardAdminTitle; // 제목
 	private String boardAdminContent; // 내용
 	private String boardAdminRegisterDate; // 게시글 등록일자
