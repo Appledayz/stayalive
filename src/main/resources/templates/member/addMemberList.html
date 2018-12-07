@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+	<h1>샘플리스트</h1>
+	<table class="table">
+		<thead>
+		<tr>
+			<td>아이디</td>
+			<td>비밀번호</td>
+			<td>이름</td>
+			<td>닉네임</td>
+			<td>생일</td>
+			<td>전화번호</td>
+			<td>이메일</td>
+			<td>홈페이지</td>
+			<td>이메일 수신동의</td>
+			<td>SMS 수신동의</td>
+			<td>회원 상태 번호</td>
+			<td>상태명</td>
+			<td>회원 그룹</td>
+			<td>그룹명</td>
+			<td>회원 등급</td>
+			<td>등급명</td>
+			<td>회원 옵션</td>
+			<td>옵션명</td>
+			<td>가입 일자</td>
+			<td>마지막 정보수정일자</td>
+			<td>마지막 로그아웃 일자</td>
+			<td>마지막 로그인 일자</td>
+			<td>로그인 횟수</td>
+		</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="sample" items="${sampleList}">
+		<tr>
+			<td>${member.sampleNo}</td>
+			<td>${sample.sampleId}</td>
+			<td>${sample.samplePw}</td>
+			
+		</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+</body>
+</html>
