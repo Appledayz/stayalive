@@ -1,4 +1,4 @@
-package com.stay.alive.member.service;
+/*package com.stay.alive.member.service;
 
 import java.util.List;
 
@@ -25,4 +25,4 @@ public class MemberService {
 		return memberMapper.selectMemberAll();
 	}
 	
-}
+}*/

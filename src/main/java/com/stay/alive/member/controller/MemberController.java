@@ -1,4 +1,4 @@
-package com.stay.alive.member.controller;
+/*package com.stay.alive.member.controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,3 +39,4 @@ public class MemberController {
 	
 	
 }
+*/

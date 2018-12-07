@@ -1,4 +1,4 @@
-package com.stay.alive.member.mapper;
+/*package com.stay.alive.member.mapper;
 
 import java.util.List;
 
@@ -10,4 +10,4 @@ import com.stay.alive.member.vo.Member;
 public interface MemberMapper {
 	List<Member> selectMemberAll();
 	int insertMember(Member member);
-}
+}*/
