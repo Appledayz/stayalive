@@ -2,6 +2,8 @@ package com.stay.alive.ad.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.stay.alive.ad.service.AdService;
 
@@ -23,4 +25,10 @@ public class AdController {
 	// 3. 광고 삭제
 	
 	// 4. 광고 조회
+	@GetMapping("adList")
+	public String adList(Model model) {
+		System.out.println("AdController.adList() GET");
+		model.addAttribute("list", adService.getAdAll());
+		return "adList";
+	}
 }
