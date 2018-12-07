@@ -11,7 +11,7 @@
 					member_email,
 					member_homepage,
 					member_email_accept,
-					member_sms_accept,
+					member_sns_accept,
 					
 					member_state_no,
 					member_state_name,
@@ -37,16 +37,16 @@
 			#{memberEmail},
 			#{memberHomepage},
 			#{memberEmailAccept},
-			#{memberSmsAccept})
+			#{memberSnsAccept},
 	
 	<!-- 회원 가입 이후 변경되는 조건
 	memberStateNo;//회원 상태 번호(FK)
 	memberStateName;//상태명
 	memberGroup;//회원 그룹
 	private String memberGroupName;//그룹명
-	private  memberRatingNo;//회원 등급(FK)
+	private int memberRatingNo;//회원 등급(FK)
 	private String memberRatingName;//등급명
-	private  memberOptionNo;//회원 옵션
+	private int memberOptionNo;//회원 옵션
 	private String memberOptionName;//옵션명
 	
 	//관리자 권한으로 조회가능
@@ -56,3 +56,6 @@
 	private String memberLastloginDate;//마지막 로그인일자
 	private  memberLoginCount;//로그인 횟수); -->
 	</insert>
+	
+	
+	

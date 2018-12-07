@@ -17,9 +17,10 @@ public class MemberService {
 	private MemberMapper memberMapper;
 	
 	//1.회원추가
-	public int addMemberOne(Member memberRequest) {
-		return memberMapper.insertMember(memberRequest);
+	public int addMemberOne(Member member) {
+		return memberMapper.insertMember(member);
 	}
+	//2.회원조회
 	public List<Member> getMemberAll() {
 		return memberMapper.selectMemberAll();
 	}

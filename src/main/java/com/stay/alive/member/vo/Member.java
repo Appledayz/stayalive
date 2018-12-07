@@ -19,14 +19,15 @@ public class Member {
 	private String memberHomepage;//홈페이지
 	private String memberEmailAccept;//이메일 수신동의
 	private String memberSmsAccept;//SMS수신 동의
+	private String memberSnsId;//SMS수신 동의
 	
 	//회원 가입 이후 변경되는 조건
 	private int memberStateNo;//회원 상태 번호(FK)
 	private String memberStateName;//상태명
-	private String memberGroup;//회원 그룹
-	private String memberGroupName;//그룹명
-	private int memberRatingNo;//회원 등급(FK)
-	private String memberRatingName;//등급명
+	private String groupNo;//회원 그룹
+	private String groupName;//그룹명
+	private int ratingNo;//회원 등급(FK)
+	private String ratingName;//등급명
 	private int memberOptionNo;//회원 옵션
 	private String memberOptionName;//옵션명
 	
