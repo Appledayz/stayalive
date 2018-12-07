@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.stay.alive.member.mapper.MemberMapper">
+	<insert id="insertMember">	
+	INSERT INTO member(member_no,
+					member_id,
+					member_password,
+					member_name,
+					member_nickname,
+					member_birth,
+					member_phone_number1,
+					member_email,
+					member_homepage,
+					member_email_accept,
+					member_sms_accept,
+					
+					member_state_no,
+					member_state_name,
+					member_group,
+					member_group_name,
+					member_rating_no,
+					member_rating_name,
+					member_option,
+					member_option_name,
+					
+					member_register_date,
+					member_lastupdate_date,
+					member_lastlogout_date,
+					member_lastlogin_date,
+					member_login_count)
+	    VALUES (
+			#{memberId},
+			#{memberPassword},
+			#{memberName},
+			#{memberNickname},
+			#{memberBirth},
+			#{memberPhoneNumber1},
+			#{memberEmail},
+			#{memberHomepage},
+			#{memberEmailAccept},
+			#{memberSmsAccept})
+	
+	<!-- 회원 가입 이후 변경되는 조건
+	memberStateNo;//회원 상태 번호(FK)
+	memberStateName;//상태명
+	memberGroup;//회원 그룹
+	private String memberGroupName;//그룹명
+	private  memberRatingNo;//회원 등급(FK)
+	private String memberRatingName;//등급명
+	private  memberOptionNo;//회원 옵션
+	private String memberOptionName;//옵션명
+	
+	//관리자 권한으로 조회가능
+	private String memberRegisterDate;//가입일자
+	private String memberLastupdateDate;//마지막 정보수정일자
+	private String memberLastlogoutDate;//마지막 로그아웃일자
+	private String memberLastloginDate;//마지막 로그인일자
+	private  memberLoginCount;//로그인 횟수); -->
+	</insert>
