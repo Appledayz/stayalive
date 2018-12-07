@@ -12,6 +12,11 @@
   	FROM reverseauction_register
   	WHERE ${sk}=#{sv}
   </select>
+  <select id="selectReverseauctionOne" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  	SELECT *
+  	FROM reverseauction_register
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </select>
   <insert id="insertReverseauction">
   	INSERT INTO reverseauction_register
   	VALUES (0,
@@ -23,9 +28,6 @@
   			#{reverseauctionRoomingDate},
   			#{reverseauctionLeavingDate},
   			#{reverseauctionTitle},
-  			#{doNo},
-  			#{siNo},
-  			#{guNo},
   			#{reverseauctionAddress},
   			#{reverseauctionAddressMore},
   			0,
@@ -34,4 +36,17 @@
   			1,
   			"낙찰 대기")
   </insert>
+  <update id="updateReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  	UPDATE reverseauction_register
+  	  SET
+  	  	reverseauction_update_date=now(),
+  	    reverseauction_tender_limit=#{reverseauctionTenderLimit},
+  	  	reverseauction_tenderclose_date=#{reverseauctionTendercloseDate},
+  	  	reverseauction_leaving_date=#{reverseauctionLeavingDate},
+		reverseauction_title=#{reverseauctionTitle},
+		reverseauction_address=#{reverseauctionAddress},
+		reverseauction_address_more=#{reverseauctionAddressMore},
+		reverseauction_content=#{reverseauctionContent}
+	WHERE reverseauction_no=#{reverseauctionNo}
+  </update>
 </mapper>

@@ -11,4 +11,6 @@ public interface ReverseauctionMapper {
 	List<Reverseauction> selectReverseauctionAll();
 	int insertReverseauction(Reverseauction reverseauction);
 	List<Reverseauction> selectReverseauctionSearchList(String sk, String sv);
+	Reverseauction selectReverseauctionOne(int reverseauctionNo);
+	int updateReverseauction(Reverseauction reverseauction);
 }

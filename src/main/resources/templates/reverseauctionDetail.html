@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<title>ReverseauctionDetail</title>
+</head>
+<body>
+	<h1>ReverseauctionDetail</h1>
+	<h6><a th:href="@{modifyReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">수정하기</a></h6>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>No</td>
+				<td th:text="${m.reverseauctionNo}"></td>
+			</tr>
+			<tr>
+				<td>memberId</td>
+				<td th:text="${m.memberId}"></td>
+			</tr>
+			<tr>
+				<td>RegisterDate</td>
+				<td th:text="${m.reverseauctionRegisterDate}"></td>
+			</tr>
+			<tr>
+				<td>UpdateDate</td>
+				<td th:text="${m.reverseauctionUpdateDate}"></td>
+			</tr>
+			<tr>
+				<td>TenderLimit</td>
+				<td th:text="${m.reverseauctionTenderLimit}"></td>
+			</tr>
+			<tr>
+				<td>TendercloseDate</td>
+				<td th:text="${m.reverseauctionTendercloseDate}"></td>
+			</tr>
+			<tr>
+				<td>RoomingDate</td>
+				<td th:text="${m.reverseauctionRoomingDate}"></td>
+			</tr>
+			<tr>
+				<td>LeavingDate</td>
+				<td th:text="${m.reverseauctionLeavingDate}"></td>
+			</tr>
+			<tr>
+				<td>Title</td>
+				<td th:text="${m.reverseauctionTitle}"></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td th:text="${m.reverseauctionAddress}"></td>
+			</tr>
+			<tr>
+				<td>AddressMore</td>
+				<td th:text="${m.reverseauctionAddressMore}"></td>
+			</tr>
+			<tr>
+				<td>Hits</td>
+				<td th:text="${m.reverseauctionHits}"></td>
+			</tr>
+			<tr>
+				<td>Content</td>
+				<td th:text="${m.reverseauctionContent}"></td>
+			</tr>
+			<tr>
+				<td>TenderCount</td>
+				<td th:text="${m.reverseauctionTenderCount}"></td>
+			</tr>
+			<tr>
+				<td>auctionStateCategoryNo</td>
+				<td th:text="${m.auctionStateCategoryNo}"></td>
+			</tr>
+			<tr>
+				<td>auctionStateCategoryName</td>
+				<td th:text="${m.auctionStateCategoryName}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
