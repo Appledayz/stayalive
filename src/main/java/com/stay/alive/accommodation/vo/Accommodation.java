@@ -30,4 +30,5 @@ public class Accommodation {
 	private String accommodationDetail; //세부내용
 	private String accommodationRegisterDate; //숙소 등록일자
 	private String accommodationUpdateDate; //마지막 숙소 등록정보 수정일
+	
 }

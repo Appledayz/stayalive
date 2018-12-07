@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<body>
+	<div class="container">
+		<form action ="companyRegister" method ="post">
+			<table>
+				<tr>
+					<td><label>업체명</label></td>
+					<td><input type = "text" class ="form-control" name = "companyName"></td>
+				</tr>
+				<tr>
+					<td><label >사업자 등록 번호</label></td>
+					<td ><input type = "text" class ="form-control" name = "companyRegistrationNumber" ></td>
+				</tr>
+				<tr>
+					<td><label >파일 등록</label></td>
+					<td ><input type = "file" class ="form-control" id = "file" name = "file" ></td>
+				</tr>
+				<tr>
+					<td colspan = "2" align="right"><button type = "submit">등록하기</button></td>
+				</tr>
+			</table>
+			<input type = "hidden" name = "memberId"  value="0">
+		</form>
+		<img id = "img" src ="#"  style="width: 200px;height: 200px">
+	</div>
+<script type="text/javascript">
+	function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      $('#img').attr('src', e.target.result);
+	    }
+	    reader.readAsDataURL(input.files[0]);
+	  }
+	}
+	$("#file").change(function() {
+	 	readURL(this);
+	});
+</script>
+
+
+</body>
+</html>

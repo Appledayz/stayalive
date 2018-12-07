@@ -2,3 +2,12 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.company.mapper.CompanyMapper" >
+	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
+		INSERT INTO company(member_id,company_name,company_registration_number,rating_no) VALUES(#{memberId},#{companyName},#{companyRegistrationNumber})
+	</insert>
+	<select id="selectMemberRatingAndOption" parameterType="com.stay.alive.member.vo.Member" resultType="com.stay.alive.member.vo.Member">
+		SELECT member_rating_no
+	</select>
+</mapper>

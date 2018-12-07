@@ -1,7 +1,5 @@
 package com.stay.alive.company.vo;
 
-import com.stay.alive.accommodation.vo.Accommodation;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Company {
+	private int companyNo; //업체 등록 번호(PK)
 	private String companyName; //업체명
 	private String memberId; //숙박 업체 회원 아이디
 	private String ratingNo; //회원 등급 번호(FK)
@@ -24,7 +23,8 @@ public class Company {
 	private int dutchauctionRegisterCount; //네덜란드식 경매 등록 현황
 	private int dutchauctionSalesCount; //네덜란드식 경매 통한 판매량
 	private int companyWishlistCount; //찜한 사람수
-	private String companyHomepage; //홈페이지
+	private String companyRegistrationNumber; //사업자 등록 번호
+	private String companyRecognition; //업체 승인 유무
 	private String companyRegisterDate; //업체 등록일자
 	private String companyUpdateDate; //마지막 업체 등록정보 수정일
 }
