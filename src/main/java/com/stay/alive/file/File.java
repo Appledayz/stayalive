@@ -10,7 +10,8 @@ public class File {
 	private int fileRegisterTableNo; // 파일 등록 테이블 번호(FK)
 	private String fileRegisterTableName; // 테이블명
 	private String filePath; // 파일 경로
-	private String fileName; // 파일 이름
+	private String fileRealName; // 파일 이름
+	private String fileStoredName; // 저장된 파일 이름
 	private String fileExt; // 파일 확장자
 	private String fileType; // 파일 형식
 	private String fileSize; // 파일 크기
