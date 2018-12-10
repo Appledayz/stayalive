@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<title>modifyReverseauctionTender</title>
+</head>
+<body>
+	<h1>modifyReverseauctionTender</h1>
+	<form th:action="@{addReverseauctionTender}" th:object="${ReverseauctionTender}" method="post">
+		<input th:type="hidden" th:field="*{reverseauctionNo}" th:value="${reverseauctionNo">
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>memberId</td>
+					<td><input th:field="*{memberId}"></td>
+				</tr>
+				<tr>
+					<td>accommodationNo</td>
+					<td><input th:field="*{accommodationNo}"></td>
+				</tr>
+				<tr>
+					<td>accommodationName</td>
+					<td><input th:field="*{accommodationName}"></td>
+				</tr>
+				<tr>
+					<td>guestroomNo</td>
+					<td><input th:field="*{guestroomNo}"></td>
+				</tr>
+				<tr>
+					<td>guestroomName</td>
+					<td><input th:field="*{guestroomName}"></td>
+				</tr>
+				<tr>
+					<td>reverseauctionTenderContent</td>
+					<td><input th:field="*{reverseauctionTenderContent}"></td>
+				</tr>
+				<tr>
+					<td>reverseauctionTenderPrice</td>
+					<td><input th:field="*{reverseauctionTenderPrice}"></td>
+				</tr>
+				<tr>
+					<td><button th:type="submmit">submit</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>

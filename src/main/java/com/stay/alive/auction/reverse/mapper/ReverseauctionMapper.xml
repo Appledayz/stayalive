@@ -17,7 +17,7 @@
   	FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
-  <insert id="insertReverseauction">
+  <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	INSERT INTO reverseauction_register
   	VALUES (0,
   			#{memberId},
@@ -36,6 +36,26 @@
   			1,
   			"낙찰 대기")
   </insert>
+  <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	INSERT INTO reverseauction_tender
+  	VALUES(0,
+  			#{memberId},
+  			#{companyNo},
+  			#{companyName},
+  			#{accommodationNo},
+  			#{accommodationName},
+  			#{guestroomNo},
+  			#{guestroomName},
+  			#{reverseauctionNo},
+  			#{accommodationGuestroomAllcount},
+  			#{guestroomStateCount},
+  			now(),
+  			null,
+  			#{reverseauctionTenderContent},
+  			#{reverseauctionTenderPrice},
+  			1,
+  			"낙찰대기중")
+  </insert>
   <update id="updateReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	UPDATE reverseauction_register
   	  SET
@@ -49,12 +69,20 @@
 		reverseauction_content=#{reverseauctionContent}
 	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
+  <update id="updateReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	UPDATE reverseauction_tender
+  	  SET
+  	    accommodation_no=#{accommodationNo},
+  	    accommodation_name=#{accommodationName},
+  	    guestroom_no=#{guestroomNo},
+  	    guestroom_name=#{guestroomName},
+  	    reverseauction_tender_update_date=now(),
+  	    reverseauction_tender_content=#{reverseauctionTenderContent},
+  	    reverseauction_tender_price=#{reverseauctionTenderPrice}
+  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
+  </update>
   <delete id="deleteReverseauction">
   	DELETE FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </delete>
-  <insert id="insertReverseauctionTender">
-  	INSERT INTO reverseauction_tender
-  	VALUES()
-  </insert>
 </mapper>

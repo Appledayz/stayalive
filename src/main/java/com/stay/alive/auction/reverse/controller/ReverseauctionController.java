@@ -83,44 +83,44 @@ public class ReverseauctionController {
 		reverseauctionService.getTenderDetail(reverseauctionTenderNo);
 		return "/reverseauction/reverseauctionTenderDetail";
 	}
-	// 9. 역경매 입찰 등록 폼
+	// 10. 역경매 입찰 등록 폼
 	@GetMapping("addReverseauctionTender")
-	public String addReverseauctionTender(Model model, int reverseauctionNo) {
+	public String addReverseauctionTender(int reverseauctionNo, Model model) {
 		System.out.println("ReverseauctionController.addReverseauctionTender() GET");
-		model.addAttribute("ReverseauctionTender", new ReverseauctionTender());
+		model.addAttribute("reverseauctionNo", reverseauctionNo);
 		return "/reverseauction/addReverseauctionTender";
 	}
-	// 10. 역경매 입찰 등록 액션
+	// 11. 역경매 입찰 등록 액션
 	@PostMapping("addReverseauctionTender")
 	public String addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		reverseauctionService.addReverseauctionTender(reverseauctionTender);
 		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
 	}
-	// 10. 역경매 입찰 수정 폼
+	// 12. 역경매 입찰 수정 폼
 	@GetMapping("modifyReverseauctionTender")
 	public String modifyReverseauctionTender() {
 		System.out.println("ReverseauctionController.modifyReverseauctionTender() GET");
 		return "/reverseauction/modifyReverseauctionTender";
 	}
-	// 11. 역경매 입찰 수정 액션
+	// 13. 역경매 입찰 수정 액션
 	@PostMapping("modifyReverseauctionTender")
 	public String modifyReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionController.modifyReverseauctionTender() POST");
 		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
 	}
-	// 12. 역경매 입찰 삭제
+	// 14. 역경매 입찰 삭제
 	@GetMapping("removeReverseauctionTender")
 	public String deleteReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionController.deleteReverseauctionTender() GET");
 		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
 	}
-	// 13. 낙찰 등록
+	// 15. 낙찰 등록
 	@GetMapping("addReverseauctionSuccessfulbid")
 	public String addReverseauctionSuccessfulbid() {
 		System.out.println("ReverseauctionController.addReverseauctionSuccessfulbid() GET");
 		return "";
 	}
-	// 14. 낙찰 취소
+	// 16. 낙찰 취소
 	@GetMapping("removeReverseauctionSuccessfulbid")
 	public String removeReverseauctionSuccessfulbid() {
 		System.out.println("ReverseauctionController.removeReverseauctionSuccessfulbid() GET");

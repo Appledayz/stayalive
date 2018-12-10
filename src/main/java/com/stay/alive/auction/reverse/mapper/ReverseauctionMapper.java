@@ -18,4 +18,5 @@ public interface ReverseauctionMapper {
 	int insertReverseauctionTender(ReverseauctionTender reverseauctionTender);
 	List<ReverseauctionTender> selectTenderListForOneReverseauction();
 	ReverseauctionTender selectReverseauctionTenderOne(int reverseauctionTenderNo);
+	int updateReverseauctionTender(ReverseauctionTender reverseauctionTender);
 }
