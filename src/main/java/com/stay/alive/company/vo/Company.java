@@ -13,7 +13,7 @@ public class Company {
 	private int companyNo; //업체 등록 번호(PK)
 	private String companyName; //업체명
 	private String memberId; //숙박 업체 회원 아이디
-	private String ratingNo; //회원 등급 번호(FK)
+	private int ratingNo; //회원 등급 번호(FK)
 	private String ratingName; //등급명
 	private int companyVolume; //업체 거래량
 	private int memberOptionNo; //회원옵션번호(FK)
