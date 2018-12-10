@@ -29,6 +29,6 @@ public class AdController {
 	public String adList(Model model) {
 		System.out.println("AdController.adList() GET");
 		model.addAttribute("list", adService.getAdAll());
-		return "adList";
+		return "AdList";
 	}
 }

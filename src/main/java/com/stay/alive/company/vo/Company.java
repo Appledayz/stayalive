@@ -1,5 +1,7 @@
 package com.stay.alive.company.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +29,5 @@ public class Company {
 	private String companyRecognition; //업체 승인 유무
 	private String companyRegisterDate; //업체 등록일자
 	private String companyUpdateDate; //마지막 업체 등록정보 수정일
+	private MultipartFile imageFile; //등록 이미지 파일
 }
