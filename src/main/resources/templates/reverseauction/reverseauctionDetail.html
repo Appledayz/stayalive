@@ -8,7 +8,9 @@
 </head>
 <body>
 	<h1>ReverseauctionDetail</h1>
-	<h6><a th:href="@{modifyReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">수정하기</a></h6>
+	<h6><a th:href="@{modifyReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">역경매수정하기</a></h6>
+	<h6><a th:href="@{removeReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">역경매삭제하기</a></h6>
+	<h6><a th:href="@{addReverseauctionTender?reverseauctionNo=}+${m.reverseauctionNo}">입찰등록</a></h6>
 	<table border="1">
 		<tbody>
 			<tr>

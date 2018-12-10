@@ -49,4 +49,12 @@
 		reverseauction_content=#{reverseauctionContent}
 	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
+  <delete id="deleteReverseauction">
+  	DELETE FROM reverseauction_register
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </delete>
+  <insert id="insertReverseauctionTender">
+  	INSERT INTO reverseauction_tender
+  	VALUES()
+  </insert>
 </mapper>
