@@ -12,6 +12,10 @@ import com.stay.alive.company.vo.Company;
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
+	@GetMapping("company")
+	public String company() {
+		return "/company/company";
+	}
 	@GetMapping("companyRegister")
 	public String companyRegister() {
 		return "/company/companyRegister";
