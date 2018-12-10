@@ -85,8 +85,9 @@ public class ReverseauctionController {
 	}
 	// 9. 역경매 입찰 등록 폼
 	@GetMapping("addReverseauctionTender")
-	public String addReverseauctionTender(int reverseauctionNo) {
+	public String addReverseauctionTender(Model model, int reverseauctionNo) {
 		System.out.println("ReverseauctionController.addReverseauctionTender() GET");
+		model.addAttribute("ReverseauctionTender", new ReverseauctionTender());
 		return "/reverseauction/addReverseauctionTender";
 	}
 	// 10. 역경매 입찰 등록 액션
