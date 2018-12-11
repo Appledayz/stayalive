@@ -16,10 +16,8 @@ public class Member {
 	private String memberBirth;//생일
 	private int memberPhoneNumber1;//전화번호1
 	private String memberEmail;//이메일
-	private String memberHomepage;//홈페이지
 	private String memberEmailAccept;//이메일 수신동의
 	private String memberSmsAccept;//SMS수신 동의
-	private String memberSnsId;//SMS수신 동의
 	
 	//회원 가입 이후 변경되는 조건
 	private int memberStateNo;//회원 상태 번호(FK)
@@ -32,6 +30,8 @@ public class Member {
 	private String memberOptionName;//옵션명
 	
 	//관리자 권한으로 조회가능
+	private String memberNo;
+	private String memberSnsId;//SNS ID
 	private String memberRegisterDate;//가입일자
 	private String memberLastupdateDate;//마지막 정보수정일자
 	private String memberLastlogoutDate;//마지막 로그아웃일자

@@ -1,32 +1,40 @@
-/*package com.stay.alive.member.controller;
+package com.stay.alive.member.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.stay.alive.auction.reverse.service.ReverseauctionService;
 import com.stay.alive.member.service.MemberService;
 import com.stay.alive.member.vo.Member;
 
-
+@Controller
 public class MemberController {
-	
+	@Autowired
+	private MemberService memberService;
 	//1-1.회원가입 폼
 	//3-1.입력폼
-		@GetMapping("/member/addMember")
-		public String addSample() {		
-			return "member/addMember";
-			// jquery, bootstrap, command객체
+	@GetMapping("/member/addMember")
+	public String addMember() {		
+		return "/member/addMember";
+		// jquery, bootstrap, command객체
 		
-		}
-		//3-2.입력액션
-		@PostMapping("addMember")
-		public String addMember(Member member, int memberNo) {
-			Member member = MemberService.getMember(memberNo);
-			model.addAttribute("member", member);
-			return "addMemberList";
-		}
+	}
+	//3-2.입력액션
+	@PostMapping("/member/addMember")
+	public String addMember(Member member) {
+		memberService.addMember(member);
+		return "redirect:/member/welcome";
+	}
+	//페이징
 	//1-2.회원가입 액션
 	
 	//2-1.회원정보 수정 폼
@@ -39,4 +47,3 @@ public class MemberController {
 	
 	
 }
-*/

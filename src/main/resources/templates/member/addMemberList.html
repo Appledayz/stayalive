@@ -10,6 +10,7 @@
 	<table class="table">
 		<thead>
 		<tr>
+			<td>회원번호<td>
 			<td>아이디</td>
 			<td>비밀번호</td>
 			<td>이름</td>
@@ -17,9 +18,9 @@
 			<td>생일</td>
 			<td>전화번호</td>
 			<td>이메일</td>
-			<td>홈페이지</td>
 			<td>이메일 수신동의</td>
 			<td>SMS 수신동의</td>
+			<td>SNS ID</td>
 			<td>회원 상태 번호</td>
 			<td>상태명</td>
 			<td>회원 그룹</td>
@@ -36,12 +37,32 @@
 		</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="sample" items="${sampleList}">
+		<c:forEach var="member" items="${memberList}">
 		<tr>
-			<td>${member.sampleNo}</td>
-			<td>${sample.sampleId}</td>
-			<td>${sample.samplePw}</td>
-			
+			<td>${member.memberNo}</td>
+			<td>${member.sampleId}</td>
+			<td>${member.memberPassword}</td>
+			<td>${member.memberName}</td>
+			<td>${member.memberNickname}</td>
+			<td>${member.memberBirth}</td>
+			<td>${member.memberPhoneNumber1}</td>
+			<td>${member.memberEmail}</td>
+			<td>${member.memberEmailAccept}</td>
+			<td>${member.memberSmsAccept}</td>
+			<td>${member.memberSnsId}</td>
+			<td>${member.memberStateNo}</td>
+			<td>${member.memberStateName}</td>
+			<td>${member.groupNo}</td>
+			<td>${member.groupName}</td>
+			<td>${member.ratingNo}</td>
+			<td>${member.ratingName}</td>
+			<td>${member.memberOptionNo}</td>
+			<td>${member.memberOptionName}</td>
+			<td>${member.memberRegisterDate}</td>
+			<td>${member.memberLastupdateDate}</td>
+			<td>${member.memberLastlogoutDate}</td>			
+			<td>${member.memberLastloginDate}</td>
+			<td>${member.memberLoginCount}</td>			
 		</tr>
 		</c:forEach>
 		</tbody>

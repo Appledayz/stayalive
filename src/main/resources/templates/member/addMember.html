@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="addMember" method="POST" id="addMemberForm">
+	<form action="/member/addMember" method="POST" id="addMemberForm">
 	<table border="1" style="margin:0 auto;">
 		<tr>
 			<td>아이디</td><td><input type="text" name="memberId"></td>
@@ -20,26 +20,22 @@
 			<td>닉네임</td><td><input type="text" name="memberNickname"></td>
 		</tr>
 		<tr>
-			<td></td><td><input type="date" name="memberBirth"></td>
+			<td>생년월일</td><td><input type="date" name="memberBirth"></td>
 		</tr>
 		<tr>
-			<td>연락처</td><td><input type="number" name="memberPhoneNumber1"></td>
+			<td>연락처</td><td><input type="text" name="memberPhoneNumber1"></td>
 		</tr>
 		<tr>
 			<td>이메일</td><td><input type="text" name="memberEmail"></td>
 		</tr>
 		<tr>
-			<td>홈페이지</td><td><input type="text" name="memberHomepage"></td>
+			<td>이메일 수신동의</td><td><input type="radio" name="memberEmailAccept" value="Y" checked>동의<input type="radio" name="memberEmailAccept" value="N">거절</td>
 		</tr>
 		<tr>
-			<td>이메일 수신동의</td><td><input type="radio" name="memberEmailAccept"></td>
+			<td>sms수신동의</td><td><input type="radio" name="memberSmsAccept" value="Y" checked>동의<input type="radio" name="memberSmsAccept" value="N">거절</td>
 		</tr>
 		<tr>
-			<td>sns수신동의</td><td><input type="radio" name="memberSmsAccept"></td>
-		</tr>
-		
-		<tr>
-			<td><button type="button" id="addMemberBtn">가입</button></td>
+			<td><button type="submit" id="addsubmit">가입</button></td>
 		</tr>
 	</table>
 </body>
