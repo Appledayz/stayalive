@@ -6,4 +6,32 @@
   <select id="selectAdAll" resultType="com.stay.alive.ad.vo.Ad">
   	SELECT * FROM ad_register
   </select>
+  <select id="selectAdSearchList" resultType="com.stay.alive.ad.vo.Ad">
+  	SELECT * FROM ad_register WHERE #{sk}=#{sv}
+  </select>
+  <select id="selcetAdOne" resultType="com.stay.alive.ad.vo.Ad">
+  	SELECT * FROM ad_register WHERE ad_register_no=#{adRegisterNo}
+  </select>
+  <select id="selectCostNo" resultType="com.stay.alive.ad.vo.AdCost">
+  	SELECT ad_cost_no FROM ad_cost
+  </select>
+  <select id="selectGroupNo" resultType="com.stay.alive.ad.vo.AdGroup">
+  	SELECT ad_group_no FROM ad_group
+  </select>
+  <insert id="insertAd">
+  	INSERT INTO ad_register(member_id ,ad_cost_no ,ad_group_no)
+  	VALUES (#{memberId},
+  			#{adCostNo},
+  			#{adGroupNo}
+  			)
+  </insert>
+  
+  <update id="updateAd" parameterType="com.stay.alive.ad.vo.Ad">
+  	UPDATE ad_register(ad_register_confirm ,ad_register_post
+  						,ad_update_date)
+  		SET ad_register_confirm = #{adRegisterConfirm}
+  			,ad_register_post = #{adRegisterPost}
+  			,ad_update_date = #{adUpdateDate}
+  	WHERE ad_register_no= #{adRegisterNo}
+  </update>
 </mapper>
