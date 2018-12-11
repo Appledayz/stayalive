@@ -8,9 +8,6 @@
 		SELECT rating_no, rating_name, member_option_no, member_option_name FROM member WHERE member_id = #{memberId}
 	</select>
 	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
-		INSERT INTO company(member_id, company_name, company_registration_number, rating_no, rating_name, member_option_no, member_option_name) VALUES(#{memberId},#{companyName},#{companyRegistrationNumber}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName})
-	</insert>
-		<insert id="insertCompanyImageFile" parameterType="com.stay.alive.file.ImageFile">
-		INSERT INTO image_file(member_id, file_register_table_no, file_register_table_name, image_file_path, image_file_real_name, image_file_stored_name, image_file_ext, image_file_type, image_file_size, image_file_register_date) VALUES(#{memberId}, #{fileRegisterTableNo}, #{fileRegisterTableName}, #{imageFilePath}, #{imageFileRealName}, #{imageFileStoredName}, #{imageFileExt}, #{imageFileType}, #{imageFileSize}, now())
+		INSERT INTO company(member_id, company_name, company_homepage, company_address, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId},#{companyName}, #{companyHomepage}, #{companyAddress}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
 	</insert>
 </mapper>

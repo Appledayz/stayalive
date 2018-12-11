@@ -9,22 +9,19 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body>
 	<div class="container">
-		<form action ="companyRegister" method ="post" enctype="multipart/form-data">
+		<form action ="companyRegister" method ="post" >
 			<table>
 				<tr>
 					<td><label>업체명</label></td>
 					<td><input type = "text" class ="form-control" name = "companyName"></td>
 				</tr>
 				<tr>
-					<td><label >사업자 등록 번호</label></td>
-					<td ><input type = "text" class ="form-control" name = "companyRegistrationNumber" ></td>
+					<td><label >업체 홈페이지</label></td>
+					<td ><input type = "text" class ="form-control" name = "companyHomepage" ></td>
 				</tr>
 				<tr>
-					<td><label >파일 등록</label></td>
-					<td>
-						<img id = "img" src ="#"  style="width: 290px;height: 200px">
-						<input type = "file" class ="form-control xs" id = "file" name = "imageFile" >
-						 
+					<td><label >업체 주소</label></td>
+					<td ><input type = "text" class ="form-control" name = "companyAddress" ></td>
 					</td>
 				</tr>
 				<tr>
@@ -35,25 +32,6 @@
 		</form>
 		
 	</div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#img").hide();
-		function readURL(input) {
-			  if (input.files && input.files[0]) {
-			    var reader = new FileReader();
-			    reader.onload = function(e) {
-			      $('#img').attr('src', e.target.result);
-			    }
-			    reader.readAsDataURL(input.files[0]);
-			  }
-			}
-			$("#file").change(function() {
-				$("#img").show();
-			 	readURL(this);
-			});
-	});
-
-</script>
 
 
 </body>

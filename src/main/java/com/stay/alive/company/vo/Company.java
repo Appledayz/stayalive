@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class Company {
 	private int companyNo; //업체 등록 번호(PK)
 	private String companyName; //업체명
+	private String companyHomepage; //업체 홈페이지
+	private String companyAddress; //업체 주소
 	private String memberId; //숙박 업체 회원 아이디
 	private int ratingNo; //회원 등급 번호(FK)
 	private String ratingName; //등급명
@@ -25,7 +27,6 @@ public class Company {
 	private int dutchauctionRegisterCount; //네덜란드식 경매 등록 현황
 	private int dutchauctionSalesCount; //네덜란드식 경매 통한 판매량
 	private int companyWishlistCount; //찜한 사람수
-	private String companyRegistrationNumber; //사업자 등록 번호
 	private String companyRecognition; //업체 승인 유무
 	private String companyRegisterDate; //업체 등록일자
 	private String companyUpdateDate; //마지막 업체 등록정보 수정일

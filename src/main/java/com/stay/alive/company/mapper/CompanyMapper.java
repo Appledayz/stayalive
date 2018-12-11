@@ -9,6 +9,5 @@ import com.stay.alive.member.vo.Member;
 @Mapper
 public interface CompanyMapper {
 	public void insertCompany(Company company);
-	public void insertCompanyImageFile(ImageFile imageFile);
 	public Member selectMemberRatingAndOption(String memberId);
 }
