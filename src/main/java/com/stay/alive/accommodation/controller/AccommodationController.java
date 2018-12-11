@@ -1,16 +1,11 @@
 package com.stay.alive.accommodation.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class AccommodationController {
@@ -22,22 +17,17 @@ public class AccommodationController {
 	
 	@RequestMapping(value="filesRequest", method = RequestMethod.POST)
 	@ResponseBody
-	public String filesRequest(HttpServletRequest request) {
-		
-		try {
-			System.out.println(request.getHeader("file-name"));
-			System.out.println(request.getHeader("file-size"));
-			System.out.println(request.getHeader("file-Type"));
-			InputStream inputStream = request.getInputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-          
-
-		return "asd";
+	public String filesRequest(MultipartFile[] file) {
+		System.out.println(file[0].getOriginalFilename());
+		System.out.println(file[1].getOriginalFilename());
+		return "<img src=/resource/02map-7.gif><br>";
 	}
-	
+	@RequestMapping(value="registerAction", method = RequestMethod.POST)
+	@ResponseBody
+	public String registerAction(String name1,String editor) {
+		System.out.println(name1);
+		System.out.println(editor);
+		return "hello world";
+	}
 	
 }
