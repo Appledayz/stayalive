@@ -31,8 +31,6 @@ public class ReverseauctionController {
 		System.out.println("ReverseauctionController.reverseauctionList() GET");
 		String sk = paraMap.get("sk");
 		String sv = paraMap.get("sv");
-		sk="member_id";
-		sv="0";
 		model.addAttribute("list", reverseauctionService.getReverseauctionSearchList(sk, sv));
 		return "/reverseauction/reverseauctionList";
 	}

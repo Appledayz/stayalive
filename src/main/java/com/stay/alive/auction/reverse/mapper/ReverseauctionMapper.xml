@@ -10,7 +10,7 @@
   <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
-  	WHERE ${sk}=#{sv}
+  	<if test="sk != null and sv != null">WHERE ${sk}=#{sv}</if>
   </select>
   <select id="selectReverseauctionOne" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
