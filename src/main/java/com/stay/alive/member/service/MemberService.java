@@ -21,4 +21,7 @@ public class MemberService {
 		System.out.println("MemberController.addMember 요청 받음");
 		return memberMapper.insertMember(member);
 	}
+	public Member idCheck(Member memberId) {
+		return memberMapper.idCheck(memberId);
+	}
 }

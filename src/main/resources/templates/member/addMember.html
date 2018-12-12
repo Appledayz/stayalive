@@ -2,13 +2,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입</title>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 </head>
 <body>
 	<form action="/member/addMember" method="POST" id="addMemberForm">
 	<table border="1" style="margin:0 auto;">
 		<tr>
-			<td>아이디</td><td><input type="text" name="memberId"></td>
+			<td>아이디</td>
+			<td>
+				<input type="text" id="memberId">
+				<button type="button" class="idCheck">아이디 확인</button>
+				<p class="result"><span class="msg">아이디를 확인해주십시오.</span></p>
+			</td>
 		</tr>
 		<tr>
 			<td>비밀번호</td><td><input type="password" name="memberPassword"></td>
@@ -39,5 +45,27 @@
 		</tr>
 	</table>
 	</form>
+<script> 
+$(".idCheck").click(function(){
+ 
+ var query = {memberId : $("#memberId").val()};
+ 
+ $.ajax({
+  url : "/idCheck",
+  type : "post",
+  data : query,
+  success : function(data) {
+  
+   if(data == 1) {
+    $(".result .msg").text("사용 불가");
+    $(".result .msg").attr("style", "color:#f00");    
+   } else {
+    $(".result .msg").text("사용 가능");
+    $(".result .msg").attr("style", "color:#00f");
+   }
+  }
+ });  // ajax 끝
+});
+</script>
 </body>
 </html>

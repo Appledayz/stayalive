@@ -17,5 +17,5 @@ public interface MemberMapper {
 	int insertMember(Member member);
 	int selectCountMemberAll();
 	List<Member> selectMember(HashMap<String, Integer> pagingInfo);
-
+	Member idCheck(Member memberId);
 }

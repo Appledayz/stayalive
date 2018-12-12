@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stay.alive.auction.reverse.service.ReverseauctionService;
 import com.stay.alive.member.service.MemberService;
@@ -34,6 +35,17 @@ public class MemberController {
 	@GetMapping("/member/welcome")
 	public String welcome() {
 		return "/member/welcome";
+	}
+	@ResponseBody
+	@PostMapping("/idCheck")
+	public int postIdCheck(Member memberId) {
+		memberService.idCheck(memberId);
+		Member idCheck = memberService.idCheck(memberId);
+		int result = 0;
+		if(idCheck !=null) {
+			result = 1;
+		}
+		return result;
 	}
 	//페이징
 	//1-2.회원가입 액션
