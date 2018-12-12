@@ -54,6 +54,7 @@ public class ReverseauctionController {
 	public String reverseauctionDetail(Model model, int reverseauctionNo) {
 		System.out.println("ReverseauctionController.reverseauctionDetail() GET");
 		model.addAttribute("m",reverseauctionService.getReverseauctionOne(reverseauctionNo));
+		model.addAttribute("reverseauctionTenderList", reverseauctionService.getTenderListForOneReverseauction(reverseauctionNo));
 		return "/reverseauction/reverseauctionDetail";
 	}
 	// 6. 역경매 수정 폼
@@ -85,16 +86,15 @@ public class ReverseauctionController {
 	}
 	// 10. 역경매 입찰 등록 폼
 	@GetMapping("addReverseauctionTender")
-	public String addReverseauctionTender(int reverseauctionNo, Model model) {
+	public String addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionController.addReverseauctionTender() GET");
-		model.addAttribute("reverseauctionNo", reverseauctionNo);
 		return "/reverseauction/addReverseauctionTender";
 	}
 	// 11. 역경매 입찰 등록 액션
 	@PostMapping("addReverseauctionTender")
-	public String addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
+	public String addReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
 		reverseauctionService.addReverseauctionTender(reverseauctionTender);
-		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
+		return "redirect:/reverseauctionDetail?reverseauctionNo="+reverseauctionTender.getReverseauctionNo();
 	}
 	// 12. 역경매 입찰 수정 폼
 	@GetMapping("modifyReverseauctionTender")

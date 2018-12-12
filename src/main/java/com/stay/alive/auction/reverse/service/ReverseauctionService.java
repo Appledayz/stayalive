@@ -18,22 +18,27 @@ public class ReverseauctionService {
 	
 	// 1. 역경매 전체목록 조회
 	public List<Reverseauction> getReverseauctionAll(){
+		System.out.println("ReverseauctionService.getReverseauctionAll()");
 		return reverseauctionMapper.selectReverseauctionAll();
 	}
 	// 2. 역경매 등록 폼
 	public int addReverseauctionOne(Reverseauction reverseauction) {
+		System.out.println("ReverseauctionService.addReverseauctionOne()");
 		return reverseauctionMapper.insertReverseauction(reverseauction);
 	}
 	// 3. 역경매 목록 검색
 	public List<Reverseauction> getReverseauctionSearchList(String sk, String sv) {
+		System.out.println("ReverseauctionService.getReverseauctionSearchList()");
 		return reverseauctionMapper.selectReverseauctionSearchList(sk, sv);
 	}
 	// 4. 역경매 상세 보기
 	public Reverseauction getReverseauctionOne(int reverseauctionNo) {
+		System.out.println("ReverseauctionService.getReverseauctionOne()");
 		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 	}
 	// 5. 역경매 수정 폼
 	public Reverseauction modifyReverseauctionForm(int reverseauctionNo) {
+		System.out.println("ReverseauctionService.modifyReverseauctionForm()");
 		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 	}
 	// 6. 역경매 수정 액션
@@ -49,7 +54,7 @@ public class ReverseauctionService {
 	// 8. 입찰 목록 조회 (역경매 내 조회)
 	public List<ReverseauctionTender> getTenderListForOneReverseauction(int reverseauctionNo){
 		System.out.println("ReverseauctionService.getTenderListForOneReverseauction()");
-		return reverseauctionMapper.selectTenderListForOneReverseauction();
+		return reverseauctionMapper.selectTenderListForOneReverseauction(reverseauctionNo);
 	}
 	// 9. 입찰 상세 조회
 	public ReverseauctionTender getTenderDetail(int reverseauctionTenderNo) {
@@ -59,8 +64,7 @@ public class ReverseauctionService {
 	// 10. 입찰 등록
 	public int addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionService.addReverseauctionTender()");
-		reverseauctionTender.setReverseauctionNo(10);
-		System.out.println("No3 : "+reverseauctionTender.getReverseauctionNo());
+		System.out.println("reverseauctionNo : "+reverseauctionTender.getReverseauctionNo());
 		return reverseauctionMapper.insertReverseauctionTender(reverseauctionTender);
 	}
 	// 11. 입찰 수정 폼
@@ -71,6 +75,7 @@ public class ReverseauctionService {
 	// 12. 입찰 수정 액션
 	public int modifyReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionService.modifyReverseauctionTenderAction()");
+		System.out.println("reverseauctionNo : "+reverseauctionTender.getReverseauctionNo());
 		return reverseauctionMapper.updateReverseauctionTender(reverseauctionTender);
 	}
 	// 13. 입찰 삭제

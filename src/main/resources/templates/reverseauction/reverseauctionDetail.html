@@ -8,9 +8,9 @@
 </head>
 <body>
 	<h1>ReverseauctionDetail</h1>
-	<h6><a th:href="@{modifyReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">역경매수정하기</a></h6>
-	<h6><a th:href="@{removeReverseauction?reverseauctionNo=}+${m.reverseauctionNo}">역경매삭제하기</a></h6>
-	<h6><a th:href="@{addReverseauctionTender?reverseauctionNo=}+${m.reverseauctionNo}">입찰등록</a></h6>
+	<h6><a th:href="@{modifyReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매수정하기</a></h6>
+	<h6><a th:href="@{removeReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매삭제하기</a></h6>
+	<h6><a th:href="@{addReverseauctionTender(reverseauctionNo=${m.reverseauctionNo})}">입찰등록</a></h6>
 	<table border="1">
 		<tbody>
 			<tr>
@@ -76,6 +76,49 @@
 			<tr>
 				<td>auctionStateCategoryName</td>
 				<td th:text="${m.auctionStateCategoryName}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<h1>입찰목록</h1>
+	<table border="1">
+		<tbody>
+			<tr>
+				<td>reverseauctionTenderNo</td>
+				<td>memberId</td>
+				<td>companyNo</td>
+				<td>companyName</td>
+				<td>accommodationNo</td>
+				<td>accommodationName</td>
+				<td>guestroomNo</td>
+				<td>guestroomName</td>
+				<td>reverseauctionNo</td>
+				<td>accommodationGuestroomAllcount</td>
+				<td>guestroomStateCount</td>
+				<td>reverseauctionTenderDate</td>
+				<td>reverseauctionTenderUpdateDate</td>
+				<td>reverseauctionTenderContent</td>
+				<td>reverseauctionTenderPirce</td>
+				<td>auctionStateCategoryNo</td>
+				<td>auctionStateCategoryName</td>
+			</tr>
+			<tr th:each="item: ${reverseauctionTenderList}">
+				<td th:text="${item.reverseauctionTenderNo}"></td>
+				<td th:text="${item.memberId}"></td>
+				<td th:text="${item.companyNo}"></td>
+				<td th:text="${item.companyName}"></td>
+				<td th:text="${item.accommodationNo}"></td>
+				<td th:text="${item.accommodationName}"></td>
+				<td th:text="${item.guestroomNo}"></td>
+				<td th:text="${item.guestroomName}"></td>
+				<td th:text="${item.reverseauctionNo}"></td>
+				<td th:text="${item.accommodationGuestroomAllcount}"></td>
+				<td th:text="${item.guestroomStateCount}"></td>
+				<td th:text="${item.reverseauctionTenderDate}"></td>
+				<td th:text="${item.reverseauctionTenderUpdateDate}"></td>
+				<td th:text="${item.reverseauctionTenderContent}"></td>
+				<td th:text="${item.reverseauctionTenderPrice}"></td>
+				<td th:text="${item.auctionStateCategoryNo}"></td>
+				<td th:text="${item.auctionStateCategoryName}"></td>
 			</tr>
 		</tbody>
 	</table>

@@ -8,56 +8,56 @@
 </head>
 <body>
 	<h1>addReverseauctionTender</h1>
-	<form action="addReverseauctionTender" method="post">
-		<input class="form-control" name="reverseauctionNo" value="${reverseauctionNo}">
+	<form th:action="@{addReverseauctionTender}" th:object="${reverseauctionTender}" method="post">
+		<h5>reverseauctionNo<input th:field="*{reverseauctionNo}" th:value="${reverseauctionNo}"></h5>
 		<table border="1">
 			<tbody>
 				<tr>
 					<td>memberId</td>
-					<td><input name="memberId"></td>
+					<td><input th:field="*{memberId}"></td>
 				</tr>
 				<tr>
 					<td>companyNo</td>
-					<td><input name="companyNo"></td>
+					<td><input th:field="*{companyNo}"></td>
 				</tr>
 				<tr>
 					<td>companyName</td>
-					<td><input name="companyName"></td>
+					<td><input th:field="*{companyName}"></td>
 				</tr>
 				<tr>
 					<td>accommodationNo</td>
-					<td><input name="accommodationNo"></td>
+					<td><input th:field="*{accommodationNo}"></td>
 				</tr>
 				<tr>
 					<td>accommodationName</td>
-					<td><input name="accommodationName"></td>
+					<td><input th:field="*{accommodationName}"></td>
 				</tr>
 				<tr>
 					<td>guestroomNo</td>
-					<td><input name="guestroomNo"></td>
+					<td><input th:field="*{guestroomNo}"></td>
 				</tr>
 				<tr>
 					<td>guestroomName</td>
-					<td><input name="guestroomName"></td>
+					<td><input th:field="*{guestroomName}"></td>
 				</tr>
 				<tr>
 					<td>accommodationGuestroomAllcount</td>
-					<td><input name="accommodationGuestroomAllcount"></td>
+					<td><input th:field="*{accommodationGuestroomAllcount}"></td>
 				</tr>
 				<tr>
 					<td>guestroomStateCount</td>
-					<td><input name="guestroomStateCount"></td>
+					<td><input th:field="*{guestroomStateCount}"></td>
 				</tr>
 				<tr>
 					<td>reverseauctionTenderContent</td>
-					<td><input name="reverseauctionTenderContent"></td>
+					<td><input th:field="*{reverseauctionTenderContent}"></td>
 				</tr>
 				<tr>
 					<td>reverseauctionTenderPrice</td>
-					<td><input name="reverseauctionTenderPrice"></td>
+					<td><input th:field="*{reverseauctionTenderPrice}"></td>
 				</tr>
 				<tr>
-					<td><button type="submit">submit</button></td>
+					<td><button th:type="submit">submit</button></td>
 				</tr>
 			</tbody>
 		</table>

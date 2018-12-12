@@ -17,6 +17,11 @@
   	FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
+  <select id="selectTenderListForOneReverseauction" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	SELECT *
+  	FROM reverseauction_tender
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </select>
   <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	INSERT INTO reverseauction_register
   	VALUES (0,
