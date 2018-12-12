@@ -20,19 +20,20 @@ import com.stay.alive.member.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	//1-1.회원가입 폼
 	//3-1.입력폼
 	@GetMapping("/member/addMember")
 	public String addMember() {		
 		return "/member/addMember";
-		// jquery, bootstrap, command객체
-		
 	}
-	//3-2.입력액션
+	//3-2.입력액션 
 	@PostMapping("/member/addMember")
 	public String addMember(Member member) {
 		memberService.addMember(member);
-		return "redirect:/member/welcome";
+		return "/member/welcome";
+	}
+	@GetMapping("/member/welcome")
+	public String welcome() {
+		return "/member/welcome";
 	}
 	//페이징
 	//1-2.회원가입 액션
