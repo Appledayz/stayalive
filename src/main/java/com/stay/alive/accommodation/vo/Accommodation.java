@@ -1,5 +1,7 @@
 package com.stay.alive.accommodation.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,13 +17,14 @@ public class Accommodation {
 	private String accommodationCategoryName; //숙소 카테고리 명
 	private String accommodationName; //숙소명
 	private int accommodationLatitude; //숙소 위도
-	private int accommodationHardness; //숙소 경도
+	private int accommodationLongitude; //숙소 경도
 	private String addressDoNo; //도 번호(FK)
 	private String addressSiNo; //시 번호(FK)
 	private String addressGuNo; //구 번호(FK)
 	private String accommodationAddress; //숙소 주소
 	private int accommodationImageCount; //숙소 이미지 개수
 	private String memberBusinessNumber; //사업자 번호
+	private MultipartFile businessNumberFile; //사업자 번호 파일
 	private String accommodationConstructionDate; //건축일
 	private int accommodationScore; //평점
 	private int accommodationGuestroomTotal; //총 객실 수

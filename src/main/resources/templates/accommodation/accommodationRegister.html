@@ -9,6 +9,7 @@
 </head>
 <script type="text/javascript">
     $(function(){
+    	var count = 1;
         //전역변수
         var obj = [];              
         //스마트에디터 프레임생성
@@ -21,16 +22,17 @@
         //전송버튼
         $("#insertBoard").click(function(){
             var setForm = $('#insertBoardFrm');
-            setForm.attr('action','registerAction');
+            setForm.attr('action','accommodationRegister');
             setForm.attr('method','post');
             obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
             $("#insertBoardFrm").submit();
         });
         $("#uploadbutton").click(function(){
-            var setForm = $('#insertBoardFrm');
-            setForm.attr('action','filesRequest');
-            setForm.attr('method','post');
-            setForm.attr('enctype','multipart/form-data');
+        	if(count > 1) {
+        		alert("업로드는 한번만 할 수 있습니다.");
+        		return;
+        	}
+        	count++;
             var form = $('#insertBoardFrm')[0];
             var formData = new FormData(form);
       	  $.ajax({
@@ -50,43 +52,88 @@
 </script>
 <body>
  	<div class ="container" >
- 		<form id="insertBoardFrm">
+ 		<form id="insertBoardFrm" enctype="multipart/form-data">
 	    	<table class = "table table-border" style="max-width: 850px">
 	    		<tr>
-	    			<td style="width:100px"><label>업체 이름</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name" readonly></td>
+	    			<td style="width:100px" ><label>업체 이름</label></td>
+	    			<td colspan="2"><input class="form-control input-sm" type="text" name="name" readonly></td>
 	    		</tr>
 	    		<tr>
 	    			<td><label>이름</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name1"></td>
+	    			<td colspan="2"><input class="form-control input-sm" type="text" name="accommodationName"></td>
+	    		</tr>
+	    		<tr class="form-inline">
+	    			<td><label>사업자 번호</label></td>
+	    			<td colspan="2">
+	    				<input class="form-control input-sm" type="text" name="memberBusinessNumber">
+	    				<input class="form-control input-sm" type="file" name="businessNumberFile">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>분류</label></td>
+	    			<td colspan="2">
+						<select name = "accommodationCategoryNo" class=form-control>
+							<option value="0">선택해 주세요</option>
+							<option value="1">숙소</option>
+							<option value="2">모텔</option>
+							<option value="3">민박</option>
+						</select>
+					</td>
 	    		</tr>
 	    		<tr>
 	    			<td><label>주소</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name"></td>
-	    		</tr>
-	    		<tr>
-	    			<td><label>연락처</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name"></td>
-	    		</tr>
-	    		<tr>
-	    			<td><label>연락처</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name"></td>
-	    		</tr>
-	    		<tr>
-	    			<td><label>연락처</label></td>
-	    			<td><input class="form-control input-sm" type="text" name="name"></td>
+	    			<td colspan="2"><input class="form-control input-sm" type="text" name="accommodationAddress"></td>
 	    		</tr>
 	    		<tr class="form-inline">
-	    			<td><label>상세</label></td>
-	    			<td>
+	    			<td><label>위치</label></td>
+	    			<td style="width: 200px">
+	    				<label>위도 :</label> <input class="form-control input-sm" type="text" name="accommodationLatitude" style="width: 50px">
+	    				<label>경도 :</label> <input class="form-control input-sm" type="text" name="accommodationLongitude" style="width: 50px">
+	    			</td>
+	    			<td style="width: 500px">
+	    				<label>도</label>
+	    				<select name = "addressDoNo" class=form-control>
+							<option value="0">선택해 주세요</option>
+							<option value="1">전라북도</option>
+							<option value="2">충청남도</option>
+							<option value="3"></option>
+						</select>
+						<label>시</label>
+	    				<select name = "addressDoNo" class=form-control>
+							<option value="0">선택해 주세요</option>
+							<option value="1">전주시</option>
+							<option value="2">서울시</option>
+							<option value="3">대구광역시</option>
+						</select>
+						<label>구</label>
+	    				<select name = "addressGuNo" class=form-control>
+							<option value="0">선택해 주세요</option>
+							<option value="1">덕진구</option>
+							<option value="2">서울시</option>
+							<option value="3">대구광역시</option>
+						</select>
+					
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>연락처</label></td>
+	    			<td colspan="2"><input class="form-control input-sm" type="text" name="accommodationPhone"></td>
+	    		</tr>
+	    		<tr>
+	    			<td><label>이메일</label></td>
+	    			<td colspan="2"><input class="form-control input-sm" type="text" name="accommodationEmail"></td>
+	    		</tr>
+	    		<tr class="form-inline">
+	    			<td><label>세부 내용</label></td>
+	    			<td colspan="2">
 	    				<input class="form-control input-sm" type="file" name="file">
 						<input class="form-control input-sm" type="file" name="file">
 						<input class="form-control" type="button" id="uploadbutton" value="업로드">		
-				    	<textarea name="editor" id="editor" style="width: 700px; height: 300px;"></textarea>
+				    	<textarea name="accommodationDetail" id="editor" style="width: 700px; height: 300px;"></textarea>
 	    			</td>
 	    		</tr>
 				<tr>
-					<td colspan="2" align="right"><input type="button" class="btn btn-primary" id="insertBoard" value="등록" /></td>
+					<td colspan="3" align="right"><input type="button" class="btn btn-primary" id="insertBoard" value="등록" /></td>
 				</tr>
 	    	</table>
 	    </form>

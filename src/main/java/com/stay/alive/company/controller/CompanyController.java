@@ -16,11 +16,11 @@ public class CompanyController {
 	private CompanyService companyService;
 	@GetMapping("company")
 	public String company() {
-		return "/company/company";
+		return "company/company";
 	}
 	@GetMapping("companyRegister")
 	public String companyRegister() {
-		return "/company/companyRegister";
+		return "company/companyRegister";
 	}
 	@PostMapping("companyRegister")
 	public String companyRegister(Company company,HttpSession session) {
