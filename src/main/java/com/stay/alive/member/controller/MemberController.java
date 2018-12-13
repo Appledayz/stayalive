@@ -21,21 +21,23 @@ import com.stay.alive.member.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	//3-1.입력폼
+	//1-1.입력폼
 	@GetMapping("/member/addMember")
 	public String addMember() {		
 		return "/member/addMember";
 	}
-	//3-2.입력액션 
+	//1-2.입력액션 
 	@PostMapping("/member/addMember")
 	public String addMember(Member member) {
 		memberService.addMember(member);
 		return "/member/welcome";
 	}
+	//1-3.환영페이지로
 	@GetMapping("/member/welcome")
 	public String welcome() {
 		return "/member/welcome";
 	}
+	//2.아이디 중복확인
 	@ResponseBody
 	@PostMapping("/idCheck")
 	public int postIdCheck(Member memberId) {
@@ -46,6 +48,18 @@ public class MemberController {
 			result = 1;
 		}
 		return result;
+	}
+	//3.닉네임 중복확인
+	@ResponseBody
+	@PostMapping("/nicknameCheck")
+	public int postnicknameCheck(Member memberNickname) {
+		memberService.nicknameCheck(memberNickname);
+		Member nicknameCheck = memberService.nicknameCheck(memberNickname);
+		int result2 = 0;
+		if(nicknameCheck !=null) {
+			result2 = 1;
+		}
+		return result2;
 	}
 	//페이징
 	//1-2.회원가입 액션

@@ -21,7 +21,12 @@ public class MemberService {
 		System.out.println("MemberController.addMember 요청 받음");
 		return memberMapper.insertMember(member);
 	}
+	//2.아이디 중복확인
 	public Member idCheck(Member memberId) {
 		return memberMapper.idCheck(memberId);
+	}
+	//3.닉네임 중복확인
+	public Member nicknameCheck(Member memberNickname) {
+		return memberMapper.nicknameCheck(memberNickname);
 	}
 }
