@@ -53,6 +53,7 @@ public class ReverseauctionController {
 		System.out.println("ReverseauctionController.reverseauctionDetail() GET");
 		model.addAttribute("m",reverseauctionService.getReverseauctionOne(reverseauctionNo));
 		model.addAttribute("reverseauctionTenderList", reverseauctionService.getTenderListForOneReverseauction(reverseauctionNo));
+		model.addAttribute("m2", reverseauctionService.getReverseauctionSuccessfulbid(reverseauctionNo));
 		return "/reverseauction/reverseauctionDetail";
 	}
 	// 6. 역경매 수정 폼
@@ -104,19 +105,21 @@ public class ReverseauctionController {
 	@PostMapping("modifyReverseauctionTender")
 	public String modifyReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionController.modifyReverseauctionTender() POST");
-		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
+		return "redirect:/reverseauctionDetail?reverseauctionNo="+reverseauctionTender.getReverseauctionNo();
 	}
 	// 14. 역경매 입찰 삭제
 	@GetMapping("removeReverseauctionTender")
-	public String deleteReverseauctionTender(ReverseauctionTender reverseauctionTender) {
+	public String deleteReverseauctionTender(int reverseauctionTenderNo, int reverseauctionNo) {
 		System.out.println("ReverseauctionController.deleteReverseauctionTender() GET");
-		return "redirect:/reverseauctionDetail?reverseauctioNo="+reverseauctionTender.getReverseauctionNo();
+		reverseauctionService.removeReverseauctionTender(reverseauctionTenderNo);
+		return "redirect:/reverseauctionDetail?reverseauctionNo="+reverseauctionNo;
 	}
 	// 15. 낙찰 등록
 	@GetMapping("addReverseauctionSuccessfulbid")
-	public String addReverseauctionSuccessfulbid() {
+	public String addReverseauctionSuccessfulbid(int reverseauctionTenderNo, int reverseauctionNo) {
 		System.out.println("ReverseauctionController.addReverseauctionSuccessfulbid() GET");
-		return "";
+		reverseauctionService.addReverseauctionSuccessfulbid(reverseauctionTenderNo);
+		return "redirect:/reverseauctionDetail?reverseauctionNo="+reverseauctionNo;
 	}
 	// 16. 낙찰 취소
 	@GetMapping("removeReverseauctionSuccessfulbid")

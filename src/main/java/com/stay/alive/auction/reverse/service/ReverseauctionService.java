@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.auction.reverse.mapper.ReverseauctionMapper;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
+import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
 
 @Service
@@ -49,7 +50,10 @@ public class ReverseauctionService {
 	// 7. 역경매 삭제
 	public int removeReverseauction(int reverseauctionNo) {
 		System.out.println("ReverseauctionService.removeReverseauction()");
-		return reverseauctionMapper.deleteReverseauction(reverseauctionNo);
+		int i=0;
+		i+=reverseauctionMapper.deleteReverseauctionTender(reverseauctionNo);
+		i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
+		return i;
 	}
 	// 8. 입찰 목록 조회 (역경매 내 조회)
 	public List<ReverseauctionTender> getTenderListForOneReverseauction(int reverseauctionNo){
@@ -76,16 +80,23 @@ public class ReverseauctionService {
 	public int modifyReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionService.modifyReverseauctionTenderAction()");
 		System.out.println("reverseauctionNo : "+reverseauctionTender.getReverseauctionNo());
+		
 		return reverseauctionMapper.updateReverseauctionTender(reverseauctionTender);
 	}
 	// 13. 입찰 삭제
-	public int removeReverseauctionTender() {
+	public int removeReverseauctionTender(int reverseauctionTenderNo) {
 		System.out.println("ReverseauctionService.removeReverseauctionTender()");
-		return 0;
+		return reverseauctionMapper.deleteReverseauctionTenderOne(reverseauctionTenderNo);
+	}
+	// 14. 역경매 내 낙찰 조회
+	public ReverseauctionSuccessfulbid getReverseauctionSuccessfulbid(int reverseauctionNo) {
+		return reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo);
 	}
 	// 14. 낙찰 등록
-	public int addReverseauctionSuccessfulbid() {
+	public int addReverseauctionSuccessfulbid(int reverseauctionTenderNo) {
 		System.out.println("ReverseauctionService.addReverseauctionSuccessfulbid()");
+		ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionMapper.selectForSuccessfulbid(reverseauctionTenderNo);
+		reverseauctionMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
 		return 0;
 	}
 	// 15. 낙찰 취소

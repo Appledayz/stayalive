@@ -16,51 +16,154 @@
 	
 	<!-- header replace -->
     <div th:replace="header :: header"></div>
-    
-	<div style="position:absolute; top:160px;">
-	<h1>test</h1>
-	<a href="addReverseauction" class="btn">역경매 등록</a>
-	<table border="1">
-		<tbody>
-			<tr>
-				<td>No</td>
-				<td>memberId</td>
-				<td>RegisterDate</td>
-				<td>UpdateDate</td>
-				<td>TenderLimit</td>
-				<td>TendercloseDate</td>
-				<td>RoomingDate</td>
-				<td>LeavingDate</td>
-				<td>Title</td>
-				<td>Address</td>
-				<td>AddressMore</td>
-				<td>Hits</td>
-				<td>Content</td>
-				<td>TenderCount</td>
-				<td>auctionStateCategoryNo</td>
-				<td>auctionStateCategoryName</td>
-			</tr>
-			<tr th:each="item: ${list}">
-				<td th:text="${item.reverseauctionNo}"></td>
-				<td th:text="${item.memberId}"></td>
-				<td th:text="${item.reverseauctionRegisterDate}"></td>
-				<td th:text="${item.reverseauctionUpdateDate}"></td>
-				<td th:text="${item.reverseauctionTenderLimit}"></td>
-				<td th:text="${item.reverseauctionTendercloseDate}"></td>
-				<td th:text="${item.reverseauctionRoomingDate}"></td>
-				<td th:text="${item.reverseauctionLeavingDate}"></td>
-				<td><a th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" th:text="${item.reverseauctionTitle}"></a></td>
-				<td th:text="${item.reverseauctionAddress}"></td>
-				<td th:text="${item.reverseauctionAddressMore}"></td>
-				<td th:text="${item.reverseauctionHits}"></td>
-				<td th:text="${item.reverseauctionContent}"></td>
-				<td th:text="${item.reverseauctionTenderCount}"></td>
-				<td th:text="${item.auctionStateCategoryNo}"></td>
-				<td th:text="${item.auctionStateCategoryName}"></td>
-			</tr>
-		</tbody>
-	</table>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-6.jpg);">
+        <div class="bradcumbContent">
+            <h2>Reverse Book</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+	
+    <!-- ##### Rooms Area Start ##### -->
+    <section class="rooms-area section-padding-0-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Choose a room</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Single Rooms Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
+                        <!-- Price -->
+                        <p class="price-from">From $150/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Deluxe Room</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
+                    </div>
+                </div>
+
+                <!-- Single Rooms Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="200ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/8.jpg);"></div>
+                        <!-- Price -->
+                        <p class="price-from">From $150/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Double Suite</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
+                    </div>
+                </div>
+
+                <!-- Single Rooms Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/9.jpg);"></div>
+                        <!-- Price -->
+                        <p class="price-from">From $100/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Single Room</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <!-- Pagination -->
+                    <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item active"><a class="page-link" href="#">01.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">02.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ##### Rooms Area End ##### -->
+	
+    <!-- 역경매 목록 -->
+    <div>
+		<div style="position:relative;" class="container">
+			<h1>test</h1>
+			<a href="addReverseauction" class="btn">역경매 등록</a>
+			<table border="1">
+				<tbody>
+					<tr>
+						<td>No</td>
+						<td>memberId</td>
+						<td>RegisterDate</td>
+						<td>UpdateDate</td>
+						<td>TenderLimit</td>
+						<td>TendercloseDate</td>
+						<td>RoomingDate</td>
+						<td>LeavingDate</td>
+						<td>NumberOfPeople</td>
+						<td>Title</td>
+						<td>Address</td>
+						<td>AddressMore</td>
+						<td>Hits</td>
+						<td>Content</td>
+						<td>TenderCount</td>
+						<td>auctionStateCategoryNo</td>
+						<td>auctionStateCategoryName</td>
+					</tr>
+					<tr th:each="item: ${list}">
+						<td th:text="${item.reverseauctionNo}"></td>
+						<td th:text="${item.memberId}"></td>
+						<td th:text="${item.reverseauctionRegisterDate}"></td>
+						<td th:text="${item.reverseauctionUpdateDate}"></td>
+						<td th:text="${item.reverseauctionTenderLimit}"></td>
+						<td th:text="${item.reverseauctionTendercloseDate}"></td>
+						<td th:text="${item.reverseauctionRoomingDate}"></td>
+						<td th:text="${item.reverseauctionLeavingDate}"></td>
+						<td th:text="${item.reverseauctionNumberOfPeople}"></td>
+						<td><a th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" th:text="${item.reverseauctionTitle}"></a></td>
+						<td th:text="${item.reverseauctionAddress}"></td>
+						<td th:text="${item.reverseauctionAddressMore}"></td>
+						<td th:text="${item.reverseauctionHits}"></td>
+						<td th:text="${item.reverseauctionContent}"></td>
+						<td th:text="${item.reverseauctionTenderCount}"></td>
+						<td th:text="${item.auctionStateCategoryNo}"></td>
+						<td th:text="${item.auctionStateCategoryName}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
+
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+    
     <!-- jQuery-2.2.4 js -->
     <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->

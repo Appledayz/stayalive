@@ -13,9 +13,7 @@ public class Reverseauction {
 	private String reverseauctionRoomingDate;
 	private String reverseauctionLeavingDate;
 	private String reverseauctionTitle;
-	private int doNo;
-	private int siNo;
-	private int guNo;
+	private int reverseauctionNumberOfPeople;
 	private String reverseauctionAddress;
 	private String reverseauctionAddressMore;
 	private int reverseauctionHits;
