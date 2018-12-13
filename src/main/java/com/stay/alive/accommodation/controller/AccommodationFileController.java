@@ -15,11 +15,11 @@ import com.stay.alive.accommodation.service.AccommodationService;
 public class AccommodationFileController {
 	@Autowired
 	private AccommodationService accommodationService;
-	@PostMapping("filesRequest")
+	@PostMapping("addDetailImage")
 	@ResponseBody
-	public String filesRequest(MultipartFile[] file,HttpSession session) {
-		String realPath = session.getServletContext().getRealPath("image/accommodation");
-		String  imageTag = accommodationService.addImageFiles(file, realPath);
-		return imageTag;
+	public String addDetailImage(MultipartFile[] file,HttpSession session) {
+		String path = session.getServletContext().getRealPath("image/business");
+		String memberId = "ID1";
+		return accommodationService.addDetailImageFiles(file, path, memberId);
 	}
 }

@@ -2,3 +2,59 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.accommodation.mapper.AccommodationMapper" >
+	<insert id="insertAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
+		INSERT INTO accommodation(
+			member_id,
+			company_no,
+			company_name,
+			accommodation_name,
+			member_business_number, 
+			accommodation_category_no,
+			accommodation_category_name,
+			accommodation_address,
+			accommodation_latitude,
+			accommodation_longitude,
+			address_sido_name,
+			address_sigungu_name,
+			accommodation_phone,
+			accommodation_email,
+			accommodation_detail,
+			accommodation_register_date
+		)
+		VALUES(
+			#{memberId},
+			#{companyNo},
+			#{companyName},
+			#{accommodationName},
+			#{memberBusinessNumber},
+			#{accommodationCategoryNo},
+			#{accommodationCategoryName},
+			#{accommodationAddress},
+			#{accommodationLatitude},
+			#{accommodationLongitude},
+			#{addressSidoName},
+			#{addressSigunguName},
+			#{accommodationPhone},
+			#{accommodationEmail},
+			#{accommodationDetail},
+			now()
+		)
+	</insert>
+	<select id="selectCategoryName" resultType="String">
+		SELECT accommodation_category_name FROM accommodation_category WHERE accommodation_category_no = #{accommodationCategoryNo}
+	</select>
+	<select id="selectSidoName" parameterType="String" resultType="boolean">
+		SELECT count(*) FROM address_sido WHERE address_sido_name = #{addressSidoName}
+	</select>
+	<select id="selectSigunguName" parameterType="String" resultType="boolean">
+		SELECT count(*) FROM address_sigungu WHERE address_sigungu_name = #{addressSigunguName}
+	</select>
+	<insert id="insertSidoName" parameterType="String" >
+		INSERT INTO address_sido(address_sido_name, address_sido_date) VALUES(#{addressSidoName}, now())
+	</insert>
+	<insert id="insertSigunguName" parameterType="String" >
+		INSERT INTO address_sigungu(address_sigungu_name, address_sigungu_date) VALUES(#{addressSigunguName}, now())
+	</insert>
+</mapper>

@@ -3,10 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!--다음 주소검색 API  -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<!--다음 지도 API  -->
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+<!-- bootstrap(3.3.7)  -->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jquery(3.3.1)  -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<!-- smarteditor 플러그인(2.9.1)  -->
 <script src="smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-</head>
 <script type="text/javascript">
     $(function(){
     	var count = 1;
@@ -36,7 +42,7 @@
             var form = $('#insertBoardFrm')[0];
             var formData = new FormData(form);
       	  $.ajax({
-      	    url: 'filesRequest',
+      	    url: 'addDetailImage',
       	    data : formData,
       	    type: 'POST',
       	    processData:false,
@@ -47,16 +53,45 @@
       	    	obj.getById["editor"].exec("PASTE_HTML", [data]);
       	    }
       	  });
-        });        
+        });  
+        
+      //주소-좌표 변환 객체를 생성
+        var geocoder = new daum.maps.services.Geocoder();
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                	// 주소 정보를 해당 필드에 넣는다.
+					$("#accommodationAddress").val(data.address);
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+                            var result = results[0]; //첫번째 결과의 값을 활용
+        					$("#accommodationLatitude").val(result.y); //위도
+        					$("#accommodationLongitude").val(result.x); //경도
+        					$("#addressSidoName").val(data.sido);
+        					$("#addressSigunguName").val(data.sigungu);
+                        }
+                    });
+                }
+            }).open();
+        }
+        $("#addressSearch").click(function() {
+        	execDaumPostcode();
+        })
     });
 </script>
+</head>
 <body>
  	<div class ="container" >
  		<form id="insertBoardFrm" enctype="multipart/form-data">
 	    	<table class = "table table-border" style="max-width: 850px">
 	    		<tr>
 	    			<td style="width:100px" ><label>업체 이름</label></td>
-	    			<td colspan="2"><input class="form-control input-sm" type="text" name="name" readonly></td>
+	    			<td colspan="2">
+	    				<input type="hidden" name="companyNo" value="9">
+		    			<input class="form-control input-sm" type="text" name="companyName" value="0" readonly>
+	    			</td>
 	    		</tr>
 	    		<tr>
 	    			<td><label>이름</label></td>
@@ -80,39 +115,24 @@
 						</select>
 					</td>
 	    		</tr>
-	    		<tr>
+	    		<tr class="form-inline">
 	    			<td><label>주소</label></td>
-	    			<td colspan="2"><input class="form-control input-sm" type="text" name="accommodationAddress"></td>
+	    			<td colspan="2">
+	    				<input class="form-control input-sm" type="text" name="accommodationAddress" id="accommodationAddress" style="width:400px">
+	    				<button class="form-control" type="button" id="addressSearch">주소 검색</button>
+	    			</td>
 	    		</tr>
 	    		<tr class="form-inline">
 	    			<td><label>위치</label></td>
-	    			<td style="width: 200px">
-	    				<label>위도 :</label> <input class="form-control input-sm" type="text" name="accommodationLatitude" style="width: 50px">
-	    				<label>경도 :</label> <input class="form-control input-sm" type="text" name="accommodationLongitude" style="width: 50px">
+	    			<td style="width: 300px">
+	    				<label>위도 :</label> <input class="form-control input-sm" type="text" name="accommodationLatitude" id="accommodationLatitude" style="width: 70px" readonly>
+	    				<label>경도 :</label> <input class="form-control input-sm" type="text" name="accommodationLongitude" id="accommodationLongitude" style="width: 70px" readonly>
 	    			</td>
 	    			<td style="width: 500px">
-	    				<label>도</label>
-	    				<select name = "addressDoNo" class=form-control>
-							<option value="0">선택해 주세요</option>
-							<option value="1">전라북도</option>
-							<option value="2">충청남도</option>
-							<option value="3"></option>
-						</select>
-						<label>시</label>
-	    				<select name = "addressDoNo" class=form-control>
-							<option value="0">선택해 주세요</option>
-							<option value="1">전주시</option>
-							<option value="2">서울시</option>
-							<option value="3">대구광역시</option>
-						</select>
-						<label>구</label>
-	    				<select name = "addressGuNo" class=form-control>
-							<option value="0">선택해 주세요</option>
-							<option value="1">덕진구</option>
-							<option value="2">서울시</option>
-							<option value="3">대구광역시</option>
-						</select>
-					
+	    				<label>시/도</label>
+						<input type="text" class="form-control" name="addressSidoName" id="addressSidoName" style="width: 100px" readonly>
+						<label>시/군/구</label>
+						<input type="text" class="form-control" name="addressSigunguName" id="addressSigunguName" style="width: 150px" readonly>
 	    			</td>
 	    		</tr>
 	    		<tr>
@@ -138,5 +158,9 @@
 	    	</table>
 	    </form>
  	</div>
+
+ 	
 </body>
+
+
 </html>
