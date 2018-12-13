@@ -1,38 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="main/img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="main/style.css">
+
 </head>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body>
-	<div class="container">
-		<form action ="companyRegister" method ="post" >
-			<table>
-				<tr>
-					<td><label>업체명</label></td>
-					<td><input type = "text" class ="form-control" name = "companyName"></td>
-				</tr>
-				<tr>
-					<td><label >업체 홈페이지</label></td>
-					<td ><input type = "text" class ="form-control" name = "companyHomepage" ></td>
-				</tr>
-				<tr>
-					<td><label >업체 주소</label></td>
-					<td ><input type = "text" class ="form-control" name = "companyAddress" ></td>
-					</td>
-				</tr>
-				<tr>
-					<td colspan = "2" align="right"><button type = "submit">등록하기</button></td>
-				</tr>
-			</table>
-			<input type = "hidden" name = "memberId"  value="0">
-		</form>
-		
-	</div>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
 
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
 
+ <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-2.jpg);">
+        <div class="bradcumbContent">
+            <h2>Company Registration</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Contact Form Area Start ##### -->
+    <section class="contact-form-area mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <div class="line-"></div>
+                        <h2>업체 등록</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Contact Form -->
+                    <form action="#" method="post">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="companyName" placeholder="업체명">
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="companyHomepage" placeholder="업체 홈페이지">
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="companyAddress" placeholder="업체 주소">
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="email" class="form-control" name="companyEmail" placeholder="업체 이메일">
+                            </div>
+                            <div class="col-12">
+                                <textarea name="companyDetail" class="form-control" id="message" cols="30" rows="10" placeholder="고객에게 보이는 상세 정보"></textarea>
+                                <input type = "hidden" name = "memberId"  value="id011">
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn palatin-btn mt-50">업체 등록하기</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Contact Form Area End ##### -->
+
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="main/js/active.js"></script>
+    <script>
+		$("#main").removeClass('active');
+		$("#company").addClass('active');
+	</script>
 </body>
+
 </html>

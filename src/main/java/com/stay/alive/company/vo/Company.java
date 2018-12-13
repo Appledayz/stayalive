@@ -14,6 +14,8 @@ public class Company {
 	private String companyName; //업체명
 	private String companyHomepage; //업체 홈페이지
 	private String companyAddress; //업체 주소
+	private String companyEmail; //업체 이메일
+	private String companyDetail; //업체 상세정보
 	private String memberId; //숙박 업체 회원 아이디
 	private int ratingNo; //회원 등급 번호(FK)
 	private String ratingName; //등급명

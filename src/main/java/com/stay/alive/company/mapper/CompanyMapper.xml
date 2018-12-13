@@ -8,6 +8,6 @@
 		SELECT rating_no, rating_name, member_option_no, member_option_name FROM member WHERE member_id = #{memberId}
 	</select>
 	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
-		INSERT INTO company(member_id, company_name, company_homepage, company_address, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId},#{companyName}, #{companyHomepage}, #{companyAddress}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
+		INSERT INTO company(member_id, company_name, company_homepage, company_address, company_email, company_detail, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId}, #{companyName}, #{companyHomepage}, #{companyAddress}, #{companyEmail}, #{companyDetail}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
 	</insert>
 </mapper>
