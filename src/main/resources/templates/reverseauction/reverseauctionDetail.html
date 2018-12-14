@@ -4,6 +4,26 @@
 	<meta charset="UTF-8">
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="main/style.css">
+    <!-- jQuery-2.2.4 js -->
+    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="main/js/active.js"></script>
+    <script>
+    	$(document).ready(()=>{
+    		$('#SuccessfulbidBtn').click(()=>{
+    			let result = confirm('Are you sure?');
+    			if(result){
+    				location.href='main';
+    			}
+    		});
+    	});
+    </script>
 	<title>reverseauctionList</title>
 </head>
 <body>
@@ -182,16 +202,5 @@
 	
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>
-    
-    <!-- jQuery-2.2.4 js -->
-    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="main/js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="main/js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="main/js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="main/js/active.js"></script>
 </body>
 </html>
