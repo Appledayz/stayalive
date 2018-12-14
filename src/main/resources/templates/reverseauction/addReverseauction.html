@@ -31,34 +31,37 @@
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
-    
-	<div class="row">
-		<div class="col-12">
-		    <div class="section-heading">
-		        <div class="line-"></div>
-		        <h2>역경매 등록</h2>
-		    </div>
-		</div>
-	</div>
     <div class="container">
-	    <div class="contact-form-area">
-			<form action="addReverseauction" method="POST" id="addForm">
-		    	<div class="row">
-					<div class="col-lg-12"><input class="form-control" th:placeholder="memberId" type="text" name="memberId"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="Price_less_than" type="text" name="reverseauctionTenderLimit"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="TendercloseDate" type="text" name="reverseauctionTendercloseDate"></div>
-					<div class="col-lg-6"><input class="form-control" th:placeholder="Check-In" type="text" name="reverseauctionRoomingDate"></div>
-					<div class="col-lg-6"><input class="form-control" th:placeholder="Check-Out" type="text" name="reverseauctionLeavingDate"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="Title" type="text" name="reverseauctionTitle"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="Address" type="text" name="reverseauctionAddress"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="AddressMore" type="text" name="reverseauctionAddressMore"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="Content" type="text" name="reverseauctionContent"></div>
-					<div class="col-lg-12"><input class="form-control" th:placeholder="Trevelers" type="text" name="reverseauctionNumberOfPeople"></div>
-					<div class="col-lg-12"><button type="button" class="btn" id="addBtn">입력</button></div>
-				</div>
-			</form>
+		<div class="row">
+			<div class="col-12">
+			    <div class="section-heading">
+			        <div class="line-"></div>
+			        <h2>역경매 등록</h2>
+			    </div>
+			</div>
 		</div>
 	</div>
+	<section class="contact-form-area mb-100">
+	    <div class="container">
+		    <div class="contact-form-area">
+				<form action="addReverseauction" method="POST" id="addForm">
+			    	<div class="row">
+						<div class="col-lg-6"><input class="form-control" th:placeholder="memberId" type="text" name="memberId"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="Trevelers" type="text" name="reverseauctionNumberOfPeople"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="Price_less_than" type="text" name="reverseauctionTenderLimit"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="TendercloseDate" type="text" name="reverseauctionTendercloseDate"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="Check-In" type="text" name="reverseauctionRoomingDate"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="Check-Out" type="text" name="reverseauctionLeavingDate"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="Title" type="text" name="reverseauctionTitle"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="Address" type="text" name="reverseauctionAddress"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="AddressMore" type="text" name="reverseauctionAddressMore"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="Content" type="text" name="reverseauctionContent"></div>
+						<div class="col-lg-4"><button type="button" class="btn palatin-btn mt-50" id="addBtn">입력</button></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
 				
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>

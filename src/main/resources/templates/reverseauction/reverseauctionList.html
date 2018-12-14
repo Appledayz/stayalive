@@ -34,6 +34,7 @@
                         <div class="line-"></div>
                         <h2>Choose ReverseAuctions</h2>
                         <p>호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
+						<a href="addReverseauction" class="btn palatin-btn mt-50">역경매 등록</a>
                     </div>
                 </div>
             </div>
@@ -45,11 +46,11 @@
                         <!-- Thumbnail -->
                         <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
                         <!-- Address -->
-                        <p style="position:absolute; top:39px;" class="price-from" th:text="'Going to : '+${item.reverseauctionAddress}"></p>
+                        <p style="position:absolute; bottom:78px;" class="price-from" th:text="'Going to : '+${item.reverseauctionAddress}"></p>
                         <!-- Limit -->
                         <p class="price-from" th:text="'Price less than ￦'+${item.reverseauctionTenderLimit}"></p>
                         <!-- NumberOfPeople -->
-                        <p style="position:absolute; top:78px;" class="price-from" th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
+                        <p style="position:absolute; bottom:117px;" class="price-from" th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
                         <!-- Rooms Text -->
                         <div class="rooms-text">
                             <div class="line"></div>
@@ -85,7 +86,6 @@
     </section>
     <!-- ##### Rooms Area End ##### -->
 	
-	<a href="addReverseauction" class="btn">역경매 등록</a>
     <!-- 역경매 목록 시작
     <div>
 		<div style="position:relative;" class="container">

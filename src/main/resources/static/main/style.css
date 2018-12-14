@@ -865,7 +865,7 @@ img {
   position: relative;
   z-index: 10;
   width: 100%;
-  height: 300px;
+  height: 350px;
   margin-bottom: 100px;
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms; }
@@ -881,6 +881,8 @@ img {
   .single-rooms-area .price-from {
     position: absolute;
     z-index: 20;
+    left: 20px;
+    bottom: 39px;
     padding: 10px 15px;
     background-color: #181818;
     border: 2px solid #cb8670;
@@ -896,7 +898,7 @@ img {
     padding: 30px 30px 40px;
     left: 20px;
     right: 20px;
-    bottom: 20px;
+    top: 10px;
     width: calc(100% - 40px);
     border: 2px solid #cb8670;
     text-align: center;
