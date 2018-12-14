@@ -3,35 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stay.alive.ad.mapper.AdMapper">
-  <select id="selectAdAll" resultType="com.stay.alive.ad.vo.Ad">
-  	SELECT * FROM ad_register
-  </select>
-  <select id="selectAdSearchList" resultType="com.stay.alive.ad.vo.Ad">
-  	SELECT * FROM ad_register WHERE #{sk}=#{sv}
-  </select>
-  <select id="selcetAdOne" resultType="com.stay.alive.ad.vo.Ad">
-  	SELECT * FROM ad_register WHERE ad_register_no=#{adRegisterNo}
-  </select>
-  <select id="selectCostNo" resultType="com.stay.alive.ad.vo.AdCost">
-  	SELECT ad_cost_no FROM ad_cost
-  </select>
-  <select id="selectGroupNo" resultType="com.stay.alive.ad.vo.AdGroup">
-  	SELECT ad_group_no FROM ad_group
-  </select>
-  <insert id="insertAd">
-  	INSERT INTO ad_register(member_id ,ad_cost_no ,ad_group_no)
-  	VALUES (#{memberId},
-  			#{adCostNo},
-  			#{adGroupNo}
-  			)
-  </insert>
-  
-  <update id="updateAd" parameterType="com.stay.alive.ad.vo.Ad">
-  	UPDATE ad_register(ad_register_confirm ,ad_register_post
-  						,ad_update_date)
-  		SET ad_register_confirm = #{adRegisterConfirm}
-  			,ad_register_post = #{adRegisterPost}
-  			,ad_update_date = #{adUpdateDate}
-  	WHERE ad_register_no= #{adRegisterNo}
-  </update>
+	<select id="selectAdCost" parameterType="int" resultType="com.stay.alive.ad.vo.AdCost">
+		SELECT ad_cost_no, ad_cost_type, ad_cost_perday, ad_cost_size FROM ad_cost WHERE ad_cost_no = #{adCostNo}
+	</select>
+	<select id="selectAdGroup" parameterType="int" resultType="com.stay.alive.ad.vo.AdGroup">
+		SELECT ad_group_no, ad_group_name, ad_group_date, ad_group_cost FROM ad_group WHERE ad_group_no = #{adGroupNo}
+	</select>
+	<insert id="insertAd" parameterType="com.stay.alive.ad.vo.Ad">
+		INSERT INTO ad_register(member_id, ad_register_date, ad_cost_no, ad_register_start, ad_register_end, ad_group_no, ad_group_name, ad_register_link) VALUES(#{memberId},now(),#{adCost},#{adStart},#{adEnd},#{adGroup},#{adGroup},#{adLink})
+	</insert>
+	<insert id="insertAdFile" parameterType="com.stay.alive.ad.vo.AdFile">
+		INSERT INTO ad_file(member_id, ad_register_no, ad_file_path, ad_file_name, ad_file_extension, ad_file_form, ad_file_size, ad_file_date) VALUES(#{memberId},#{adRegisterNo})
+	</insert>
 </mapper>

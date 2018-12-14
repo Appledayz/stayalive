@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>adRegister</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+var target = document.getElementById("adCost");
+alert('선택된 옵션 value 값=' + target.options[target.selectedIndex].value);  
+</script>
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<body>
+	<div class="container">
+		<form action ="adRegister" method ="post" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td><label>광고명</label></td>
+					<td><input type = "text" class ="form-control" name = "adName"></td>
+				</tr>
+				<tr>
+					<td><label>광고 단가</label></td>
+					<td><select class ="form-control" id="adCost" name = "adCost">
+						<option value = "1">플래시</option>
+						<option value = "2">이미지</option>
+						</select></td>
+				</tr>
+				<tr>
+					<td><label>광고 위치</label></td>
+					<td><select class ="form-control" id="adGroup" name = "adGroup">
+						<option value = "1">메인 배너</option>
+						<option value = "2">메인 하단</option>
+						</select></td>
+				</tr>
+				<tr>
+					<td><label>광고 시작 시간</label></td>
+					<td><input type = "date" class ="form-control" name = "adStart" ></td>
+				</tr>
+				<tr>
+					<td><label>광고 마감 시간</label></td>
+					<td><input type = "date" class ="form-control" name = "adEnd" ></td>
+				</tr>
+				<tr>
+					<td><label>광고링크</label></td>
+					<td><input type = "text" class ="form-control" name = "adLink"></td>
+				</tr>
+				<tr>
+					<td><label>광고 파일 등록</label></td>
+					<td>
+						<img id = "img" src ="#"  style="width: 290px;height: 200px">
+						<input type = "file" class ="form-control xs" id = "file" name = "adFile" >						 
+					</td>
+				</tr>
+				<tr>
+					<td colspan = "2" align="right"><button type = "submit">등록하기</button></td>
+				</tr>
+			</table>
+			<input type = "hidden" name = "memberId"  value="0">
+		</form>
+	</div>
+</body>
+</html>
