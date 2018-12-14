@@ -7,11 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
 import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.common.PageMaker;
 
 @Mapper
 public interface ReverseauctionMapper {
 	// 역경매목록 전체조회
-	List<Reverseauction> selectReverseauctionAll();
+	List<Reverseauction> selectReverseauctionList(PageMaker pageMaker);
 	// 역경매목록 검색조회
 	List<Reverseauction> selectReverseauctionSearchList(String sk, String sv);
 	// 역경매 등록
@@ -39,5 +40,9 @@ public interface ReverseauctionMapper {
 	// 낙찰정보 등록을 위해 정보 조회
 	ReverseauctionSuccessfulbid selectForSuccessfulbid(int reverseauctionTenderNo);
 	// 역경매 내 낙찰 조회
-	ReverseauctionSuccessfulbid selectReverseauctionSuccessfulbid(int reverseauctionNo);
+	List<ReverseauctionSuccessfulbid> selectReverseauctionSuccessfulbid(int reverseauctionNo);
+	// 역경매 갯수 조회
+	int selectCountReverseauction();
+	// 낙찰 삭제
+	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
 }

@@ -881,10 +881,6 @@ img {
   .single-rooms-area .price-from {
     position: absolute;
     z-index: 20;
-    top: -19px;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
     padding: 10px 15px;
     background-color: #181818;
     border: 2px solid #cb8670;

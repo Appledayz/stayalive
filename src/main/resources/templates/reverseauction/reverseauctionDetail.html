@@ -64,6 +64,10 @@
 				<td th:text="${m.reverseauctionLeavingDate}"></td>
 			</tr>
 			<tr>
+				<td>NumberOfPeople</td>
+				<td th:text="${m.reverseauctionNumberOfPeople}"></td>
+			</tr>
+			<tr>
 				<td>Title</td>
 				<td th:text="${m.reverseauctionTitle}"></td>
 			</tr>
@@ -119,7 +123,7 @@
 				<td>auctionStateCategoryNo</td>
 				<td>auctionStateCategoryName</td>
 			</tr>
-			<tr th:each="item: ${reverseauctionTenderList}">
+			<tr th:each="item: ${m2}">
 				<td th:text="${item.reverseauctionTenderNo}"></td>
 				<td th:text="${item.memberId}"></td>
 				<td th:text="${item.companyNo}"></td>
@@ -159,18 +163,19 @@
 				<td>auctionStateCategoryNo</td>
 				<td>auctionStateCategoryName</td>
 			</tr>
-			<tr>
-				<td th:text="${m2.reverseauctionSuccessfulbidNo}"></td>
-				<td th:text="${m2.reverseauctionNo}"></td>
-				<td th:text="${m2.reverseauctionTenderNo}"></td>
-				<td th:text="${m2.guestroomOptionNo}"></td>
-				<td th:text="${m2.guestroomAdditionalPrice}"></td>
-				<td th:text="${m2.reverseauctionSuccessfulbidPrice}"></td>
-				<td th:text="${m2.reverseauctionSuccessfulbidDate}"></td>
-				<td th:text="${m2.reverseauctionRoomingDate}"></td>
-				<td th:text="${m2.reverseauctionLeavingDate}"></td>
-				<td th:text="${m2.auctionStateCategoryNo}"></td>
-				<td th:text="${m2.auctionStateCategoryName}"></td>
+			<tr th:each="item : ${m3}">
+				<td th:text="${item.reverseauctionSuccessfulbidNo}"></td>
+				<td th:text="${item.reverseauctionNo}"></td>
+				<td th:text="${item.reverseauctionTenderNo}"></td>
+				<td th:text="${item.guestroomOptionNo}"></td>
+				<td th:text="${item.guestroomAdditionalPrice}"></td>
+				<td th:text="${item.reverseauctionSuccessfulbidPrice}"></td>
+				<td th:text="${item.reverseauctionSuccessfulbidDate}"></td>
+				<td th:text="${item.reverseauctionRoomingDate}"></td>
+				<td th:text="${item.reverseauctionLeavingDate}"></td>
+				<td th:text="${item.auctionStateCategoryNo}"></td>
+				<td th:text="${item.auctionStateCategoryName}"></td>
+				<td><a th:href="@{removeReverseauctionSuccessfulbid(reverseauctionNo=${item.reverseauctionNo},reverseauctionSuccessfulbidNo=${item.reverseauctionSuccessfulbidNo})}" th:text="DELETE"></a></td>
 			</tr>
 		</tbody>
 	</table>

@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="main/style.css">
 	<script>
 		window.addEventListener('load',()=>{
 			document.getElementById('addBtn').addEventListener("click", ()=>{
@@ -11,45 +11,67 @@
 			});
 		});
 	</script>
-	<title>Insert title here</title>
+	<title>Make A ReverseAuction</title>
 </head>
 <body>
-<form action="addReverseauction" method="POST" id="addForm">
-	<table border="1" style="margin:0 auto;">
-		<tr>
-			<td>memberId</td><td><input type="text" name="memberId"></td>
-		</tr>
-		<tr>
-			<td>TenderLimit</td><td><input type="text" name="reverseauctionTenderLimit"></td>
-		</tr>
-		<tr>
-			<td>TendercloseDate</td><td><input type="text" name="reverseauctionTendercloseDate"></td>
-		</tr>
-		<tr>
-			<td>RoomingDate</td><td><input type="text" name="reverseauctionRoomingDate"></td>
-		</tr>
-		<tr>
-			<td>LeavingDate</td><td><input type="text" name="reverseauctionLeavingDate"></td>
-		</tr>
-		<tr>
-			<td>Title</td><td><input type="text" name="reverseauctionTitle"></td>
-		</tr>
-		<tr>
-			<td>Address</td><td><input type="text" name="reverseauctionAddress"></td>
-		</tr>
-		<tr>
-			<td>AddressMore</td><td><input type="text" name="reverseauctionAddressMore"></td>
-		</tr>
-		<tr>
-			<td>Content</td><td><input type="text" name="reverseauctionContent"></td>
-		</tr>
-		<tr>
-			<td>NumberOfPeople</td><td><input type="text" name="reverseauctionNumberOfPeople"></td>
-		</tr>
-		<tr>
-			<td><button type="button" id="addBtn">입력</button></td>
-		</tr>
-	</table>
-</form>
+	<!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+	
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-6.jpg);">
+        <div class="bradcumbContent">
+            <h2>Make A ReverseAuction</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+    
+	<div class="row">
+		<div class="col-12">
+		    <div class="section-heading">
+		        <div class="line-"></div>
+		        <h2>역경매 등록</h2>
+		    </div>
+		</div>
+	</div>
+    <div class="container">
+	    <div class="contact-form-area">
+			<form action="addReverseauction" method="POST" id="addForm">
+		    	<div class="row">
+					<div class="col-lg-12"><input class="form-control" th:placeholder="memberId" type="text" name="memberId"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="Price_less_than" type="text" name="reverseauctionTenderLimit"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="TendercloseDate" type="text" name="reverseauctionTendercloseDate"></div>
+					<div class="col-lg-6"><input class="form-control" th:placeholder="Check-In" type="text" name="reverseauctionRoomingDate"></div>
+					<div class="col-lg-6"><input class="form-control" th:placeholder="Check-Out" type="text" name="reverseauctionLeavingDate"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="Title" type="text" name="reverseauctionTitle"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="Address" type="text" name="reverseauctionAddress"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="AddressMore" type="text" name="reverseauctionAddressMore"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="Content" type="text" name="reverseauctionContent"></div>
+					<div class="col-lg-12"><input class="form-control" th:placeholder="Trevelers" type="text" name="reverseauctionNumberOfPeople"></div>
+					<div class="col-lg-12"><button type="button" class="btn" id="addBtn">입력</button></div>
+				</div>
+			</form>
+		</div>
+	</div>
+				
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+    
+    <!-- jQuery-2.2.4 js -->
+    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="main/js/active.js"></script>
 </body>
 </html>

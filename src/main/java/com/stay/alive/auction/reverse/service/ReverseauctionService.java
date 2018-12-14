@@ -10,6 +10,8 @@ import com.stay.alive.auction.reverse.mapper.ReverseauctionMapper;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
 import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.common.PageMaker;
+import com.stay.alive.common.PageMakerService;
 
 @Service
 @Transactional
@@ -18,9 +20,14 @@ public class ReverseauctionService {
 	private ReverseauctionMapper reverseauctionMapper;
 	
 	// 1. 역경매 전체목록 조회
-	public List<Reverseauction> getReverseauctionAll(){
-		System.out.println("ReverseauctionService.getReverseauctionAll()");
-		return reverseauctionMapper.selectReverseauctionAll();
+	public List<Reverseauction> getReverseauctionList(int page, PageMaker pageMaker){
+		System.out.println("ReverseauctionService.getReverseauctionList()");
+		pageMaker.setCurrentPage(page);
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(9);
+		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauction());
+		PageMakerService.pageMakerService(pageMaker);
+		return reverseauctionMapper.selectReverseauctionList(pageMaker);
 	}
 	// 2. 역경매 등록 폼
 	public int addReverseauctionOne(Reverseauction reverseauction) {
@@ -89,7 +96,7 @@ public class ReverseauctionService {
 		return reverseauctionMapper.deleteReverseauctionTenderOne(reverseauctionTenderNo);
 	}
 	// 14. 역경매 내 낙찰 조회
-	public ReverseauctionSuccessfulbid getReverseauctionSuccessfulbid(int reverseauctionNo) {
+	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(int reverseauctionNo) {
 		return reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo);
 	}
 	// 14. 낙찰 등록
@@ -102,6 +109,12 @@ public class ReverseauctionService {
 	// 15. 낙찰 취소
 	public int cancelReverseauctionSuccessfulbid() {
 		System.out.println("ReverseauctionService.cancelReverseauctionSuccessfulbid()");
+		return 0;
+	}
+	// 16. 낙찰 삭제
+	public int removeReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo) {
+		System.out.println("ReverseauctionService.removeReverseauctionSuccessfulbid()");
+		reverseauctionMapper.deleteReverseauctionSuccessfulbid(reverseauctionSuccessfulbidNo);
 		return 0;
 	}
 }

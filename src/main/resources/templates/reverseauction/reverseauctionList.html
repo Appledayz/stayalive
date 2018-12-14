@@ -32,75 +32,49 @@
                 <div class="col-12 col-lg-6">
                     <div class="section-heading text-center">
                         <div class="line-"></div>
-                        <h2>Choose a room</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien.</p>
+                        <h2>Choose ReverseAuctions</h2>
+                        <p>호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4" th:each="item : ${list}">
                     <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
                         <!-- Thumbnail -->
                         <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
+                        <!-- Address -->
+                        <p style="position:absolute; top:39px;" class="price-from" th:text="'Going to : '+${item.reverseauctionAddress}"></p>
+                        <!-- Limit -->
+                        <p class="price-from" th:text="'Price less than ￦'+${item.reverseauctionTenderLimit}"></p>
+                        <!-- NumberOfPeople -->
+                        <p style="position:absolute; top:78px;" class="price-from" th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
                         <!-- Rooms Text -->
                         <div class="rooms-text">
                             <div class="line"></div>
-                            <h4>Deluxe Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
+                            <h4 th:text="${item.reverseauctionTitle}">Deluxe Room</h4>
+                            <p th:text="${item.reverseauctionContent}" style="word-break: break-all;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
                         </div>
                         <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="200ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/8.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Double Suite</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/9.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $100/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Single Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
+                        <a href="#" th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" th:text="bid" class="book-room-btn btn palatin-btn">Book Room</a>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <!-- Pagination -->
-                    <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
+                    <div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
                         <nav>
                             <ul class="pagination">
-                                <li class="page-item active"><a class="page-link" href="#">01.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                            	<li class="page-item" th:if="${prevPage}">
+                            		<a class="page-link" th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+                            	</li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
+                                	<a class="page-link" th:text="${i}+'.'" th:href="@{reverseauctionList(page=${i})}">01.</a>
+                                </li>
+                                <li class="page-item" th:if="${nextPage}">
+                                	<a class="page-link" th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -111,11 +85,11 @@
     </section>
     <!-- ##### Rooms Area End ##### -->
 	
-    <!-- 역경매 목록 -->
+	<a href="addReverseauction" class="btn">역경매 등록</a>
+    <!-- 역경매 목록 시작
     <div>
 		<div style="position:relative;" class="container">
 			<h1>test</h1>
-			<a href="addReverseauction" class="btn">역경매 등록</a>
 			<table border="1">
 				<tbody>
 					<tr>
@@ -159,7 +133,8 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+	</div> 
+	역경매 목록 끝-->
 
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>

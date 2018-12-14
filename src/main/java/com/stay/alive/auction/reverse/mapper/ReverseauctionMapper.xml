@@ -3,9 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stay.alive.auction.reverse.mapper.ReverseauctionMapper">
-  <select id="selectReverseauctionAll" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  <select id="selectCountReverseauction" resultType="int">
+  	SELECT COUNT(*)
+  	FROM reverseauction_register
+  </select>
+  <select id="selectReverseauctionList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
+  	LIMIT #{startRow},#{rowPerPage}
   </select>
   <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
@@ -125,5 +130,9 @@
   <delete id="deleteReverseauctionTender">
   	DELETE FROM reverseauction_tender
   	WHERE reverseauction_no=#{reverseauctionNo}
+  </delete>
+  <delete id="deleteReverseauctionSuccessfulbid">
+  	DELETE FROM reverseauction_successfulbid
+  	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}
   </delete>
 </mapper>
