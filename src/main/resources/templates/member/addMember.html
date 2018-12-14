@@ -46,14 +46,21 @@
 			<td>sms수신동의</td><td><input type="radio" name="memberSmsAccept" value="Y" checked>동의<input type="radio" name="memberSmsAccept" value="N">거절</td>
 		</tr>
 		<tr>
-			<td><button type="submit" id="submit" disabled="disabled">가입</button></td>
+			<td><button type="submit" id="submit" disabled="disabled" onClick="check()">가입</button></td>
 		</tr>
 	</table>
 	</form>
 <script>
 	//1.아이디 확인
-	$(".idCheck").click(function(){
+
+	$(".idCheck").click(function(){		
 		var query = {memberId : $("#memberId").val()};
+		
+		if ($("#memberId").val() == ""){
+			$(".result .msg").text("아이디를 입력하세요.");
+			$(".result .msg").attr("style", "color:#00f");
+			return;
+		};
 		
 		$.ajax({
 			url : "/idCheck",
@@ -63,29 +70,28 @@
 				if(data == 1) {
 					$(".result .msg").text("사용 불가");
 					$(".result .msg").attr("style", "color:#f00");
-					$("#submit").attr("disabled", "disabled");
 				} else {
 					$(".result .msg").text("사용 가능");
 					$(".result .msg").attr("style", "color:#00f");
-					$("#submit").removeAttr("disabled");
+	
 				}
 			}
 		});  // ajax 끝
 	});
 	$("#memberId").keyup(function(){
-	$(".result .msg").text("아이디를 확인해주십시오.");
-	$(".result .msg").attr("style", "color:#000");
-	$("#submit").attr("disabled", "disabled");
+		$(".result .msg").text("아이디를 확인해주십시오.");
+		$(".result .msg").attr("style", "color:#000");
+		$("#submit").attr("disabled", "disabled");
 	});
 	
 	//2.닉네임 확인
 	$(".nicknameCheck").click(function(){
-		var query = {memberNickname : $("#memberNickname").val()};
+		var inputed = {memberNickname : $("#memberNickname").val()};
 		
 		$.ajax({
 			url : "/nicknameCheck",
 			type : "post",
-			data : query,
+			data : inputed,
 			success : function(data) {
 				if(data == 1) {
 					$(".result2 .msg2").text("사용 불가");

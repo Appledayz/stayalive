@@ -38,17 +38,17 @@ public class MemberController {
 		return "/member/welcome";
 	}
 	//2.아이디 중복확인
-	@ResponseBody
-	@PostMapping("/idCheck")
-	public int postIdCheck(Member memberId) {
-		memberService.idCheck(memberId);
-		Member idCheck = memberService.idCheck(memberId);
-		int result = 0;
-		if(idCheck !=null) {
-			result = 1;
+		@ResponseBody
+		@PostMapping("/idCheck")
+		public int postIdCheck(Member memberId) {
+			memberService.idCheck(memberId);
+			Member idCheck = memberService.idCheck(memberId);
+			int result = 0;
+			if(idCheck !=null) {
+				result = 1;
+			}
+			return result;
 		}
-		return result;
-	}
 	//3.닉네임 중복확인
 	@ResponseBody
 	@PostMapping("/nicknameCheck")
