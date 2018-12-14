@@ -10,4 +10,17 @@
 	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
 		INSERT INTO company(member_id, company_name, company_homepage, company_address, company_email, company_detail, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId}, #{companyName}, #{companyHomepage}, #{companyAddress}, #{companyEmail}, #{companyDetail}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
 	</insert>
+	<select id="selectCompanySearchListCount" resultType="int" parameterType="HashMap">
+        SELECT 
+        	COUNT(*)
+       	FROM company
+       	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
+    </select>
+	<select id="selectCompanySearchList" resultType="com.stay.alive.company.vo.Company" parameterType="HashMap">
+        SELECT 
+        	company_no as companyNo, company_name as companyName, company_homepage as companyHomepage 
+       	FROM company
+       	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
+       	ORDER BY companyNo DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
+    </select>
 </mapper>

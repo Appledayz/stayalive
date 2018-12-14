@@ -1,22 +1,22 @@
 package com.stay.alive.company.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.stay.alive.common.PageMaker;
+import com.stay.alive.common.PageMakerService;
 import com.stay.alive.company.mapper.CompanyMapper;
 import com.stay.alive.company.vo.Company;
-import com.stay.alive.file.ImageFile;
 import com.stay.alive.member.vo.Member;
 
 @Service
 @Transactional
 public class CompanyService {
+	
 	@Autowired 
 	private CompanyMapper companyMapper;
 	
@@ -30,4 +30,14 @@ public class CompanyService {
 		company.setMemberOptionName(member.getMemberOptionName());
 		companyMapper.insertCompany(company); //업체 정보 데이터베이스에 등록
 	}
+	
+	public List<Company> getCompanySearchList(HashMap<String, Object> map) {
+		PageMaker pageMaker = (PageMaker)map.get("pageMaker");
+		pageMaker.setRowPerPage(10);
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setAllCount(companyMapper.selectCompanySearchListCount(map));
+		pageMaker = PageMakerService.pageMakerService(pageMaker);
+		return companyMapper.selectCompanySearchList(map);
+	}
+	
 }
