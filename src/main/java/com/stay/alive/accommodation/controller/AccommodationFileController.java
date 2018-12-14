@@ -18,7 +18,7 @@ public class AccommodationFileController {
 	@PostMapping("addDetailImage")
 	@ResponseBody
 	public String addDetailImage(MultipartFile[] file,HttpSession session) {
-		String path = session.getServletContext().getRealPath("image/business");
+		String path = session.getServletContext().getRealPath("image/accommodation");
 		String memberId = "ID1";
 		return accommodationService.addDetailImageFiles(file, path, memberId);
 	}

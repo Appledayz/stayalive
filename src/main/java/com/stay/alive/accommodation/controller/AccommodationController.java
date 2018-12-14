@@ -24,12 +24,25 @@ public class AccommodationController {
 		String memberId = "ID1";
 		String path = session.getServletContext().getRealPath("image/business");
 		accommodation.setMemberId(memberId);
-		System.out.println(accommodation + "<=== 멤베 이름");
 		accommodationService.addAccommodation(accommodation, path);
 		//System.out.println(accommodation);
 		return "redirect:/main";
 	}
+	@GetMapping("accommodationModify")
+	public String  accommodationModify() {
+
+		return "accommodation/accommodationModify";
+	}
 	
+	@PostMapping("accommodationModifyAction")
+	public String  accommodationModifyAction(Accommodation accommodation,HttpSession session) {
+		String memberId = "ID1";
+		String path = session.getServletContext().getRealPath("image/business");
+		accommodation.setMemberId(memberId);
+		accommodationService.addAccommodation(accommodation, path);
+		//System.out.println(accommodation);
+		return "redirect:/main";
+	}
 	@GetMapping("test")
 	@ResponseBody
 	public String test() {
