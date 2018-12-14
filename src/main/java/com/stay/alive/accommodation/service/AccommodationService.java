@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.file.ImageFile;
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class AccommodationService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
@@ -26,17 +27,17 @@ public class AccommodationService {
 		String sidoName = accommodation.getAddressSidoName();
 		String sigunguName = accommodation.getAddressSigunguName();
 		if(!accommodationMapper.selectSidoName(sidoName)) { //시도 이름이 데이터베이스에 없으면 추가
-			accommodationMapper.insertSidoName(sigunguName);
+			accommodationMapper.insertSidoName(sidoName);
+			System.out.println("insertSidoName" + "<===");
 		}
 		if(!accommodationMapper.selectSigunguName(sigunguName)) {//시군구 이름이 데이터베이스에 없으면 추가
 			accommodationMapper.insertSigunguName(sigunguName);
+			System.out.println("insertSigunguName" + "<===");
 		}
-		int categoryNo = accommodation.getAccommodationCategoryNo();
-		String categoryName = accommodationMapper.selectCategoryName(categoryNo);
+		int categoryNo = accommodation.getAccommodationCategoryNo(); //
+		String categoryName = accommodationMapper.selectCategoryName(categoryNo); //카테고리 번호를통해 이름을 가져옴
 		accommodation.setAccommodationCategoryName(categoryName); //카테고리 이름 데이터베이스에서 가져와서 세팅
-		
-		System.out.println( categoryName + "<=== categoryName");
-		accommodationMapper.insertAccommodation(accommodation);
+		accommodationMapper.insertAccommodation(accommodation); //숙소 등록
 		addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());
 	}
 	private String addImageFile(ImageFile imageFile, MultipartFile file, String path, String memberId, int fileRegisterTableNo, String registerTableName) {
