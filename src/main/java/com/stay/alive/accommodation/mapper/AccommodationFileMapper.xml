@@ -4,7 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.stay.alive.accommodation.mapper.AccommodationFileMapper" >
-	<insert id="insertImageFile" parameterType="com.stay.alive.file.ImageFile">
+	<select id="selectImageFile" resultType="com.stay.alive.file.ImageFile" parameterType="int">
+		SELECT * FROM image_file WHERE image_file_no = #{imageFileNo}
+	</select>
+	<delete id="deleteImageFile" parameterType="int">
+		DELETE FROM image_file WHERE image_file_no = #{imageFileNo}
+	</delete>
+	<insert id="insertImageFile" parameterType="com.stay.alive.file.ImageFile" useGeneratedKeys="true" keyProperty="imageFileNo">
 		INSERT INTO image_file(
 			member_id,
 			file_register_table_no,

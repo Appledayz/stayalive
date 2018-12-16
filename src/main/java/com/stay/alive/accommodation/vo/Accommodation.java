@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Accommodation {
+	private String accommodationNo; //숙소 등록 번호(PK)
 	private String memberId; //숙박 업체 회원 아이디
 	private int companyNo; //업체 등록 번호(FK)
 	private String companyName; //업체명
@@ -31,5 +32,6 @@ public class Accommodation {
 	private String accommodationDetail; //세부내용
 	private String accommodationRegisterDate; //숙소 등록일자
 	private String accommodationUpdateDate; //마지막 숙소 등록정보 수정일
+	private int imageFileNo; //사업자등록 파일 번호
 	
 }

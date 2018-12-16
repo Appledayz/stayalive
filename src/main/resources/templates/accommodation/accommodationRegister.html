@@ -7,15 +7,14 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <!--다음 지도 API  -->
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+<!-- jquery(3.3.1)  -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <!-- bootstrap(4.1.3)  -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-<!-- jquery(3.3.1)  -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <!-- smarteditor 플러그인(2.9.1)  -->
-<script src="smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
     $(function(){
     	var count = 1;
@@ -25,13 +24,13 @@
         nhn.husky.EZCreator.createInIFrame({
             oAppRef: obj,
             elPlaceHolder: "editor",
-            sSkinURI: "smarteditor/SmartEditor2Skin.html",
+            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
             fCreator: "createSEditor2"
         });
         //전송버튼
         $("#insertBoard").click(function(){
             var setForm = $('#insertBoardFrm');
-            setForm.attr('action','accommodationRegister');
+            setForm.attr('action','register');
             setForm.attr('method','post');
             obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
             $("#insertBoardFrm").submit();
@@ -51,8 +50,6 @@
       	    processData:false,
       	    contentType:false,
       	    success: function(data){
-      	    	var text = $("#text");
-      	    	text.append(data);
       	    	obj.getById["editor"].exec("PASTE_HTML", [data]);
       	    }
       	  });
@@ -161,7 +158,10 @@
 		    		<div class="form-group">
 		    			<div class="col-2"></div>
 		    			<textarea name="accommodationDetail" id="editor"  style="width: 1060px"></textarea>
-		    			<input type="button" class="btn btn-primary pull-right" id="insertBoard" value="등록" />
+		    			<div align="right">
+		    				<input type="button" class="btn btn-primary pull-right" id="insertBoard" value="등록" />
+		    			</div>
+		    			
 		    		</div>
 	    		</div>
     		</div>

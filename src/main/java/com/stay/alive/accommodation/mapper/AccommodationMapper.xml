@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.stay.alive.accommodation.mapper.AccommodationMapper" >
+	<update id="updateAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
+		UPDATE accommodation SET accommodation_name = #{accommodationName}, member_business_number = #{memberBusinessNumber}, accommodation_phone = #{accommodationPhone}, accommodation_email = #{accommodationEmail}, accommodation_detail = #{accommodationDetail}, image_file_no = #{imageFileNo} WHERE accommodation_no = #{accommodationNo}
+	</update>
+	<select id="selectAccommodationName" resultType="String">
+		SELECT accommodation_name from accommodation WHERE member_id = #{memberId}
+	</select>
+	<select id="selectAccommodationInfo" resultType="com.stay.alive.accommodation.vo.Accommodation">
+		SELECT * from accommodation WHERE accommodation_name = #{name}
+	</select>
 	<insert id="insertAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
 		INSERT INTO accommodation(
 			member_id,
@@ -21,7 +30,8 @@
 			accommodation_phone,
 			accommodation_email,
 			accommodation_detail,
-			accommodation_register_date
+			accommodation_register_date,
+			image_file_no
 		)
 		VALUES(
 			#{memberId},
@@ -39,7 +49,8 @@
 			#{accommodationPhone},
 			#{accommodationEmail},
 			#{accommodationDetail},
-			now()
+			now(),
+			#{imageFileNo}
 		)
 	</insert>
 	<select id="selectCategoryName" resultType="String">

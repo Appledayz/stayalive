@@ -10,4 +10,8 @@ public interface AccommodationMapper {
 	public void insertSidoName(String addressSidoName);
 	public void insertSigunguName(String addressSigunguName);
 	public String selectCategoryName(int accommodationCategoryNo);
+	public String[] selectAccommodationName(String memberId);
+	public Accommodation selectAccommodationInfo(String name);
+	public void updateAccommodation(Accommodation accommodation);
+	
 }

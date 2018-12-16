@@ -17,7 +17,7 @@
 
 
 <!-- smarteditor 플러그인(2.9.1)  -->
-<script src="smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
     $(function(){
     	var count = 1;
@@ -27,16 +27,16 @@
         nhn.husky.EZCreator.createInIFrame({
             oAppRef: obj,
             elPlaceHolder: "editor",
-            sSkinURI: "smarteditor/SmartEditor2Skin.html",
+            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
             fCreator: "createSEditor2"
         });
         //전송버튼
-        $("#insertBoard").click(function(){
-            var setForm = $('#insertBoardFrm');
-            setForm.attr('action','accommodationRegister');
+        $("#updateBoard").click(function(){
+            var setForm = $('#updateBoardFrm');
+            setForm.attr('action','modifyAction');
             setForm.attr('method','post');
             obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-            $("#insertBoardFrm").submit();
+            $("#updateBoardFrm").submit();
         });
         $("#uploadbutton").click(function(){
         	if(count > 1) {
@@ -44,7 +44,7 @@
         		return;
         	}
         	count++;
-            var form = $('#insertBoardFrm')[0];
+            var form = $('#updateBoardFrm')[0];
             var formData = new FormData(form);
       	  $.ajax({
       	    url: 'addDetailImage',
@@ -53,139 +53,79 @@
       	    processData:false,
       	    contentType:false,
       	    success: function(data){
-      	    	var text = $("#text");
-      	    	text.append(data);
       	    	obj.getById["editor"].exec("PASTE_HTML", [data]);
       	    }
       	  });
-        });  
+        });
+        $("#selectAccommodation").on('change',function() {
+        	var name = $("#selectAccommodation").val();
+        	if(name != "") {
+            	  $.ajax({
+                	    url: 'findModify',
+                	    data : {name},
+                	    type: 'GET',
+						contentType:"application/x-www-form-urlencoded",
+                	    success: function(data){
+							/* console.log(data); */
+							$("input[name='accommodationNo']").val(data.accommodationNo);
+							$("input[name='accommodationName']").val(data.accommodationName);
+							$("input[name='memberBusinessNumber']").val(data.memberBusinessNumber);
+							$("input[name='accommodationPhone']").val(data.accommodationPhone);
+							$("input[name='accommodationEmail']").val(data.accommodationEmail);
+							$("input[name='imageFileNo']").val(data.imageFileNo);
+							obj.getById["editor"].exec("SET_IR", [""]);
+							obj.getById["editor"].exec("PASTE_HTML", [data.accommodationDetail]);
+                	    }
+                	});
+        	}
+        	
+        	
+        });
+       
+        
     });
 </script>
 </head>
 <body>
-<h2>수정할 숙소를 골라주세요</h2>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 	<div class ="container" >
- 		<form id="insertBoardFrm" enctype="multipart/form-data">
-	    	<div class="card" >
+ 	<div class ="container" align="center">
+ 		<h2>숙소 수정</h2>
+ 		<form id="updateBoardFrm" enctype="multipart/form-data">
+ 		<input type="hidden" name="accommodationNo">
+ 		<input type="hidden" name="imageFileNo">
+	    	<div class="card col-8" >
 	    		<div class="card-body">
+	    			<div class="form-group">
+			 			<div class="input-group" style="padding-left: 200px">
+			 				<select id="selectAccommodation" class="custom-select col-5" >
+					 			<option value="">수정할 숙소를 골라주세요
+					 			<option th:each="name : ${names}" th:value="${name}" th:text="${name}">
+			 				</select>
+			 			</div>    			
+	    			</div>
 			    	<div class="form-group">
 				    	<div class="form-row">
 				    		<label class = "col-2 col-form-label">이름</label>
-				    		<input class="form-control form-control-sm col-10" type="text" name="accommodationName">
+				    		<input class="form-control form-control-sm col-4" type="text" name="accommodationName">
 						</div>
 	    			</div>
 					<div class="form-group">
 	    				<div class="form-row">
 	    					<label class = "col-2 col-form-label">사업자 번호</label>
-	    					<input class="form-control col-5" type="text" name="memberBusinessNumber">
-	    					<input class="form-control col-3" type="file" name="businessNumberFile">
+	    					<input class="form-control form-control-sm col-4" type="text" name="memberBusinessNumber">
+	    					<input class="form-control form-control-sm col-1" type="file" name="businessNumberFile">
 	    				</div>
 	    			</div>
 		    		<div class="form-group">
 		    			<div class="form-row">
 		    				<label class="col-2 col-form-label">연락처</label>
-	    					<input class="form-control form-control-sm col-10" type="text" name="accommodationPhone">
+	    					<input class="form-control form-control-sm col-4" type="text" name="accommodationPhone">
 		    			</div>
 		    		</div>	
 		    		<div class="form-group">
 		    			<div class="form-row">
 		    				<label class="col-2 col-form-label">이메일</label>
-	    					<input class="form-control form-control-sm col-10" type="text" name="accommodationEmail">
+	    					<input class="form-control form-control-sm col-4" type="text" name="accommodationEmail">
 		    			</div>
 		    		</div>
 		    		<div class="form-group">
@@ -196,10 +136,10 @@
 							<input class="form-control form-control-sm" type="button" id="uploadbutton" value="업로드" style="width: 60px">
 		    			</div>
 		    		</div>
-		    		<div class="form-group">
+		    		<div class="form-group text-right">
 		    			<div class="col-2"></div>
-		    			<textarea name="accommodationDetail" id="editor"  style="width: 1060px"></textarea>
-		    			<input type="button" class="btn btn-primary pull-right" id="insertBoard" value="등록" />
+		    			<textarea name="accommodationDetail" id="editor"  style="width: 660px"></textarea>
+		    			<input type="button" class="btn btn-primary" id="updateBoard" value="등록" />
 		    		</div>
 	    		</div>
     		</div>

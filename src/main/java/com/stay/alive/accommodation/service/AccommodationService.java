@@ -23,23 +23,49 @@ public class AccommodationService {
 	@Autowired
 	private AccommodationFileMapper accommodationFileMapper;
 	
+	public String[] getAccommodationName(String memberId) {
+		return accommodationMapper.selectAccommodationName(memberId);
+	}
+	public Accommodation getAccommodationInfo(String name) {
+		return accommodationMapper.selectAccommodationInfo(name);
+	}
+	//숙소 수정
+	public void modifyAccommodation(Accommodation accommodation, String path) {
+		removeBusinessImageFile(accommodation.getImageFileNo());//기존에 있던 사업자 등록파일 삭제
+		int newFileNo = addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());//새로운 사업자 등록 파일 추가
+		accommodation.setImageFileNo(newFileNo); //새로 추가된  사업자 등록 번호 세팅 
+		accommodationMapper.updateAccommodation(accommodation);
+	}
+	//숙소 추가
 	public void addAccommodation(Accommodation accommodation, String path) {
 		String sidoName = accommodation.getAddressSidoName();
 		String sigunguName = accommodation.getAddressSigunguName();
 		if(!accommodationMapper.selectSidoName(sidoName)) { //시도 이름이 데이터베이스에 없으면 추가
 			accommodationMapper.insertSidoName(sidoName);
-			System.out.println("insertSidoName" + "<===");
 		}
 		if(!accommodationMapper.selectSigunguName(sigunguName)) {//시군구 이름이 데이터베이스에 없으면 추가
 			accommodationMapper.insertSigunguName(sigunguName);
-			System.out.println("insertSigunguName" + "<===");
 		}
-		int categoryNo = accommodation.getAccommodationCategoryNo(); //
+		
+		int imageFileNo = addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());
+		accommodation.setImageFileNo(imageFileNo); //사업자 등록증 파일번호 세팅
+		int categoryNo = accommodation.getAccommodationCategoryNo();
 		String categoryName = accommodationMapper.selectCategoryName(categoryNo); //카테고리 번호를통해 이름을 가져옴
 		accommodation.setAccommodationCategoryName(categoryName); //카테고리 이름 데이터베이스에서 가져와서 세팅
-		accommodationMapper.insertAccommodation(accommodation); //숙소 등록
-		addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());
+		accommodationMapper.insertAccommodation(accommodation); //숙소 등록	
 	}
+	//사업자 등록 파일 삭제
+	public void removeBusinessImageFile(int imageFileNo) {
+		ImageFile imageFile = accommodationFileMapper.selectImageFile(imageFileNo);
+		accommodationFileMapper.deleteImageFile(imageFileNo); //데이터베이스 -> 이미지파일 정보 삭제
+		String path =imageFile.getImageFilePath();
+		String ext = imageFile.getImageFileExt();
+		String stordName = imageFile.getImageFileStoredName();
+		File file = new File(path + "/" + stordName + "." + ext);
+		System.out.println(path + "/" + stordName + "." + ext);
+		file.delete(); //실제 저장된 파일 삭제
+	}
+	
 	private String addImageFile(ImageFile imageFile, MultipartFile file, String path, String memberId, int fileRegisterTableNo, String registerTableName) {
 		String storedFileName = "";
 		String ext = "";
@@ -70,7 +96,7 @@ public class AccommodationService {
 				e.printStackTrace();
 			}
 		}
-		return "<img src=\"/image/accommodation/" + storedFileName + "." + ext + "\"><br>";
+		return "<img src=\"/image/accommodation/" + storedFileName + "." + ext + "\">";
 	}
 	
 	public String addDetailImageFiles(MultipartFile[] multipartFile, String path, String memberId) {
@@ -85,13 +111,10 @@ public class AccommodationService {
 		}
 		return imageTag;
 	}
-	public void addBusinessImageFiles(MultipartFile file, String path, String memberId) {
+	public int addBusinessImageFiles(MultipartFile file, String path, String memberId) {
 		ImageFile imageFile = new ImageFile();
 		addImageFile(imageFile, file, path, memberId, 6, "사업자등록");
 		accommodationFileMapper.insertImageFile(imageFile);
-	}
-	public void test() {
-		//System.out.println(accommodationMapper.selectSidoName("전북"));
-		
+		return imageFile.getImageFileNo();
 	}
 }
