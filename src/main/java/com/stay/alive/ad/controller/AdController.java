@@ -17,11 +17,11 @@ public class AdController {
 	// 광고 메인페이지
 	@GetMapping("ad")
 	public String ad() {
-		return "/Ad/ad";
+		return "Ad/ad";
 	}
 	@GetMapping("adRegister")
 	public String adRegister() {
-		return "/Ad/adRegister";
+		return "Ad/adRegister";
 	}
 	@PostMapping("adRegister")
 	public String adRegister(Ad ad,HttpSession session) {

@@ -1,0 +1,22 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:c="http://www.springframework.org/schema/c"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="bean1" class="soundsystem.MyBean"/>
+    <bean id="bean2" class="soundsystem.MyBean"/>
+</beans>
+  google Class Bean설정 추가
+  클라이언트ID와 보안비밀 세팅
+  <bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+    <constructor-arg value="906319430881-d80dsmvgenjbbcm8qr3o33c71bd7eekr.apps.googleusercontent.com" />
+    <constructor-arg value="6un8a1AeO-iYprQRM8jbdeoo" />
+  </bean>
+
+  승인된 자바스크립트 원본과 승인된 리디렉션 URI
+  <bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+    <property name="scope" value="https://www.googleapis.com/auth/plus.login" />
+    <property name="redirectUri" value="http://localhost/login" />
+  </bean>
+  google Class Bean설정 추가 -->
