@@ -18,9 +18,16 @@
     </select>
 	<select id="selectCompanySearchList" resultType="com.stay.alive.company.vo.Company" parameterType="HashMap">
         SELECT 
-        	company_no as companyNo, company_name as companyName, company_homepage as companyHomepage 
+        	company_name as companyName, member_id as memberId 
        	FROM company
        	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
-       	ORDER BY companyNo DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
+       	ORDER BY company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
+    </select>
+    <select id="selectMemberAndCompanySearchList" resultType="Hashmap" parameterType="HashMap">
+        SELECT 
+        	c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
+       	FROM member m INNER JOIN company c
+       	ON m.member_id = c.member_id
+       	ORDER BY c.company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
     </select>
 </mapper>

@@ -49,8 +49,8 @@ public class CompanyController {
 		map.put("searchKey1", searchKey);
 		map.put("searchKey2", searchKey);
 		map.put("searchWord", "%"+searchWord+"%");
-		List<Company> companyList = companyService.getCompanySearchList(map);
-		model.addAttribute("companyList", companyList);
+		List<HashMap<String, String>> memberAndCompanyList = companyService.getCompanySearchList(map);
+		model.addAttribute("memberAndCompanyList", memberAndCompanyList);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pagePerBlock", pageMaker.getPagePerBlock());
 		model.addAttribute("currentBlock", pageMaker.getCurrentBlock());
