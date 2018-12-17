@@ -88,9 +88,11 @@
 					<td>업체 회원 닉네임(업체 회원 ID)</td>
 				</tr>
 			</thead>
-			<tbody th:each="map : ${memberAndCompanyList}">
-				<tr th:each="key: ${map.keySet()}">
-					<td th:text="${map.get(key)}"></td>
+			<tbody th:each = "map : ${memberAndCompanyList}">
+				
+				<tr th:each="set: ${map.keySet()}">
+					
+					<td th:text="${set.get('mamberId')}"></td>
 				</tr>
 			</tbody>
 		</table>

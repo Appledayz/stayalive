@@ -23,7 +23,13 @@
        	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
        	ORDER BY company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
     </select>
-    <select id="selectMemberAndCompanySearchList" resultType="Hashmap" parameterType="HashMap">
+    <resultMap type="hashmap" id="resultmap">
+    	<result javaType="java.lang.String" column="companyName" property="companyName"></result>
+		<result javaType="java.lang.String" column="memberId" property="memberId"></result>
+		<result javaType="java.lang.String" column="memberNickname" property="member_nickname"></result>
+    </resultMap>
+    
+    <select id="selectMemberAndCompanySearchList" resultMap="resultmap" parameterType="HashMap">
         SELECT 
         	c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
        	FROM member m INNER JOIN company c

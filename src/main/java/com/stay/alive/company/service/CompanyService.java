@@ -1,6 +1,7 @@
 package com.stay.alive.company.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,6 @@ public class CompanyService {
 		pageMaker.setAllCount(companyMapper.selectCompanySearchListCount(map));
 		pageMaker = PageMakerService.pageMakerService(pageMaker);
 		List<HashMap<String, String>> hashmap = companyMapper.selectMemberAndCompanySearchList(map);
-		
-		System.out.println(hashmap.get(0).keySet().contains("companyName") + "<=====");
-		System.out.println(hashmap.get(0).keySet().contains("memberId") + "<=====");
-		System.out.println(hashmap.get(0).keySet().contains("memberNickname") + "<=====");
-	
-	
 		return hashmap;
 	}
 	
