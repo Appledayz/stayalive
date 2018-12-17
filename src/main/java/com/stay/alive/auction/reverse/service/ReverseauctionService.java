@@ -1,5 +1,6 @@
 package com.stay.alive.auction.reverse.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,8 @@ public class ReverseauctionService {
 	private ReverseauctionMapper reverseauctionMapper;
 	
 	// 1. 역경매 전체목록 조회
-	public List<Reverseauction> getReverseauctionList(int page, PageMaker pageMaker){
+	public List<Reverseauction> getReverseauctionList(PageMaker pageMaker){
 		System.out.println("ReverseauctionService.getReverseauctionList()");
-		pageMaker.setCurrentPage(page);
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(10);
 		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauction());
@@ -35,9 +35,13 @@ public class ReverseauctionService {
 		return reverseauctionMapper.insertReverseauction(reverseauction);
 	}
 	// 3. 역경매 목록 검색
-	public List<Reverseauction> getReverseauctionSearchList(String sk, String sv) {
+	public List<Reverseauction> getReverseauctionSearchList(PageMaker pageMaker, String sk, String sv, String date1, String date2) {
 		System.out.println("ReverseauctionService.getReverseauctionSearchList()");
-		return reverseauctionMapper.selectReverseauctionSearchList(sk, sv);
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(10);
+		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauction());
+		PageMakerService.pageMakerService(pageMaker);
+		return reverseauctionMapper.selectReverseauctionSearchList(pageMaker, sk, sv, date1, date2);
 	}
 	// 4. 역경매 상세 보기
 	public Reverseauction getReverseauctionOne(int reverseauctionNo) {
@@ -96,15 +100,22 @@ public class ReverseauctionService {
 		return reverseauctionMapper.deleteReverseauctionTenderOne(reverseauctionTenderNo);
 	}
 	// 14. 역경매 내 낙찰 조회
-	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(int reverseauctionNo) {
+	public ReverseauctionSuccessfulbid getReverseauctionSuccessfulbid(int reverseauctionNo) {
+		System.out.println("ReverseauctionService.getReverseauctionSuccessfulbid()");
 		return reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo);
 	}
 	// 14. 낙찰 등록
-	public int addReverseauctionSuccessfulbid(int reverseauctionTenderNo) {
+	public int addReverseauctionSuccessfulbid(int reverseauctionTenderNo, int reverseauctionNo) {
 		System.out.println("ReverseauctionService.addReverseauctionSuccessfulbid()");
-		ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionMapper.selectForSuccessfulbid(reverseauctionTenderNo);
-		reverseauctionMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
-		return 0;
+		int i = 0;
+		if(reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo) == null) {
+			ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionMapper.selectForSuccessfulbid(reverseauctionTenderNo);
+			int price = reverseauctionMapper.selectReverseauctionTenderOne(reverseauctionTenderNo).getReverseauctionTenderPrice();
+			reverseauctionSuccessfulbid.setReverseauctionSuccessfulbidPrice(price);
+			reverseauctionMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
+			i++;
+		}
+		return i;
 	}
 	// 15. 낙찰 취소
 	public int cancelReverseauctionSuccessfulbid() {

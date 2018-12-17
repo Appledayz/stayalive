@@ -15,7 +15,11 @@
   <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
-  	<if test="sk != null and sv != null">WHERE ${sk}=#{sv}</if>
+  	<if test="date1 != null and date2 != null">
+		WHERE reverseauction_register_date BETWEEN #{date1} AND #{date2}
+	</if>
+	ORDER BY reverseauction_register_date DESC
+	LIMIT #{pageMaker.startRow},#{pageMaker.rowPerPage}
   </select>
   <select id="selectReverseauctionOne" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
@@ -26,6 +30,11 @@
   	SELECT *
   	FROM reverseauction_tender
   	WHERE reverseauction_no=#{reverseauctionNo}
+  </select>
+  <select id="selectReverseauctionTenderOne" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	SELECT *
+  	FROM reverseauction_tender
+	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </select>
   <select id="selectForSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
   	SELECT *

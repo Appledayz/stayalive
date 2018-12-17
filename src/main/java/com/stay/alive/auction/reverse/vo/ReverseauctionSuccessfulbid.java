@@ -10,7 +10,7 @@ public class ReverseauctionSuccessfulbid {
 	private int guestroomOptionNo;
 	private String guestroomOptionName;
 	private int guestroomAdditionalPrice;
-	private String reverseauctionSuccessfulbidPrice;
+	private int reverseauctionSuccessfulbidPrice;
 	private String reverseauctionSuccessfulbidDate;
 	private String reverseauctionRoomingDate;
 	private String reverseauctionLeavingDate;

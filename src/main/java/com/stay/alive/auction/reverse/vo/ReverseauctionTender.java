@@ -18,7 +18,7 @@ public class ReverseauctionTender {
 	private String reverseauctionTenderDate;
 	private String reverseauctionTenderUpdateDate;
 	private String reverseauctionTenderContent;
-	private String reverseauctionTenderPrice;
+	private int reverseauctionTenderPrice;
 	private int auctionStateCategoryNo;
 	private String auctionStateCategoryName;
 }
