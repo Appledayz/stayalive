@@ -1,5 +1,8 @@
 package com.stay.alive.accommodation.mapper;
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
+
 import com.stay.alive.accommodation.vo.Accommodation;
 
 @Mapper
@@ -13,5 +16,5 @@ public interface AccommodationMapper {
 	public String[] selectAccommodationName(String memberId);
 	public Accommodation selectAccommodationInfo(String name);
 	public void updateAccommodation(Accommodation accommodation);
-	
+	public ArrayList<Accommodation> selectAccommodationAll();
 }

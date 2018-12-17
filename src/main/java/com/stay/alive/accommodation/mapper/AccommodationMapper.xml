@@ -5,13 +5,16 @@
   
 <mapper namespace="com.stay.alive.accommodation.mapper.AccommodationMapper" >
 	<update id="updateAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
-		UPDATE accommodation SET accommodation_name = #{accommodationName}, member_business_number = #{memberBusinessNumber}, accommodation_phone = #{accommodationPhone}, accommodation_email = #{accommodationEmail}, accommodation_detail = #{accommodationDetail}, image_file_no = #{imageFileNo} WHERE accommodation_no = #{accommodationNo}
+		UPDATE accommodation SET accommodation_name = #{accommodationName}, member_business_number = #{memberBusinessNumber}, accommodation_phone = #{accommodationPhone}, accommodation_email = #{accommodationEmail}, accommodation_detail = #{accommodationDetail}, image_file_no = #{imageFileNo}, accommodation_update_date = now() WHERE accommodation_no = #{accommodationNo}
 	</update>
 	<select id="selectAccommodationName" resultType="String">
 		SELECT accommodation_name from accommodation WHERE member_id = #{memberId}
 	</select>
 	<select id="selectAccommodationInfo" resultType="com.stay.alive.accommodation.vo.Accommodation">
 		SELECT * from accommodation WHERE accommodation_name = #{name}
+	</select>
+	<select id="selectAccommodationAll" resultType="com.stay.alive.accommodation.vo.Accommodation">
+		SELECT * from accommodation
 	</select>
 	<insert id="insertAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
 		INSERT INTO accommodation(

@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stay.alive.accommodation.service.AccommodationService;
@@ -21,8 +20,19 @@ import com.stay.alive.accommodation.vo.Accommodation;
 public class AccommodationController {
 	@Autowired
 	private AccommodationService accommodationService;
+	
+	
+	
+	@GetMapping("listAll")
+	public String accommodationList(Model model) {
+		ArrayList<Accommodation> accommodation = accommodationService.getAccommodationAll();
+		model.addAttribute("list", accommodation);
+		return "accommodation/accommodationList";
+	}
 	@GetMapping("register")
 	public String accommodationRegister() {
+
+
 		return "accommodation/accommodationRegister";
 	}
 	@PostMapping("register")

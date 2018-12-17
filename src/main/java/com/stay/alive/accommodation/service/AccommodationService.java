@@ -2,12 +2,14 @@ package com.stay.alive.accommodation.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.mapper.AccommodationFileMapper;
@@ -28,6 +30,10 @@ public class AccommodationService {
 	}
 	public Accommodation getAccommodationInfo(String name) {
 		return accommodationMapper.selectAccommodationInfo(name);
+	}
+	//숙소 리스트 
+	public ArrayList<Accommodation> getAccommodationAll() {
+		return accommodationMapper.selectAccommodationAll();
 	}
 	//숙소 수정
 	public void modifyAccommodation(Accommodation accommodation, String path) {

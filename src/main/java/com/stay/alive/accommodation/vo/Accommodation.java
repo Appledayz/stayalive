@@ -22,7 +22,7 @@ public class Accommodation {
 	private String addressSidoName; //시/도 
 	private String addressSigunguName; // 시/군/구 
 	private String accommodationAddress; //숙소 주소
-	private int accommodationImageCount; //숙소 이미지 개수
+	//private int accommodationImageCount; //숙소 이미지 개수
 	private String memberBusinessNumber; //사업자 번호
 	private MultipartFile businessNumberFile; //사업자 번호 파일
 	private int accommodationScore; //평점
