@@ -1,76 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="main/style.css">
-	<title>reverseauctionList</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Core Stylesheet -->
+<link rel="stylesheet" href="main/style.css">
+<title>reverseauctionList</title>
 </head>
 <body>
-    <!-- Preloader -->
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="cssload-container">
-            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
-        </div>
-    </div>
-	
-	<!-- header replace -->
-    <div th:replace="header :: header"></div>
-
-    <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-6.jpg);">
-        <div class="bradcumbContent">
-            <h2>Reverse Book</h2>
-        </div>
-    </section>
-    <!-- ##### Breadcumb Area End ##### -->
-    
-    <!-- ##### category Area Start ##### -->
-	<section class="contact-form-area mb-100">
-	<div class="container">
-		<div class="row">
-	        <div class="col-12">
-	            <div class="section-heading">
-	                <div class="line-"></div>
-	                <h2>역경매 리스트</h2>
-	            </div>
-	        </div>
-        </div>
-         <div class="row justify-content-center">
-			<div class="col-12 col-lg-6">
-			    <div class="section-heading text-center">
-			        <div class="line-"></div>
-			        <h2>Choose ReverseAuctions</h2>
-			        <p>호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
-					<a href="addReverseauction" class="btn palatin-btn mt-50">역경매 등록</a>
-			        </div>
-			    </div>
-			</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="search-result bg-gray">
-					<h2>"Electronics"의 검색 결과</h2>
-					<p>123 개의 항목을 찾았습니다</p>
-				</div>
+	<!-- Preloader -->
+	<div class="preloader d-flex align-items-center justify-content-center">
+		<div class="cssload-container">
+			<div class="cssload-loading">
+				<i></i><i></i><i></i><i></i>
 			</div>
 		</div>
-		<div class="row">
-		<div class="col-md-3">
-				<form action="#" method="post">
-					<select class="form-control" id="select1">
-					      <option>==== 선택 ====</option>
-					      <option>업체명</option>
-					      <option>업체회원ID</option>
-					      <option>업체회원닉네임</option>
-					</select>
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요">
-					<button type="submit" class="btn palatin-btn">Search Now</button>
-				</form>
+	</div>
+
+	<!-- header replace -->
+	<div th:replace="header :: header"></div>
+
+	<!-- ##### Breadcumb Area Start ##### -->
+	<section
+		class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+		style="background-image: url(main/img/bg-img/bg-6.jpg);">
+		<div class="bradcumbContent">
+			<h2>Reverse Book</h2>
+		</div>
+	</section>
+	<!-- ##### Breadcumb Area End ##### -->
+
+	<!-- ##### category Area Start ##### -->
+	<section class="contact-form-area mb-100">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section-heading">
+						<div class="line-"></div>
+						<h2>역경매 리스트</h2>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-9">
-			
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-6">
+					<div class="section-heading text-center">
+						<div class="line-"></div>
+						<h2>Choose ReverseAuctions</h2>
+						<p>호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
+						<a href="addReverseauction" class="btn palatin-btn mt-50">역경매
+							등록</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="search-result bg-gray">
+						<h2>"Electronics"의 검색 결과</h2>
+						<p>123 개의 항목을 찾았습니다</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<form action="reverseauctionList" method="post">
+						<select class="form-control" id="select1">
+							<option>==== 선택 ====</option>
+							<option>업체명</option>
+							<option>업체회원ID</option>
+							<option>업체회원닉네임</option>
+						</select>
+						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+						<input type="text" id="datePicker1" name="date1" placeholder="Check-in">
+						<input type="text" id="datePicker2" name="date2" placeholder="Check-out">
+						<button type="submit" class="btn palatin-btn">Search Now</button>
+					</form>
+				</div>
+				<div class="col-md-9">
+
 					<div class="row">
 						<div class="col-md-11">
 							<select>
@@ -84,134 +92,85 @@
 							<div class="view">
 								<strong>Views</strong>
 								<ul class="list-inline">
-									<li class="list-inline-item">
-										<a href="javascript:void(0);"><i class="fa fa-th-large"></i></a>
-									</li>
-									<li class="list-inline-item">
-										<a href="javascript:void(0);"><i class="fa fa-reorder"></i></a>
-									</li>
+									<li class="list-inline-item"><a href="javascript:void(0);"><i class="fa fa-th-large"></i></a></li>
+									<li class="list-inline-item"><a href="javascript:void(0);"><i class="fa fa-reorder"></i></a></li>
 								</ul>
 							</div>
 						</div>
 					</div>
-    <!-- ##### Rooms Area Start ##### -->
-    <section class="rooms-area section-padding-0-100">
-        <div class="container">
+					<!-- ##### Rooms Area Start ##### -->
+					<section class="rooms-area section-padding-0-100">
+						<div class="container">
+							<div class="row">
+								<!-- Single Rooms Area -->
+								<div class="col-12 col-md-6" th:each="item : ${list}">
+									<a href="#" th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
+										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+											<!-- Thumbnail -->
+											<div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
+											<!-- Rooms Text -->
+											<div class="rooms-text">
+												<div class="line"></div>
+												<h4 th:text="${item.reverseauctionTitle}">Deluxe Room</h4>
+												<p th:text="${item.reverseauctionContent}" style="word-break: break-all;">content</p>
+												<div class="line"></div>
+												<!-- Address -->
+												<p th:text="'Going to : '+${item.reverseauctionAddress}"></p>
+												<!-- Limit -->
+												<p th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'"></p>
+												<!-- NumberOfPeople -->
+												<p th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
 
-            <div class="row">
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4" th:each="item : ${list}">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
-                        <!-- Address -->
-                        <p style="position:absolute; bottom:78px;" class="price-from" th:text="'Going to : '+${item.reverseauctionAddress}"></p>
-                        <!-- Limit -->
-                        <p class="price-from" th:text="'Price less than ￦'+${item.reverseauctionTenderLimit}"></p>
-                        <!-- NumberOfPeople -->
-                        <p style="position:absolute; bottom:117px;" class="price-from" th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4 th:text="${item.reverseauctionTitle}">Deluxe Room</h4>
-                            <p th:text="${item.reverseauctionContent}" style="word-break: break-all;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" th:text="bid" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <!-- Pagination -->
-                    <div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
-                        <nav>
-                            <ul class="pagination">
-                            	<li class="page-item" th:if="${prevPage}">
-                            		<a class="page-link" th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
-                            	</li>
-                                <li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-                                	<a class="page-link" th:text="${i}+'.'" th:href="@{reverseauctionList(page=${i})}">01.</a>
-                                </li>
-                                <li class="page-item" th:if="${nextPage}">
-                                	<a class="page-link" th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-        <!-- ##### Rooms Area End ##### -->
-        </div>
-        </div>
-       </div>
-    </section>
-    	<!-- ##### category Area End ##### -->
-	
-    <!-- 역경매 목록 시작
-    <div>
-		<div style="position:relative;" class="container">
-			<h1>test</h1>
-			<table border="1">
-				<tbody>
-					<tr>
-						<td>No</td>
-						<td>memberId</td>
-						<td>RegisterDate</td>
-						<td>UpdateDate</td>
-						<td>TenderLimit</td>
-						<td>TendercloseDate</td>
-						<td>RoomingDate</td>
-						<td>LeavingDate</td>
-						<td>NumberOfPeople</td>
-						<td>Title</td>
-						<td>Address</td>
-						<td>AddressMore</td>
-						<td>Hits</td>
-						<td>Content</td>
-						<td>TenderCount</td>
-						<td>auctionStateCategoryNo</td>
-						<td>auctionStateCategoryName</td>
-					</tr>
-					<tr th:each="item: ${list}">
-						<td th:text="${item.reverseauctionNo}"></td>
-						<td th:text="${item.memberId}"></td>
-						<td th:text="${item.reverseauctionRegisterDate}"></td>
-						<td th:text="${item.reverseauctionUpdateDate}"></td>
-						<td th:text="${item.reverseauctionTenderLimit}"></td>
-						<td th:text="${item.reverseauctionTendercloseDate}"></td>
-						<td th:text="${item.reverseauctionRoomingDate}"></td>
-						<td th:text="${item.reverseauctionLeavingDate}"></td>
-						<td th:text="${item.reverseauctionNumberOfPeople}"></td>
-						<td><a th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" th:text="${item.reverseauctionTitle}"></a></td>
-						<td th:text="${item.reverseauctionAddress}"></td>
-						<td th:text="${item.reverseauctionAddressMore}"></td>
-						<td th:text="${item.reverseauctionHits}"></td>
-						<td th:text="${item.reverseauctionContent}"></td>
-						<td th:text="${item.reverseauctionTenderCount}"></td>
-						<td th:text="${item.auctionStateCategoryNo}"></td>
-						<td th:text="${item.auctionStateCategoryName}"></td>
-					</tr>
-				</tbody>
-			</table>
+							<div class="col-12">
+								<!-- Pagination -->
+								<div class="pagination-area wow fadeInUp"
+									data-wow-delay="200ms">
+									<nav>
+										<ul class="pagination">
+											<li class="page-item" th:if="${prevPage}"><a
+												class="page-link"
+												th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+											</li>
+											<li class="page-item"
+												th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}"
+												th:classappend="${PM.currentPage} == ${i} ? active : null">
+												<a class="page-link" th:text="${i}+'.'"
+												th:href="@{reverseauctionList(page=${i})}">01.</a>
+											</li>
+											<li class="page-item" th:if="${nextPage}"><a
+												class="page-link"
+												th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- ##### Rooms Area End ##### -->
+				</div>
+			</div>
 		</div>
-	</div> 
-	역경매 목록 끝-->
+	</section>
+	<!-- ##### category Area End ##### -->
 
 	<!-- footer replace -->
-    <div th:replace="footer :: footer"></div>
-    
-    <!-- jQuery-2.2.4 js -->
-    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="main/js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="main/js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="main/js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="main/js/active.js"></script>
+	<div th:replace="footer :: footer"></div>
+
+	<!-- jQuery-2.2.4 js -->
+	<script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+	<!-- Popper js -->
+	<script src="main/js/bootstrap/popper.min.js"></script>
+	<!-- Bootstrap js -->
+	<script src="main/js/bootstrap/bootstrap.min.js"></script>
+	<!-- All Plugins js -->
+	<script src="main/js/plugins/plugins.js"></script>
+	<!-- Active js -->
+	<script src="main/js/active.js"></script>
 </body>
 </html>

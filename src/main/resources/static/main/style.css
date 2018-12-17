@@ -865,8 +865,8 @@ img {
   position: relative;
   z-index: 10;
   width: 100%;
-  height: 350px;
-  margin-bottom: 100px;
+  height: 300px;
+  margin-bottom: 80px;
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms; }
   .single-rooms-area .bg-thumbnail {
@@ -880,9 +880,9 @@ img {
     z-index: 10; }
   .single-rooms-area .price-from {
     position: absolute;
-    z-index: 20;
-    left: 20px;
-    bottom: 39px;
+    z-index: 30;
+    left: 0;
+    top: 200px;
     padding: 10px 15px;
     background-color: #181818;
     border: 2px solid #cb8670;
@@ -893,7 +893,7 @@ img {
     font-size: 14px; }
   .single-rooms-area .rooms-text {
     position: absolute;
-    z-index: 30;
+    z-index: 20;
     background-color: rgba(0, 0, 0, 0.63);
     padding: 30px 30px 40px;
     left: 20px;
