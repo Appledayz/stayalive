@@ -25,6 +25,9 @@ public class AccommodationService {
 	@Autowired
 	private AccommodationFileMapper accommodationFileMapper;
 	
+	public ArrayList<Accommodation> getAccommodationListAll() {
+		return nu
+	}
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}

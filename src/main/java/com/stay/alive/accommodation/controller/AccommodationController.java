@@ -20,21 +20,14 @@ import com.stay.alive.accommodation.vo.Accommodation;
 public class AccommodationController {
 	@Autowired
 	private AccommodationService accommodationService;
-	
-	
-	
-	@GetMapping("listAll")
-	public String accommodationList(Model model) {
-		ArrayList<Accommodation> accommodation = accommodationService.getAccommodationAll();
-		model.addAttribute("list", accommodation);
-		return "accommodation/accommodationList";
-	}
+	//등록 뷰
 	@GetMapping("register")
 	public String accommodationRegister() {
 
 
 		return "accommodation/accommodationRegister";
 	}
+	//등록 액션
 	@PostMapping("register")
 	public String  accommodationRegisterAction(Accommodation accommodation,HttpSession session) {
 		String memberId = "ID1";
@@ -48,6 +41,7 @@ public class AccommodationController {
 	public @ResponseBody Accommodation accommodationFindModify(String name) {
 		return accommodationService.getAccommodationInfo(name);
 	}
+	//수정 뷰
 	@GetMapping("modify")
 	public String  accommodationModify(Model model) {
 		String memberId = "ID1"; //임시 아이디(세션추가 필요)
@@ -55,7 +49,7 @@ public class AccommodationController {
 		model.addAttribute("names", names);
 		return "accommodation/accommodationModify";
 	}
-
+	//수정 액션
 	@PostMapping("modifyAction")
 	public String  accommodationModifyAction(Accommodation accommodation, HttpSession session) {
 		String memberId = "ID1"; //임시 아이디(세션추가 필요)
@@ -65,6 +59,16 @@ public class AccommodationController {
 		//System.out.println(accommodation);
 		return "redirect:/main";
 	}
-
-	
+	//리모트 모달을 사용하는 상세정보 
+	@GetMapping("detail")
+	public String accommodationDetail() {
+		return "accommodation/accommodationDetail";
+	}
+	//숙소 리스트
+	@GetMapping("list")
+	public String accommodationList(Model model) {
+		ArrayList<Accommodation> accommodation = accommodationService.getAccommodationAll();
+		model.addAttribute("list", accommodation);
+		return "accommodation/accommodationList";
+	}
 }
