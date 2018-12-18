@@ -12,8 +12,7 @@
 			<td>아이디</td>
 			<td>
 				<input type="text" name="memberId" id="memberId" placeholder="4자 이상 10자 이하의 영문 또는 숫자">
-				<input type="hidden" name="hid1" id="hid1" value="0">
-				<button type="button" class="idCheck">아이디 확인</button>
+				<button type="button" class="idCheck" id="hid1" name="hid1" value="0">아이디 확인</button>
 				<p class="result"><span class="msg">아이디를 확인해주십시오.</span></p>
 			</td>
 		</tr>
@@ -57,7 +56,6 @@
 <script>
 //1.아이디 확인
 
-
 $(".idCheck").click(function(){		
 	var query = {memberId : $("#memberId").val()};
 	
@@ -79,6 +77,7 @@ $(".idCheck").click(function(){
 			} else {
 				$(".result .msg").text("사용 가능");
 				$(".result .msg").attr("style", "color:#00f");
+				$(".idCheck").val("1");
 				abc = join.memberId.value;
 				console.log(abc);
 
@@ -127,6 +126,7 @@ $("#submit").attr("disabled", "disabled");
        var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
        var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
        var re4 = /^[0-9]$/;
+       
        // 이메일이 적합한지 검사할 정규식
 
        var id = document.getElementById("memberId");
@@ -184,16 +184,16 @@ $("#submit").attr("disabled", "disabled");
            return false;
        }
        
-       if(abc.value=="0") {
-   		alret("아이디 중복을 확인해 주세요.");
+       if(join.hid1.value=="0") {
+   		alert("아이디 중복을 확인해 주세요.");
    		join.memberId.focus();
    		return false;
 	   }
        
-	   if(abc.value != join.memberId.value) {
-	   	alret("아이디 중복을 확인해 주세요.");
+	 /*   if(abc != join.memberId.value) {
+	   	alert("아이디 중복을 확인해 주세요.");
 	   	return false;
-	   }
+	   } */
 	   
        alert("회원가입이 완료되었습니다.");
    }
