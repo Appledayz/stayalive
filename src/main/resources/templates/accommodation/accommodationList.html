@@ -31,23 +31,32 @@
 
 <body>
 <div class="container">
-	<table class="table table-border">
+	<table class="table table-stroped">
 		<thead>
 			<tr>
 				<th>이름</th>
+				<th>분류</th>
+				<th>지역</th>
+				<th>주소</th>
 				<th>회원 ID</th>
 				<th>상세</th>
 			</tr>
 		</thead>
-			<tr>
-			</tr>
 		<tbody>
+			<tr th:each="item : ${list}">
+				<td th:text="${item.companyName}"></td>
+				<td th:text="${item.accommodationCategoryName}"></td>
+				<td th:text="${item.addressSidoName + ' '+ item.addressSigunguName}"></td>
+				<td th:text="${item.accommodationAddress}"></td>
+				<td th:text="${item.memberId}"></td>
+				<td><a class="btn btn-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote='./detail?test='+${item.companyName}">상세</a></td>
+			</tr>
 		</tbody>
 	</table>
 </div>
 
 
-<a href="javascript:void(0)" data-toggle="modal" data-target="#theModal" data-remote="./detail">Modal</a>
+
 
 <!-- 리모트 모달  -->
 <div class="modal fade" id="theModal" tabindex="-1" role="dialog">

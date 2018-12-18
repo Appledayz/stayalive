@@ -23,8 +23,6 @@ public class AccommodationController {
 	//등록 뷰
 	@GetMapping("register")
 	public String accommodationRegister() {
-
-
 		return "accommodation/accommodationRegister";
 	}
 	//등록 액션
@@ -61,7 +59,8 @@ public class AccommodationController {
 	}
 	//리모트 모달을 사용하는 상세정보 
 	@GetMapping("detail")
-	public String accommodationDetail() {
+	public String accommodationDetail(String test) {
+		System.out.println(test);
 		return "accommodation/accommodationDetail";
 	}
 	//숙소 리스트
