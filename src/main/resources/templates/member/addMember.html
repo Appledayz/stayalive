@@ -77,7 +77,7 @@ $(".idCheck").click(function(){
 			} else {
 				$(".result .msg").text("사용 가능");
 				$(".result .msg").attr("style", "color:#00f");
-				$(".idCheck").val("1");
+				$(".idCheck").val(join.memberId.value);
 				abc = join.memberId.value;
 				console.log(abc);
 
@@ -190,10 +190,10 @@ $("#submit").attr("disabled", "disabled");
    		return false;
 	   }
        
-	 /*   if(abc != join.memberId.value) {
+       if(join.hid1.value != join.memberId.value) {
 	   	alert("아이디 중복을 확인해 주세요.");
 	   	return false;
-	   } */
+	   }
 	   
        alert("회원가입이 완료되었습니다.");
    }
