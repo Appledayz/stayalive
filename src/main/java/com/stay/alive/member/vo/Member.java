@@ -14,7 +14,7 @@ public class Member {
 	private String memberName;//이름
 	private String memberNickname;//닉네임
 	private String memberBirth;//생일
-	private int memberPhoneNumber1;//전화번호1
+	private String memberPhoneNumber1;//전화번호1
 	private String memberEmail;//이메일
 	private String memberEmailAccept;//이메일 수신동의
 	private String memberSmsAccept;//SMS수신 동의
