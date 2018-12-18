@@ -59,8 +59,9 @@ public class AccommodationController {
 	}
 	//리모트 모달을 사용하는 상세정보 
 	@GetMapping("detail")
-	public String accommodationDetail(String test) {
-		System.out.println(test);
+	public String accommodationDetail(int accommodationNo,Model model) {
+		Accommodation accommodation = accommodationService.getAccommodationFromNo(accommodationNo);
+		model.addAttribute("accommodation",accommodation);
 		return "accommodation/accommodationDetail";
 	}
 	//숙소 리스트

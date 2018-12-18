@@ -44,12 +44,12 @@
 		</thead>
 		<tbody>
 			<tr th:each="item : ${list}">
-				<td th:text="${item.companyName}"></td>
+				<td th:text="${item.accommodationName}"></td>
 				<td th:text="${item.accommodationCategoryName}"></td>
 				<td th:text="${item.addressSidoName + ' '+ item.addressSigunguName}"></td>
 				<td th:text="${item.accommodationAddress}"></td>
 				<td th:text="${item.memberId}"></td>
-				<td><a class="btn btn-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote='./detail?test='+${item.companyName}">상세</a></td>
+				<td><a class="btn btn-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote='./detail?accommodationNo=' + ${item.accommodationNo}">상세</a></td>
 			</tr>
 		</tbody>
 	</table>

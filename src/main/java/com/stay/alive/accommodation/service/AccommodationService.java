@@ -31,6 +31,9 @@ public class AccommodationService {
 	public Accommodation getAccommodationInfo(String name) {
 		return accommodationMapper.selectAccommodationInfo(name);
 	}
+	public Accommodation getAccommodationFromNo(int accommodationNo) {
+		return accommodationMapper.selectAccommodationFromNo(accommodationNo);
+	}
 	//숙소 리스트 
 	public ArrayList<Accommodation> getAccommodationAll() {
 		return accommodationMapper.selectAccommodationAll();
