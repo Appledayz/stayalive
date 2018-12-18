@@ -1,7 +1,6 @@
 package com.stay.alive.company.service;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +31,15 @@ public class CompanyService {
 		companyMapper.insertCompany(company); //업체 정보 데이터베이스에 등록
 	}
 	
-	public List<HashMap<String, String>> getCompanySearchList(HashMap<String, Object> map) {
+	public List<HashMap<String, Object>> getCompanySearchList(HashMap<String, Object> map) {
 		PageMaker pageMaker = (PageMaker)map.get("pageMaker");
+		int companyListCount = companyMapper.selectMemberAndCompanySearchListCount(map);
+		map.put("companyListCount", companyListCount);
 		pageMaker.setRowPerPage(10);
 		pageMaker.setPagePerBlock(10);
-		pageMaker.setAllCount(companyMapper.selectCompanySearchListCount(map));
+		pageMaker.setAllCount(companyListCount);
 		pageMaker = PageMakerService.pageMakerService(pageMaker);
-		List<HashMap<String, String>> hashmap = companyMapper.selectMemberAndCompanySearchList(map);
-		return hashmap;
+		return companyMapper.selectMemberAndCompanySearchList(map);
 	}
 	
 }

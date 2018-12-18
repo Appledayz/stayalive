@@ -12,6 +12,6 @@ import com.stay.alive.member.vo.Member;
 public interface CompanyMapper {
 	public void insertCompany(Company company);
 	public Member selectMemberRatingAndOption(String memberId);
-	public int selectCompanySearchListCount(HashMap<String, Object> map);
-	public List<HashMap<String, String>> selectMemberAndCompanySearchList(HashMap<String, Object> map);
+	public int selectMemberAndCompanySearchListCount(HashMap<String, Object> map);
+	public List<HashMap<String, Object>> selectMemberAndCompanySearchList(HashMap<String, Object> map);
 }

@@ -10,30 +10,54 @@
 	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
 		INSERT INTO company(member_id, company_name, company_homepage, company_address, company_email, company_detail, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId}, #{companyName}, #{companyHomepage}, #{companyAddress}, #{companyEmail}, #{companyDetail}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
 	</insert>
-	<select id="selectCompanySearchListCount" resultType="int" parameterType="HashMap">
+	<select id="selectMemberAndCompanySearchListCount" resultType="int" parameterType="HashMap">
         SELECT 
         	COUNT(*)
-       	FROM company
-       	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
-    </select>
-	<select id="selectCompanySearchList" resultType="com.stay.alive.company.vo.Company" parameterType="HashMap">
-        SELECT 
-        	company_name as companyName, member_id as memberId 
-       	FROM company
-       	WHERE #{searchKey1} LIKE #{searchWord} OR #{searchKey2} LIKE #{searchWord}
-       	ORDER BY company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
+       	FROM member m INNER JOIN company c
+       	ON m.member_id = c.member_id
+       	<if test='searchKey != ""'>
+	       	<choose>
+		       	<when test='searchKey.equals("company_name")'>
+		       		WHERE c.company_name LIKE #{searchWord}
+		       	</when>
+		       	<when test='searchKey.equals("member_id")'>
+		       		WHERE m.member_id LIKE #{searchWord}
+		       	</when>
+		       	<when test='searchKey.equals("member_nickname")'>
+		       		WHERE m.member_nickname LIKE #{searchWord}
+		       	</when>
+		       	<otherwise>
+		       		WHERE c.company_name LIKE #{searchWord} OR c.company_detail LIKE #{searchWord}
+		       	</otherwise>
+	       	</choose>
+       	</if>
     </select>
     <resultMap type="hashmap" id="resultmap">
     	<result javaType="java.lang.String" column="companyName" property="companyName"></result>
 		<result javaType="java.lang.String" column="memberId" property="memberId"></result>
-		<result javaType="java.lang.String" column="memberNickname" property="member_nickname"></result>
-    </resultMap>
-    
+		<result javaType="java.lang.String" column="memberNickname" property="memberNickname"></result>
+    </resultMap>   
     <select id="selectMemberAndCompanySearchList" resultMap="resultmap" parameterType="HashMap">
         SELECT 
         	c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
        	FROM member m INNER JOIN company c
        	ON m.member_id = c.member_id
+       	<if test='searchKey != ""'>
+	       	<choose>
+		       	<when test='searchKey.equals("company_name")'>
+		       		WHERE c.company_name LIKE #{searchWord}
+		       	</when>
+		       	<when test='searchKey.equals("member_id")'>
+		       		WHERE m.member_id LIKE #{searchWord}
+		       	</when>
+		       	<when test='searchKey.equals("member_nickname")'>
+		       		WHERE m.member_nickname LIKE #{searchWord}
+		       	</when>
+		       	<otherwise>
+		       		WHERE c.company_name LIKE #{searchWord} OR c.company_detail LIKE #{searchWord}
+		       	</otherwise>
+	       	</choose>
+       	</if>
        	ORDER BY c.company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
     </select>
 </mapper>

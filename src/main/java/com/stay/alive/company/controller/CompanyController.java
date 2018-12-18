@@ -46,11 +46,11 @@ public class CompanyController {
 							@RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
 		pageMaker.setCurrentPage(currentPage);
 		map.put("pageMaker", pageMaker);
-		map.put("searchKey1", searchKey);
-		map.put("searchKey2", searchKey);
+		map.put("searchKey", searchKey);
 		map.put("searchWord", "%"+searchWord+"%");
-		List<HashMap<String, String>> memberAndCompanyList = companyService.getCompanySearchList(map);
+		List<HashMap<String, Object>> memberAndCompanyList = companyService.getCompanySearchList(map);
 		model.addAttribute("memberAndCompanyList", memberAndCompanyList);
+		model.addAttribute("companyListCount", (int)map.get("companyListCount"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pagePerBlock", pageMaker.getPagePerBlock());
 		model.addAttribute("currentBlock", pageMaker.getCurrentBlock());
@@ -61,6 +61,11 @@ public class CompanyController {
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchWord", searchWord);
 		return "company/companyList";
+	}
+	
+	@GetMapping("companyDetail")
+	public String companyDetail() {
+		return "company/companyDetail";
 	}
 	
 }
