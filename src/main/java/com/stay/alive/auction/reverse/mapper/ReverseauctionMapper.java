@@ -1,6 +1,5 @@
 package com.stay.alive.auction.reverse.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +14,7 @@ public interface ReverseauctionMapper {
 	// 역경매목록 전체조회
 	List<Reverseauction> selectReverseauctionList(PageMaker pageMaker);
 	// 역경매목록 검색조회
-	List<Reverseauction> selectReverseauctionSearchList(PageMaker pageMaker, String sk, String sv, String date1, String date2);
+	List<Reverseauction> selectReverseauctionSearchList(PageMaker pageMaker, String searchKey, String searchValue, String date1, String date2);
 	// 역경매 등록
 	int insertReverseauction(Reverseauction reverseauction);
 	// 역경매 상세조회

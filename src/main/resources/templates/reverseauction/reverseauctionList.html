@@ -65,13 +65,13 @@
 			<div class="row">
 				<div class="col-md-3">
 					<form action="reverseauctionList" method="get">
-						<select class="form-control" id="select1">
-							<option>==== 선택 ====</option>
-							<option>업체명</option>
-							<option>업체회원ID</option>
-							<option>업체회원닉네임</option>
+						<select class="form-control" name="sk">
+							<option value="0">==== 선택 ====</option>
+							<option value="reverseauction_title">제목</option>
+							<option value="reverseauction_content">내용</option>
+							<option value="3">업체회원닉네임</option>
 						</select>
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" name="sv" placeholder="검색어를 입력하세요">
 						<input type="text" id="datePicker1" name="date1" placeholder="Check-in">
 						<input type="text" id="datePicker2" name="date2" placeholder="Check-out">
 						<button type="submit" class="btn palatin-btn">Search Now</button>

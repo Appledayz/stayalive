@@ -15,9 +15,14 @@
   <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
-  	<if test="date1 != null and date2 != null">
-		WHERE reverseauction_register_date BETWEEN #{date1} AND #{date2}
-	</if>
+  	<where>
+	  	<if test="searchValue != null and searchValue != ''">
+	  	  ${searchKey} LIKE #{searchValue}
+	  	</if>
+	  	<if test="date1 != null and date2 != null and date1 != '' and date2 != ''">
+	  	  AND reverseauction_register_date BETWEEN #{date1} AND #{date2}
+	  	</if>
+  	</where>
 	ORDER BY reverseauction_register_date DESC
 	LIMIT #{pageMaker.startRow},#{pageMaker.rowPerPage}
   </select>

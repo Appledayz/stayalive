@@ -6,20 +6,26 @@
     <link rel="stylesheet" href="main/style.css">
     <!-- jQuery-2.2.4 js -->
     <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="main/js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="main/js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="main/js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="main/js/active.js"></script>
     <script>
+    	//url에서 get parameter value 구하는 함수
+	    function getQuerystring(name){
+	    	let _tempUrl = location.search.substring(1);
+			let _tempArray = _tempUrl.split('&');
+			for(let i = 0; i<_tempArray.length; i++) {
+				let _keyValuePair = _tempArray[i].split('=');
+				if(_keyValuePair[0] == name){
+					return _keyValuePair[1];
+				}
+			}
+		}
+	    if(getQuerystring('fail')=='true'){
+	    	alert('낙찰실패 : 이미낙찰상태인지 확인해주세요');
+	    }
     	$(document).ready(()=>{
     		$('#SuccessfulbidBtn').click(()=>{
     			let result = confirm('Are you sure?');
     			if(result){
-    				location.href='main';
+    				$('#successfulbidForm').submit();
     			}
     		});
     	});
@@ -162,7 +168,13 @@
 				<td th:text="${item.auctionStateCategoryNo}"></td>
 				<td th:text="${item.auctionStateCategoryName}"></td>
 				<td><a th:href="@{removeReverseauctionTender(reverseauctionTenderNo=${item.reverseauctionTenderNo},reverseauctionNo=${item.reverseauctionNo})}" th:text="DELETE"></a></td>
-				<td><a th:href="@{addReverseauctionSuccessfulbid(reverseauctionTenderNo=${item.reverseauctionTenderNo},reverseauctionNo=${item.reverseauctionNo})}" th:text="SELECT"></a></td>
+				<td>
+					<form action="addReverseauctionSuccessfulbid" id="successfulbidForm" method="get">
+						<input type="hidden" th:name="reverseauctionTenderNo" th:value="${item.reverseauctionTenderNo}">
+						<input type="hidden" th:name="reverseauctionNo" th:value="${item.reverseauctionNo}">
+						<button type="button" id="SuccessfulbidBtn" th:text="SELECT"></button>
+					</form>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -202,5 +214,14 @@
 	
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>
+    
+    <!-- Popper js -->
+    <script src="main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="main/js/active.js"></script>
 </body>
 </html>
