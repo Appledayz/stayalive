@@ -10,10 +10,10 @@
     <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="main/img/core-img/favicon.ico">
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="main/style.css">
+    <link rel="stylesheet" href="/main/style.css">
 </head>
 <body>
 	<div th:fragment="header">
@@ -27,7 +27,7 @@
 	                    <nav class="classy-navbar justify-content-between" id="palatinNav">
 	
 	                        <!-- Nav brand -->
-	                        <a href="main" class="nav-brand"><img src="main/img/core-img/logo.png" alt=""></a>
+	                        <a href="/main" class="nav-brand"><img src="/main/img/core-img/logo.png" alt=""></a>
 	
 	                        <!-- Navbar Toggler -->
 	                        <div class="classy-navbar-toggler">
@@ -45,18 +45,18 @@
 	                            <!-- Nav Start -->
 	                            <div class="classynav">
 	                                <ul>
-	                                    <li id="main"><a href="main">홈</a></li>
+	                                    <li id="main"><a href="/main">홈</a></li>
 	                                    <li><a href="company">업체</a>
 	                                    	<ul class="dropdown">
-	                                            <li id="company"><a href="company">업체</a></li>
-	                                            <li id="companyRegister"><a href="companyRegister">업체 등록</a></li>
-	                                            <li id="companyList"><a href="companyList">업체 리스트</a></li>
+	                                            <li id="company"><a href="/company/main">업체</a></li>
+	                                            <li id="companyRegister"><a href="/company/register">업체 등록</a></li>
+	                                            <li id="companyList"><a href="/company/list">업체 리스트</a></li>
 	                                        </ul>
                                         </li>
 	                                    <li><a href="reverseauctionList">역경매</a>
 	                                    	<ul class="dropdown">
-	                                    		<li><a href="reverseauctionList">역경매목록</a></li>
-	                                    		<li><a href="addReverseauction">역경매등록</a></li>
+	                                    		<li><a href="/auction/reverse/list">역경매목록</a></li>
+	                                    		<li><a href="/auction/reverse/add">역경매등록</a></li>
 	                                    	</ul>
 	                                    </li>
 	                                    <li><a href="#">Pages</a>
