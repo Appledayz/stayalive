@@ -18,28 +18,29 @@ import com.stay.alive.member.service.MemberService;
 import com.stay.alive.member.vo.Member;
 
 @Controller
+@RequestMapping("member")
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	//1-1.입력폼
-	@GetMapping("/member/addMember")
+	@GetMapping("addMember")
 	public String addMember() {		
-		return "/member/addMember";
+		return "member/addMember";
 	}
 	//1-2.입력액션 
-	@PostMapping("/member/addMember")
+	@PostMapping("addMember")
 	public String addMember(Member member) {
 		memberService.addMember(member);
-		return "/member/welcome";
+		return "member/welcome";
 	}
 	//1-3.환영페이지로
-	@GetMapping("/member/welcome")
+	@GetMapping("welcome")
 	public String welcome() {
-		return "/member/welcome";
+		return "member/welcome";
 	}
 	//2.아이디 중복확인
 		@ResponseBody
-		@PostMapping("/idCheck")
+		@PostMapping("idCheck")
 		public int postIdCheck(Member memberId) {
 			memberService.idCheck(memberId);
 			Member idCheck = memberService.idCheck(memberId);
@@ -51,7 +52,7 @@ public class MemberController {
 		}
 	//3.닉네임 중복확인
 	@ResponseBody
-	@PostMapping("/nicknameCheck")
+	@PostMapping("nicknameCheck")
 	public int postnicknameCheck(Member memberNickname) {
 		memberService.nicknameCheck(memberNickname);
 		Member nicknameCheck = memberService.nicknameCheck(memberNickname);
