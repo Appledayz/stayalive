@@ -1,1 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stay.alive.login.mapper.LoginMapper" >
+	<!-- 로그인 -->
+	<select id="memberLogin" parameterType="com.stay.alive.member.vo.Member" resultType="java.lang.Integer">
+		SELECT COUNT(member_no) FROM member WHERE member_id = #{memberId} AND member_password = #{memberPassword}
+	</select>
+	<!-- 로그인 -->
+</mapper>

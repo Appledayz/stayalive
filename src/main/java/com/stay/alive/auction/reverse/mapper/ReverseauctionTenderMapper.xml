@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper">
+    
+  <select id="selectReverseauctionTenderOne" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	SELECT *
+  	FROM reverseauction_tender
+	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
+  </select>
+  
+  <select id="selectTenderListForOneReverseauction" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	SELECT *
+  	FROM reverseauction_tender
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </select>
+  
+  <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	INSERT INTO reverseauction_tender
+  	VALUES(0,
+  			#{memberId},
+  			#{companyNo},
+  			#{companyName},
+  			#{accommodationNo},
+  			#{accommodationName},
+  			#{guestroomNo},
+  			#{guestroomName},
+  			#{reverseauctionNo},
+  			#{accommodationGuestroomAllcount},
+  			#{guestroomStateCount},
+  			now(),
+  			null,
+  			#{reverseauctionTenderContent},
+  			#{reverseauctionTenderPrice},
+  			1,
+  			"낙찰대기중")
+  </insert>
+  
+  <update id="updateReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
+  	UPDATE reverseauction_tender
+  	  SET
+  	    accommodation_no=#{accommodationNo},
+  	    accommodation_name=#{accommodationName},
+  	    guestroom_no=#{guestroomNo},
+  	    guestroom_name=#{guestroomName},
+  	    reverseauction_tender_update_date=now(),
+  	    reverseauction_tender_content=#{reverseauctionTenderContent},
+  	    reverseauction_tender_price=#{reverseauctionTenderPrice}
+  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
+  </update>
+  
+  <delete id="deleteReverseauctionTenderOne">
+  	DELETE FROM reverseauction_tender
+  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
+  </delete>
+  
+  <delete id="deleteReverseauctionTender">
+  	DELETE FROM reverseauction_tender
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </delete>
+
+</mapper>

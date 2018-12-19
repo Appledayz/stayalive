@@ -53,18 +53,6 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
   
-  <select id="selectTenderListForOneReverseauction" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
-  	SELECT *
-  	FROM reverseauction_tender
-  	WHERE reverseauction_no=#{reverseauctionNo}
-  </select>
-  
-  <select id="selectReverseauctionTenderOne" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
-  	SELECT *
-  	FROM reverseauction_tender
-	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
-  </select>
-  
   <select id="selectForSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
   	SELECT *
   	FROM reverseauction_tender t
@@ -100,27 +88,6 @@
   			#{reverseauctionNumberOfPeople})
   </insert>
   
-  <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
-  	INSERT INTO reverseauction_tender
-  	VALUES(0,
-  			#{memberId},
-  			#{companyNo},
-  			#{companyName},
-  			#{accommodationNo},
-  			#{accommodationName},
-  			#{guestroomNo},
-  			#{guestroomName},
-  			#{reverseauctionNo},
-  			#{accommodationGuestroomAllcount},
-  			#{guestroomStateCount},
-  			now(),
-  			null,
-  			#{reverseauctionTenderContent},
-  			#{reverseauctionTenderPrice},
-  			1,
-  			"낙찰대기중")
-  </insert>
-  
   <insert id="insertReverseauctionSuccessfulbid">
   	INSERT INTO reverseauction_successfulbid
   	VALUES(0,
@@ -150,35 +117,12 @@
 		reverseauction_content=#{reverseauctionContent}
 	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
-  
-  <update id="updateReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
-  	UPDATE reverseauction_tender
-  	  SET
-  	    accommodation_no=#{accommodationNo},
-  	    accommodation_name=#{accommodationName},
-  	    guestroom_no=#{guestroomNo},
-  	    guestroom_name=#{guestroomName},
-  	    reverseauction_tender_update_date=now(),
-  	    reverseauction_tender_content=#{reverseauctionTenderContent},
-  	    reverseauction_tender_price=#{reverseauctionTenderPrice}
-  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
-  </update>
-  
+
   <delete id="deleteReverseauction">
   	DELETE FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </delete>
-  
-  <delete id="deleteReverseauctionTenderOne">
-  	DELETE FROM reverseauction_tender
-  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
-  </delete>
-  
-  <delete id="deleteReverseauctionTender">
-  	DELETE FROM reverseauction_tender
-  	WHERE reverseauction_no=#{reverseauctionNo}
-  </delete>
-  
+
   <delete id="deleteReverseauctionSuccessfulbid">
   	DELETE FROM reverseauction_successfulbid
   	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}

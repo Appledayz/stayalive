@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- Core Stylesheet -->
-<link rel="stylesheet" href="main/style.css">
-<!-- jQuery-2.2.4 js -->
-<script src="main/js/jquery/jquery-2.2.4.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script type="text/javascript">
-	$(document).ready(()=>{
-		if(location.search.length > 0){
-			$('#search').focus();
-		}
-		$('#datePicker1').datepicker({
-			showButtonPanel: true,
-			dateFormat: "yy-mm-dd",
-			minDate: -1,
-			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
-			monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-		});
-		$('#datePicker2').datepicker({
-			showButtonPanel: true,
-			dateFormat: "yy-mm-dd",
-			minDate: -1,
-			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
-			monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-		});
-	})
-</script>
-<title>reverseauctionList</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Core Stylesheet -->
+	<link rel="stylesheet" href="/main/style.css">
+	<!-- jQuery-2.2.4 js -->
+	<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script type="text/javascript">
+		$(document).ready(()=>{
+			if(location.search.length > 0){
+				$('#search').focus();
+			}
+			$('#datePicker1').datepicker({
+				showButtonPanel: true,
+				dateFormat: "yy-mm-dd",
+				minDate: -1,
+				dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+				dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+				monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+			});
+			$('#datePicker2').datepicker({
+				showButtonPanel: true,
+				dateFormat: "yy-mm-dd",
+				minDate: -1,
+				dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+				dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+				monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+			});
+		})
+	</script>
+	<title>reverseauctionList</title>
 </head>
 <body>
 	<!-- Preloader -->
@@ -54,7 +54,7 @@
 	<!-- ##### Breadcumb Area Start ##### -->
 	<section
 		class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
-		style="background-image: url(main/img/bg-img/bg-6.jpg);">
+		style="background-image: url(/main/img/bg-img/bg-6.jpg);">
 		<div class="bradcumbContent">
 			<h2>Reverse Book</h2>
 		</div>
@@ -133,12 +133,12 @@
 							<div class="row">
 								<!-- Single Rooms Area -->
 								<div class="col-12 col-md-6" th:each="item : ${list}">
-									<a href="#" th:href="@{reverseauctionDetail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
+									<a href="#" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
 										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
 											<!-- Limit -->
                         					<p class="price-from" th:text="${item.reverseauctionNo}"></p>
 											<!-- Thumbnail -->
-											<div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
+											<div class="bg-thumbnail bg-img" style="background-image: url(/main/img/bg-img/1.jpg);"></div>
 											<!-- Rooms Text -->
 											<div class="rooms-text">
 												<div class="line"></div>
@@ -164,13 +164,13 @@
 									<nav>
 										<ul class="pagination">
 											<li class="page-item" th:if="${prevPage}">
-												<a class="page-link" th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">이전</a>
+												<a class="page-link" th:href="@{/auction/reverse/list(page=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">이전</a>
 											</li>
 											<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-												<a class="page-link" th:text="${i}+'.'" th:href="@{reverseauctionList(page=${i},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">01.</a>
+												<a class="page-link" th:text="${i}+'.'" th:href="@{/auction/reverse/list(page=${i},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">01.</a>
 											</li>
 											<li class="page-item" th:if="${nextPage}">
-												<a class="page-link" th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">다음</a>
+												<a class="page-link" th:href="@{/auction/reverse/list(page=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">다음</a>
 											</li>
 										</ul>
 									</nav>
@@ -189,12 +189,12 @@
 	<div th:replace="footer :: footer"></div>
 
 	<!-- Popper js -->
-	<script src="main/js/bootstrap/popper.min.js"></script>
+	<script src="/main/js/bootstrap/popper.min.js"></script>
 	<!-- Bootstrap js -->
-	<script src="main/js/bootstrap/bootstrap.min.js"></script>
+	<script src="/main/js/bootstrap/bootstrap.min.js"></script>
 	<!-- All Plugins js -->
-	<script src="main/js/plugins/plugins.js"></script>
+	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
-	<script src="main/js/active.js"></script>
+	<script src="/main/js/active.js"></script>
 </body>
 </html>
