@@ -96,4 +96,8 @@ public class ReverseauctionService {
 		reverseauctionMapper.deleteReverseauctionSuccessfulbid(reverseauctionSuccessfulbidNo);
 		return 0;
 	}
+	public void plusReverseauctionTenderCount(int reverseauctionNo) {
+		System.out.println("ReverseauctionService.plusReverseauctionTenderCount()");
+		reverseauctionMapper.updateReverseauctionTenderCount(reverseauctionNo);
+	}
 }

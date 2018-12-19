@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.stay.alive.auction.reverse.service.ReverseauctionService;
 import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
 
 @Controller
 @RequestMapping("auction/reverse/tender")
 public class ReverseauctionTenderController {
+	@Autowired
+	private ReverseauctionService reverseauctionService;
 	@Autowired
 	private ReverseauctionTenderService reverseauctionTenderService;
 	
@@ -31,6 +34,7 @@ public class ReverseauctionTenderController {
 		@PostMapping("add")
 		public String addReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
 			reverseauctionTenderService.addReverseauctionTender(reverseauctionTender);
+			reverseauctionService.plusReverseauctionTenderCount(reverseauctionTender.getReverseauctionNo());
 			return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionTender.getReverseauctionNo();
 		}
 		// 12. 역경매 입찰 수정 폼

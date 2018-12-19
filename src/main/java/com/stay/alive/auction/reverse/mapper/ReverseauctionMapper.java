@@ -35,4 +35,6 @@ public interface ReverseauctionMapper {
 	int selectCountReverseauctionSearch(PageMaker pageMaker, String sk, String sv, String date1, String date2);
 	// 낙찰 삭제
 	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
+	// 입찰수 1 더하기
+	void updateReverseauctionTenderCount(int reverseauctionNo);
 }

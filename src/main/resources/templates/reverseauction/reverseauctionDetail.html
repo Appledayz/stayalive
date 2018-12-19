@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<div class="row justify-content-center">
-				<div class="col-lg-6">
+				<div class="col-lg-8">
 					<div class="section-heading text-center">
 						<div class="line-"></div>
 						<h2 th:text="${m.reverseauctionTitle}">reverseauction title</h2>
@@ -71,9 +71,20 @@
 						<a th:href="@{/auction/reverse/remove(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매삭제하기</a>
 					</div>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-lg-4">
                     <div class="about-thumbnail mb-100">
-                        <img src="/main/img/bg-img/2.jpg" alt="">
+                    	<table class="table table-striped table-bordered table-hover">
+                    		<tr><td>Trevelers</td></tr>
+                    		<tr><td th:text="${m.reverseauctionNumberOfPeople}">Trevelers</td></tr>
+                    		<tr><td>Price</td></tr>
+                    		<tr><td th:text="'￦'+${m.reverseauctionTenderLimit}+'↓'">Price</td></tr>
+                    		<tr><td>Going to</td></tr>
+                    		<tr><td th:text="${m.reverseauctionAddress}">Going to</td></tr>
+                    		<tr><td>Check-in</td>
+                    		<td>Check-out</td></tr>
+                    		<tr><td th:text="${m.reverseauctionRoomingDate}">Check-in</td>
+                    		<td th:text="${m.reverseauctionLeavingDate}">Check-out</td></tr>
+                    	</table>
                     </div>
                 </div>
 			</div>
@@ -85,8 +96,12 @@
 						<a th:href="@{/auction/reverse/tender/add(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매 입찰</a>
 					</div>
 				</div>
-				<div class="col-lg-10">
-	                <img src="/main/img/bg-img/2.jpg" alt="">
+				<div class="col-lg-10" style="background-color:rgb(50,50,50); border:2px solid rgb(203, 134, 112)">
+					<div style="display: flex; flex-direction: column;">
+						<div th:each="tender : ${m2}" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); float:left; left:20px; margin: 10px 0; padding:5px;">
+							<p th:text="${tender.reverseauctionTenderNo}"></p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -165,7 +180,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<h1>입찰목록</h1>
+	
+	<!-- <h1>입찰목록</h1>
 	<table class="table table-striped table-bordered table-hover">
 		<tbody>
 			<tr>
@@ -215,9 +231,9 @@
 				</td>
 			</tr>
 		</tbody>
-	</table>
+	</table> -->
 	
-	<h1>낙찰DB</h1>
+	<!-- <h1>낙찰DB</h1>
 	<table class="table table-striped table-bordered table-hover">
 		<tbody>
 			<tr>
@@ -248,7 +264,7 @@
 				<td><a th:href="@{removeReverseauctionSuccessfulbid(reverseauctionNo=${item.reverseauctionNo},reverseauctionSuccessfulbidNo=${item.reverseauctionSuccessfulbidNo})}" th:text="DELETE"></a></td>
 			</tr>
 		</tbody>
-	</table>
+	</table> -->
 	
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>

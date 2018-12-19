@@ -117,6 +117,13 @@
 		reverseauction_content=#{reverseauctionContent}
 	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
+  
+  <update id="updateReverseauctionTenderCount">
+  	UPDATE reverseauction_register
+  	  SET
+  	  	reverseauction_tender_count = reverseauction_tender_count + 1
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </update>
 
   <delete id="deleteReverseauction">
   	DELETE FROM reverseauction_register
