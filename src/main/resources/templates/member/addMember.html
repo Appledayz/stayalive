@@ -13,7 +13,6 @@
 			<td>
 				<input type="text" name="memberId" id="memberId" placeholder="4자 이상 10자 이하의 영문 또는 숫자">
 				<button type="button" class="idCheck" id="hid1" name="hid1" value="0">아이디 확인</button>
-				<p class="result"><span class="msg">아이디를 확인해주십시오.</span></p>
 			</td>
 		</tr>
 		<tr>
@@ -29,8 +28,7 @@
 			<td>닉네임</td>
 			<td>
 				<input type="text" name="memberNickname" id="memberNickname" placeholder="2자 이상 8자 이하(특수문자 제외)">
-				<button type="button" class="nicknameCheck">닉네임 확인</button>
-				<p class="result2"><span class="msg2">닉네임을 확인해주십시오.</span></p>
+				<button type="button" class="nicknameCheck" id="hid2" name="hid2" value="0">닉네임 확인</button>
 			</td>
 		</tr>
 		<tr>
@@ -54,46 +52,48 @@
 	</table>
 	</form>
 <script>
-//1.아이디 확인
-
-$(".idCheck").click(function(){		
+//1.아이디 중복검사
+$(".idCheck").click(function(){
 	var query = {memberId : $("#memberId").val()};
-	
+	var re = /^[a-zA-Z0-9]{4,12}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
+	var id = document.getElementById("memberId");
+
 	if ($("#memberId").val() == ""){
-		$(".result .msg").text("아이디를 입력하세요.");
-		$(".result .msg").attr("style", "color:#00f");
+		alert("아이디를 입력하세요.");
 		return;
 	};
-	
+	if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+		return false;
+	}
+
 	$.ajax({
 		url : "/idCheck",
 		type : "post",
 		data : query,
 		success : function(data) {
 			if(data == 1) {
-				$(".result .msg").text("사용 불가");
-				$(".result .msg").attr("style", "color:#f00");
-				
+				alert("중복된 아이디 입니다.");	
 			} else {
-				$(".result .msg").text("사용 가능");
-				$(".result .msg").attr("style", "color:#00f");
-				$(".idCheck").val(join.memberId.value);
-				abc = join.memberId.value;
-				console.log(abc);
-
+				alert("사용 가능한 아이디 입니다.");
+				$(".idCheck").val(join.memberId.value); //현재 닉네입 입력란에 기입된 벨류와 닉네임 버튼의 벨류가 같도록 설정
 			}
 		}
-	});  // ajax 끝
-});
-$("#memberId").keyup(function(){
-	$(".result .msg").text("아이디를 확인해주십시오.");
-	$(".result .msg").attr("style", "color:#000");
-	$("#submit").attr("disabled", "disabled");
+	});
 });
 
 //2.닉네임 확인
 $(".nicknameCheck").click(function(){
 	var inputed = {memberNickname : $("#memberNickname").val()};
+	var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
+	var nick = document.getElementById("memberNickname");
+	
+	if ($("#memberNickname").val() == ""){
+		alert("닉네임을 입력하세요.");
+		return;
+	};
+	if(!check(re3,nick,"닉네임은 2~8자로 작성해 주세요.(특수문자 제외)")) {
+        return false;
+    }
 	
 	$.ajax({
 		url : "/nicknameCheck",
@@ -101,111 +101,104 @@ $(".nicknameCheck").click(function(){
 		data : inputed,
 		success : function(data) {
 			if(data == 1) {
-				$(".result2 .msg2").text("사용 불가");
-				$(".result2 .msg2").attr("style", "color:#f00");
-				$("#submit").attr("disabled", "disabled");
+				alert("중복된 닉네임 입니다.");
 			} else {
-				$(".result2 .msg2").text("사용 가능");
-				$(".result2 .msg2").attr("style", "color:#00f");
-				$("#submit").removeAttr("disabled");
+				alert("사용 가능한 닉네임 입니다.");
+				$(".nicknameCheck").val(join.memberNickname.value); //현재 닉네입 입력란에 기입된 벨류와 닉네임 버튼의 벨류가 같도록 설정
 			}
 		}
-	});  // ajax 끝
-});
-$("#memberNickname").keyup(function(){
-$(".result2 .msg2").text("닉네임을 확인해주십시오.");
-$(".result2 .msg2").attr("style", "color:#000");
-$("#submit").attr("disabled", "disabled");
+	});
 });
 
 //3.중복아이디 두번확인
+function validate() {
+	var re = /^[a-zA-Z0-9]{4,12}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
+	var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
+	var re4 = /^[0-9]$/;
 
+// 이메일이 적합한지 검사할 정규식
+	var id = document.getElementById("memberId");
+	var pw = document.getElementById("memberPassword");
+	var email = document.getElementById("memberEmail");
+	var nick = document.getElementById("memberNickname");
+	// ------------ 이메일 까지 -----------
+	if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+		return false;
+	}
+	if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+		return false;
+	}
+	if(join.memberPassword.value != join.memberPasswordCheck.value) {
+		alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
+		join.memberPasswordCheck.value = "";
+		join.memberPasswordCheck.focus();
+		return false;
+	}
+	if(join.memberName.value=="") {
+		alert("이름을 입력해 주세요");
+		join.memberName.focus();
+		return false;
+	}
+	if(join.memberNickname.value=="") {
+		alert("닉네임을 입력해 주세요");
+		join.memberNickname.focus();
+		return false;
+	}
+	if(!check(re3,nick,"닉네임은 2~8자로 작성해 주세요.(특수문자 제외)")) {
+		return false;
+	}
+	if(join.memberBirth.value=="") {
+		alert("생년월일을 입력해 주세요");
+		join.memberBirth.focus();
+		return false;
+	}
+	if(join.memberPhoneNumber1.value=="") {
+		alert("연락처를 입력해 주세요");
+		join.memberPhoneNumber1.focus();
+		return false;
+	}
+	if(!check(re3,join.memberPhoneNumber1,"숫자로만 입력해 주세요.")) {
+		return false;
+	}
+	if(email.value=="") {
+		alert("이메일을 입력해 주세요");
+		email.focus();
+		return false;
+	}
+	if(!check(re2, email, "적합하지 않은 이메일 형식입니다.")) {
+		return false;
+	}
+	if(join.hid1.value=="0") { //아이디 중복버튼을 클릭하지 않았을 경우
+		alert("아이디 중복을 확인해 주세요.");
+		join.memberId.focus();
+		return false;
+	}
+	if(join.hid1.value != join.memberId.value) { //중복 확인된 아이디와 현재 아이디 입력창에 기입되어 있는 아이디가 일치하지 않을 경우
+		alert("아이디 중복을 확인해 주세요.");
+		return false;
+	}
+	if(join.hid2.value=="0") { //닉네임 중복버튼을 클릭하지 않았을 경우
+		alert("닉네임 중복을 확인해 주세요.");
+		join.memberNickname.focus();
+		return false;
+	}
+	if(join.hid2.value != join.memberNickname.value) { //중복 확인된 아이디와 현재 아이디 입력창에 기입되어 있는 닉네임이 일치하지 않을 경우
+		alert("아이디 중복을 확인해 주세요.");
+		return false;
+	}
+	alert("회원가입이 완료되었습니다.");
+}
 
-   function validate() {
-       var re = /^[a-zA-Z0-9]{4,12}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
-       var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-       var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
-       var re4 = /^[0-9]$/;
-       
-       // 이메일이 적합한지 검사할 정규식
-
-       var id = document.getElementById("memberId");
-       var pw = document.getElementById("memberPassword");
-       var email = document.getElementById("memberEmail");
-       var nick = document.getElementById("memberNickname");
-       // ------------ 이메일 까지 -----------
-
-       if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-           return false;
-       }
-
-       if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-           return false;
-       }
-
-       if(join.memberPassword.value != join.memberPasswordCheck.value) {
-           alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-           join.memberPasswordCheck.value = "";
-           join.memberPasswordCheck.focus();
-           return false;
-       }
-       if(join.memberName.value=="") {
-           alert("이름을 입력해 주세요");
-           join.memberName.focus();
-           return false;
-       }
-       if(join.memberNickname.value=="") {
-           alert("닉네임을 입력해 주세요");
-           join.memberNickname.focus();
-           return false;
-       }
-       if(!check(re3,nick,"닉네임은 2~8자로 작성해 주세요.(특수문자 제외)")) {
-           return false;
-       }
-       if(join.memberBirth.value=="") {
-           alert("생년월일을 입력해 주세요");
-           join.memberBirth.focus();
-           return false;
-       }
-       if(join.memberPhoneNumber1.value=="") {
-           alert("연락처를 입력해 주세요");
-           join.memberPhoneNumber1.focus();
-           return false;
-       }
-       if(!check(re3,join.memberPhoneNumber1,"-를 빼고 입력해 주세요.")) {
-           return false;
-       }
-       if(email.value=="") {
-           alert("이메일을 입력해 주세요");
-           email.focus();
-           return false;
-       }
-       if(!check(re2, email, "적합하지 않은 이메일 형식입니다.")) {
-           return false;
-       }
-       
-       if(join.hid1.value=="0") {
-   		alert("아이디 중복을 확인해 주세요.");
-   		join.memberId.focus();
-   		return false;
-	   }
-       
-       if(join.hid1.value != join.memberId.value) {
-	   	alert("아이디 중복을 확인해 주세요.");
-	   	return false;
-	   }
-	   
-       alert("회원가입이 완료되었습니다.");
-   }
-   function check(re, what, message) {
-       if(re.test(what.value)) {
-           return true;
-       }
-       alert(message);
-       what.value = "";
-       what.focus();
-       //return false;
-   }
+function check(re, what, message) {
+	if(re.test(what.value)) {
+		return true;
+	}
+	alert(message);
+	what.value = "";
+	what.focus();
+//return false;
+}
 </script>
 </body>
 </html>
