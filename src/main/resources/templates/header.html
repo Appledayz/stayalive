@@ -111,14 +111,22 @@
 	                                        </div>
 	                                    </li>
 	                                    <li><a href="services.html">Services</a></li>
-	                                    <li><a href="login">로그인</a></li>
+	                                    <li><a href="">###</a></li>
 	                                </ul>
 	
 	                                <!-- Button -->
-	                                <div class="menu-btn">
-	                                    <a href="#" class="btn palatin-btn">Make a Reservation</a>
-	                                </div>
-	
+									<div th:if="${session.memberId == null}">
+		                                <div class="menu-btn">
+		                                    <a href="/login" class="btn btn-outline-primary">로그인</a>
+		                                </div>
+								 	</div>
+	                            	<div th:if="${session.memberId != null}">
+		                            	<div class="menu-btn">
+		                            		<a href="#" class="btn btn-outline-info" th:text="${session.memberId}"></a>
+		                            		<a href="/login/memberLogout" class="btn btn-outline-danger">로그아웃</a>
+		                            	</div>
+		                            </div>
+		                           
 	                            </div>
 	                            <!-- Nav End -->
 	                        </div>
