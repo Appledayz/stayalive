@@ -67,8 +67,8 @@
 						<div class="line-"></div>
 						<h2 th:text="${m.reverseauctionTitle}">reverseauction title</h2>
 						<p th:text="${m.reverseauctionContent}">호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
-						<a th:href="@{modifyReverseauction(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매수정하기</a>
-						<a th:href="@{removeReverseauction(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매삭제하기</a>
+						<a th:href="@{/auction/reverse/modify(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매수정하기</a>
+						<a th:href="@{/auction/reverse/remove(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매삭제하기</a>
 					</div>
 				</div>
 				<div class="col-lg-6">
@@ -82,7 +82,7 @@
 					<div class="section-heading text-center">
 						<div class="line-"></div>
 						<h2>입찰</h2>
-						<a th:href="@{addReverseauctionTender(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매 입찰</a>
+						<a th:href="@{/auction/reverse/tender/add(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매 입찰</a>
 					</div>
 				</div>
 				<div class="col-lg-10">
@@ -93,10 +93,7 @@
 	</section>
 	
 	<h1>ReverseauctionDetail</h1>
-	<h6><a th:href="@{modifyReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매수정하기</a></h6>
-	<h6><a th:href="@{removeReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매삭제하기</a></h6>
-	<h6><a th:href="@{addReverseauctionTender(reverseauctionNo=${m.reverseauctionNo})}">입찰등록</a></h6>
-	<table border="1">
+	<table class="table table-striped table-bordered table-hover">
 		<tbody>
 			<tr>
 				<td>No</td>
@@ -169,7 +166,7 @@
 		</tbody>
 	</table>
 	<h1>입찰목록</h1>
-	<table border="1">
+	<table class="table table-striped table-bordered table-hover">
 		<tbody>
 			<tr>
 				<td>reverseauctionTenderNo</td>
@@ -221,7 +218,7 @@
 	</table>
 	
 	<h1>낙찰DB</h1>
-	<table border="1">
+	<table class="table table-striped table-bordered table-hover">
 		<tbody>
 			<tr>
 				<td>reverseauctionSuccessfulbidNo</td>

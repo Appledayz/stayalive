@@ -10,7 +10,7 @@ import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
 
 @Controller
-@RequestMapping("reverse/auction/tender")
+@RequestMapping("auction/reverse/tender")
 public class ReverseauctionTenderController {
 	@Autowired
 	private ReverseauctionTenderService reverseauctionTenderService;

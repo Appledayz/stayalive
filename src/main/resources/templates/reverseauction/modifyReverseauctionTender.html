@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>modifyReverseauctionTender</h1>
-	<form th:action="@{addReverseauctionTender}" th:object="${ReverseauctionTender}" method="post">
+	<form th:action="@{/auction/reverse/tender/add" th:object="${ReverseauctionTender}" method="post">
 		<input th:type="hidden" th:field="*{reverseauctionNo}" th:value="${reverseauctionNo">
 		<table border="1">
 			<tbody>

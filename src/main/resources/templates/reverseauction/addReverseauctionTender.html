@@ -20,7 +20,7 @@
     <div th:replace="header :: header"></div>
 
     <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-6.jpg);">
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-6.jpg);">
         <div class="bradcumbContent">
             <h2>Make A Tender</h2>
         </div>
@@ -28,7 +28,7 @@
     <!-- ##### Breadcumb Area End ##### -->
     
 	<h1>addReverseauctionTender</h1>
-	<form th:action="@{addReverseauctionTender}" th:object="${reverseauctionTender}" method="post">
+	<form th:action="@{/auction/reverse/tender/add}" th:object="${reverseauctionTender}" method="post">
 		<h5>reverseauctionNo<input th:field="*{reverseauctionNo}" th:value="${reverseauctionNo}"></h5>
 		<table border="1">
 			<tbody>
