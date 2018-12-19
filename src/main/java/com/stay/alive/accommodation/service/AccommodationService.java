@@ -25,14 +25,14 @@ public class AccommodationService {
 	@Autowired
 	private AccommodationFileMapper accommodationFileMapper;
 	
-	public ArrayList<Accommodation> getAccommodationListAll() {
-		return nu
-	}
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
 	public Accommodation getAccommodationInfo(String name) {
 		return accommodationMapper.selectAccommodationInfo(name);
+	}
+	public Accommodation getAccommodationFromNo(int accommodationNo) {
+		return accommodationMapper.selectAccommodationFromNo(accommodationNo);
 	}
 	//숙소 리스트 
 	public ArrayList<Accommodation> getAccommodationAll() {

@@ -38,7 +38,7 @@ public class ReverseauctionService {
 		System.out.println("ReverseauctionService.getReverseauctionSearchList()");
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(10);
-		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauction());
+		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauctionSearch(pageMaker, sk, sv, date1, date2));
 		PageMakerService.pageMakerService(pageMaker);
 		return reverseauctionMapper.selectReverseauctionSearchList(pageMaker, sk, sv, date1, date2);
 	}

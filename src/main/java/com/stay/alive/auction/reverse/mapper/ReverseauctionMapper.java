@@ -14,7 +14,7 @@ public interface ReverseauctionMapper {
 	// 역경매목록 전체조회
 	List<Reverseauction> selectReverseauctionList(PageMaker pageMaker);
 	// 역경매목록 검색조회
-	List<Reverseauction> selectReverseauctionSearchList(PageMaker pageMaker, String searchKey, String searchValue, String date1, String date2);
+	List<Reverseauction> selectReverseauctionSearchList(PageMaker pageMaker, String sk, String sv, String date1, String date2);
 	// 역경매 등록
 	int insertReverseauction(Reverseauction reverseauction);
 	// 역경매 상세조회
@@ -43,6 +43,8 @@ public interface ReverseauctionMapper {
 	ReverseauctionSuccessfulbid selectReverseauctionSuccessfulbid(int reverseauctionNo);
 	// 역경매 갯수 조회
 	int selectCountReverseauction();
+	// 역경매 검색 갯수 조회
+	int selectCountReverseauctionSearch(PageMaker pageMaker, String sk, String sv, String date1, String date2);
 	// 낙찰 삭제
 	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
 }

@@ -7,40 +7,64 @@
   	SELECT COUNT(*)
   	FROM reverseauction_register
   </select>
+  
+  <select id="selectCountReverseauctionSearch" resultType="int">
+  	SELECT COUNT(*)
+  	FROM reverseauction_register
+  	<where>
+	  	<if test="sv != null and sv != ''">
+	  	  ${sk} LIKE #{sv}</if>
+	  	<if test="date1 != null and date2 == null">
+	  	  AND reverseauction_rooming_date &gt; #{date1}</if>
+	  	<if test="date2 != null and date1 == null">
+	  	  AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	<if test="date1 != null and date2 != null">
+	  	  AND reverseauction_rooming_date &gt; #{date1} AND reverseauction_leaving_date &lt; #{date2}</if>
+  	</where>
+  </select>
+  
   <select id="selectReverseauctionList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
   	LIMIT #{startRow},#{rowPerPage}
   </select>
+  
   <select id="selectReverseauctionSearchList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
   	<where>
-	  	<if test="searchValue != null and searchValue != ''">
-	  	  ${searchKey} LIKE #{searchValue}
+	  	<if test="sv != null and sv != ''">
+	  	  ${sk} LIKE #{sv}
 	  	</if>
-	  	<if test="date1 != null and date2 != null and date1 != '' and date2 != ''">
-	  	  AND reverseauction_register_date BETWEEN #{date1} AND #{date2}
-	  	</if>
+	  	<if test="date1 != null and date2 == null">
+	  	  AND reverseauction_rooming_date &gt; #{date1}</if>
+	  	<if test="date2 != null and date1 == null">
+	  	  AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	<if test="date1 != null and date2 != null">
+	  	  AND reverseauction_rooming_date &gt; #{date1} AND reverseauction_leaving_date &lt; #{date2}</if>
   	</where>
 	ORDER BY reverseauction_register_date DESC
 	LIMIT #{pageMaker.startRow},#{pageMaker.rowPerPage}
   </select>
+  
   <select id="selectReverseauctionOne" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
+  
   <select id="selectTenderListForOneReverseauction" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	SELECT *
   	FROM reverseauction_tender
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
+  
   <select id="selectReverseauctionTenderOne" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	SELECT *
   	FROM reverseauction_tender
 	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </select>
+  
   <select id="selectForSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
   	SELECT *
   	FROM reverseauction_tender t
@@ -48,11 +72,13 @@
   	INNER JOIN reverseauction_register r ON t.reverseauction_no = r.reverseauction_no
   	WHERE t.reverseauction_tender_no=#{reverseacutionTenderNo}
   </select>
+  
   <select id="selectReverseauctionSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
   	SELECT *
   	FROM reverseauction_successfulbid
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
+  
   <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	INSERT INTO reverseauction_register
   	VALUES (0,
@@ -73,6 +99,7 @@
   			"낙찰 대기",
   			#{reverseauctionNumberOfPeople})
   </insert>
+  
   <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	INSERT INTO reverseauction_tender
   	VALUES(0,
@@ -93,6 +120,7 @@
   			1,
   			"낙찰대기중")
   </insert>
+  
   <insert id="insertReverseauctionSuccessfulbid">
   	INSERT INTO reverseauction_successfulbid
   	VALUES(0,
@@ -108,6 +136,7 @@
   			2,
   			"낙찰완료")
   </insert>
+  
   <update id="updateReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	UPDATE reverseauction_register
   	  SET
@@ -121,6 +150,7 @@
 		reverseauction_content=#{reverseauctionContent}
 	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
+  
   <update id="updateReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	UPDATE reverseauction_tender
   	  SET
@@ -133,20 +163,25 @@
   	    reverseauction_tender_price=#{reverseauctionTenderPrice}
   	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </update>
+  
   <delete id="deleteReverseauction">
   	DELETE FROM reverseauction_register
   	WHERE reverseauction_no=#{reverseauctionNo}
   </delete>
+  
   <delete id="deleteReverseauctionTenderOne">
   	DELETE FROM reverseauction_tender
   	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </delete>
+  
   <delete id="deleteReverseauctionTender">
   	DELETE FROM reverseauction_tender
   	WHERE reverseauction_no=#{reverseauctionNo}
   </delete>
+  
   <delete id="deleteReverseauctionSuccessfulbid">
   	DELETE FROM reverseauction_successfulbid
   	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}
   </delete>
+  
 </mapper>

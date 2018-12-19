@@ -863,10 +863,9 @@ img {
 /* :: 9.0 Rooms Area CSS */
 .single-rooms-area {
   position: relative;
-  z-index: 10;
   width: 100%;
-  height: 300px;
-  margin-bottom: 80px;
+  height: 330px;
+  margin-bottom: 50px;
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms; }
   .single-rooms-area .bg-thumbnail {
@@ -876,8 +875,7 @@ img {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 10; }
+    bottom: 0; }
   .single-rooms-area .price-from {
     position: absolute;
     z-index: 30;
@@ -893,17 +891,21 @@ img {
     font-size: 14px; }
   .single-rooms-area .rooms-text {
     position: absolute;
-    z-index: 20;
     background-color: rgba(0, 0, 0, 0.63);
-    padding: 30px 30px 40px;
+    padding: 20px 30px 30px;
     left: 20px;
     right: 20px;
     top: 10px;
     width: calc(100% - 40px);
+    max-height: calc(100% - 30px);
     border: 2px solid #cb8670;
     text-align: center;
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms; }
+  .single-rooms-area .rooms-text p{
+  	max-height: 4em;
+  	overflow: hidden;
+  }
     .single-rooms-area .rooms-text .line {
       width: 90px;
       height: 2px;

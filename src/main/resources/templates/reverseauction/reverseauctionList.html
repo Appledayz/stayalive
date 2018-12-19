@@ -7,6 +7,35 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Core Stylesheet -->
 <link rel="stylesheet" href="main/style.css">
+<!-- jQuery-2.2.4 js -->
+<script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript">
+	$(document).ready(()=>{
+		if(location.search.length > 0){
+			$('#search').focus();
+		}
+		$('#datePicker1').datepicker({
+			showButtonPanel: true,
+			dateFormat: "yy-mm-dd",
+			minDate: -1,
+			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+			monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+		});
+		$('#datePicker2').datepicker({
+			showButtonPanel: true,
+			dateFormat: "yy-mm-dd",
+			minDate: -1,
+			dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+			dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
+			monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+			monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+		});
+	})
+</script>
 <title>reverseauctionList</title>
 </head>
 <body>
@@ -57,8 +86,8 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="search-result bg-gray">
-						<h2>"Electronics"의 검색 결과</h2>
-						<p>123 개의 항목을 찾았습니다</p>
+						<h2 th:if="${sv}!=null" th:text="'\''+${sv}+'\'의 검색 결과'"></h2>
+						<p th:text="${PM.allCount}+'개의 항목을 찾았습니다'"></p>
 					</div>
 				</div>
 			</div>
@@ -71,16 +100,16 @@
 							<option value="reverseauction_content">내용</option>
 							<option value="3">업체회원닉네임</option>
 						</select>
-						<input type="text" class="form-control" name="sv" placeholder="검색어를 입력하세요">
-						<input type="text" id="datePicker1" name="date1" placeholder="Check-in">
-						<input type="text" id="datePicker2" name="date2" placeholder="Check-out">
-						<button type="submit" class="btn palatin-btn">Search Now</button>
+						<input type="text" class="form-control" name="sv" id="search" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" id="datePicker1" name="date1" placeholder="Check-in" autocomplete=off>
+						<input type="text" class="form-control" id="datePicker2" name="date2" placeholder="Check-out" autocomplete=off>
+						<button type="submit" class="btn palatin-btn form-control" style="margin-bottom:30px">Search Now</button>
 					</form>
 				</div>
 				<div class="col-md-9">
 
 					<div class="row">
-						<div class="col-md-11">
+						<div class="col-md-10">
 							<select>
 								<option>Most Recent</option>
 								<option value="1">Most Popular</option>
@@ -88,7 +117,7 @@
 								<option value="4">Highest Price</option>
 							</select>
 						</div>
-						<div class="col-md-1">
+						<div class="col-md-2">
 							<div class="view">
 								<strong>Views</strong>
 								<ul class="list-inline">
@@ -134,19 +163,14 @@
 									data-wow-delay="200ms">
 									<nav>
 										<ul class="pagination">
-											<li class="page-item" th:if="${prevPage}"><a
-												class="page-link"
-												th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+											<li class="page-item" th:if="${prevPage}">
+												<a class="page-link" th:href="@{reverseauctionList(page=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">이전</a>
 											</li>
-											<li class="page-item"
-												th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}"
-												th:classappend="${PM.currentPage} == ${i} ? active : null">
-												<a class="page-link" th:text="${i}+'.'"
-												th:href="@{reverseauctionList(page=${i})}">01.</a>
+											<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
+												<a class="page-link" th:text="${i}+'.'" th:href="@{reverseauctionList(page=${i},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">01.</a>
 											</li>
-											<li class="page-item" th:if="${nextPage}"><a
-												class="page-link"
-												th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+											<li class="page-item" th:if="${nextPage}">
+												<a class="page-link" th:href="@{reverseauctionList(page=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">다음</a>
 											</li>
 										</ul>
 									</nav>
@@ -164,8 +188,6 @@
 	<!-- footer replace -->
 	<div th:replace="footer :: footer"></div>
 
-	<!-- jQuery-2.2.4 js -->
-	<script src="main/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
 	<script src="main/js/bootstrap/popper.min.js"></script>
 	<!-- Bootstrap js -->
