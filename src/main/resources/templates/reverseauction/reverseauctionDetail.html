@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="main/style.css">
+    <link rel="stylesheet" href="/main/style.css">
     <!-- jQuery-2.2.4 js -->
-    <script src="main/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
     <script>
     	//url에서 get parameter value 구하는 함수
 	    function getQuerystring(name){
@@ -44,13 +44,54 @@
     <div th:replace="header :: header"></div>
 
     <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(main/img/bg-img/bg-6.jpg);">
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-6.jpg);">
         <div class="bradcumbContent">
             <h2>AuctionDetail</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
-
+	
+	<section class="contact-form-area mb-100">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section-heading">
+						<div class="line-"></div>
+						<h2>역경매 상세</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<div class="section-heading text-center">
+						<div class="line-"></div>
+						<h2 th:text="${m.reverseauctionTitle}">reverseauction title</h2>
+						<p th:text="${m.reverseauctionContent}">호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
+						<a th:href="@{modifyReverseauction(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매수정하기</a>
+						<a th:href="@{removeReverseauction(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매삭제하기</a>
+					</div>
+				</div>
+				<div class="col-lg-6">
+                    <div class="about-thumbnail mb-100">
+                        <img src="/main/img/bg-img/2.jpg" alt="">
+                    </div>
+                </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2">
+					<div class="section-heading text-center">
+						<div class="line-"></div>
+						<h2>입찰</h2>
+						<a th:href="@{addReverseauctionTender(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매 입찰</a>
+					</div>
+				</div>
+				<div class="col-lg-10">
+	                <img src="/main/img/bg-img/2.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</section>
+	
 	<h1>ReverseauctionDetail</h1>
 	<h6><a th:href="@{modifyReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매수정하기</a></h6>
 	<h6><a th:href="@{removeReverseauction(reverseauctionNo=${m.reverseauctionNo})}">역경매삭제하기</a></h6>
@@ -216,12 +257,12 @@
     <div th:replace="footer :: footer"></div>
     
     <!-- Popper js -->
-    <script src="main/js/bootstrap/popper.min.js"></script>
+    <script src="/main/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="main/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="main/js/plugins/plugins.js"></script>
+    <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="main/js/active.js"></script>
+    <script src="/main/js/active.js"></script>
 </body>
 </html>
