@@ -19,8 +19,11 @@
 //<![CDATA[ 
 	$(function() {
 		var map;
+		var latitude;
+		var longitude;
+		var location;
 		$('#theModal').on('show.bs.modal', function (e) {
-			$(".modal-body").empty();
+			$(".modal-body").empty(); //기존에 있던 modal body에 있는 태그들을 제거
 			var button = $(e.relatedTarget);
 		  	$.ajax({
 		  		url : "detail",
@@ -28,23 +31,31 @@
 		  		type: 'GET',
 				contentType:"application/x-www-form-urlencoded",
 				success: function(data){
-					$(".modal-body").append("<div id='map' style='width:300px;height:300px;'></div>");
-					
-				    var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+					$(".modal-body").append("<div id='map' style='width:300px;height:300px;'></div>"); //맵이 들어갈 태그 생성
+					var mapTypeControl = new daum.maps.MapTypeControl();
+				    var mapContainer = document.getElementById('map'); // 지도를 표시할 div태그
+				    latitude = data.accommodationLatitude; //위도
+				    longitude = data.accommodationLongitude; //경도
+				    location = new daum.maps.LatLng(latitude, longitude); //좌표정보 생성
 				    var mapOption = { 
-				        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				        center: location, // 지도의 중심좌표
 				        level: 3 // 지도의 확대 레벨			 
 					}
-				    map = new daum.maps.Map(mapContainer, mapOption);
-				    $(".modal-body").append(data.accommodationDetail);
+				    map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
+				    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+				    var marker = new daum.maps.Marker({ // 마커생성
+				        position: location
+				    });
+				    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+				    $(".modal-body").append(data.accommodationDetail); //숙소 상세정보 추가
          	    }
 		  	});
 		});
 		$('#theModal').on('shown.bs.modal', function() {
 			map.relayout();
+			map.setCenter(location); //기존좌표로 이동
 		});
-		    
-		});
+	});
 // ]]>
 </script>
 
