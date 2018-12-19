@@ -57,12 +57,12 @@ public class AccommodationController {
 		//System.out.println(accommodation);
 		return "redirect:/main";
 	}
-	//리모트 모달을 사용하는 상세정보 
+	//모달을 사용하는 상세정보 
 	@GetMapping("detail")
-	public String accommodationDetail(int accommodationNo,Model model) {
+	public @ResponseBody Accommodation accommodationDetail(int accommodationNo, Model model) {
+		System.out.println(accommodationNo);
 		Accommodation accommodation = accommodationService.getAccommodationFromNo(accommodationNo);
-		model.addAttribute("accommodation",accommodation);
-		return "accommodation/accommodationDetail";
+		return accommodation;
 	}
 	//숙소 리스트
 	@GetMapping("list")
