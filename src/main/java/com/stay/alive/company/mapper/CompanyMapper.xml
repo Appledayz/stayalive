@@ -33,13 +33,14 @@
        	</if>
     </select>
     <resultMap type="hashmap" id="resultmap">
+    	<result javaType="int" column="companyNo" property="companyNo"></result>
     	<result javaType="java.lang.String" column="companyName" property="companyName"></result>
 		<result javaType="java.lang.String" column="memberId" property="memberId"></result>
 		<result javaType="java.lang.String" column="memberNickname" property="memberNickname"></result>
     </resultMap>   
     <select id="selectMemberAndCompanySearchList" resultMap="resultmap" parameterType="HashMap">
         SELECT 
-        	c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
+        	c.company_no as companyNo, c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
        	FROM member m INNER JOIN company c
        	ON m.member_id = c.member_id
        	<if test='searchKey != ""'>
@@ -60,4 +61,9 @@
        	</if>
        	ORDER BY c.company_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
     </select>
+    <select id="selectCompanyFromNo" resultType="com.stay.alive.company.vo.Company">
+		SELECT 
+			company_name as companyName, company_detail as companyDetail 
+		FROM company WHERE company_no = #{companyNo}
+	</select>
 </mapper>

@@ -42,4 +42,8 @@ public class CompanyService {
 		return companyMapper.selectMemberAndCompanySearchList(map);
 	}
 	
+	public Company getCompanyFromNo(int companyNo) {
+		return companyMapper.selectCompanyFromNo(companyNo);
+	}
+	
 }

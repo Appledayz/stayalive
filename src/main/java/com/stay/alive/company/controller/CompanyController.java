@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.company.service.CompanyService;
@@ -66,8 +67,8 @@ public class CompanyController {
 	}
 	
 	@GetMapping("detail")
-	public String companyDetail() {
-		return "company/companyDetail";
+	public @ResponseBody Company companyDetail(int companyNo, Model model) {
+	return companyService.getCompanyFromNo(companyNo);
 	}
 	
 }
