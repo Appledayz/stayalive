@@ -2,10 +2,13 @@ package com.stay.alive.auction.reverse.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.auction.reverse.service.ReverseauctionService;
 import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
@@ -13,8 +16,6 @@ import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
 @Controller
 @RequestMapping("auction/reverse/tender")
 public class ReverseauctionTenderController {
-	@Autowired
-	private ReverseauctionService reverseauctionService;
 	@Autowired
 	private ReverseauctionTenderService reverseauctionTenderService;
 	
@@ -55,5 +56,10 @@ public class ReverseauctionTenderController {
 			System.out.println("ReverseauctionController.deleteReverseauctionTender() GET");
 			reverseauctionTenderService.removeReverseauctionTender(reverseauctionTenderNo);
 			return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionNo;
+		}
+		//모달을 사용하는 상세정보 
+		@GetMapping("returnDetail")
+		public @ResponseBody ReverseauctionTender restReverseauctionTenderDetail(int reverseauctionTenderNo) {
+			return reverseauctionTenderService.getTenderDetail(reverseauctionTenderNo);
 		}
 }
