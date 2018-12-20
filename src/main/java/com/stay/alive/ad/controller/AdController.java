@@ -6,27 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.stay.alive.ad.service.AdService;
 import com.stay.alive.ad.vo.Ad;
 
 @Controller
+@RequestMapping("/ad")
 public class AdController {
 	@Autowired
 	private AdService adService;
+	
 	// 광고 메인페이지
-	@GetMapping("ad")
+	@GetMapping("")
 	public String ad() {
-		return "Ad/ad";
+		return "/ad/ad";
 	}
-	@GetMapping("adRegister")
+	// 광고 등록 뷰
+	@GetMapping(value="/adRegister")
 	public String adRegister() {
-		return "Ad/adRegister";
+		return "/ad/adRegister";
 	}
-	@PostMapping("adRegister")
+	/*// 광고 등록 액션
+	@PostMapping(value="/adRegister")
 	public String adRegister(Ad ad,HttpSession session) {
-		String contextPath = session.getServletContext().getRealPath("/upload/images");
+		String memberId = "ID1";
+		String contextPath = session.getServletContext().getRealPath("/image/ad");
+		ad.setMemberId(memberId);
 		adService.adRegister(ad, contextPath);
 		return "redirect:/ad";
-	}
+	}*/
 }

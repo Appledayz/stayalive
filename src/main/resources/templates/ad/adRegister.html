@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+	<script>
+		
+	</script>
+	<title>광고 등록</title>
+</head>
+<body>
+	<!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+	
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-6.jpg);">
+        <div class="bradcumbContent">
+            <h2>Make A ReverseAuction</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+    
+    <div class="container">
+		<div class="row">
+			<div class="col-12">
+			    <div class="section-heading">
+			        <div class="line-"></div>
+			        <h2>역경매 등록</h2>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<section class="contact-form-area mb-100">
+	    <div class="container">
+		    <div class="contact-form-area">
+				<form action="" method="POST" id="">
+			    	<div class="row">
+						<div class="col-lg-6"><input class="form-control" th:placeholder="memberId" type="text" name="memberId"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="adName" type="text" name="adName"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="adCost" type="text" name="adCost"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="adGroup" type="text" name="adGroup"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="adStart" type="text" name="adStart"></div>
+						<div class="col-lg-6"><input class="form-control" th:placeholder="adEnd" type="text" name="adEnd"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="adLink" type="text" name="adLink"></div>
+						<div class="col-lg-12"><input class="form-control" th:placeholder="adFile" type="text" name="adFile" id="file"></div>
+						<div class="col-lg-4"><button type="button" class="btn palatin-btn mt-50" id="">입력</button></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+				
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+    
+    <!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
+</body>
+</html>

@@ -15,7 +15,6 @@ public class Ad {
 	private String adRegisterEnd; //마감시간
 	private String adRegisterPost; //광고 게시 유무
 	private int adGroupNo; //광고 그룹 번호(PK)
-	private String adGroupName; //그룹명
 	private String adRegisterLink; //광고링크
 	private int adRegisterView; //노출수
 	private int adRegisterClick; //클릭수

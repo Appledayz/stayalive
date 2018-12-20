@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -10,9 +10,9 @@
     <!-- Title -->
     <title>stayalive</title>
     <!-- Favicon -->
-    <link rel="icon" href="main/img/core-img/favicon.ico">
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="main/style.css">
+    <link rel="stylesheet" href="/main/style.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
 	<!-- header replace -->
     <div th:replace="header :: header"></div>
     <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(img/bg-img/bg-2.jpg);">
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
         <div class="bradcumbContent">
             <h2>광고</h2>
         </div>
@@ -44,13 +44,13 @@
                             <h2>광고 등록</h2>
                         </div>
                         <p>광고 구인 광고 등록 광고 구인 광고 등록 광고 구인 광고 등록 광고 구인 광고 등록 광고 구인 광고 등록 </p>
-                        <a href="/adRegister" class="btn palatin-btn mt-50">광고 등록하기</a>
+                        <a href="/ad/adRegister" class="btn palatin-btn mt-50">광고 등록하기</a>
                     </div>
                 </div>
 
                 <div class="col-12 col-lg-6">
                     <div class="about-thumbnail mb-100">
-                        <img src="img/bg-img/2.jpg" alt="">
+                        <img src="/main/img/bg-img/2.jpg" alt="">
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
     </section>
     <!-- ##### About Us Area End ##### -->
     <!-- ##### Testimonial Area Start ##### -->
-    <section class="testimonial-area section-padding-100 bg-img" style="background-image: url(img/core-img/pattern.png);">
+    <section class="testimonial-area section-padding-100 bg-img" style="background-image: url(/main/img/core-img/pattern.png);">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -75,14 +75,14 @@
                             <div class="single-testimonial">
                                 <p>stayalive를 써보니 제가 원하는 숙소를 쉽고 싸게 구할 수 있어서 너무 좋았어요.</p>
                                 <h6>한승정 <span>고객님</span></h6>
-                                <img src="img/core-img/trip.png" alt="">
+                                <img src="/main/img/core-img/trip.png" alt="">
                             </div>
                             
                             <!-- Single Testimonial -->
                             <div class="single-testimonial">
                                 <p>저는 항상 많은 사람들이 쉽고 싸게 숙소를 구하게 하는 것이 목표였습니다. 이제 stayalive로 그 뜻을 펼쳐보려고 합니다.</p>
                                 <h6>이영호 <span>개발자</span></h6>
-                                <img src="img/core-img/trip.png" alt="">
+                                <img src="/main/img/core-img/trip.png" alt="">
                             </div>
                             
                         </div>
@@ -98,15 +98,15 @@
 
     <!-- ##### All Javascript Script ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
+    <script src="/main/js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
+    <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/main/js/active.js"></script>
 </body>
 
 </html>

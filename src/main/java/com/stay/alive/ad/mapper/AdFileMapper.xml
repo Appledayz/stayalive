@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.ad.mapper.AdFileMapper" >
+	<select id="selectImageFile" resultType="com.stay.alive.ad.vo.AdFile" parameterType="int">
+		SELECT * FROM ad_file WHERE ad_file_no = #{adFileNo}
+	</select>
+	<delete id="deleteImageFile" parameterType="int">
+		DELETE FROM ad_file WHERE ad_file_no = #{adFileNo}
+	</delete>
+	<insert id="insertImageFile" parameterType="com.stay.alive.ad.vo.AdFile" useGeneratedKeys="true" keyProperty="adFileNo">
+		INSERT INTO ad_file(
+			member_id,
+			ad_register_no,
+			file_register_table_no,
+			ad_file_path,
+			ad_file_stored_name,
+			ad_file_real_name,
+			ad_file_ext,
+			ad_file_type,
+			ad_file_size,
+			ad_file_register_date
+		)
+		VALUES(
+			#{memberId},
+			#{adRegisterNo},
+			#{fileRegisterTableNo},
+			#{adFilePath},
+			#{adFileStoredName},
+			#{adFileRealName},
+			#{adFileExt},
+			#{adFileType},
+			#{adFileSize},
+			now()
+		)
+	</insert>
+	
+	
+</mapper>
