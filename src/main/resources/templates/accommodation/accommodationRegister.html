@@ -126,15 +126,10 @@
 		    				<button class="form-control col-1" type="button" id="addressSearch">주소 검색</button>
 		    			</div>
 		    		</div>	
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">위치</label>
-			    			<label>위도 : </label><input class="form-control form-control-sm col-2" type="text" name="accommodationLatitude" id="accommodationLatitude" style="width: 70px" readonly>
-		    				<label>경도 :</label><input class="form-control form-control-sm col-2" type="text" name="accommodationLongitude" id="accommodationLongitude" style="width: 70px" readonly>	
-							<label>시/도 :</label><input type="text" class="form-control form-control-sm" name="addressSidoName" id="addressSidoName" style="width: 100px" readonly>
-							<label>시/군/구 :</label><input type="text" class="form-control form-control-sm" name="addressSigunguName" id="addressSigunguName" style="width: 150px" readonly>
-		    			</div>
-		    		</div>	
+	    			<input type="hidden" name="accommodationLatitude" id="accommodationLatitude">
+	   				<input type="hidden" name="accommodationLongitude" id="accommodationLongitude">	
+					<input type="hidden"  name="addressSidoName" id="addressSidoName">
+					<input type="hidden" name="addressSigunguName" id="addressSigunguName">
 		    		<div class="form-group">
 		    			<div class="form-row">
 		    				<label class="col-2 col-form-label">연락처</label>
@@ -161,7 +156,6 @@
 		    			<div align="right">
 		    				<input type="button" class="btn btn-primary pull-right" id="insertBoard" value="등록" />
 		    			</div>
-		    			
 		    		</div>
 	    		</div>
     		</div>

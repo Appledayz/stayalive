@@ -24,7 +24,7 @@ public class AccommodationService {
 	private AccommodationMapper accommodationMapper;
 	@Autowired
 	private AccommodationFileMapper accommodationFileMapper;
-	
+	//회원ID를 통해 숙소정보를 얻어오는 메서드
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
@@ -105,7 +105,7 @@ public class AccommodationService {
 				e.printStackTrace();
 			}
 		}
-		return "<img src=\"/image/accommodation/" + storedFileName + "." + ext + "\">";
+		return "<img style=\"width:300px;height:300px\" src=\"/image/accommodation/" + storedFileName + "." + ext + "\">";
 	}
 	
 	public String addDetailImageFiles(MultipartFile[] multipartFile, String path, String memberId) {
