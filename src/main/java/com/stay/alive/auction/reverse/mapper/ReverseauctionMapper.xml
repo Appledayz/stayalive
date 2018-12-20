@@ -53,20 +53,6 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
   
-  <select id="selectForSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
-  	SELECT *
-  	FROM reverseauction_tender t
-  	INNER JOIN guestroom_option g ON t.guestroom_no = g.guestroom_no
-  	INNER JOIN reverseauction_register r ON t.reverseauction_no = r.reverseauction_no
-  	WHERE t.reverseauction_tender_no=#{reverseacutionTenderNo}
-  </select>
-  
-  <select id="selectReverseauctionSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
-  	SELECT *
-  	FROM reverseauction_successfulbid
-  	WHERE reverseauction_no=#{reverseauctionNo}
-  </select>
-  
   <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	INSERT INTO reverseauction_register
   	VALUES (0,
@@ -86,22 +72,6 @@
   			1,
   			"낙찰 대기",
   			#{reverseauctionNumberOfPeople})
-  </insert>
-  
-  <insert id="insertReverseauctionSuccessfulbid">
-  	INSERT INTO reverseauction_successfulbid
-  	VALUES(0,
-  			#{reverseauctionNo},
-  			#{reverseauctionTenderNo},
-  			#{guestroomOptionNo},
-  			#{guestroomOptionName},
-  			#{guestroomAdditionalPrice},
-  			#{reverseauctionSuccessfulbidPrice},
-  			now(),
-  			#{reverseauctionRoomingDate},
-  			#{reverseauctionLeavingDate},
-  			2,
-  			"낙찰완료")
   </insert>
   
   <update id="updateReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
@@ -130,9 +100,4 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </delete>
 
-  <delete id="deleteReverseauctionSuccessfulbid">
-  	DELETE FROM reverseauction_successfulbid
-  	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}
-  </delete>
-  
 </mapper>

@@ -67,37 +67,4 @@ public class ReverseauctionService {
 		i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
 		return i;
 	}
-	// 14. 역경매 내 낙찰 조회
-	public ReverseauctionSuccessfulbid getReverseauctionSuccessfulbid(int reverseauctionNo) {
-		System.out.println("ReverseauctionService.getReverseauctionSuccessfulbid()");
-		return reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo);
-	}
-	// 14. 낙찰 등록
-	public int addReverseauctionSuccessfulbid(int reverseauctionTenderNo, int reverseauctionNo) {
-		System.out.println("ReverseauctionService.addReverseauctionSuccessfulbid()");
-		int i = 0;
-		if(reverseauctionMapper.selectReverseauctionSuccessfulbid(reverseauctionNo) == null) {
-			ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionMapper.selectForSuccessfulbid(reverseauctionTenderNo);
-			int price = reverseauctionTenderMapper.selectReverseauctionTenderOne(reverseauctionTenderNo).getReverseauctionTenderPrice();
-			reverseauctionSuccessfulbid.setReverseauctionSuccessfulbidPrice(price);
-			reverseauctionMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
-			i++;
-		}
-		return i;
-	}
-	// 15. 낙찰 취소
-	public int cancelReverseauctionSuccessfulbid() {
-		System.out.println("ReverseauctionService.cancelReverseauctionSuccessfulbid()");
-		return 0;
-	}
-	// 16. 낙찰 삭제
-	public int removeReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo) {
-		System.out.println("ReverseauctionService.removeReverseauctionSuccessfulbid()");
-		reverseauctionMapper.deleteReverseauctionSuccessfulbid(reverseauctionSuccessfulbidNo);
-		return 0;
-	}
-	public void plusReverseauctionTenderCount(int reverseauctionNo) {
-		System.out.println("ReverseauctionService.plusReverseauctionTenderCount()");
-		reverseauctionMapper.updateReverseauctionTenderCount(reverseauctionNo);
-	}
 }

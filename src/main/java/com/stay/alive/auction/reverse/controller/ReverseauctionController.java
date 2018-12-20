@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stay.alive.auction.reverse.service.ReverseauctionService;
+import com.stay.alive.auction.reverse.service.ReverseauctionSuccessfulbidService;
 import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
 import com.stay.alive.common.PageMaker;
@@ -22,6 +23,8 @@ public class ReverseauctionController {
 	private ReverseauctionService reverseauctionService;
 	@Autowired
 	private ReverseauctionTenderService reverseauctionTenderService;
+	@Autowired
+	private ReverseauctionSuccessfulbidService reverseauctionSuccessfulbidService;
 	private PageMaker pageMaker;
 	
 	// 1. 역경매목록 조회
@@ -77,7 +80,7 @@ public class ReverseauctionController {
 		System.out.println("ReverseauctionController.reverseauctionDetail() GET");
 		model.addAttribute("m",reverseauctionService.getReverseauctionOne(reverseauctionNo));
 		model.addAttribute("m2", reverseauctionTenderService.getTenderListForOneReverseauction(reverseauctionNo));
-		model.addAttribute("m3", reverseauctionService.getReverseauctionSuccessfulbid(reverseauctionNo));
+		model.addAttribute("m3", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(reverseauctionNo));
 		return "/reverseauction/reverseauctionDetail";
 	}
 	// 6. 역경매 수정 폼
@@ -101,21 +104,5 @@ public class ReverseauctionController {
 		System.out.println(reverseauctionService.removeReverseauction(reverseauctionNo));
 		return "redirect:/auction/reverse/list";
 	}
-	// 15. 낙찰 등록
-	@GetMapping("addReverseauctionSuccessfulbid")
-	public String addReverseauctionSuccessfulbid(int reverseauctionTenderNo, int reverseauctionNo) {
-		System.out.println("ReverseauctionController.addReverseauctionSuccessfulbid() GET");
-		int i = reverseauctionService.addReverseauctionSuccessfulbid(reverseauctionTenderNo, reverseauctionNo);
-		if(i == 0) {
-			return "redirect:/auction/reverse/detail?fail=true&reverseauctionNo="+reverseauctionNo;
-		}
-		return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionNo;
-	}
-	// 16. 낙찰 삭제
-	@GetMapping("removeReverseauctionSuccessfulbid")
-	public String removeReverseauctionSuccessfulbid(int reverseauctionNo, int reverseauctionSuccessfulbidNo) {
-		System.out.println("ReverseauctionController.removeReverseauctionSuccessfulbid() GET");
-		reverseauctionService.removeReverseauctionSuccessfulbid(reverseauctionSuccessfulbidNo);
-		return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionNo;
-	}
+	
 }

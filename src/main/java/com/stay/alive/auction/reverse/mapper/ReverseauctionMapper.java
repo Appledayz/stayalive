@@ -23,18 +23,8 @@ public interface ReverseauctionMapper {
 	int updateReverseauction(Reverseauction reverseauction);
 	// 역경매 삭제
 	int deleteReverseauction(int reverseauctionNo);
-	// 낙찰 등록
-	int insertReverseauctionSuccessfulbid(ReverseauctionSuccessfulbid reverseauctionSuccessrulbid);
-	// 낙찰정보 등록을 위해 정보 조회
-	ReverseauctionSuccessfulbid selectForSuccessfulbid(int reverseauctionTenderNo);
-	// 역경매 내 낙찰 조회
-	ReverseauctionSuccessfulbid selectReverseauctionSuccessfulbid(int reverseauctionNo);
 	// 역경매 갯수 조회
 	int selectCountReverseauction();
 	// 역경매 검색 갯수 조회
 	int selectCountReverseauctionSearch(PageMaker pageMaker, String sk, String sv, String date1, String date2);
-	// 낙찰 삭제
-	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
-	// 입찰수 1 더하기
-	void updateReverseauctionTenderCount(int reverseauctionNo);
 }

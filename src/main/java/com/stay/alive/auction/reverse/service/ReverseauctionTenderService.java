@@ -48,4 +48,9 @@ public class ReverseauctionTenderService {
 		System.out.println("ReverseauctionService.removeReverseauctionTender()");
 		return reverseauctionTenderMapper.deleteReverseauctionTenderOne(reverseauctionTenderNo);
 	}
+	// 14. 역경매 카운트 +1
+	public void plusReverseauctionTenderCount(int reverseauctionNo) {
+		System.out.println("ReverseauctionService.plusReverseauctionTenderCount()");
+		reverseauctionTenderMapper.updateReverseauctionTenderCount(reverseauctionNo);
+	}
 }

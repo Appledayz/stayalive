@@ -20,4 +20,6 @@ public interface ReverseauctionTenderMapper {
 	int deleteReverseauctionTenderOne(int reverseauctionTenderNo);
 	// 역경매 내 입찰목록 전체삭제
 	int deleteReverseauctionTender(int reverseauctionNo);
+	// 입찰수 1 더하기
+	void updateReverseauctionTenderCount(int reverseauctionNo);
 }

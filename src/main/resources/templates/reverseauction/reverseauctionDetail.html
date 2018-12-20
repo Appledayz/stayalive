@@ -21,14 +21,12 @@
 	    if(getQuerystring('fail')=='true'){
 	    	alert('낙찰실패 : 이미낙찰상태인지 확인해주세요');
 	    }
-    	$(document).ready(()=>{
-    		$('#SuccessfulbidBtn').click(()=>{
-    			let result = confirm('Are you sure?');
-    			if(result){
-    				$('#successfulbidForm').submit();
-    			}
-    		});
-    	});
+	    function check(elem){
+ 			let result = confirm('Are you sure?');
+ 			if(result){
+ 				elem.parentElement.submit();
+ 			}
+	    }
     </script>
 	<title>AuctionDetail</title>
 </head>
@@ -98,8 +96,14 @@
 				</div>
 				<div class="col-lg-10" style="background-color:rgb(50,50,50); border:2px solid rgb(203, 134, 112)">
 					<div style="display: flex; flex-direction: column;">
-						<div th:each="tender : ${m2}" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); float:left; left:20px; margin: 10px 0; padding:5px;">
+						<div th:each="tender : ${m2}" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); margin: 10px 0; padding:5px;">
 							<p th:text="${tender.reverseauctionTenderNo}"></p>
+							<form action="/auction/reverse/successfulbid/add" method="get">
+								<input type="hidden" th:name="reverseauctionTenderNo" th:value="${tender.reverseauctionTenderNo}">
+								<input type="hidden" th:name="reverseauctionNo" th:value="${tender.reverseauctionNo}">
+								<button type="button" class="btn SuccessfulbidBtn" onclick="check(this)" th:text="낙찰">낙찰</button>
+							</form>
+							<button type="button">숙소자세히보기</button>
 						</div>
 					</div>
 				</div>

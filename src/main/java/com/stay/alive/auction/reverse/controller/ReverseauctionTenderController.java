@@ -34,7 +34,7 @@ public class ReverseauctionTenderController {
 		@PostMapping("add")
 		public String addReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
 			reverseauctionTenderService.addReverseauctionTender(reverseauctionTender);
-			reverseauctionService.plusReverseauctionTenderCount(reverseauctionTender.getReverseauctionNo());
+			reverseauctionTenderService.plusReverseauctionTenderCount(reverseauctionTender.getReverseauctionNo());
 			return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionTender.getReverseauctionNo();
 		}
 		// 12. 역경매 입찰 수정 폼
