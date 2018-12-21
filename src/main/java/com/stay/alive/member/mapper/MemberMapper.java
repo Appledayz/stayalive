@@ -19,4 +19,6 @@ public interface MemberMapper {
 	List<Member> selectMember(HashMap<String, Integer> pagingInfo);
 	Member idCheck(Member memberId);
 	Member nicknameCheck(Member memberNickname);
+	int updateMember(Member member);
+	public abstract Member selectOne(String memberId);
 }

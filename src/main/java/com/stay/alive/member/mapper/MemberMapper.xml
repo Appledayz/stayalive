@@ -62,5 +62,24 @@
 		SELECT member_nickname from member
 			where member_nickname = #{memberNickname}
 	</select>
-</mapper>	
+	<!-- 회원 정보 수정 -->
+	<update id="updateMember" parameterType="com.stay.alive.member.vo.Member">
+		UPDATE member
+		SET member_id = #{sampleId}, samplePW = #{samplePw}
+		WHERE sampleNO = #{sampleNo}
+    </update>
+    <select id="selectOne" parameterType="String" resultType="com.stay.alive.member.vo.Member">
+        SELECT member_id as memberId,
+        	member_password as memberPassword,
+        	member_name as memberName,
+			member_nickname as memberNickname,
+			member_birth as memberBirth,
+			member_phone_number1 as memberPhoneNumber1,
+			member_email as memberEmail,
+			member_email_accept as memberEmailAccept,
+			member_sms_accept as memberSmsAccept
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
+</mapper>
 	
