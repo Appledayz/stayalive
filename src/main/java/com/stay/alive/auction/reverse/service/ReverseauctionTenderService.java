@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.file.ImageFile;
 
 @Service
 @Transactional
@@ -52,5 +53,10 @@ public class ReverseauctionTenderService {
 	public void plusReverseauctionTenderCount(int reverseauctionNo) {
 		System.out.println("ReverseauctionService.plusReverseauctionTenderCount()");
 		reverseauctionTenderMapper.updateReverseauctionTenderCount(reverseauctionNo);
+	}
+	// 숙소이미지 조회
+	public ImageFile getTenderAccommodationImg(int accommodationNo) {
+		System.out.println("ReverseauctionService.plusReverseauctionTenderCount()");
+		return reverseauctionTenderMapper.selectAccommodationImg(accommodationNo);
 	}
 }

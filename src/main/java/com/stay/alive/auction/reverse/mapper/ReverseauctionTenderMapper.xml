@@ -16,6 +16,14 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
   
+  <select id="selectAccommodationImg" resultType="com.stay.alive.file.ImageFile">
+  	SELECT *
+  	FROM image_file i
+  	INNER JOIN accommodation a
+  	ON i.image_file_no = a.image_file_no
+  	WHERE a.accommodation_no=#{accommodationNo}
+  </select>
+  
   <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	INSERT INTO reverseauction_tender
   	VALUES(0,

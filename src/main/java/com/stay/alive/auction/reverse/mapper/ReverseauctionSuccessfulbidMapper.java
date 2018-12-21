@@ -14,4 +14,6 @@ public interface ReverseauctionSuccessfulbidMapper {
 	ReverseauctionSuccessfulbid selectReverseauctionSuccessfulbid(int reverseauctionNo);
 	// 낙찰 삭제
 	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
+	// 역경매 상태갱신
+	int updateReverseauctionState(int reverseauctionNo);
 }

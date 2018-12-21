@@ -27,10 +27,15 @@ public class ReverseauctionSuccessfulbidService {
 		System.out.println("ReverseauctionService.addReverseauctionSuccessfulbid()");
 		int i = 0;
 		if (reverseauctionSuccessfulbidMapper.selectReverseauctionSuccessfulbid(reverseauctionNo) == null) {
+			// 역경매, 입찰 테이블과 연결되는 정보를 낙찰 테이블에 때려넣습니다.
 			ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionSuccessfulbidMapper.selectForSuccessfulbid(reverseauctionTenderNo);
+			// 가격 칼럼명은 서로 달라서 아래에서 받습니다.
 			int price = reverseauctionTenderMapper.selectReverseauctionTenderOne(reverseauctionTenderNo).getReverseauctionTenderPrice();
 			reverseauctionSuccessfulbid.setReverseauctionSuccessfulbidPrice(price);
+			// 낙찰 테이블에 등록
 			reverseauctionSuccessfulbidMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
+			// 경매 상태 업데이트
+			reverseauctionSuccessfulbidMapper.updateReverseauctionState(reverseauctionNo);
 			i++;
 		}
 		return i;

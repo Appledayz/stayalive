@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.file.ImageFile;
 
 @Mapper
 public interface ReverseauctionTenderMapper {
@@ -22,4 +23,6 @@ public interface ReverseauctionTenderMapper {
 	int deleteReverseauctionTender(int reverseauctionNo);
 	// 입찰수 1 더하기
 	void updateReverseauctionTenderCount(int reverseauctionNo);
+	// 숙소 이미지 조회
+	ImageFile selectAccommodationImg(int accommodationNo);
 }
