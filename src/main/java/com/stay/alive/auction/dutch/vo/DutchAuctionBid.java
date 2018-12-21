@@ -1,5 +1,5 @@
 package com.stay.alive.auction.dutch.vo;
 
-public class DutchauctionBid {
+public class DutchAuctionBid {
 
 }
