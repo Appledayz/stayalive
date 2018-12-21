@@ -102,7 +102,8 @@
 						<div class="line-"></div>
 						<h2 th:text="${m.reverseauctionTitle}">역경매 제목</h2>
 						<p th:text="${m.reverseauctionContent}">역경매 내용</p>
-						<p th:text="'등록일 : '+${m.reverseauctionRegisterDate}" style="margin-top:1em;">역경매 등록일</p>
+						<p th:text="'조회수 : '+${m.reverseauctionHits}" style="margin-top:1em;">조회수</p>
+						<p th:text="'등록일 : '+${m.reverseauctionRegisterDate}">역경매 등록일</p>
 						<p th:if="${m.reverseauctionUpdateDate!=null}" th:text="'수정일 : '+${m.reverseauctionUpdateDate}">역경매 등록일</p>
 						<a th:href="@{/auction/reverse/modify(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매수정하기</a>
 						<a th:href="@{/auction/reverse/remove(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-50">역경매삭제하기</a>

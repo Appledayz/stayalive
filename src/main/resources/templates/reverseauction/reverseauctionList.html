@@ -16,25 +16,25 @@
 			if(location.search.length > 0){
 				$('#search').focus();
 			}
-			$('#datePicker1').datepicker({
+			let dates = $('#datePicker1, #datePicker2').datepicker({
 				showButtonPanel: true,
 				dateFormat: "yy-mm-dd",
 				minDate: -1,
 				dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
 				dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
 				monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+				onSelect: function( selectedDate ) {
+				    var option = this.id == "datePicker1" ? "minDate" : "maxDate",
+				      instance = $( this ).data( "datepicker" ),
+				      date = $.datepicker.parseDate(
+				        instance.settings.dateFormat ||
+				        $.datepicker._defaults.dateFormat,
+				        selectedDate, instance.settings );
+				    dates.not( this ).datepicker( "option", option, date );
+				}
 			});
-			$('#datePicker2').datepicker({
-				showButtonPanel: true,
-				dateFormat: "yy-mm-dd",
-				minDate: -1,
-				dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
-				dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'], 
-				monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-				monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-			});
-		})
+		});
 	</script>
 	<title>reverseauctionList</title>
 </head>
@@ -142,14 +142,17 @@
 											<div class="rooms-text">
 												<div class="line"></div>
 												<h4 th:text="${item.reverseauctionTitle}">Deluxe Room</h4>
-												<p th:text="${item.reverseauctionContent}" style="word-break: break-all;">content</p>
+												<p th:text="${item.reverseauctionContent}" style="word-break: break-all;">Room Content</p>
 												<div class="line"></div>
 												<!-- Address -->
-												<p th:text="'Going to : '+${item.reverseauctionAddress}"></p>
+												<p th:text="'Going to : '+${item.reverseauctionAddress}">Address</p>
 												<!-- Limit -->
-												<p th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'"></p>
+												<p th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'">Limit</p>
 												<!-- NumberOfPeople -->
-												<p th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}"></p>
+												<p th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}">Trevelers</p>
+												<!-- Date -->
+												<p th:text="'check-in : '+${item.reverseauctionRoomingDate}">check-in</p>
+												<p th:text="'check-out : '+${item.reverseauctionLeavingDate}">check-out</p>
 											</div>
 										</div>
 									</a>

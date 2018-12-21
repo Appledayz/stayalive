@@ -94,6 +94,13 @@
   	  	reverseauction_tender_count = reverseauction_tender_count + 1
   	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
+  
+  <update id="plusReverseauctionHits">
+  	UPDATE reverseauction_register
+  	  SET
+  	  	reverseauction_hits = reverseauction_hits + 1
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </update>
 
   <delete id="deleteReverseauction">
   	DELETE FROM reverseauction_register

@@ -27,4 +27,6 @@ public interface ReverseauctionMapper {
 	int selectCountReverseauction();
 	// 역경매 검색 갯수 조회
 	int selectCountReverseauctionSearch(PageMaker pageMaker, String sk, String sv, String date1, String date2);
+	// 역경매 상세조회 조회수 업데이트
+	int plusReverseauctionHits(int reverseauctionNo);
 }

@@ -47,6 +47,7 @@ public class ReverseauctionService {
 	// 4. 역경매 상세 보기
 	public Reverseauction getReverseauctionOne(int reverseauctionNo) {
 		System.out.println("ReverseauctionService.getReverseauctionOne()");
+		reverseauctionMapper.plusReverseauctionHits(reverseauctionNo);
 		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 	}
 	// 5. 역경매 수정 폼
