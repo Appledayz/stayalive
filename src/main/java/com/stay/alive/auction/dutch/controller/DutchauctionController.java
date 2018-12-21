@@ -30,7 +30,7 @@ public class DutchauctionController {
 				.withIntervalInSeconds(2).repeatForever();
 
 		return TriggerBuilder.newTrigger().forJob(sampleJobDetail())
-				.withIdentity("trigger","group"+groupNum).endAt(dateOf(10, 14, 59, 21, 12 , 2018)).withSchedule(scheduleBuilder).build();
+				.withIdentity("trigger","group"+groupNum).endAt(dateOf(11, 10, 0, 21, 12 , 2018)).withSchedule(scheduleBuilder).build();
 	}
 	@GetMapping("register")
 	public String dutchauctionRegister() throws SchedulerException {
