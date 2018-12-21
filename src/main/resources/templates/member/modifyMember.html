@@ -6,6 +6,12 @@
 		<link rel="stylesheet" href="/main/style.css">
 		<title>Sign up</title>
 		<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+		<script th:inline="javascript">
+			var mEA = [[${member.memberEmailAccept}]];
+			
+			console.log(mEA);
+		</script>
+		
 	</head>
 	<body class="body-wrapper">
 		<!-- header replace -->
@@ -39,37 +45,34 @@
 						</a>
 					</div>
 				<div class="col-md-9">
-					<form action="/member/addMember" method="post" id="addMemberForm" name="join" onsubmit="return validate();">
+					<form action="/member/modifyMember" method="post" id="modifyMember" name="join" onsubmit="return validate();">
 						<div class="row">
 						<div class="col-lg-10 input-group">
-							<input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디 (4~10자의 영문,숫자)">
-							<div class="input-group-btn">
-								<button type="button" class="idCheck btn palatin-btn btn-3 m-1" id="hid1" name="hid1" value="0">아이디 중복확인</button>
-							</div>
+							<input type="text" class="form-control" name="memberId" id="memberId" th:value="${member.memberId}" readonly>
 						</div>
 						<div class="col-lg-10 input-group">
-							<input type="text" class="form-control" name="memberNickname" id="memberNickname" placeholder="닉네임 (특수문자를 제외한 2~8자)">
+							<input type="text" class="form-control" name="memberNickname" id="memberNickname" placeholder="닉네임 (특수문자를 제외한 2~8자)" th:value="${member.memberNickname}">
 							<div class="input-group-btn">
 								<button type="button" class="nicknameCheck btn palatin-btn btn-3 m-1" id="hid2" name="hid2" value="0">닉네임 중복확인</button>
 							</div>
 						</div>
 						<div class="col-lg-5">
-							<input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="비밀번호 (4~12자의 영문,숫자,특수문자)">
+							<input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="비밀번호 (4~12자의 영문,숫자,특수문자)" th:value="${member.memberPassword}">
 						</div>
 						<div class="col-lg-5">
 							<input type="password" class="form-control" name="memberPasswordCheck" id="memberPasswordCheck" placeholder="비밀번호 확인">
 						</div>
 						<div class="col-lg-5">
-							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름">
+							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름" th:value="${member.memberName}">
 						</div>
 						<div class="col-lg-5">
-							<input type="text" class="form-control" name="memberPhoneNumber1" id="memberPhoneNumber1" placeholder="연락처">
+							<input type="text" class="form-control" name="memberPhoneNumber1" id="memberPhoneNumber1" placeholder="연락처" th:value="${member.memberPhoneNumber1}">
 						</div>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" name="memberBirth" id="memberBirth" placeholder="생년월일 (예시:19890829)">
+							<input type="text" class="form-control" name="memberBirth" id="memberBirth" placeholder="생년월일 (예시:19890829)" th:value="${member.memberBirth}">
 						</div>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="e-mail">
+							<input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="e-mail" th:value="${member.memberEmail}">
 						</div>
 						<div class="col-lg-3 input-group">
 							<p>e-mail 수신동의</p>
