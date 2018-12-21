@@ -73,11 +73,6 @@
 		    <artifactId>mariadb-java-client</artifactId>
 		    <version>2.3.0</version>
 		</dependency>
-		<dependency>
-	 <groupId>com.fasterxml.jackson.core</groupId>
-		 <artifactId>jackson-databind</artifactId>
-		 <version>2.9.6</version>
-		</dependency>
 		<!-- EXTERNAL TOMCAT -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,18 +85,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		  <!-- Google Login -->
-	        <dependency>
-	            <groupId>org.springframework.social</groupId>
-	            <artifactId>spring-social-google</artifactId>
-	            <version>1.0.0.RELEASE</version>
-	        </dependency>
-   			 <dependency>
-	            <groupId>org.apache.httpcomponents</groupId>
-	            <artifactId>httpclient</artifactId>
-	            <version>4.5.3</version>
-	        </dependency>
-		
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-quartz -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-quartz</artifactId>
+		    <version>2.1.1.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
