@@ -1,216 +1,276 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>네던란드식 역경매 등록</title>
-<!-- jquery(3.3.1)  -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<!-- bootstrap(4.1.3)  -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script>
-$(function() {
-	$("#selectAcc").change(function(e) {
-		if($(this).val() != 0 ) {
-			var selectedAcc = $("#selectAcc option:selected").val();
-			//hidden 태그에 숙소 이름 세팅
-			$("#accommodationName").val(selectedAcc);
-			$("#guestroomAddOrSelect").prop("disabled", false);
-			if($("#guestroomAddOrSelect").val() == 1) {
+	<meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
+	<!-- jquery(3.3.1)  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<!-- bootstrap(4.1.3)  -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+	<script>
+	$(function() {
+		$("#dutchauctionRegister").addClass('active');
+		$("#selectAcc").change(function(e) {
+			if($(this).val() != 0 ) {
+				var selectedAcc = $("#selectAcc option:selected").val();
+				//hidden 태그에 숙소 이름 세팅
+				$("#accommodationName").val(selectedAcc);
+				$("#guestroomAddOrSelect").prop("disabled", false);
+				if($("#guestroomAddOrSelect").val() == 1) {
+					$("#selectGuestroom").prop("disabled", false);
+					findGuestroomName();
+				}
+			}
+			else {
+				$("#guestroomAddOrSelect").prop("disabled", true);
+				$("#selectGuestroom").prop("disabled", true);
+			}
+		});
+		$("#guestroomAddOrSelect").change(function(e) {
+			if($(this).val() == 1) {
 				$("#selectGuestroom").prop("disabled", false);
 				findGuestroomName();
 			}
-		}
-		else {
-			$("#guestroomAddOrSelect").prop("disabled", true);
-			$("#selectGuestroom").prop("disabled", true);
-		}
-	});
-	$("#guestroomAddOrSelect").change(function(e) {
-		if($(this).val() == 1) {
-			$("#selectGuestroom").prop("disabled", false);
-			findGuestroomName();
-		}
-		else {//새로운 객실을 등록 선택시
-			$("#selectGuestroom").prop("disabled", true);
-			$("#guestroomImageFile").prop("disabled",false);
-			$("#guestroomName").prop("readonly",false);
-			$("#guestroomSize").prop("readonly",false);
-			$("#guestroomDetail").prop("readonly",false);
-			$("#guestroomCapacity").prop("readonly",false);
-			$("#guestroomName").val("");
-			$("#guestroomSize").val("");
-			$("#guestroomDetail").val("");
-			$("#guestroomCapacity").val("");
-		}
-	});
-	
-	$("#selectGuestroom").change(function() {
-		if($("#selectGuestroom").val() != 0) {
-			$("#guestroomImageFile").prop("disabled",true);
-			guestroomInfo();
-		}
-		$("#guestroomImageFile").prop("disabled",true);
-	});
-	//등록버튼 클릭
-	$("#registerBtn").click(function() {
-		if($("#selectAcc").val() != 0) {
-			if($("#guestroomAddOrSelect").val() == 1 && $("#selectGuestroom").val() != 0) {
-				$("#registerForm").submit();
+			else {//새로운 객실을 등록 선택시
+				$("#selectGuestroom").prop("disabled", true);
+				$("#guestroomImageFile").prop("disabled",false);
+				$("#guestroomName").prop("readonly",false);
+				$("#guestroomSize").prop("readonly",false);
+				$("#guestroomDetail").prop("readonly",false);
+				$("#guestroomCapacity").prop("readonly",false);
+				$("#guestroomName").val("");
+				$("#guestroomSize").val("");
+				$("#guestroomDetail").val("");
+				$("#guestroomCapacity").val("");
 			}
-			else if($("#guestroomAddOrSelect").val() == 0){
-				$("#registerForm").submit();
+		});
+		
+		$("#selectGuestroom").change(function() {
+			if($("#selectGuestroom").val() != 0) {
+				$("#guestroomImageFile").prop("disabled",true);
+				guestroomInfo();
+			}
+			$("#guestroomImageFile").prop("disabled",true);
+		});
+		//등록버튼 클릭
+		$("#registerBtn").click(function() {
+			if($("#selectAcc").val() != 0) {
+				if($("#guestroomAddOrSelect").val() == 1 && $("#selectGuestroom").val() != 0) {
+					$("#registerForm").submit();
+				}
+				else if($("#guestroomAddOrSelect").val() == 0){
+					$("#registerForm").submit();
+				}
+				
 			}
 			
-		}
-		
+		});
 	});
-});
-function findGuestroomName() {
-	$.ajax({
-  		url : "findGuestroomName",
-  		data : {"accommodationName" : $("#selectAcc").val()},
-  		type: 'GET',
-		contentType:"application/x-www-form-urlencoded",
-		success: function(data) {
-			$("#selectGuestroom").html("<option value='0'>객실을 선택해주세요")
-			$.each(data, function(index,item) {
-				$("#selectGuestroom").append("<option value='"+ (index + 1) +"'>"+ item)
-			});
-		}
-	});
-}
-//게스트룸 정보 input 태그에 입력
-function guestroomInfo() {
-	$.ajax({
-  		url : "guestroomInfo",
-  		data : {"accommodationName" : $("#selectAcc").val(), "guestroomName":$("#selectGuestroom option:selected").val()},
-  		type: 'GET',
-		contentType:"application/x-www-form-urlencoded",
-		success: function(data) {
-			//console.log(data)
-			$("#guestroomName").val(data.guestroomName);
-			$("#guestroomSize").val(data.guestroomSize);
-			$("#guestroomDetail").val(data.guestroomDetail);
-			$("#guestroomCapacity").val(data.guestroomCapacity);
-			$("#guestroomName").prop("readonly",true);
-			$("#guestroomSize").prop("readonly",true);
-			$("#guestroomDetail").prop("readonly",true);
-			$("#guestroomCapacity").prop("readonly",true);
-		}
-	});
-}
-</script>
+	function findGuestroomName() {
+		$.ajax({
+	  		url : "findGuestroomName",
+	  		data : {"accommodationName" : $("#selectAcc").val()},
+	  		type: 'GET',
+			contentType:"application/x-www-form-urlencoded",
+			success: function(data) {
+				$("#selectGuestroom").html("<option value='0'>객실을 선택해주세요")
+				$.each(data, function(index,item) {
+					$("#selectGuestroom").append("<option value='"+ (index + 1) +"'>"+ item)
+				});
+			}
+		});
+	}
+	//게스트룸 정보 input 태그에 입력
+	function guestroomInfo() {
+		$.ajax({
+	  		url : "guestroomInfo",
+	  		data : {"accommodationName" : $("#selectAcc").val(), "guestroomName":$("#selectGuestroom option:selected").val()},
+	  		type: 'GET',
+			contentType:"application/x-www-form-urlencoded",
+			success: function(data) {
+				//console.log(data)
+				$("#guestroomName").val(data.guestroomName);
+				$("#guestroomSize").val(data.guestroomSize);
+				$("#guestroomDetail").val(data.guestroomDetail);
+				$("#guestroomCapacity").val(data.guestroomCapacity);
+				$("#guestroomName").prop("readonly",true);
+				$("#guestroomSize").prop("readonly",true);
+				$("#guestroomDetail").prop("readonly",true);
+				$("#guestroomCapacity").prop("readonly",true);
+			}
+		});
+	}
+	</script>
 
 </head>
 <body>
-	<div class ="container" >
- 		<form action="registerAction" id="registerForm" enctype="multipart/form-data" method="post">
-	    	<div class="card" >
-	    		<div class="card-body">
-	    			<input type="hidden" name="accommodationName" id="accommodationName">
-	    			<div class="form-group">
-	    				<label class="col-2 col-form-label">선택</label>
-	    				<select name = "selectAcc" id="selectAcc">
-				 			<option value="0">숙소를 선택해 주세요
-				 			<option th:each="name : ${name}" th:text="${name}">
-				 		</select>
-					    <select name = "guestroomAddOrSelect" id ="guestroomAddOrSelect" disabled>
-				 			<option value="0">새로운 객실을 등록
-				 			<option value="1">기존에 있는 객실을 선택
-				 		</select>
-				 		<select name = "selectGuestroom" id = "selectGuestroom" disabled>
-				 			<option value='0'>객실을 선택해주세요
-				 		</select>
-					</div>
-			    	<div class="form-group">
-				    	<div class="form-row">
-				    		<label class = "col-2 col-form-label">객실 이름</label>
-				    		<input class="form-control form-control-sm col-2" type="text" name="guestroomName" id="guestroomName">
-						</div>
-	    			</div>
-					<div class="form-group" id="imagefile">
-	    				<div class="form-row">
-	    					<label class = "col-2 col-form-label">객실 대표이미지</label>
-	    					<input class="form-control col-3" type="file" name="guestroomImageFile" id="guestroomImageFile">
-	    				</div>
-	    			</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">객실 크기</label>
-		    				<input class="form-control form-control-sm col-5" type="text" name="guestroomSize" id="guestroomSize">
-		    			</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">수용 인원</label>
-		    				<input class="form-control form-control-sm col-5" type="text" name="guestroomCapacity" id="guestroomCapacity">
-		    			</div>
-		    		</div>	
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">객실 세부 내용</label>
-		    				<input class="form-control form-control-sm col-5" type="text" name="guestroomDetail" id="guestroomDetail" style="width:400px">
-		    			</div>
-		    		</div>	
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">판매가</label>
-	    					<input class="form-control form-control-sm col-10" type="text" name="dutchauctionCurentPrice">
-		    			</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    				<label class="col-2 col-form-label">할인 단위</label>
-	    					<input class="form-control form-control-sm col-10" type="text" name="dutchauctionSaleUnit">
-		    			</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    			<label class="col-2 col-form-label">할인 시간간격</label>
-	    				<select name = "dutchauctionSaleInterval">
-	    					<option value="1">6시간마다
-	    					<option value="2">7시간마다
-	    					<option value="3">8시간마다
-				 			<option value="4">9시간마다
-				 			<option value="5">10시간마다
-				 		</select>
-				 		</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    			<label class="col-2 col-form-label">경매 종료시간</label>
-		    			<input type="date" name="dutchauctionCloseDate">
-	    				<select name = "dutchauctionCloseHour" >
-	    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
-				 		</select>
-				 		</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div class="form-row">
-		    			<label class="col-2 col-form-label">입실-퇴실일</label>
-		    			<label class="col-form-label">입실</label>
-		    			<input type="date" name="dutchauctionCheckinDate">
-	    				<select name = "dutchauctionCheckinHour" >
-	    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
-				 		</select>
-				 		<div style="padding-left: 20px"></div>
-				 		<label class="col-form-label">퇴실</label>
-				 		<input type="date" name="dutchauctionCheckoutDate">
-	    				<select name = "dutchauctionCheckoutHour" >
-	    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
-				 		</select>
-				 		</div>
-		    		</div>
-		    		<div class="form-group">
-		    			<div align="right">
-		    				<input type="button" class="btn btn-primary pull-right" id="registerBtn" value="등록" />
-		    			</div>
-		    		</div>
-	    		</div>
-    		</div>
-    	</form>
-	</div>	
+	<!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+
+ <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
+        <div class="bradcumbContent">
+            <h2>Dutchauction Registration</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Contact Form Area Start ##### -->
+    <section class="contact-form-area mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <div class="line-"></div>
+                        <h2>더치옥션 등록</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+            	<div class="col-md-3">
+            		<p>업체는 무엇인가요?</p>
+					<a href="company">
+						<button type="button" class="btn palatin-btn">Click Now</button><br><br>
+					</a>
+					<p>stayalive에 등록된 업체들은 어디있나요?</p>
+					<a href="companyList">
+						<button type="button" class="btn palatin-btn">Click Now</button>
+					</a>
+				</div>
+                <div class="col-md-9">
+			 		<form action="registerAction" id="registerForm" enctype="multipart/form-data" method="post">
+				    	<div class="row">				    	
+		    				<input type="hidden" name="accommodationName" id="accommodationName">
+   							<div class="col-lg-4">
+   								<select name = "selectAcc" id="selectAcc">
+						 			<option value="0">숙소를 선택해 주세요
+						 			<option th:each="name : ${name}" th:text="${name}">
+						 		</select>
+   							</div>
+   							<div class="col-lg-4">
+   								<select name = "guestroomAddOrSelect" id ="guestroomAddOrSelect" disabled>
+						 			<option value="0">새로운 객실을 등록
+						 			<option value="1">기존에 있는 객실을 선택
+						 		</select>
+   							</div>
+   							<div class="col-lg-4">
+   								<select name = "selectGuestroom" id = "selectGuestroom" disabled>
+						 			<option value='0'>객실을 선택해주세요
+						 		</select>
+   							</div>
+   							<div class="col-lg-4">
+   								<input class="form-control" type="text" name="guestroomName" id="guestroomName" placeholder="객실명">
+   							</div>
+   							<div class="col-lg-2">
+   								<p class="text-right"><br>객실 대표이미지</p>
+   							</div>
+   							<div class="col-lg-6" id="imagefile">
+   								<input class="form-control" type="file" name="guestroomImageFile" id="guestroomImageFile">
+   							</div>
+   							<div class="col-lg-6">
+   								<input class="form-control" type="text" name="guestroomSize" id="guestroomSize" placeholder="객실 크기">
+   							</div>
+   							<div class="col-lg-6">
+   								<input class="form-control" type="text" name="guestroomCapacity" id="guestroomCapacity" placeholder="수용 인원">
+   							</div>
+   							<div class="col-12">
+   								<textarea name="guestroomDetail" class="form-control" id="guestroomDetail" cols="30" rows="10" placeholder="고객에게 보이는 객실 세부 정보"></textarea>
+   							</div>
+   							<div class="col-lg-6">
+   								<input class="form-control" type="text" name="dutchauctionCurentPrice" placeholder="판매가">
+   							</div>
+   							<div class="col-lg-6">
+   								<input class="form-control" type="text" name="dutchauctionSaleUnit" placeholder="할인 단위">
+   							</div>
+   							<div class="col-lg-2">
+   								<p class="text-right"><br>할인 시간간격</p>
+			 				</div>
+   							<div class="col-lg-4">
+   								<select name = "dutchauctionSaleInterval">
+			    					<option value="1">6시간마다
+			    					<option value="2">7시간마다
+			    					<option value="3">8시간마다
+						 			<option value="4">9시간마다
+						 			<option value="5">10시간마다
+						 		</select>
+			 				</div>
+				    		<div class="col-lg-2">
+   								<p class="text-right"><br>경매 종료시간</p>
+			 				</div>
+			 				<div class="col-lg-3">
+   								<input class="form-control" type="date" name="dutchauctionCloseDate">
+			 				</div>
+			 				<div class="col-lg-1">
+   								<select name = "dutchauctionCloseHour" >
+			    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
+						 		</select>
+			 				</div>
+			 				<div class="col-lg-2">
+   								<p class="text-right"><br>입실 일자</p>
+			 				</div>
+			 				<div class="col-lg-3">
+			 					<input type="date" name="dutchauctionCheckinDate" class="form-control">
+			 				</div>
+			 				<div class="col-lg-1">
+			 					<select name = "dutchauctionCheckinHour" >
+			    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
+						 		</select>
+			 				</div>
+			 				<div class="col-lg-2">
+   								<p class="text-right"><br>퇴실 일자</p>
+			 				</div>
+			 				<div class="col-lg-3">
+			 					<input type="date" name="dutchauctionCheckoutDate" class="form-control">
+			 				</div>
+			 				<div class="col-lg-1">
+			 					<select name = "dutchauctionCheckoutHour" >
+			    					<option th:value="${num}" th:each="num : ${#numbers.sequence(0,23)}" th:text="${num}+'시'">
+						 		</select>
+			 				</div>
+			 				<div class="col-12">
+                   		 		<button type="button" id="registerBtn" class="btn palatin-btn mt-50">더치옥션 등록하기</button>
+                  			</div>				    
+			    		</div>
+			    	</form>
+   				</div>
+            </div>
+        </div>
+    </section>
+	
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
 </body>
 </html>
