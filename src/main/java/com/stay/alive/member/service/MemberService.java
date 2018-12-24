@@ -26,12 +26,16 @@ public class MemberService {
 	public Member nicknameCheck(Member memberNickname) {
 		return memberMapper.nicknameCheck(memberNickname);
 	}
-	//4-1 수정폼
+	//2-1 셀렉트 아이디 (수정 폼, 탈퇴폼)
 	public Member getMember(String memberId) {
 		return memberMapper.selectOne(memberId);
 	}
-	//4-2 수정액션
+	//2-2 수정액션
 	public int modifyMember(Member member) {
 		return memberMapper.updateMember(member);
+	}
+	//3-2 삭제액션
+	public int removeMember(Member member) {
+		return memberMapper.deleteMember(member);
 	}
 }

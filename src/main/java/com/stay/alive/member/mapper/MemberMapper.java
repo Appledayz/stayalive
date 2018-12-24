@@ -20,5 +20,7 @@ public interface MemberMapper {
 	Member idCheck(Member memberId);
 	Member nicknameCheck(Member memberNickname);
 	int updateMember(Member member);
+	int deleteMember(Member member);
 	public abstract Member selectOne(String memberId);
+	
 }

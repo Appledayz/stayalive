@@ -50,7 +50,7 @@
 			now(),
 			now(),
 			now(),
-			1);
+			1)
 	</insert>
 	<!-- 아이디 중복 확인 -->
 	<select id="idCheck" resultType="com.stay.alive.member.vo.Member">
@@ -62,20 +62,7 @@
 		SELECT member_nickname from member
 			where member_nickname = #{memberNickname}
 	</select>
-	<!-- 회원 정보 수정 액션 -->
-	<update id="updateMember" parameterType="com.stay.alive.member.vo.Member">
-		UPDATE member
-			SET member_password = #{memberPassword},
-			member_name = #{memberName},
-			member_nickname = #{memberNickname},
-			member_birth = #{memberBirth},
-			member_phone_number1 = #{memberPhoneNumber1},
-			member_email = #{memberEmail},
-			member_email_accept = #{memberEmailAccept},
-			member_sms_accept = #{memberSmsAccept},
-			WHERE member_id = #{memberId}
-    </update>
-    <!-- 회원 정보 수정 폼 -->
+	    <!-- 회원 정보 받아오기 (수정폼, 삭제폼) -->
     <select id="selectOne" parameterType="String" resultType="com.stay.alive.member.vo.Member">
         SELECT member_id as memberId,
         	member_password as memberPassword,
@@ -89,5 +76,25 @@
 	        FROM member
 	        WHERE member_id = #{memberId}
     </select>
+	<!-- 회원 정보 수정 액션 -->
+	<update id="updateMember" parameterType="com.stay.alive.member.vo.Member">
+		UPDATE member
+			SET member_password = #{memberPassword},
+			member_name = #{memberName},
+			member_nickname = #{memberNickname},
+			member_birth = #{memberBirth},
+			member_phone_number1 = #{memberPhoneNumber1},
+			member_email = #{memberEmail},
+			member_email_accept = #{memberEmailAccept},
+			member_sms_accept = #{memberSmsAccept}
+			WHERE member_id = #{memberId}
+    </update>
+    <!-- 회원 탈퇴 액션 -->
+    <delete id="deleteMember" parameterType="com.stay.alive.member.vo.Member">
+		DELETE
+			FROM member
+			WHERE member_id = #{memberId}
+    </delete>
 </mapper>
+
 	

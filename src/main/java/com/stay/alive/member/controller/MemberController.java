@@ -80,14 +80,26 @@ public class MemberController {
         }
 		return "redirect:/main";
 	}
-	//페이징
-	//1-2.회원가입 액션
-	
-	//2-1.회원정보 수정 폼
-	
-	//2-2.회원정보 수정 액션
-	
-	//3.회원 목록 조회
-	
-	//4.회원 탈퇴 신청
+	//3-1탈퇴폼
+	@GetMapping("removeMember")
+	public String deleteMember(HttpSession session, Model model) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId == null) {
+			return "/login/login";
+		} else {
+			Member member = memberService.getMember(memberId);
+			model.addAttribute("member", member);
+			System.out.println(member+"<-세션에서 넘어온 값");
+			return "member/removeMember";
+		}
+	}
+	//3-2탈퇴액션
+	@PostMapping("removeMember")
+	public String removeMember(HttpSession session, Member member) {
+		if(memberService.removeMember(member)==1) {
+            System.out.println("삭제 완료");
+        }
+		session.invalidate();
+		return "redirect:/main";
+	}
 }
