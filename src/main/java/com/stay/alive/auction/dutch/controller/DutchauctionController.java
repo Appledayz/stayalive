@@ -2,6 +2,8 @@ package com.stay.alive.auction.dutch.controller;
 
 import static org.quartz.DateBuilder.dateOf;
 
+import javax.servlet.http.HttpSession;
+
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -23,10 +25,12 @@ import com.stay.alive.auction.dutch.service.DutchAuctionRegisterJob;
 import com.stay.alive.auction.dutch.service.DutchauctionService;
 import com.stay.alive.auction.dutch.vo.DutchAuction;
 import com.stay.alive.company.vo.Company;
+import com.stay.alive.file.ImageFile;
+import com.stay.alive.file.mapper.ImageFileMapper;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Controller
-@RequestMapping("dutchauction")
+@RequestMapping("auction/dutch")
 public class DutchauctionController {
 	private int groupNum = 0;
 	@Autowired
@@ -101,13 +105,14 @@ public class DutchauctionController {
 			String dutchauctionCheckinHour,
 			String dutchauctionCheckoutDate,
 			String dutchauctionCheckoutHour,
-			int guestroomAddOrSelect) {
+			int guestroomAddOrSelect,
+			HttpSession session) {
 		String memberId = "ID1";
 		if(guestroomAddOrSelect == 0) { //객실과 역경매 등록
 			GuestRoom guestRoom = new GuestRoom();
 			DutchAuction dutchAuction = new DutchAuction();
 			int accommodationNo = dutchauctionService.getAccommodationNo(accommodationName); //숙소 번호
-			Company company = dutchauctionService.getCompanyInfo(memberId); //업체 이름, 업제 번호
+			Company company = dutchauctionService.getCompanyInfo(memberId);
 			guestRoom.setMemberId(memberId);
 			guestRoom.setAccommodationName(accommodationName);
 			guestRoom.setAccommodationNo(accommodationNo);
@@ -117,9 +122,10 @@ public class DutchauctionController {
 			guestRoom.setGuestroomSize(guestroomSize);
 			guestRoom.setGuestroomCapacity(guestroomCapacity);
 			guestRoom.setGuestroomDetail(guestroomDetail);
-			if(!guestroomImageFile.isEmpty()) {
-				
-			}
+			String path = session.getServletContext().getRealPath("image/guestroom");
+			int imageFileNo = dutchauctionService.addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일 로컬, 데이터베이스 저장
+			guestRoom.setImageFileNo(imageFileNo);
+			
 		}
 		else { //기존의 객실로 역경매 등록
 			System.out.println(accommodationName);

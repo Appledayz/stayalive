@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.stay.alive.accommodation.mapper.AccommodationFileMapper;
 import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.file.ImageFile;
+import com.stay.alive.file.mapper.ImageFileMapper;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -23,7 +22,7 @@ public class AccommodationService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
 	@Autowired
-	private AccommodationFileMapper accommodationFileMapper;
+	private ImageFileMapper imageFileMapper;
 	//회원ID를 통해 숙소정보를 얻어오는 메서드
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
@@ -65,8 +64,8 @@ public class AccommodationService {
 	}
 	//사업자 등록 파일 삭제
 	public void removeBusinessImageFile(int imageFileNo) {
-		ImageFile imageFile = accommodationFileMapper.selectImageFile(imageFileNo);
-		accommodationFileMapper.deleteImageFile(imageFileNo); //데이터베이스 -> 이미지파일 정보 삭제
+		ImageFile imageFile = imageFileMapper.selectImageFile(imageFileNo);
+		imageFileMapper.deleteImageFile(imageFileNo); //데이터베이스 -> 이미지파일 정보 삭제
 		String path =imageFile.getImageFilePath();
 		String ext = imageFile.getImageFileExt();
 		String stordName = imageFile.getImageFileStoredName();
@@ -115,7 +114,7 @@ public class AccommodationService {
 		for(MultipartFile file: multipartFile) {
 			if(!file.isEmpty()) {
 				imageTag = imageTag + addImageFile(imageFile, file, path, memberId, 3, "숙소");
-				accommodationFileMapper.insertImageFile(imageFile);
+				imageFileMapper.insertImageFile(imageFile);
 			}
 		}
 		return imageTag;
@@ -123,7 +122,7 @@ public class AccommodationService {
 	public int addBusinessImageFiles(MultipartFile file, String path, String memberId) {
 		ImageFile imageFile = new ImageFile();
 		addImageFile(imageFile, file, path, memberId, 6, "사업자등록");
-		accommodationFileMapper.insertImageFile(imageFile);
+		imageFileMapper.insertImageFile(imageFile);
 		return imageFile.getImageFileNo();
 	}
 }

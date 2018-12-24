@@ -1,11 +1,11 @@
-package com.stay.alive.accommodation.mapper;
+package com.stay.alive.file.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.stay.alive.file.ImageFile;
 
 @Mapper
-public interface AccommodationFileMapper {
+public interface ImageFileMapper {
 	public void insertImageFile(ImageFile imageFile);
 	public ImageFile selectImageFile(int imageFileNo);
 	public void deleteImageFile(int imageFileNo);
