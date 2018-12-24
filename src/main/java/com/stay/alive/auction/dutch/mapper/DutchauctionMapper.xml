@@ -1,1 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stay.alive.auction.dutch.mapper.DutchauctionMapper" >
+	<select id="selectGuestroomNamefromAccommodationName" resultType="string">
+		SELECT guestroom_name FROM guestroom WHERE accommodation_name = #{accommodationName}
+	</select>
+	<select id="selectGuestroomInfo" resultType="com.stay.alive.guestroom.vo.GuestRoom">
+		SELECT * FROM guestroom WHERE accommodation_name = #{accommodationName} and guestroom_name = #{guestroomName}
+	</select>
+	<select id="selectAccommodationNo" resultType="int">
+		SELECT accommodation_no FROM accommodation WHERE accommodation_name = #{accommodationName}
+	</select>
+	<select id="selectCompanyInfo" resultType="com.stay.alive.company.vo.Company">
+		SELECT company_no, company_name FROM company WHERE member_id = #{memberId}
+	</select>
+
+	
+</mapper>

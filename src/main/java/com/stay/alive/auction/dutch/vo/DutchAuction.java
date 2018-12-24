@@ -19,13 +19,13 @@ public class DutchAuction {
 	private String dutchauctionRegisterDate;//등록일
 	private int dutchauctionStartprice;//경매 시작가
 	private int maximumDiscountPrice;//최대 할인가
-	private int dutchauctionXpersale;//x 시간당 할인가
-	private int dutchauctionXvalue;//x 값
+	private int dutchauctionSaleUnit;//시간당 할인가
+	private int dutchauctionSaleInterval;//할인단위(시간)
 	private int dutchauctionCurentPrice;//현재가
 	private int dutchauctionUpdatePrice;//최근 변동 가격
 	private String dutchauctionCloseDate;//경매 종료일
-	private String dutchauctionRoomingDate;//숙소 입실일
-	private String dutchauctionLeavingDate;//숙소 퇴실일
+	private String dutchauctionCheckinDate;//숙소 입실일
+	private String dutchauctionCheckoutDate;//숙소 퇴실일
 	private int auctionStateCategoryNo;//경매 상태 카테고리 번호(FK)
 	private String auctionStateCategoryName;//상태 카테고리명
 
