@@ -46,34 +46,39 @@
 	                            <div class="classynav">
 	                                <ul>
 	                                    <li id="main"><a href="/main">홈</a></li>
-	                                    <li><a href="/company/main">업체</a>
-	                                    	<ul class="dropdown">
-	                                            <li id="company"><a href="/company/main">업체</a></li>
-	                                            <li id="companyRegister"><a href="/company/register">업체 등록</a></li>
-	                                            <li id="companyList"><a href="/company/list">업체 리스트</a></li>
-	                                        </ul>
-                                        </li>
 	                                    <li><a href="/auction/reverse/list">역경매</a>
 	                                    	<ul class="dropdown">
 	                                    		<li><a href="/auction/reverse/list">역경매목록</a></li>
 	                                    		<li><a href="/auction/reverse/add">역경매등록</a></li>
 	                                    	</ul>
 	                                    </li>
+	                                    <li><a href="/board/free">게시판</a>
+	                                    	<ul class="dropdown">
+	                                            <li id="freeBoard"><a href="/board/free">자유게시판</a></li>
+	                                        </ul>
+                                        </li>
 	                                    <li><a href="/member/main">회원</a>
 	                                        <ul class="dropdown">
-	                                            <li><a href="/member/addMember">회원가입</a></li>
 	                                            <li><a href="/member/modifyMember">회원정보 수정</a></li>
 	                                        </ul>
-	                                    </li>	                          
+	                                    </li>
+	                                    <li><a href="/accommodation/main">숙소</a>
+	                                    	<ul class="dropdown">
+	                                            <li id="accommodation"><a href="/accommodation/main">숙소</a></li>
+	                                            <li id="accommodationRegister"><a href="/accommodation/register">숙소 등록</a></li>
+	                                            <li id="accommodationList"><a href="/accommodation/list">숙소 리스트</a></li>
+	                                        </ul>
+                                        </li>
+                                        <li><a href="/company/main">업체</a>
+	                                    	<ul class="dropdown">
+	                                            <li id="company"><a href="/company/main">업체</a></li>
+	                                            <li id="companyRegister"><a href="/company/register">업체 등록</a></li>
+	                                            <li id="companyList"><a href="/company/list">업체 리스트</a></li>
+	                                        </ul>
+                                        </li>                          
 	                                    <li><a href="/ad">광고</a>	                                    	
                                             <ul class="dropdown">
-                                                <li><a href="/ad/adRegister">광고 등록</a></li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="rooms.html">Rooms</a></li>
-                                                <li><a href="blog.html">News</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                                <li><a href="elements.html">Elements</a></li>
+                                                <li><a href="/ad/adRegister">광고 등록</a></li>	
                                             </ul>	                                        
 	                                    </li>
 	                                </ul>
@@ -82,6 +87,7 @@
 									<div th:if="${session.memberId == null}">
 		                                <div class="menu-btn">
 		                                    <a href="/login" class="btn btn-outline-primary">로그인</a>
+		                                    <a href="/member/addMember" class="btn btn-outline-success">회원가입</a>
 		                                </div>
 								 	</div>
 	                            	<div th:if="${session.memberId != null}">

@@ -20,6 +20,11 @@ import com.stay.alive.accommodation.vo.Accommodation;
 public class AccommodationController {
 	@Autowired
 	private AccommodationService accommodationService;
+	//숙소 메인
+	@GetMapping("main")
+	public String accommodation() {
+		return "accommodation/accommodation";
+	}
 	//등록 뷰
 	@GetMapping("register")
 	public String accommodationRegister() {
