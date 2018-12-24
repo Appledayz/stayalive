@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<!-- Core Stylesheet -->
+		<link rel="stylesheet" href="/main/style.css">
+		<title>Withdrawal</title>
+		<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+	</head>
+	<body class="body-wrapper">
+		<!-- header replace -->
+		<div th:replace="header :: header"></div>
+		<!-- ##### Breadcumb Area Start ##### -->
+		<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
+			<div class="bradcumbContent">
+				<h2>Withdrawal</h2>
+			</div>
+		</section>
+				<!-- ##### Breadcumb Area End ##### -->
+		<section class="contact-form-area mb-100">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="section-heading">
+							<div class="line-"></div>
+							<h2>탈퇴</h2>
+						</div>
+					</div>
+				</div>			
+				<div class="row">
+					<div class="col-md-3">
+						<p>업체는 무엇인가요?</p>
+						<a href="company">
+							<button type="button" class="btn palatin-btn">Click Now</button><br><br>
+						</a>
+						<p>stayalive에 등록된 업체들은 어디있나요?</p>
+						<a href="companyList">
+							<button type="button" class="btn palatin-btn">Click Now</button>
+						</a>
+					</div>
+				<div class="col-md-9">
+					<form action="/member/removeMember" method="post" id="removeMember" name="join" onsubmit="return validate();">
+						<div class="row">
+						<div class="col-lg-6">
+							<input type="text" class="form-control" name="memberId" id="memberId" th:value="'아이디 : ' + ${member.memberId}" readonly>
+						</div>
+						<div class="col-lg-6">
+							<input type="text" class="form-control" name="memberNickname" id="memberNickname" th:value="'닉네임 : ' + ${member.memberNickname}" readonly>
+						</div>
+						<div class="col-lg-12">
+							<input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력하세요">
+						</div>
+						<div class="col-lg-12 text-center" style=font-weight:bold>
+							<span><font face='굴림체' color="red">주의!</font></span> 탈퇴하시면 지금까지 작성했던 모든 글과 거래내역이 삭제됩니다.<br><br>
+						</div>
+						<div class="col-lg-12 text-center">
+							<button type="submit" id="submitBtn" class="btn palatin-btn m-1">탈퇴</button>
+						</div>
+						</div>
+					</form>
+				</div>
+				</div>
+			</div>
+		</section>
+		<!-- footer replace -->
+		<div th:replace="footer :: footer"></div>
+		<!-- ##### All Javascript Script ##### -->
+		<!-- jQuery-2.2.4 js -->
+		<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+		<!-- Popper js -->
+		<script src="/main/js/bootstrap/popper.min.js"></script>
+		<!-- Bootstrap js -->
+		<script src="/main/js/bootstrap/bootstrap.min.js"></script>
+		<!-- All Plugins js -->
+		<script src="/main/js/plugins/plugins.js"></script>
+		<!-- Active js -->
+		<script src="/main/js/active.js"></script>
+		<script>
+		//3.각 항목별 유효성검사
+		function validate() {
+			var mP = [[${member.memberPassword}]];
+
+			// ------------ 이메일 까지 -----------
+			if(mP != join.memberPasswordCheck.value) {
+				alert("비밀번호가 틀렸습니다.");
+				join.memberPassword.focus();
+				return false;
+			}
+			alert("탈퇴가 완료되었습니다.");
+		}
+		
+		function check(re, what, message) {
+			if(re.test(what.value)) {
+				return true;
+			}
+			alert(message);
+			what.value = "";
+			what.focus();
+		//return false;
+		}
+		</script>
+	</body>
+</html>
