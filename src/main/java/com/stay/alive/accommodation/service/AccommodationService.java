@@ -17,7 +17,7 @@ import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRES_NEW)
+@Transactional
 public class AccommodationService {
 	@Autowired
 	private AccommodationMapper accommodationMapper;
@@ -45,6 +45,7 @@ public class AccommodationService {
 		accommodationMapper.updateAccommodation(accommodation);
 	}
 	//숙소 추가
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addAccommodation(Accommodation accommodation, String path) {
 		String sidoName = accommodation.getAddressSidoName();
 		String sigunguName = accommodation.getAddressSigunguName();

@@ -66,4 +66,7 @@
 			company_name as companyName, company_detail as companyDetail 
 		FROM company WHERE company_no = #{companyNo}
 	</select>
+	<select id="selectCompanyFromId" resultType="com.stay.alive.company.vo.Company">
+		SELECT company_no, company_name FROM company WHERE member_id = #{memberId}
+	</select>
 </mapper>

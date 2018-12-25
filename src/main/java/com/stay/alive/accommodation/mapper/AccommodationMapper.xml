@@ -7,7 +7,9 @@
 	<update id="updateAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
 		UPDATE accommodation SET accommodation_name = #{accommodationName}, member_business_number = #{memberBusinessNumber}, accommodation_phone = #{accommodationPhone}, accommodation_email = #{accommodationEmail}, accommodation_detail = #{accommodationDetail}, image_file_no = #{imageFileNo}, accommodation_update_date = now() WHERE accommodation_no = #{accommodationNo}
 	</update>
-	
+	<select id="selectAccommodationNo" resultType="int">
+		SELECT accommodation_no FROM accommodation WHERE accommodation_name = #{accommodationName}
+	</select>
 	<select id="selectAccommodationName" resultType="String">
 		SELECT accommodation_name from accommodation WHERE member_id = #{memberId}
 	</select>

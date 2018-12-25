@@ -7,9 +7,6 @@ import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Mapper 
 public interface DutchauctionMapper {
-	public String[] selectGuestroomNamefromAccommodationName(String accommodationName);
-	public GuestRoom selectGuestroomInfo(String accommodationName, String guestroomName);
-	public int selectAccommodationNo(String accommodationName);
-	public Company selectCompanyInfo(String memberId);
+
 	
 }

@@ -1,43 +1,87 @@
 package com.stay.alive.auction.dutch.service;
 
+import static org.quartz.DateBuilder.dateOf;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.auction.dutch.mapper.DutchauctionMapper;
+import com.stay.alive.auction.dutch.vo.DutchAuction;
+import com.stay.alive.company.mapper.CompanyMapper;
 import com.stay.alive.company.vo.Company;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
+import com.stay.alive.guestroom.mapper.GuestRoomMapper;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Service
+@Transactional
 public class DutchauctionService {
 	@Autowired
 	private ImageFileMapper imageFileMapper;
 	@Autowired
+	private CompanyMapper companyMapper;
+	@Autowired
 	private AccommodationMapper accommodationMapper;
 	@Autowired 
 	private DutchauctionMapper dutchauctionMapper;
+	@Autowired
+	private GuestRoomMapper guestRoomMapper;
+	@Autowired
+	private SchedulerFactoryBean schedulerFactoryBean;
+	private int groupNum = 0;
+	public JobDetail jobDetail() {
+		DutchAuction dutchauction = new DutchAuction();
+		dutchauction.setAccommodationNo(0);
+		JobDataMap jabDataMap = new JobDataMap();
+		jabDataMap.put("dutchauction", dutchauction);
+		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("job"+groupNum)
+				.usingJobData(jabDataMap).storeDurably().build();
+	}
+	public Trigger jobTrigger() {
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInSeconds(2).repeatForever();
+		return TriggerBuilder.newTrigger().forJob(jobDetail())
+				.withIdentity("trigger"+groupNum).endAt(dateOf(3, 50, 0, 23, 12 , 2018)).withSchedule(scheduleBuilder).build();
+	}
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
 	public String[] getGuestroomNamefromAccommodationName(String accommodationName) {
-		return dutchauctionMapper.selectGuestroomNamefromAccommodationName(accommodationName);
+		return guestRoomMapper.selectGuestroomNames(accommodationName);
 	}
 	public GuestRoom getGuestroomInfo(String accommodationName, String guestroomName) {
-		return dutchauctionMapper.selectGuestroomInfo(accommodationName, guestroomName);
+		return guestRoomMapper.selectGuestroomInfo(accommodationName, guestroomName);
 	}
-	public int getAccommodationNo(String accommodationName) {
-		return dutchauctionMapper.selectAccommodationNo(accommodationName);
+
+	//객실, 역경매 등록
+	public void addDutchAuctionAndGuestroom(GuestRoom guestRoom, DutchAuction dutchAuction, MultipartFile guestroomImageFile, String path, String memberId, String accommodationName) {
+		int accommodationNo = accommodationMapper.selectAccommodationNo(accommodationName); //숙소 번호
+		guestRoom.setAccommodationNo(accommodationNo);
+		Company company = companyMapper.selectCompanyFromId(memberId);
+		guestRoom.setCompanyNo(company.getCompanyNo());
+		guestRoom.setCompanyName(company.getCompanyName());
+		int imageFileNo = addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일 등록
+		guestRoom.setImageFileNo(imageFileNo);
+		//guestRoomMapper.insertGuestroom(guestRoom); //객실 등록
+		
+		
 	}
-	public Company getCompanyInfo(String memberId) {
-		return dutchauctionMapper.selectCompanyInfo(memberId);
-	}
+
 	//객실 이미지 등록
 	public int addGuestroomImageFile(MultipartFile guestroomImageFile, String path, String memberId) {
 		ImageFile imageFile = new ImageFile();
@@ -61,13 +105,14 @@ public class DutchauctionService {
 				folder.mkdirs();
 			}
 			File storedFile = new File(path + "/" + storedFileName + "." + ext); //실제 저장될 파일객체
-			try {
-				guestroomImageFile.transferTo(storedFile);
+			if(imageFileMapper.insertImageFile(imageFile)) {
+				try {
+					guestroomImageFile.transferTo(storedFile);
+				}
+				catch(IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
 			}
-			catch(IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-			imageFileMapper.insertImageFile(imageFile); //이미지 파일정보 데이터베이스에 등록
 		}
 	return imageFile.getImageFileNo();
 	}

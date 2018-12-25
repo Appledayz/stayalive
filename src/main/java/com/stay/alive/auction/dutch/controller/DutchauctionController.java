@@ -35,22 +35,7 @@ public class DutchauctionController {
 	private int groupNum = 0;
 	@Autowired
 	private DutchauctionService dutchauctionService;
-	@Autowired
-	private SchedulerFactoryBean schedulerFactoryBean;
-	public JobDetail jobDetail() {
-		DutchAuction dutchauction = new DutchAuction();
-		dutchauction.setAccommodationNo(0);
-		JobDataMap jabDataMap = new JobDataMap();
-		jabDataMap.put("dutchauction", dutchauction);
-		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("job"+groupNum)
-				.usingJobData(jabDataMap).storeDurably().build();
-	}
-	public Trigger jobTrigger() {
-		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(2).repeatForever();
-		return TriggerBuilder.newTrigger().forJob(jobDetail())
-				.withIdentity("trigger"+groupNum).endAt(dateOf(3, 50, 0, 23, 12 , 2018)).withSchedule(scheduleBuilder).build();
-	}
+
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model) throws SchedulerException {
 		
@@ -100,41 +85,36 @@ public class DutchauctionController {
 			int dutchauctionSaleUnit,
 			int dutchauctionSaleInterval,
 			String dutchauctionCloseDate,
-			String dutchauctionCloseHour,
 			String dutchauctionCheckindate,
-			String dutchauctionCheckinHour,
 			String dutchauctionCheckoutDate,
-			String dutchauctionCheckoutHour,
 			int guestroomAddOrSelect,
 			HttpSession session) {
 		String memberId = "ID1";
+		
 		if(guestroomAddOrSelect == 0) { //객실과 역경매 등록
 			GuestRoom guestRoom = new GuestRoom();
 			DutchAuction dutchAuction = new DutchAuction();
-			int accommodationNo = dutchauctionService.getAccommodationNo(accommodationName); //숙소 번호
-			Company company = dutchauctionService.getCompanyInfo(memberId);
+
 			guestRoom.setMemberId(memberId);
 			guestRoom.setAccommodationName(accommodationName);
-			guestRoom.setAccommodationNo(accommodationNo);
-			guestRoom.setCompanyNo(company.getCompanyNo());
-			guestRoom.setCompanyName(company.getCompanyName());
 			guestRoom.setGuestroomName(guestroomName);
 			guestRoom.setGuestroomSize(guestroomSize);
 			guestRoom.setGuestroomCapacity(guestroomCapacity);
 			guestRoom.setGuestroomDetail(guestroomDetail);
-			String path = session.getServletContext().getRealPath("image/guestroom");
-			int imageFileNo = dutchauctionService.addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일 로컬, 데이터베이스 저장
-			guestRoom.setImageFileNo(imageFileNo);
 			
+			String path = session.getServletContext().getRealPath("image/guestroom"); //객실 이미지 파일 저장될 경로
+			
+			dutchauctionService.addDutchAuctionAndGuestroom(guestRoom, dutchAuction, guestroomImageFile, path, memberId, accommodationName);
+			
+			//아래에는 객실추가, 역경매 추가 필요
 		}
 		else { //기존의 객실로 역경매 등록
 			System.out.println(accommodationName);
 			System.out.println(guestroomAddOrSelect);
 			System.out.println(guestroomImageFile);
 			System.out.println(dutchauctionCheckoutDate + "<== 체크인 날");
-			System.out.println(dutchauctionCheckoutHour + "<== 체크인 시간");
+			
 		}
-
 		return "registerAction";
 	}
 	@GetMapping("findGuestroomName")

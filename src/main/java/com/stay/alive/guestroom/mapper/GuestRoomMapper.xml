@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.guestroom.mapper.GuestRoomMapper">
+	<select id="selectGuestroomNames" resultType="string">
+		SELECT guestroom_name FROM guestroom WHERE accommodation_name = #{accommodationName}
+	</select>
+	<select id="selectGuestroomInfo" resultType="com.stay.alive.guestroom.vo.GuestRoom">
+		SELECT * FROM guestroom WHERE accommodation_name = #{accommodationName} and guestroom_name = #{guestroomName}
+	</select>
+	<insert id="insertGuestroom" parameterType="com.stay.alive.guestroom.vo.GuestRoom">
+		INSERT INTO guestroom(member_id, company_no, company_name, accommodation_no, accommodation_name, guestroom_name, guestroom_capacity, guestroom_size, guestroom_detail, guestroom_register_date, image_file_no)
+		VALUES(#{memberId},#{companyNo},#{companyName},#{accommodationNo},#{accommodationName},#{guestroomName},#{guestroomCapacity},#{guestroomSize},#{guestroomDetail},now(),#{imageFileNo})
+	</insert>
+	
+</mapper>

@@ -6,7 +6,7 @@ import com.stay.alive.file.ImageFile;
 
 @Mapper
 public interface ImageFileMapper {
-	public void insertImageFile(ImageFile imageFile);
+	public boolean insertImageFile(ImageFile imageFile);
 	public ImageFile selectImageFile(int imageFileNo);
 	public void deleteImageFile(int imageFileNo);
 	
