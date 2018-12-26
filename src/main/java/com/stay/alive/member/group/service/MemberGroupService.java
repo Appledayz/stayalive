@@ -20,4 +20,20 @@ public class MemberGroupService {
 		return memberGroupMapper.selectMemberGroupList();
 	}
 	
+	public void memberGroupRegister(MemberGroup memberGroup) {
+		memberGroupMapper.insertMemberGroup(memberGroup);
+	}
+	
+	public MemberGroup getMemberGroup(int groupNo) {
+		return memberGroupMapper.selectOneMemberGroup(groupNo);
+	}
+	
+	public void memberGroupModify(MemberGroup memberGroup) {
+		memberGroupMapper.updateMemberGroup(memberGroup);
+	}
+	
+	public void memberGroupRemove(int groupNo) {
+		memberGroupMapper.deleteMemberGroup(groupNo);
+	}
+	
 }

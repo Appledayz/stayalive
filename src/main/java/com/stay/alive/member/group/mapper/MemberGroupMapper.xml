@@ -11,4 +11,28 @@
 	      	group_register_date as groupRegisterDate
    		FROM member_group
 	</select>
+	<insert id="insertMemberGroup" parameterType="com.stay.alive.member.group.vo.MemberGroup">
+		INSERT INTO member_group(group_name, 
+								group_register_date) 
+		VALUES(#{groupName}, 
+				now())
+	</insert>
+	<select id="selectOneMemberGroup" parameterType="int" resultType="com.stay.alive.member.group.vo.MemberGroup">
+      	SELECT 
+	      	group_no as groupNo, 
+	      	group_name as groupName, 
+	      	group_register_date as groupRegisterDate
+   		FROM member_group
+   		WHERE group_no = #{groupNo}
+	</select>
+	<update id="updateMemberGroup" parameterType="com.stay.alive.member.group.vo.MemberGroup">
+		UPDATE member_group
+			SET group_name = #{groupName}
+			WHERE group_no = #{groupNo}
+    </update>
+    <delete id="deleteMemberGroup" parameterType="int">
+		DELETE
+			FROM member_group
+			WHERE group_no = #{groupNo}
+    </delete>
 </mapper>
