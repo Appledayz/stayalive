@@ -31,8 +31,14 @@ public class CompanyController {
 	}
 	
 	@GetMapping("register")
-	public String companyRegister() {
-		return "company/companyRegister";
+	public String companyRegister(Model model, HttpSession session) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId == null) {
+			return "login/login";
+		} else {
+			model.addAttribute("memberId", memberId);
+			return "company/companyRegister";
+		}
 	}
 	
 	@PostMapping("register")

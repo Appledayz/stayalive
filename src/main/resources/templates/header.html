@@ -15,6 +15,10 @@
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
 </head>
+	<!-- ##### All Javascript Script ##### -->
+	<!-- jQuery-2.2.4 js -->
+	<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+			                       
 <body>
 	<div th:fragment="header">
 		<!-- ##### Header Area Start ##### -->
@@ -91,13 +95,28 @@
 		                                    <a href="/member/addMember" class="btn btn-outline-success">회원가입</a>
 		                                </div>
 								 	</div>
+								 	<script>
+		                           		function dropdown() {
+											$("#dropdownBtn").trigger("click");
+										};
+									</script>
 	                            	<div th:if="${session.memberId != null}">
 		                            	<div class="menu-btn">
-		                            		<a href="#" class="btn btn-outline-info" th:text="${session.memberId}"></a>
-		                            		<a href="/login/memberLogout" class="btn btn-outline-danger">로그아웃</a>
+			                            	<div class="btn-group">
+			                            		<a href="javascript:dropdown();" class="btn btn-outline-info" th:text="${session.memberId}"></a>
+			                            		<div class="btn-group">
+				                            		<a href="#" id="dropdownBtn" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown">
+											   		 	...
+										   		  	</a>
+			                            		 	<div class="dropdown-menu">
+				                            		 	<a class="dropdown-item text-dark" href="/member/modifyMember">정보수정</a>
+				                            			<a class="dropdown-item text-dark" href="/login/memberLogout">로그아웃</a>
+				                            		</div>
+			                            		</div>
+			                            	</div>
 		                            	</div>
 		                            </div>
-		                           
+									
 	                            </div>
 	                            <!-- Nav End -->
 	                        </div>
