@@ -1,4 +1,4 @@
-package com.stay.alive.board.controller;
+package com.stay.alive.ad.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.stay.alive.board.service.BoardService;
+import com.stay.alive.ad.service.AdService;
 
 @Controller
-@RequestMapping("board")
-public class BoardFileController {
+@RequestMapping("/ad")
+public class AdFileController {
 	@Autowired
-	private BoardService boardService;
-	@PostMapping("addDetailImage")
+	private AdService adService;
+	@PostMapping("addAdFile")
 	@ResponseBody
-	public String addDetailImage(MultipartFile[] file,HttpSession session) {
-		String path = session.getServletContext().getRealPath("image/board");
+	public int addAdFile(MultipartFile file,HttpSession session) {
+		String path = session.getServletContext().getRealPath("image/ad");
 		String memberId = "ID1";
-		return boardService.addDetailImageFiles(file, path, memberId);
+		return adService.addAdFiles(file, path, memberId);
 	}
 }

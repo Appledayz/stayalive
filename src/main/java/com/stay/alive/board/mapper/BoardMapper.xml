@@ -1,1 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.stay.alive.board.mapper.BoardMapper">
+	<insert id="insertBoard" parameterType="com.stay.alive.board.vo.BoardMember">
+		INSERT INTO board_member(
+		board_category_no,
+		board_category_name,
+		member_id,
+		group_no,
+		group_name,
+		board_member_title,
+		board_member_content,
+		board_member_secret,
+		board_member_register_date,
+		image_file_no,
+		board_state_no,
+		board_state_name
+		)
+		VALUES(
+		#{boardCategoryNo},
+		#{boardCategoryName},
+		"ID1",
+		'1',
+		"게스트",
+		#{boardMemberTitle},
+		#{boardMemberContent},
+		"N",
+		now(),
+		#{imageFileNo},
+		'1',
+		"일반"
+		)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.stay.alive.board.vo.BoardMember">
+		UPDATE board_member 
+		SET board_member_content = #{boardMemberContent} WHERE board_member_no = #{boardMeberNo}
+	</update>
+	
+	<select id="selectCategoryName" resultType="String">
+		SELECT board_category_name FROM board_category WHERE board_category_no = #{boardCategoryNo}
+	</select>
+	<select id="selectBoardName" resultType="String">
+		SELECT board_member_title FROM board_member WHERE member_id =#{memberId}
+	</select>
+	<select id="selectBoardFromNo" resultType="com.stay.alive.board.vo.BoardMember">
+		SELECT * FROM board_member WHERE board_member_no = #{boardMemberNo}
+	</select>
+	<select id="selectBoardInfo" resultType="com.stay.alive.board.vo.BoardMember">
+		SELECT * FROM board_member WHERE board_member_title = #{name}
+	</select>
+	<select id="selectBoardAll" resultType="com.stay.alive.board.vo.BoardMember">
+		SELECT * FROM board_member
+	</select>
+</mapper>

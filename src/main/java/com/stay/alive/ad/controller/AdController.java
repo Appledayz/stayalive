@@ -1,9 +1,12 @@
 package com.stay.alive.ad.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +25,25 @@ public class AdController {
 	public String ad() {
 		return "/ad/ad";
 	}
-	// 광고 등록 뷰
+	// 광고 등록 폼
 	@GetMapping(value="/adRegister")
 	public String adRegister() {
 		return "/ad/adRegister";
 	}
-	/*// 광고 등록 액션
+	// 광고 등록 액션
 	@PostMapping(value="/adRegister")
 	public String adRegister(Ad ad,HttpSession session) {
 		String memberId = "ID1";
-		String contextPath = session.getServletContext().getRealPath("/image/ad");
+		String path = session.getServletContext().getRealPath("/image/ad");
 		ad.setMemberId(memberId);
-		adService.adRegister(ad, contextPath);
+		adService.addAd(ad, path);
 		return "redirect:/ad";
-	}*/
+	}
+	
+	@GetMapping("/adList")
+	public String adList(Model model) {
+		ArrayList<Ad> ad = adService.getAdAll();
+		model.addAttribute("list", ad);
+		return "ad/adList";
+	}
 }
