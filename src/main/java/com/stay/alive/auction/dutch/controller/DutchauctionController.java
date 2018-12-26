@@ -82,10 +82,11 @@ public class DutchauctionController {
 			int guestroomSize,
 			int guestroomCapacity,
 			String guestroomDetail,
+			int dutchauctionStartprice,
 			int dutchauctionSaleUnit,
 			int dutchauctionSaleInterval,
 			String dutchauctionCloseDate,
-			String dutchauctionCheckindate,
+			String dutchauctionCheckinDate,
 			String dutchauctionCheckoutDate,
 			int guestroomAddOrSelect,
 			HttpSession session) {
@@ -94,17 +95,26 @@ public class DutchauctionController {
 		if(guestroomAddOrSelect == 0) { //객실과 역경매 등록
 			GuestRoom guestRoom = new GuestRoom();
 			DutchAuction dutchAuction = new DutchAuction();
-
 			guestRoom.setMemberId(memberId);
 			guestRoom.setAccommodationName(accommodationName);
 			guestRoom.setGuestroomName(guestroomName);
 			guestRoom.setGuestroomSize(guestroomSize);
 			guestRoom.setGuestroomCapacity(guestroomCapacity);
 			guestRoom.setGuestroomDetail(guestroomDetail);
-			
 			String path = session.getServletContext().getRealPath("image/guestroom"); //객실 이미지 파일 저장될 경로
-			
+			dutchAuction.setMemberId(memberId);
+			dutchAuction.setAccommodationName(accommodationName);
+			dutchAuction.setGuestroomName(guestroomName);
+			dutchAuction.setDutchauctionStartprice(dutchauctionStartprice);
+			dutchAuction.setDutchauctionSaleUnit(dutchauctionSaleUnit);
+			dutchAuction.setDutchauctionSaleInterval(dutchauctionSaleInterval);
+			dutchAuction.setDutchauctionCloseDate(dutchauctionCloseDate);
+			dutchAuction.setDutchauctionCheckinDate(dutchauctionCheckinDate);
+			dutchAuction.setDutchauctionCheckoutDate(dutchauctionCheckoutDate);
 			dutchauctionService.addDutchAuctionAndGuestroom(guestRoom, dutchAuction, guestroomImageFile, path, memberId, accommodationName);
+			
+
+
 			
 			//아래에는 객실추가, 역경매 추가 필요
 		}

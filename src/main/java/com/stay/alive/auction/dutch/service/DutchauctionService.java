@@ -77,9 +77,17 @@ public class DutchauctionService {
 		guestRoom.setCompanyName(company.getCompanyName());
 		int imageFileNo = addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일 등록
 		guestRoom.setImageFileNo(imageFileNo);
-		//guestRoomMapper.insertGuestroom(guestRoom); //객실 등록
+		
+		guestRoomMapper.insertGuestroom(guestRoom); //객실 등록
 		
 		
+		dutchAuction.setAccommodationNo(accommodationNo);
+		dutchAuction.setCompanyNo(company.getCompanyNo());
+		dutchAuction.setCompanyName(company.getCompanyName());
+		dutchAuction.setGuestroomNo(guestRoom.getGuestroomNo());
+		System.out.println(dutchAuction + "<=====");
+		
+		dutchauctionMapper.insertDutchAuction(dutchAuction);
 	}
 
 	//객실 이미지 등록

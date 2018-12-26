@@ -104,7 +104,7 @@
    							<div class="form-group">
    								<div class="row">
 		   							<div class="col-lg-6">
-		   								<input class="form-control" type="text" name="dutchauctionCurentPrice" placeholder="판매가">
+		   								<input class="form-control" type="text" name="dutchauctionStartprice" placeholder="경매 시작가">
 		   							</div>
 		   							<div class="col-lg-6">
 		   								<input class="form-control" type="text" name="dutchauctionSaleUnit" placeholder="할인 단위">
@@ -118,18 +118,17 @@
 					 				</div>
 		   							<div class="col-lg-3">
 		   								<select name = "dutchauctionSaleInterval">
-					    					<option value="1">6시간마다
-					    					<option value="2">7시간마다
-					    					<option value="3">8시간마다
-								 			<option value="4">9시간마다
-								 			<option value="5">10시간마다
+		   									<option value="2">2시간마다
+					    					<option value="3">3시간마다
+					    					<option value="4">4시간마다
+											<option value="6">6시간마다
 								 		</select>
 					 				</div>
 						    		<div class="col-lg-3">
 		   								<p class="text-right"><br>경매 종료시간</p>
 					 				</div>
 					 				<div class="col-lg-3">
-		   								<input class="datepicker-here" data-timepicker="true" name="dutchauctionCloseDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off>
+		   								<input class="datepicker-here" data-timepicker="true" name="dutchauctionCloseDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
 					 				</div>
    							   	</div>
    							</div>	
@@ -139,14 +138,14 @@
 		   								<p class="text-right"><br>입실 일자</p>
 					 				</div>
 					 				<div class="col-lg-3">
-					 					<input class="datepicker-here" data-timepicker="true" name="dutchauctionCheckindate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off>
+					 					<input class="datepicker-here" data-timepicker="true" name="dutchauctionCheckinDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
 					 				</div>
 									
 					 				<div class="col-lg-3">
 		   								<p class="text-right"><br>퇴실 일자</p>
 					 				</div>
 					 				<div class="col-lg-3">
-					 					<input class="datepicker-here" data-timepicker="true" name="dutchauctionCheckoutDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off>
+					 					<input data-timepicker="true" name="dutchauctionCheckoutDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
 					 				</div>
    							   	</div>
    							</div>
@@ -287,7 +286,7 @@
 			}
 		});
 	}
-	//datepicker
+	//Datepicker
 	$('.datepicker-here').datepicker({
 	    language: 'en',
 	    dateFormat:'yyyy-mm-dd',
@@ -295,6 +294,30 @@
 	    minDate: new Date(),
 		autoClose:true
 	});
+	//입실일자는 선택시에만 퇴실일 선택 가능하며 퇴실일자는 입실일자 이후로 선택 가능	
+	var select = false;
+	var checkInDate = $('input[name="dutchauctionCheckinDate"]');
+	var checkOutDate = $('input[name="dutchauctionCheckoutDate"]');
+	checkOutDate.click(function() {
+		if(checkInDate.val() == "") {
+			alert("입실 일자를 선택해 주세요");
+		}
+		else {
+			if(!select) {
+				select = true;
+				checkOutDate.datepicker({
+				    language: 'en',
+				    dateFormat:'yyyy-mm-dd',
+				    timeFormat:'hh:ii',
+				    minDate: new Date(checkInDate.val()),
+					autoClose:true,
+					Defaults : "focus"
+				});
+				checkOutDate.datepicker().data('datepicker').show();
+			}
+		}
+	});
+
 	</script>
 </body>
 </html>

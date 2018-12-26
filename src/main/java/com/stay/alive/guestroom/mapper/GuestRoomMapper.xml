@@ -10,7 +10,7 @@
 	<select id="selectGuestroomInfo" resultType="com.stay.alive.guestroom.vo.GuestRoom">
 		SELECT * FROM guestroom WHERE accommodation_name = #{accommodationName} and guestroom_name = #{guestroomName}
 	</select>
-	<insert id="insertGuestroom" parameterType="com.stay.alive.guestroom.vo.GuestRoom">
+	<insert id="insertGuestroom" parameterType="com.stay.alive.guestroom.vo.GuestRoom" useGeneratedKeys="true" keyProperty="guestroomNo">
 		INSERT INTO guestroom(member_id, company_no, company_name, accommodation_no, accommodation_name, guestroom_name, guestroom_capacity, guestroom_size, guestroom_detail, guestroom_register_date, image_file_no)
 		VALUES(#{memberId},#{companyNo},#{companyName},#{accommodationNo},#{accommodationName},#{guestroomName},#{guestroomCapacity},#{guestroomSize},#{guestroomDetail},now(),#{imageFileNo})
 	</insert>

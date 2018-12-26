@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.service.AccommodationService;
 import com.stay.alive.accommodation.vo.Accommodation;
@@ -73,5 +74,13 @@ public class AccommodationController {
 		ArrayList<Accommodation> accommodation = accommodationService.getAccommodationAll();
 		model.addAttribute("list", accommodation);
 		return "accommodation/accommodationList";
+	}
+	//숙소 상세 이미지 등록(ajax요청)
+	@PostMapping("addDetailImage")
+	@ResponseBody
+	public String addDetailImage(MultipartFile[] file,HttpSession session) {
+		String path = session.getServletContext().getRealPath("image/accommodation");
+		String memberId = "ID1";
+		return accommodationService.addDetailImageFiles(file, path, memberId);
 	}
 }

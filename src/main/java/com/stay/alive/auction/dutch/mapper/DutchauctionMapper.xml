@@ -3,7 +3,36 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stay.alive.auction.dutch.mapper.DutchauctionMapper" >
-
+	<insert id="insertDutchAuction" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
+		INSERT INTO dutchauction_register(member_id,
+										  company_no,
+										  company_name,
+										  accommodation_no, 
+										  accommodation_name, 
+										  guestroom_no, 
+										  guestroom_name, 
+										  dutchauction_register_date, 
+										  dutchauction_startprice, 
+										  dutchauction_sale_unit, 
+										  dutchauction_sale_interval, 
+										  dutchauction_close_date, 
+										  dutchauction_checkin_date, 
+										  dutchauction_checkout_date) 
+		VALUES(#{memberId},
+		#{companyNo},
+		#{companyName},
+		#{accommodationNo},
+		#{accommodationName},
+		#{guestroomNo},
+		#{guestroomName},
+		now(),
+		#{dutchauctionStartprice},
+		#{dutchauctionSaleUnit},
+		#{dutchauctionSaleInterval},
+		#{dutchauctionCloseDate},
+		#{dutchauctionCheckinDate},
+		#{dutchauctionCheckoutDate})
+	</insert>
 
 
 

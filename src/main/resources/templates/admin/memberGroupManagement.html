@@ -118,8 +118,8 @@
                                         <th>회원 그룹 등록일자</th>
                                     </tr>
                                 </thead>
-                                <tbody th:each = "item : ${memberGroupList}">
-						            <tr class="gradeA">
+                                <tbody>
+						            <tr th:each = "item : ${memberGroupList}">
 						               <td th:text="${item.GroupNo}"></td>
 						               <td th:text="${item.GroupName}"></td>
 						               <td th:text="${item.GroupRegisterDate}"></td>

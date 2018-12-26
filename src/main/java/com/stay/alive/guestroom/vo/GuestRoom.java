@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class GuestRoom {
+	private int guestroomNo;//객실 등록 번호
 	private String memberId; //숙박 업체 회원 아이디
 	private int companyNo; //업체 등록 번호(FK)
 	private String companyName;//업체명
