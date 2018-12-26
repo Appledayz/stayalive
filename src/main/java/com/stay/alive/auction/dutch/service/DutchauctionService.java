@@ -4,11 +4,16 @@ import static org.quartz.DateBuilder.dateOf;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -44,19 +49,45 @@ public class DutchauctionService {
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
 	private int groupNum = 0;
-	public JobDetail jobDetail() {
-		DutchAuction dutchauction = new DutchAuction();
-		dutchauction.setAccommodationNo(0);
+	public JobDetail jobDetail(DutchAuction dutchAuction) {
 		JobDataMap jabDataMap = new JobDataMap();
-		jabDataMap.put("dutchauction", dutchauction);
-		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("job"+groupNum)
+		jabDataMap.put("dutchAuction", dutchAuction);
+		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("JOB"+ groupNum)
 				.usingJobData(jabDataMap).storeDurably().build();
 	}
-	public Trigger jobTrigger() {
+	public Trigger jobTrigger(DutchAuction dutchAuction) {
+		Calendar calendar = Calendar.getInstance();
+		String dateTimeStr = dutchAuction.getDutchauctionCloseDate();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		try {
+			calendar.setTime(simpleDateFormat.parse(dateTimeStr));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int minute = calendar.get(Calendar.MINUTE);
+		int second = calendar.get(Calendar.SECOND);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int year = calendar.get(Calendar.YEAR);
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(2).repeatForever();
-		return TriggerBuilder.newTrigger().forJob(jobDetail())
-				.withIdentity("trigger"+groupNum).endAt(dateOf(3, 50, 0, 23, 12 , 2018)).withSchedule(scheduleBuilder).build();
+				.withIntervalInMilliseconds(500).repeatForever(); //.withIntervalInHours(dutchAuction.getDutchauctionSaleInterval()).repeatForever();
+		return TriggerBuilder.newTrigger().forJob(jobDetail(dutchAuction))
+				.withIdentity("TRIGGER"+groupNum).endAt(dateOf(hour, minute, second, day, month , year)).withSchedule(scheduleBuilder).build();
+	}
+	public void addDutchAuctionScheduler(DutchAuction dutchAuction) {
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		JobDetail jobDetail = jobDetail(dutchAuction);
+		Trigger trigger = jobTrigger(dutchAuction);
+		try {
+			scheduler.scheduleJob(jobDetail, trigger);
+			groupNum++;
+			scheduler.start();
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public String[] getAccommodationName(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
@@ -67,29 +98,35 @@ public class DutchauctionService {
 	public GuestRoom getGuestroomInfo(String accommodationName, String guestroomName) {
 		return guestRoomMapper.selectGuestroomInfo(accommodationName, guestroomName);
 	}
-
-	//객실, 역경매 등록
+	//네덜란드식 역경매 등록
+	public void addDutchAuction(DutchAuction dutchAuction, String memberId, String accommodationName) {
+		int accommodationNo = accommodationMapper.selectAccommodationNo(accommodationName); //숙소 번호
+		dutchAuction.setAccommodationNo(accommodationNo);
+		Company company = companyMapper.selectCompanyFromId(memberId);
+		dutchAuction.setCompanyNo(company.getCompanyNo());
+		dutchAuction.setCompanyName(company.getCompanyName());
+		GuestRoom guestRoom = guestRoomMapper.selectGuestroomInfo(accommodationName, dutchAuction.getGuestroomName()); //객실 번호를 얻기위한 쿼리 실행
+		dutchAuction.setGuestroomNo(guestRoom.getGuestroomNo());
+		dutchauctionMapper.insertDutchAuction(dutchAuction); //역경매정보 데이터베이스에 등록
+		addDutchAuctionScheduler(dutchAuction);
+	}
+	//새로운 객실등록 + 네덜란드식 역경매 등록
 	public void addDutchAuctionAndGuestroom(GuestRoom guestRoom, DutchAuction dutchAuction, MultipartFile guestroomImageFile, String path, String memberId, String accommodationName) {
 		int accommodationNo = accommodationMapper.selectAccommodationNo(accommodationName); //숙소 번호
 		guestRoom.setAccommodationNo(accommodationNo);
 		Company company = companyMapper.selectCompanyFromId(memberId);
 		guestRoom.setCompanyNo(company.getCompanyNo());
 		guestRoom.setCompanyName(company.getCompanyName());
-		int imageFileNo = addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일 등록
+		int imageFileNo = addGuestroomImageFile(guestroomImageFile, path, memberId); //객실 이미지파일정보 데이터베이스에 등록
 		guestRoom.setImageFileNo(imageFileNo);
-		
-		guestRoomMapper.insertGuestroom(guestRoom); //객실 등록
-		
-		
+		guestRoomMapper.insertGuestroom(guestRoom); //객실정보 데이터베이스에 등록
 		dutchAuction.setAccommodationNo(accommodationNo);
 		dutchAuction.setCompanyNo(company.getCompanyNo());
 		dutchAuction.setCompanyName(company.getCompanyName());
 		dutchAuction.setGuestroomNo(guestRoom.getGuestroomNo());
-		System.out.println(dutchAuction + "<=====");
-		
-		dutchauctionMapper.insertDutchAuction(dutchAuction);
+		dutchauctionMapper.insertDutchAuction(dutchAuction); //역경매정보 데이터베이스에 등록
+		addDutchAuctionScheduler(dutchAuction);
 	}
-
 	//객실 이미지 등록
 	public int addGuestroomImageFile(MultipartFile guestroomImageFile, String path, String memberId) {
 		ImageFile imageFile = new ImageFile();
