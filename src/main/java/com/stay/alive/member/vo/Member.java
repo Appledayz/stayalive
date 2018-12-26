@@ -22,7 +22,7 @@ public class Member {
 	//회원 가입 이후 변경되는 조건
 	private int stateNo;//회원 상태 번호(FK)
 	private String stateName;//상태명
-	private String groupNo;//회원 그룹
+	private int groupNo;//회원 그룹 번호(FK)
 	private String groupName;//그룹명
 	private int ratingNo;//회원 등급(FK)
 	private String ratingName;//등급명

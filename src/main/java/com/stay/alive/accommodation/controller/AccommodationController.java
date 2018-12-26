@@ -15,12 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.service.AccommodationService;
 import com.stay.alive.accommodation.vo.Accommodation;
+import com.stay.alive.member.service.MemberService;
+import com.stay.alive.member.vo.Member;
 
 @Controller
 @RequestMapping("accommodation")
 public class AccommodationController {
 	@Autowired
 	private AccommodationService accommodationService;
+	@Autowired
+	private MemberService memberService;
 	//숙소 메인
 	@GetMapping("main")
 	public String accommodation() {
@@ -28,8 +32,19 @@ public class AccommodationController {
 	}
 	//등록 뷰
 	@GetMapping("register")
-	public String accommodationRegister() {
-		return "accommodation/accommodationRegister";
+	public String accommodationRegister(Model model, HttpSession session) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId == null) {
+			return "redirect:/login";
+		}
+		Member member = memberService.getMember(memberId);
+		int groupNo = member.getGroupNo();
+		if(groupNo == 2 || groupNo == 4) {
+			model.addAttribute("memberId", memberId);
+			return "accommodation/accommodationRegister";
+		} else {
+			return "redirect:/company/main";
+		}
 	}
 	//등록 액션
 	@PostMapping("register")

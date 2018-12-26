@@ -45,7 +45,7 @@ public class CompanyController {
 	public String companyRegister(Company company, HttpSession session) {
 		String contextPath = session.getServletContext().getRealPath("/upload/images");
 		companyService.companyRegister(company, contextPath);
-		return "redirect:/";
+		return "redirect:/accommodation/main";
 	}
 	
 	@GetMapping("list")
