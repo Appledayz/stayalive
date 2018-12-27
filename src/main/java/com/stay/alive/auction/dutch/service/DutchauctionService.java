@@ -1,14 +1,12 @@
 package com.stay.alive.auction.dutch.service;
 
-import static org.quartz.DateBuilder.dateOf;
-
+import static org.quartz.DateBuilder.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
-
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -48,11 +46,11 @@ public class DutchauctionService {
 	private GuestRoomMapper guestRoomMapper;
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
-	private int groupNum = 0;
 	public JobDetail jobDetail(DutchAuction dutchAuction) {
 		JobDataMap jabDataMap = new JobDataMap();
 		jabDataMap.put("dutchAuction", dutchAuction);
-		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("JOB"+ groupNum)
+		jabDataMap.put("dutchauctionMapper", dutchauctionMapper);
+		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("JOB"+ dutchAuction.getDutchauctionNo())
 				.usingJobData(jabDataMap).storeDurably().build();
 	}
 	public Trigger jobTrigger(DutchAuction dutchAuction) {
@@ -72,9 +70,9 @@ public class DutchauctionService {
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int year = calendar.get(Calendar.YEAR);
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInMilliseconds(500).repeatForever(); //.withIntervalInHours(dutchAuction.getDutchauctionSaleInterval()).repeatForever();
+				.withIntervalInSeconds(10).repeatForever(); //.withIntervalInHours(dutchAuction.getDutchauctionSaleInterval()).repeatForever();
 		return TriggerBuilder.newTrigger().forJob(jobDetail(dutchAuction))
-				.withIdentity("TRIGGER"+groupNum).endAt(dateOf(hour, minute, second, day, month , year)).withSchedule(scheduleBuilder).build();
+				.withIdentity("TRIGGER"+dutchAuction.getDutchauctionNo()).startAt(futureDate(10, IntervalUnit.SECOND)).endAt(dateOf(hour, minute, second, day, month , year)).withSchedule(scheduleBuilder).build();
 	}
 	public void addDutchAuctionScheduler(DutchAuction dutchAuction) {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -82,7 +80,6 @@ public class DutchauctionService {
 		Trigger trigger = jobTrigger(dutchAuction);
 		try {
 			scheduler.scheduleJob(jobDetail, trigger);
-			groupNum++;
 			scheduler.start();
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
@@ -108,7 +105,7 @@ public class DutchauctionService {
 		GuestRoom guestRoom = guestRoomMapper.selectGuestroomInfo(accommodationName, dutchAuction.getGuestroomName()); //객실 번호를 얻기위한 쿼리 실행
 		dutchAuction.setGuestroomNo(guestRoom.getGuestroomNo());
 		dutchauctionMapper.insertDutchAuction(dutchAuction); //역경매정보 데이터베이스에 등록
-		addDutchAuctionScheduler(dutchAuction);
+		addDutchAuctionScheduler(dutchAuction);//역경매정보 스케줄러에 추가
 	}
 	//새로운 객실등록 + 네덜란드식 역경매 등록
 	public void addDutchAuctionAndGuestroom(GuestRoom guestRoom, DutchAuction dutchAuction, MultipartFile guestroomImageFile, String path, String memberId, String accommodationName) {
@@ -160,5 +157,8 @@ public class DutchauctionService {
 			}
 		}
 	return imageFile.getImageFileNo();
+	}
+	public void modifyUpdatePrice(DutchAuction dutchAuction) {
+		dutchauctionMapper.updateCurrentPrice(dutchAuction);
 	}
 }
