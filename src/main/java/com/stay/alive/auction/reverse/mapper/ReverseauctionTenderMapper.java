@@ -25,7 +25,7 @@ public interface ReverseauctionTenderMapper {
 	// 역경매 내 입찰목록 전체삭제
 	int deleteReverseauctionTender(int reverseauctionNo);
 	// 입찰수 1 더하기
-	int updateReverseauctionTenderCount(int reverseauctionNo);
+	int updateReverseauctionTenderCountUp(int reverseauctionNo);
 	// 숙소 이미지 조회
 	ImageFile selectAccommodationImg(int accommodationNo);
 	// 숙소 정보(No, Name) 조회 (id로)
@@ -34,4 +34,6 @@ public interface ReverseauctionTenderMapper {
 	List<GuestRoom> selectGuestRooom(int accommodationNo);
 	// 업체 정보(No, Name) 조회 (id로)
 	Company selectCompany(String memberId);
+	// 역경매입찰 카운트-1
+	void updateReverseauctionTenderCountDown(int reverseauctionNo);
 }

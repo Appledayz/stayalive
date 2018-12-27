@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stay.alive.auction.reverse.mapper.ReverseauctionSuccessfulbidMapper;
 import com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper;
 import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
+import com.stay.alive.auction.vo.AuctionStateCategory;
 
 @Service
 @Transactional
@@ -29,13 +30,15 @@ public class ReverseauctionSuccessfulbidService {
 		if (reverseauctionSuccessfulbidMapper.selectReverseauctionSuccessfulbid(reverseauctionNo) == null) {
 			// 역경매, 입찰 테이블과 연결되는 정보를 낙찰 테이블에 때려넣습니다.
 			ReverseauctionSuccessfulbid reverseauctionSuccessfulbid = reverseauctionSuccessfulbidMapper.selectForSuccessfulbid(reverseauctionTenderNo);
-			// 가격 칼럼명은 서로 달라서 아래에서 받습니다.
+			// 가격 칼럼명은 서로 달라서 입찰정보에서 수동으로 받습니다.
 			int price = reverseauctionTenderMapper.selectReverseauctionTenderOne(reverseauctionTenderNo).getReverseauctionTenderPrice();
 			reverseauctionSuccessfulbid.setReverseauctionSuccessfulbidPrice(price);
 			// 낙찰 테이블에 등록
 			reverseauctionSuccessfulbidMapper.insertReverseauctionSuccessfulbid(reverseauctionSuccessfulbid);
 			// 경매 상태 업데이트
-			reverseauctionSuccessfulbidMapper.updateReverseauctionState(reverseauctionNo);
+			AuctionStateCategory auctionStateCategory = reverseauctionSuccessfulbidMapper.selectAuctionStateByName("낙찰완료");
+			reverseauctionSuccessfulbidMapper.updateReverseauctionState(reverseauctionNo, auctionStateCategory);
+			reverseauctionSuccessfulbidMapper.updateReverseauctionTenderState(reverseauctionTenderNo, auctionStateCategory);
 			i++;
 		}
 		return i;

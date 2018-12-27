@@ -68,6 +68,7 @@ public class ReverseauctionTenderController {
 		public String deleteReverseauctionTender(int reverseauctionTenderNo, int reverseauctionNo) {
 			System.out.println("ReverseauctionTenderController.deleteReverseauctionTender() GET");
 			reverseauctionTenderService.removeReverseauctionTender(reverseauctionTenderNo);
+			reverseauctionTenderService.minusReverseauctionTenderCount(reverseauctionNo);
 			return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionNo;
 		}
 		// 모달을 사용하는 상세정보 

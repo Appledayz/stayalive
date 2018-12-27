@@ -22,6 +22,7 @@
 		}
 	    if(getQuerystring('fail')=='true'){
 	    	alert('낙찰실패 : 이미낙찰상태인지 확인해주세요');
+	    	history.go(-1);
 	    }
 	    function check(elem){
  			let result = confirm('Are you sure?');
@@ -158,6 +159,7 @@
 								<input type="hidden" th:name="reverseauctionNo" th:value="${tender.reverseauctionNo}">
 								<button type="button" class="btn SuccessfulbidBtn" onclick="check(this)" th:text="낙찰">낙찰</button>
 							</form>
+							<a class="btn btn-danger" th:href="@{/auction/reverse/tender/remove(reverseauctionTenderNo=${tender.reverseauctionTenderNo},reverseauctionNo=${tender.reverseauctionNo})}">삭제</a>
 						</div>
 					</div>
 				</div>

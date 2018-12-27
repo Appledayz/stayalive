@@ -18,6 +18,12 @@
   	WHERE t.reverseauction_tender_no=#{reverseacutionTenderNo}
   </select>
   
+  <select id="selectAuctionStateByName" parameterType="string" resultType="com.stay.alive.auction.vo.AuctionStateCategory">
+  	SELECT *
+  	FROM auction_state_category
+  	WHERE auction_state_category_name=#{string}
+  </select>
+  
   <insert id="insertReverseauctionSuccessfulbid">
   	INSERT INTO reverseauction_successfulbid
   	VALUES(0,
@@ -34,13 +40,20 @@
   			"낙찰완료")
   </insert>
   
-  <update id="updateReverseauctionState">
-  	UPDATE reverseauction
+  <update id="updateReverseauctionState" parameterType="com.stay.alive.auction.vo.AuctionStateCategory">
+  	UPDATE reverseauction_register
   		SET
-  			auction_state_category_no,
-  			auction_state_category_name
+  			auction_state_category_no=#{auctionStateCategory.auctionStateCategoryNo},
+  			auction_state_category_name=#{auctionStateCategory.auctionStateCategoryName}
   	WHERE reverseauction_no=#{reverseauctionNo}
-  	
+  </update>
+  
+  <update id="updateReverseauctionTenderState" parameterType="com.stay.alive.auction.vo.AuctionStateCategory">
+  	UPDATE reverseauction_tender
+  		SET
+  			auction_state_category_no=#{auctionStateCategory.auctionStateCategoryNo},
+  			auction_state_category_name=#{auctionStateCategory.auctionStateCategoryName}
+  	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </update>
   
   <delete id="deleteReverseauctionSuccessfulbid">

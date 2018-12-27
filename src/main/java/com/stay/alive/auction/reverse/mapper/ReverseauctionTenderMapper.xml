@@ -76,10 +76,17 @@
   	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
   </update>
   
-  <update id="updateReverseauctionTenderCount">
+  <update id="updateReverseauctionTenderCountUp">
   	UPDATE reverseauction_register
   	  SET
   	  	reverseauction_tender_count = reverseauction_tender_count + 1
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </update>
+  
+  <update id="updateReverseauctionTenderCountDown">
+  	UPDATE reverseauction_register
+  	  SET
+  	  	reverseauction_tender_count = reverseauction_tender_count - 1
   	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
   

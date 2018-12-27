@@ -54,10 +54,10 @@ public class ReverseauctionTenderService {
 		System.out.println("ReverseauctionTenderService.removeReverseauctionTender()");
 		return reverseauctionTenderMapper.deleteReverseauctionTenderOne(reverseauctionTenderNo);
 	}
-	// 14. 역경매 카운트 +1
+	// 14. 역경매입찰 카운트 +1
 	public void plusReverseauctionTenderCount(int reverseauctionNo) {
 		System.out.println("ReverseauctionTenderService.plusReverseauctionTenderCount()");
-		reverseauctionTenderMapper.updateReverseauctionTenderCount(reverseauctionNo);
+		reverseauctionTenderMapper.updateReverseauctionTenderCountUp(reverseauctionNo);
 	}
 	// 숙소이미지 조회
 	public ImageFile getTenderAccommodationImg(int accommodationNo) {
@@ -72,5 +72,10 @@ public class ReverseauctionTenderService {
 	public List<GuestRoom> getGuestRoom(int accommodationNo) {
 		System.out.println("ReverseauctionTenderService.getGuestRoom()");
 		return reverseauctionTenderMapper.selectGuestRooom(accommodationNo);
+	}
+	// 역경매입찰 카운트-1
+	public void minusReverseauctionTenderCount(int reverseauctionNo) {
+		System.out.println("ReverseauctionTenderService.minusReverseauctionTenderCount()");
+		reverseauctionTenderMapper.updateReverseauctionTenderCountDown(reverseauctionNo);
 	}
 }
