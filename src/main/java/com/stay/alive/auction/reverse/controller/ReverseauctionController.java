@@ -2,6 +2,8 @@ package com.stay.alive.auction.reverse.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,8 +75,11 @@ public class ReverseauctionController {
 	}
 	// 4. 역경매 등록 액션
 	@PostMapping("add")
-	public String addReverseauction(Reverseauction reverseauction) {
+	public String addReverseauction(Reverseauction reverseauction, HttpSession session) {
 		System.out.println("ReverseauctionController.addReverseauction() POST");
+		if(session.getAttribute("memberId")!=null) {
+			reverseauction.setMemberId((String)session.getAttribute("memberId"));
+		}
 		reverseauctionService.addReverseauctionOne(reverseauction);
 		return "redirect:/auction/reverse/list";
 	}

@@ -34,6 +34,15 @@
   			"낙찰완료")
   </insert>
   
+  <update id="updateReverseauctionState">
+  	UPDATE reverseauction
+  		SET
+  			auction_state_category_no,
+  			auction_state_category_name
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  	
+  </update>
+  
   <delete id="deleteReverseauctionSuccessfulbid">
   	DELETE FROM reverseauction_successfulbid
   	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}

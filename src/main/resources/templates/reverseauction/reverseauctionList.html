@@ -127,7 +127,7 @@
 						<div class="container">
 							<div class="row">
 								<!-- Single Rooms Area -->
-								<div class="col-12 col-md-6" th:each="item : ${list}">
+								<div class="col-12 col-md-6" th:if="${PM.allCount}>0" th:each="item : ${list}">
 									<a href="#" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
 										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
 											<!-- Limit -->
@@ -153,9 +153,12 @@
 										</div>
 									</a>
 								</div>
+								<div class="col-12 col-md-6" th:unless="${PM.allCount}>0">
+									<p>검색정보와 일치하는 경매를 찾을 수 없습니다.</p>
+								</div>
 							</div>
 
-							<div class="col-12">
+							<div class="col-12" th:if="${PM.allCount}>0">
 								<!-- Pagination -->
 								<div class="pagination-area wow fadeInUp"
 									data-wow-delay="200ms">

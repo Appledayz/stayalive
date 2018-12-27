@@ -897,7 +897,7 @@ img {
     right: 20px;
     top: 10px;
     width: calc(100% - 40px);
-    max-height: calc(100% - 30px);
+    max-height: calc(100% - 20px);
     border: 2px solid #cb8670;
     text-align: center;
     -webkit-transition-duration: 500ms;
