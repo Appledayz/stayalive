@@ -43,8 +43,25 @@
   </select>
   
   <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
-  	INSERT INTO reverseauction_tender
-  	VALUES(0,
+  	INSERT INTO reverseauction_tender(
+  			reverseauction_no,
+  			member_id,
+  			company_no,
+  			company_name,
+  			accommodation_no,
+  			accommodation_name,
+  			guestroom_no,
+  			guestroom_name,
+  			reverseauction_no,
+  			accommodation_guestroom_allcount,
+  			guestroom_state_count,
+  			reverseauction_tender_date,
+  			reverseauction_tender_update_date,
+  			reverseauction_tender_content,
+  			reverseauction_tender_price,
+  			auction_state_category_no,
+  			auction_state_category_name)
+  	VALUES(	0,
   			#{memberId},
   			#{companyNo},
   			#{companyName},

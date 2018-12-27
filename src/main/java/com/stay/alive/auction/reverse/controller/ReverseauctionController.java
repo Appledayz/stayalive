@@ -94,7 +94,7 @@ public class ReverseauctionController {
 	@GetMapping("modify")
 	public String modifyReverseauction(Model model, int reverseauctionNo) {
 		System.out.println("ReverseauctionController.modifyReverseauction() GET");
-		model.addAttribute("Reverseauction",reverseauctionService.modifyReverseauctionForm(reverseauctionNo));
+		model.addAttribute("m",reverseauctionService.modifyReverseauctionForm(reverseauctionNo));
 		return "/reverseauction/modifyReverseauction";
 	}
 	// 7. 역경매 수정 액션
@@ -108,7 +108,7 @@ public class ReverseauctionController {
 	@GetMapping("remove")
 	public String deleteReverseauction(int reverseauctionNo) {
 		System.out.println("ReverseauctionController.deleteReverseauction() GET");
-		System.out.println(reverseauctionService.removeReverseauction(reverseauctionNo));
+		reverseauctionService.removeReverseauction(reverseauctionNo);
 		return "redirect:/auction/reverse/list";
 	}
 }

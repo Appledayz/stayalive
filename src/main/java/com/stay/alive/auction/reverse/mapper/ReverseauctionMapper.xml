@@ -54,7 +54,24 @@
   </select>
   
   <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
-  	INSERT INTO reverseauction_register
+  	INSERT INTO reverseauction_register(
+  			reverseauction_no,
+  			member_id,
+  			reverseauction_register_date,
+  			reverseauction_update_date,
+  			reverseauction_tender_limit,
+  			reverseauction_tenderclose_date,
+  			reverseauction_rooming_date,
+  			reverseauction_leaving_date,
+  			reverseauction_title,
+  			reverseauction_address,
+  			reverseauction_address_more,
+  			reverseauction_hits,
+  			reverseauction_content,
+  			reverseauction_tender_count,
+  			auction_state_category_no,
+  			auction_state_category_name,
+  			reverseauction_number_of_people)
   	VALUES (0,
   			#{memberId},
   			now(),
@@ -70,7 +87,7 @@
   			#{reverseauctionContent},
   			0,
   			1,
-  			"낙찰 대기",
+  			"낙찰대기중",
   			#{reverseauctionNumberOfPeople})
   </insert>
   

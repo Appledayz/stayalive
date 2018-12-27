@@ -25,8 +25,20 @@
   </select>
   
   <insert id="insertReverseauctionSuccessfulbid">
-  	INSERT INTO reverseauction_successfulbid
-  	VALUES(0,
+  	INSERT INTO reverseauction_successfulbid(
+  			reverseauction_successfulbid_no,
+  			reverseauction_no,
+  			reverseauction_tender_no,
+  			guestroom_option_no,
+  			guestroom_option_name,
+  			guestroom_additional_price,
+  			reverseauction_successfulbid_price,
+  			reverseauction_successfulbid_date,
+  			reverseauction_rooming_date,
+  			reverseauction_leaving_date,
+  			auction_state_category_no,
+  			auction_state_category_name)
+  	VALUES(	0,
   			#{reverseauctionNo},
   			#{reverseauctionTenderNo},
   			#{guestroomOptionNo},
