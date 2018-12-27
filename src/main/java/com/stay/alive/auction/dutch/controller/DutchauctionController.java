@@ -30,6 +30,15 @@ public class DutchauctionController {
 	@Autowired
 	private DutchauctionService dutchauctionService;
 
+	
+	
+	@GetMapping("list")
+	public String dutchauctionList(Model model) throws SchedulerException {
+		String id = "ID1";
+		String[] accommodationName = dutchauctionService.getAccommodationName(id);
+		model.addAttribute("name", accommodationName);
+		return "dutchauction/dutchauctionRegister";
+	}
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model) throws SchedulerException {
 		String id = "ID1";
@@ -39,13 +48,14 @@ public class DutchauctionController {
 	}
 	//역경매 등록
 	@PostMapping("registerAction")
-	public @ResponseBody String registerActionDutch(String accommodationName,
+	public String registerActionDutch(String accommodationName,
 													String guestroomName,
 													MultipartFile guestroomImageFile,
 													int guestroomSize,
 													int guestroomCapacity,
 													String guestroomDetail,
 													int dutchauctionStartprice,
+													int maximumDiscountPrice,
 													int dutchauctionSaleUnit,
 													int dutchauctionSaleInterval,
 													String dutchauctionCloseDate,
@@ -60,6 +70,7 @@ public class DutchauctionController {
 		dutchAuction.setAccommodationName(accommodationName);
 		dutchAuction.setGuestroomName(guestroomName);
 		dutchAuction.setDutchauctionStartprice(dutchauctionStartprice);
+		dutchAuction.setMaximumDiscountPrice(maximumDiscountPrice);
 		dutchAuction.setDutchauctionSaleUnit(dutchauctionSaleUnit);
 		dutchAuction.setDutchauctionSaleInterval(dutchauctionSaleInterval);
 		dutchAuction.setDutchauctionCloseDate(dutchauctionCloseDate);
@@ -79,7 +90,7 @@ public class DutchauctionController {
 		else { //기존의 객실로 역경매 등록
 			dutchauctionService.addDutchAuction(dutchAuction, memberId, accommodationName);
 		}
-		return "registerAction";
+		return "redirect:/main";
 	}
 	@GetMapping("findGuestroomName")
 	public @ResponseBody String[] findGuestroomName(String accommodationName) {

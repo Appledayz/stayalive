@@ -12,7 +12,8 @@
 										  guestroom_no, 
 										  guestroom_name, 
 										  dutchauction_register_date, 
-										  dutchauction_startprice, 
+										  dutchauction_startprice,
+										  maximum_discount_price,
 										  dutchauction_sale_unit, 
 										  dutchauction_sale_interval, 
 										  dutchauction_close_date, 
@@ -27,6 +28,7 @@
 		#{guestroomName},
 		now(),
 		#{dutchauctionStartprice},
+		#{maximumDiscountPrice},
 		#{dutchauctionSaleUnit},
 		#{dutchauctionSaleInterval},
 		#{dutchauctionCloseDate},
@@ -34,7 +36,11 @@
 		#{dutchauctionCheckoutDate})
 	</insert>
 
-
-
+	<update id="updateCurrentPrice" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
+		UPDATE dutchauction_register SET dutchauction_update_price = #{dutchauctionUpdatePrice}, dutchauction_update_date = now() WHERE dutchauction_no = #{dutchauctionNo}
+	</update>
+	<update id="updateStateCategoryToExpired" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
+		UPDATE dutchauction_register SET auction_state_category_no = #{auctionStateCategoryNo}, auction_state_category_name = #{auctionStateCategoryName} WHERE dutchauction_no = #{dutchauctionNo}
+	</update>
 	
 </mapper>
