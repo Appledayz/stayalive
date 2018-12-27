@@ -33,11 +33,10 @@ public class DutchauctionController {
 	
 	
 	@GetMapping("list")
-	public String dutchauctionList(Model model) throws SchedulerException {
+	public String dutchauctionList(Model model){
 		String id = "ID1";
-		String[] accommodationName = dutchauctionService.getAccommodationName(id);
-		model.addAttribute("name", accommodationName);
-		return "dutchauction/dutchauctionRegister";
+
+		return "dutchauction/dutchauctionList";
 	}
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model) throws SchedulerException {

@@ -9,5 +9,4 @@ public interface ImageFileMapper {
 	public boolean insertImageFile(ImageFile imageFile);
 	public ImageFile selectImageFile(int imageFileNo);
 	public void deleteImageFile(int imageFileNo);
-	
 }

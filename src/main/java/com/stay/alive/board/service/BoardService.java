@@ -60,7 +60,7 @@ public class BoardService {
 		return boardMapper.selectBoardFromNo(boardMemberNo);
 	}
 	
-	private String addImageFile(ImageFile imageFile, MultipartFile file, String path, String memberId, int fileRegisterTableNo, String registerTableName) {
+	private String addImageFile(ImageFile imageFile, MultipartFile file, String path, String memberId, int ImageFileCategoryNo, String ImageFileCategoryName) {
 		String storedFileName = "";
 		String ext = "";
 		if(!file.isEmpty()) {
@@ -76,8 +76,8 @@ public class BoardService {
 			imageFile.setImageFileSize(file.getSize() / 1024); //파일 크기(KB)
 			storedFileName = UUID.randomUUID().toString(); //저장될 파일 이름(UUID)
 			imageFile.setImageFileStoredName(storedFileName);
-			imageFile.setFileRegisterTableNo(fileRegisterTableNo); //파일 테이블 번호(PK)
-			imageFile.setFileRegisterTableName(registerTableName);
+			imageFile.setImageFileCategoryNo(ImageFileCategoryNo); //파일 테이블 번호(PK)
+			imageFile.setImageFileCategoryName(ImageFileCategoryName);
 			File folder = new File (path); //폴더 생성을 위한 파일객체
 			if(!folder.exists()) {
 				folder.mkdirs();

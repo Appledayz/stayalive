@@ -140,8 +140,8 @@ public class DutchauctionService {
 			imageFile.setImageFileSize(guestroomImageFile.getSize() / 1024); //파일 크기(KB)
 			String storedFileName = UUID.randomUUID().toString(); //저장될 파일 이름(UUID)
 			imageFile.setImageFileStoredName(storedFileName);
-			imageFile.setFileRegisterTableNo(7); //파일 테이블 번호(PK)
-			imageFile.setFileRegisterTableName("객실");
+			imageFile.setImageFileCategoryNo(7); //파일 테이블 번호(PK)
+			imageFile.setImageFileCategoryName("객실");
 			File folder = new File(path); //폴더 생성을 위한 파일객체
 			if(!folder.exists()) {
 				folder.mkdirs();
