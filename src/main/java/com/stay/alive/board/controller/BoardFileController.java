@@ -16,6 +16,7 @@ import com.stay.alive.board.service.BoardService;
 public class BoardFileController {
 	@Autowired
 	private BoardService boardService;
+	
 	@PostMapping("addDetailImage")
 	@ResponseBody
 	public String addDetailImage(MultipartFile[] file,HttpSession session) {

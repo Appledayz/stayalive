@@ -37,8 +37,11 @@
 	
 	<update id="updateBoard" parameterType="com.stay.alive.board.vo.BoardMember">
 		UPDATE board_member 
-		SET board_member_content = #{boardMemberContent} WHERE board_member_no = #{boardMeberNo}
+		SET board_member_content = #{boardMemberContent}, image_file_no = #{imageFileNo}, board_member_modify_date = now() WHERE board_member_no = #{boardMeberNo}
 	</update>
+	<delete id="deleteBoard">
+		DELETE FROM board_member WHERE board_member_no = #{boardMemberNo}
+	</delete>
 	
 	<select id="selectCategoryName" resultType="String">
 		SELECT board_category_name FROM board_category WHERE board_category_no = #{boardCategoryNo}

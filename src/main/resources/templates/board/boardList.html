@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
+	<!--다음 주소검색 API  -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<!--다음 지도 API  -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+	<!-- jquery(3.3.1)  -->
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<!-- bootstrap(4.1.3)  -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<!-- 다음 맵 마커 오버레이 css -->
+	<link rel="stylesheet" href="/mapoverlay.css"> 
+	<!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+</head>
+<script th:inline="javascript">
+//<![CDATA[ 
+	$(function() {
+		$('#theModal').on('show.bs.modal', function (e) {
+			$(".modal-body").empty(); //기존에 있던 modal body에 있는 태그들을 제거
+			var button = $(e.relatedTarget);
+		  	$.ajax({
+		  		url : "detail",
+		  		data : {"boardMemberNo" : button.data("remote")},
+		  		type: 'GET',
+				contentType:"application/x-www-form-urlencoded",
+				success: function(data){
+					console.log(data.boardMemberContent)
+		            $(".modal-body").append("<br><div class='card border-light'><div class='card-header '><h4 class='text-center'>게시글 상세내용</h4></div><div class='card-body'></div></div>");
+				    $(".card-body").append(data.boardMemberContent);
+         	    }
+		  	});
+		});
+	});
+// ]]>
+</script>
+<body>
+	<body class="body-wrapper">
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+	
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+    
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
+        <div class="bradcumbContent">
+            <h2>Board List</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+<section class="contact-form-area mb-100">
+	<div class="container">
+		<div class="row">
+	        <div class="col-12">
+	            <div class="section-heading">
+	                <div class="line-"></div>
+	                <h2>게시글 리스트</h2>
+	            </div>
+	        </div>
+        </div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="search-result bg-gray">
+					<h2>"<span th:text="${searchWord}"></span>"의 검색 결과</h2>
+					<p><span th:text="${boardListCount}"></span> 개의 항목을 찾았습니다</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<form action="boardList" method="get">
+					<select class="form-control" id="select1" name="searchKey">
+					      <option value="">==== 선택 ====</option>
+					      <option value="board_member_title">제목</option>
+					      <option value="board_member_content">내용</option>
+					      <option value="member_id">회원ID</option>
+					</select>
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="searchWord">
+					<button type="submit" class="btn palatin-btn">Search Now</button>
+				</form>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-11">
+						<select>
+							<option>Most Recent</option>
+							<option value="1">Most Popular</option>
+							<option value="2">Lowest Price</option>
+							<option value="4">Highest Price</option>
+						</select>
+					</div>
+					<div class="col-md-1">
+						<div class="view">
+							<strong>Views</strong>
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a href="javascript:void(0);"><i class="fa fa-th-large"></i></a>
+								</li>
+								<li class="list-inline-item">
+									<a href="javascript:void(0);"><i class="fa fa-reorder"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>ID</th>
+									<th>추천</th>
+									<th>댓글</th>
+									<th>등록일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="board : ${list}" class="table-secondary">
+									<td><a href="#" class="text-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote=${board.boardMemberNo}" th:text="${board.boardMemberTitle}"></a></td>
+									<td th:text="${board.memberId}"></td>					
+									<td th:text="${board.boardMemberRecommend}"></td>
+									<td th:text="${board.boardMemberReply}"></td>
+									<td th:text="${board.boardMemberRegisterDate}"></td>
+									<!-- <td><a th:href="@{/board/modify(boardMemberNo=${board.boardMemberNo})}">수정</a></td>
+									<td><a th:href="@{/board/remove(boardMemberNo=${board.boardMemberNo})}">삭제</a></td> -->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+	<!-- footer replace -->
+	<div th:replace="footer :: footer"></div>
+	<!-- 모달  -->
+	<div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" >
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="modalLabel">게시글 상세</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">×</span>
+	                </button>
+	            </div>
+	            <div class="modal-body">
+	            </div>
+	            <div class="modal-footer">
+	            	<button type="button" class="btn btn-secondary" onclick="location.href='/board/modify'">수정</button>
+	            	<button type="button" class="btn btn-secondary" onclick="location.href='/board/remove'">삭제</button>
+	                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+</body>
+	<!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
+</html>

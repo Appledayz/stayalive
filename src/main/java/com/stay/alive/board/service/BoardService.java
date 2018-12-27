@@ -2,6 +2,7 @@ package com.stay.alive.board.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,14 +111,24 @@ public class BoardService {
 		return imageFile.getImageFileNo();
 	}
 	//사진 파일 삭제
-		public void removeBoardImageFile(int imageFileNo) {
-			ImageFile imageFile = imageFileMapper.selectImageFile(imageFileNo);
-			imageFileMapper.deleteImageFile(imageFileNo); //데이터베이스 -> 이미지파일 정보 삭제
-			String path =imageFile.getImageFilePath();
-			String ext = imageFile.getImageFileExt();
-			String stordName = imageFile.getImageFileStoredName();
-			File file = new File(path + "/" + stordName + "." + ext);
-			System.out.println(path + "/" + stordName + "." + ext);
-			file.delete(); //실제 저장된 파일 삭제
-		}
+	public void removeBoardImageFile(int imageFileNo) {
+		ImageFile imageFile = imageFileMapper.selectImageFile(imageFileNo);
+		imageFileMapper.deleteImageFile(imageFileNo); //데이터베이스 -> 이미지파일 정보 삭제
+		String path =imageFile.getImageFilePath();
+		String ext = imageFile.getImageFileExt();
+		String stordName = imageFile.getImageFileStoredName();
+		File file = new File(path + "/" + stordName + "." + ext);
+		System.out.println(path + "/" + stordName + "." + ext);
+		file.delete(); //실제 저장된 파일 삭제
+	}
+	//게시글 리스트
+	public ArrayList<BoardMember> getBoardAll(){
+		return boardMapper.selectBoardAll();
+	}
+	//게시글 삭제
+	public int removeBoard(int boardMemberNo) {
+		int i=0;
+		i+= boardMapper.deleteBoard(boardMemberNo);
+		return i;
+	}
 }

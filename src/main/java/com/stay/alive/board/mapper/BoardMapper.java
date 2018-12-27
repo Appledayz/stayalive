@@ -1,4 +1,5 @@
 package com.stay.alive.board.mapper;
+import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,4 +14,6 @@ public interface BoardMapper {
 	public BoardMember selectBoardInfo(String name);
 	public BoardMember selectBoardFromNo(int boardMemberNo);
 	public int selectBoardNo(String BoardName);
+	public ArrayList<BoardMember> selectBoardAll();
+	public int deleteBoard(int boardMemberNo);
 }

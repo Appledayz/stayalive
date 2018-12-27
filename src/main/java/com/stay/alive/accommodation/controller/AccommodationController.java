@@ -80,7 +80,7 @@ public class AccommodationController {
 	}
 	//모달을 사용하는 상세정보 
 	@GetMapping("detail")
-	public @ResponseBody Accommodation accommodationDetail(int accommodationNo, Model model) {
+	public @ResponseBody Accommodation accommodationDetail(int accommodationNo) {
 		return accommodationService.getAccommodationFromNo(accommodationNo);
 	}
 	//숙소 리스트
