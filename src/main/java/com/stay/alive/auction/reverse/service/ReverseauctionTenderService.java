@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.company.vo.Company;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
@@ -18,8 +18,6 @@ import com.stay.alive.guestroom.vo.GuestRoom;
 public class ReverseauctionTenderService {
 	@Autowired
 	private ReverseauctionTenderMapper reverseauctionTenderMapper;
-	@Autowired
-	private AccommodationMapper accommodationMapper;
 	
 	// 8. 입찰 목록 조회 (역경매 내 조회)
 	public List<ReverseauctionTender> getTenderListForOneReverseauction(int reverseauctionNo){
@@ -34,7 +32,9 @@ public class ReverseauctionTenderService {
 	// 10. 입찰 등록
 	public int addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
 		System.out.println("ReverseauctionTenderService.addReverseauctionTender()");
-		
+		Company company = reverseauctionTenderMapper.selectCompany(reverseauctionTender.getMemberId());
+		reverseauctionTender.setCompanyNo(company.getCompanyNo());
+		reverseauctionTender.setCompanyName(company.getCompanyName());
 		return reverseauctionTenderMapper.insertReverseauctionTender(reverseauctionTender);
 	}
 	// 11. 입찰 수정 폼

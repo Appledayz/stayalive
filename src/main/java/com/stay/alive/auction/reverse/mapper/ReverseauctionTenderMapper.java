@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
+import com.stay.alive.company.vo.Company;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
@@ -31,4 +32,6 @@ public interface ReverseauctionTenderMapper {
 	List<Accommodation> selectAccommodation(String memberId);
 	// 객실 정보(No, Name) 조회 (숙소번호로)
 	List<GuestRoom> selectGuestRooom(int accommodationNo);
+	// 업체 정보(No, Name) 조회 (id로)
+	Company selectCompany(String memberId);
 }

@@ -30,6 +30,12 @@
   	WHERE member_id=#{memberId}
   </select>
   
+  <select id="selectCompany" resultType="com.stay.alive.company.vo.Company">
+  	SELECT company_no, company_name
+  	FROM company
+  	WHERE member_id=#{memberId}
+  </select>
+  
   <select id="selectGuestRooom" resultType="com.stay.alive.guestroom.vo.GuestRoom">
   	SELECT guestroom_no, guestroom_name
   	FROM guestroom
@@ -68,6 +74,13 @@
   	    reverseauction_tender_content=#{reverseauctionTenderContent},
   	    reverseauction_tender_price=#{reverseauctionTenderPrice}
   	WHERE reverseauction_tender_no=#{reverseauctionTenderNo}
+  </update>
+  
+  <update id="updateReverseauctionTenderCount">
+  	UPDATE reverseauction_register
+  	  SET
+  	  	reverseauction_tender_count = reverseauction_tender_count + 1
+  	WHERE reverseauction_no=#{reverseauctionNo}
   </update>
   
   <delete id="deleteReverseauctionTenderOne">
