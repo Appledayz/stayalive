@@ -18,20 +18,20 @@
 	<insert id="insertAd" parameterType="com.stay.alive.ad.vo.Ad">
 		INSERT INTO ad_register(
 					member_id,
+					ad_register_name,
 					ad_register_date,
 					ad_cost_no,
 					ad_register_start,
 					ad_register_end,
-					ad_group_no,
-					ad_register_link		
+					ad_group_no,		
 		) VALUES(
 			#{memberId},
-			now()
+			#{adRegisterName},
+			now(),
 			#{adCostNo},
 			#{adRegisterStart},
 			#{adRegisterEnd},
-			#{adGroupNo},
-			#{adRegisterLink},
+			#{adGroupNo}
 		)
 	</insert>
 	<!-- <update id="updateAd" parameterType="com.stay.alive.ad.vo.ad">

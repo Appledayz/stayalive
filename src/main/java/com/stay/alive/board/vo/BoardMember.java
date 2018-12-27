@@ -1,7 +1,13 @@
 package com.stay.alive.board.vo;
 
-import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class BoardMember {
 	//게시판(회원)
@@ -18,8 +24,9 @@ public class BoardMember {
 	private int boardMemberHits; //조회수
 	private int boardMemberRecommend; //추천
 	private int boardMemberReply; //댓글
-	private int boardMemberFile; //파일
+	private int imageFileNo; //파일
 	private String boardMemberModifyDate; //게시글 마지막 수정일자
+	private MultipartFile file;
 	private int boardStateNo; //게시판 상태 번호(FK)
 	private String boardStateName; //상태명
 }

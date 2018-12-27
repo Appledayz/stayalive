@@ -9,6 +9,7 @@ public class AdFile {
 	private String memberId; //회원아이디
 	private int adRegisterNo; //광고 등록 번호(FK)
 	private int fileRegisterTableNo; //파일 등록 테이블 번호(FK)
+	private String fileRegisterTableName; //테이블 명
 	private String adFilePath; //파일경로
 	private String adFileStoredName; //저장될 파일 이름
 	private String adFileRealName; //오리지널 파일 이름

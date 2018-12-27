@@ -25,7 +25,7 @@
     <!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-6.jpg);">
         <div class="bradcumbContent">
-            <h2>Make A ReverseAuction</h2>
+            <h2>광고 만들기</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
@@ -35,7 +35,7 @@
 			<div class="col-12">
 			    <div class="section-heading">
 			        <div class="line-"></div>
-			        <h2>역경매 등록</h2>
+			        <h2>광고 등록</h2>
 			    </div>
 			</div>
 		</div>
@@ -43,19 +43,74 @@
 	<section class="contact-form-area mb-100">
 	    <div class="container">
 		    <div class="contact-form-area">
-				<form action="" method="POST" id="">
-			    	<div class="row">
-						<div class="col-lg-6"><input class="form-control" th:placeholder="memberId" type="text" name="memberId"></div>
-						<div class="col-lg-6"><input class="form-control" th:placeholder="adName" type="text" name="adName"></div>
-						<div class="col-lg-6"><input class="form-control" th:placeholder="adCost" type="text" name="adCost"></div>
-						<div class="col-lg-6"><input class="form-control" th:placeholder="adGroup" type="text" name="adGroup"></div>
-						<div class="col-lg-6"><input class="form-control" th:placeholder="adStart" type="text" name="adStart"></div>
-						<div class="col-lg-6"><input class="form-control" th:placeholder="adEnd" type="text" name="adEnd"></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="adLink" type="text" name="adLink"></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="adFile" type="text" name="adFile" id="file"></div>
-						<div class="col-lg-4"><button type="button" class="btn palatin-btn mt-50" id="">입력</button></div>
+				<form action="/ad/adRegister" id="insertAdFrm" enctype="multipart/form-data">
+ 		
+	    	<div class="card" >
+	    		<div class="card-body">
+	    			<div class="form-group">	
+		    			<div class="form-row">
+			    			<label class="col-2 col-form-label" >신청 아이디</label>
+			    			<input type="hidden" name="memberId" value="9">
+				    		<input class="form-control form-control-sm col-10" type="text" id="memberId" name="memberId" value="id001" readonly>
+				    	</div>
 					</div>
-				</form>
+			    	<div class="form-group">
+				    	<div class="form-row">
+				    		<label class = "col-2 col-form-label">광고명</label>
+				    		<input class="form-control form-control-sm col-10" type="text" name="adRegisterName">
+						</div>
+	    			</div>
+					<div class="form-group">
+	    				<div class="form-row">
+	    					<label class = "col-2 col-form-label">광고 단가</label>
+	    					<select name = "adCostNo" class="form-control col-10">
+								<option value="0">선택해 주세요</option>
+								<option value="1">플래시</option>
+								<option value="2">이미지</option>
+							</select>
+	    				</div>
+	    			</div>
+		    		<div class="form-group">
+		    			<div class="form-row">
+		    				<label class="col-2 col-form-label">광고 위치</label>
+							<select name = "adGroupNo" class="form-control col-10">
+								<option value="0">선택해 주세요</option>
+								<option value="1">메인배너</option>
+								<option value="2">배너좌측</option>
+								<option value="3">배너우측</option>
+							</select>
+		    			</div>
+		    		</div>
+		    		<div class="form-group">
+				    	<div class="form-row">
+				    		<label class = "col-2 col-form-label">광고 시작일</label>
+				    		<input class="form-control form-control-sm col-10" type="date" name="adRegisterStart">
+						</div>
+	    			</div>
+	    			<div class="form-group">
+				    	<div class="form-row">
+				    		<label class = "col-2 col-form-label">광고 종료일</label>
+				    		<input class="form-control form-control-sm col-10" type="date" name="adRegisterEnd">
+						</div>
+	    			</div>
+		    		<div class="form-group">
+		    			<div class="form-row">
+	    					<label class="col-2 col-form-label">세부 내용</label>
+		    				<input class="form-control form-control-sm col-2" type="file" name="file">
+							<input class="form-control form-control-sm col-2" type="file" name="file">
+							<input class="form-control form-control-sm" type="button" id="uploadbutton" value="업로드" style="width: 60px">
+		    			</div>
+		    		</div>
+		    		
+		    		<div class="form-group">
+		    			<div class="col-2"></div>
+		    			<div align="right">
+		    				<input type="submit" class="btn btn-primary pull-right" id="insertAd" value="등록" />
+		    			</div>
+		    		</div>
+	    		</div>
+    		</div>
+    	</form>
 			</div>
 		</div>
 	</section>

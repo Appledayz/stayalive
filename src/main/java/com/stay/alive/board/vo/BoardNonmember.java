@@ -1,7 +1,11 @@
 package com.stay.alive.board.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class BoardNonmember {
 	//게시판(비회원)

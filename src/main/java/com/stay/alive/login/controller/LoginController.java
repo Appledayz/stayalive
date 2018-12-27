@@ -1,7 +1,6 @@
 package com.stay.alive.login.controller;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.stay.alive.login.service.LoginService;
 import com.stay.alive.member.vo.Member;
 
@@ -18,7 +16,7 @@ import com.stay.alive.member.vo.Member;
 public class LoginController {
 	@Autowired
 	private LoginService loginService;
-	
+
 	//로그인 폼
 	@GetMapping("")
 	public String login(){
