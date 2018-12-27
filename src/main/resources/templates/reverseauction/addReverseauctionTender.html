@@ -6,6 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
+   	<script type="text/javascript">
+		window.addEventListener('load',()=>{
+			document.getElementById('addBtn').addEventListener("click", ()=>{
+				document.getElementById('addForm').submit();
+			});
+			$("#selectAcc").change(function(e) {
+				if($(this).val() != 0 ) {
+					var selectedAcc = $("#selectAcc option:selected").val();
+					var selectedAccNo = $("#selectAcc option:selected").attr("no");
+					//hidden 태그에 숙소 이름 세팅
+					$("#accommodationName").val(selectedAcc);
+					$("#accommodationNo").val(selectedAccNo);
+					$("#selectGuestroom").prop("disabled", false);
+					findGuestroom(selectedAccNo);
+				}
+				else {
+					$("#guestroomAddOrSelect").val("0"); // 기존에 있는 객실을 선택 select
+					$("#selectGuestroom").val("0");//객실을 선택해주세요 select
+					$("#selectGuestroom").prop("disabled", true);
+				}
+				$("select").niceSelect('update');
+			});
+			$("#selectGuestroom").change(function() {
+				if($("#selectGuestroom").val() != 0) {
+					var selectedGuestroom = $("#selectGuestroom option:selected").val();
+					var selectedGuestroomNo = $("#selectGuestroom option:selected").attr("no");
+					$("#guestroomName").val(selectedGuestroom);
+					$("#guestroomNo").val(selectedGuestroomNo);
+					$("select").niceSelect('update');
+				}
+			});
+		});
+		function findGuestroom(selectedAccNo) {
+			$.ajax({
+		  		url : "/auction/reverse/tender/findGuestroom",
+		  		data : {"accommodationNo" : selectedAccNo},
+		  		type: 'GET',
+				contentType:"application/x-www-form-urlencoded",
+				success: function(data) {
+					$("#selectGuestroom").html("<option value='0'>객실을 선택해주세요");
+					$("select").niceSelect('update');
+					$.each(data, function(index,item) {
+						$("#selectGuestroom").append("<option no='"+item.guestroomNo+"'>"+ item.guestroomName);
+						$("select").niceSelect('update');
+					});
+				}
+			});
+		}
+	</script>
 	<title>Make A Tender</title>
 </head>
 <body>
@@ -27,61 +76,44 @@
     </section>
     <!-- ##### Breadcumb Area End ##### -->
     
-	<h1>addReverseauctionTender</h1>
-	<form th:action="@{/auction/reverse/tender/add}" th:object="${reverseauctionTender}" method="post">
-		<h5>reverseauctionNo<input th:field="*{reverseauctionNo}" th:value="${reverseauctionNo}"></h5>
-		<table border="1">
-			<tbody>
-				<tr>
-					<td>memberId</td>
-					<td><input th:field="*{memberId}"></td>
-				</tr>
-				<tr>
-					<td>companyNo</td>
-					<td><input th:field="*{companyNo}"></td>
-				</tr>
-				<tr>
-					<td>companyName</td>
-					<td><input th:field="*{companyName}"></td>
-				</tr>
-				<tr>
-					<td>accommodationNo</td>
-					<td><input th:field="*{accommodationNo}"></td>
-				</tr>
-				<tr>
-					<td>accommodationName</td>
-					<td><input th:field="*{accommodationName}"></td>
-				</tr>
-				<tr>
-					<td>guestroomNo</td>
-					<td><input th:field="*{guestroomNo}"></td>
-				</tr>
-				<tr>
-					<td>guestroomName</td>
-					<td><input th:field="*{guestroomName}"></td>
-				</tr>
-				<tr>
-					<td>accommodationGuestroomAllcount</td>
-					<td><input th:field="*{accommodationGuestroomAllcount}"></td>
-				</tr>
-				<tr>
-					<td>guestroomStateCount</td>
-					<td><input th:field="*{guestroomStateCount}"></td>
-				</tr>
-				<tr>
-					<td>reverseauctionTenderContent</td>
-					<td><input th:field="*{reverseauctionTenderContent}"></td>
-				</tr>
-				<tr>
-					<td>reverseauctionTenderPrice</td>
-					<td><input th:field="*{reverseauctionTenderPrice}"></td>
-				</tr>
-				<tr>
-					<td><button th:type="submit">submit</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
+    <div class="container">
+		<div class="row">
+			<div class="col-12">
+			    <div class="section-heading">
+			        <div class="line-"></div>
+			        <h2>역경매 등록</h2>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<section class="contact-form-area mb-100">
+	    <div class="container">
+		    <div class="contact-form-area">
+				<form action="addReverseauction" method="POST" id="addForm">
+					<input type="hidden" th:name="reverseauctionNo" th:value="${reverseauctionNo}">
+					<div class="row">
+		    			<input type="hidden" th:placeholder="accommodationNo" name="accommodationNo" id="accommodationNo">
+		    			<input type="hidden" th:placeholder="accommodationName" name="accommodationName" id="accommodationName">
+						<select name = "selectAcc" id="selectAcc">
+				 			<option value="0">숙소를 선택해 주세요
+				 			<option th:each="accommodation : ${accommodations}" th:text="${accommodation.accommodationName}" th:no="${accommodation.accommodationNo}">
+				 		</select>
+						<input type="hidden" th:placeholder="guestroomNo" name="guestroomNo" id="guestroomNo">
+						<input type="hidden" th:placeholder="guestroomName" name="guestroomName" id="guestroomName">
+				 		<select name = "selectGuestroom" id = "selectGuestroom" disabled>
+				 			<option value='0'>객실을 선택해주세요
+				 		</select>
+			 		</div>
+			    	<div class="row">
+						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="accommodationGuestroomAllcount" type="text" name="accommodationGuestroomAllcount"></div>
+						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="guestroomStateCount" type="text" name="guestroomStateCount"></div>
+						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="reverseauctionTenderPrice" type="text" name="reverseauctionTenderPrice"></div>
+						<div class="col-lg-12"><button type="button" class="btn palatin-btn mt-50" id="addBtn">입력</button></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
 	
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>

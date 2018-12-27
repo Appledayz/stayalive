@@ -61,6 +61,8 @@ public class ReverseauctionController {
 		model.addAttribute("PM", pageMaker);
 		model.addAttribute("sk", sk);
 		model.addAttribute("sv", sv);
+		model.addAttribute("date1", date1);
+		model.addAttribute("date2", date2);
 		return "/reverseauction/reverseauctionList";
 	}
 	// 3. 역경매 등록 폼

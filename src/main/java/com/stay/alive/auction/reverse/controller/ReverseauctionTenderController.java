@@ -1,5 +1,9 @@
 package com.stay.alive.auction.reverse.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
 import com.stay.alive.file.ImageFile;
+import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Controller
 @RequestMapping("auction/reverse/tender")
@@ -27,14 +32,21 @@ public class ReverseauctionTenderController {
 		}
 		// 10. 역경매 입찰 등록 폼
 		@GetMapping("add")
-		public String addReverseauctionTender(ReverseauctionTender reverseauctionTender) {
+		public String addReverseauctionTender(ReverseauctionTender reverseauctionTender, Model model, int reverseauctionNo, HttpSession session) {
 			System.out.println("ReverseauctionTenderController.addReverseauctionTender() GET");
+			if(session.getAttribute("memberId")!=null) {
+				model.addAttribute("reverseauctionNo", reverseauctionNo);
+				model.addAttribute("accommodations",reverseauctionTenderService.getAccommodation((String)session.getAttribute("memberId")));
+			}
 			return "/reverseauction/addReverseauctionTender";
 		}
 		// 11. 역경매 입찰 등록 액션
 		@PostMapping("add")
-		public String addReverseauctionTenderAction(ReverseauctionTender reverseauctionTender) {
+		public String addReverseauctionTenderAction(ReverseauctionTender reverseauctionTender, HttpSession session) {
 			System.out.println("ReverseauctionTenderController.addReverseauctionTender() POST");
+			if(session.getAttribute("memberId")!=null) {
+				reverseauctionTender.setMemberId((String)session.getAttribute("memberId"));
+			}
 			reverseauctionTenderService.addReverseauctionTender(reverseauctionTender);
 			reverseauctionTenderService.plusReverseauctionTenderCount(reverseauctionTender.getReverseauctionNo());
 			return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauctionTender.getReverseauctionNo();
@@ -69,5 +81,11 @@ public class ReverseauctionTenderController {
 		public @ResponseBody ImageFile restAccommodationImg(int accommodationNo){
 			System.out.println("ReverseauctionTenderController.restAccommodationImg() GET");
 			return reverseauctionTenderService.getTenderAccommodationImg(accommodationNo);
+		}
+		// 객실 정보(No, Name) 가져오기
+		@GetMapping("findGuestroom")
+		public @ResponseBody List<GuestRoom> restGuestroom(int accommodationNo) {
+			System.out.println("ReverseauctionTenderController.restGuestroom() GET");
+			return reverseauctionTenderService.getGuestRoom(accommodationNo);
 		}
 }

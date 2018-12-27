@@ -24,6 +24,18 @@
   	WHERE a.accommodation_no=#{accommodationNo}
   </select>
   
+  <select id="selectAccommodation" resultType="com.stay.alive.accommodation.vo.Accommodation">
+  	SELECT accommodation_no, accommodation_name
+  	FROM accommodation
+  	WHERE member_id=#{memberId}
+  </select>
+  
+  <select id="selectGuestRooom" resultType="com.stay.alive.guestroom.vo.GuestRoom">
+  	SELECT guestroom_no, guestroom_name
+  	FROM guestroom
+  	WHERE accommodation_no=#{accommodationNo}
+  </select>
+  
   <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	INSERT INTO reverseauction_tender
   	VALUES(0,
