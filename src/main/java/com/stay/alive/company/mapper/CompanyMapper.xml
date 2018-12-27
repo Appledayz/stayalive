@@ -5,10 +5,35 @@
   
 <mapper namespace="com.stay.alive.company.mapper.CompanyMapper" >
 	<select id="selectMemberRatingAndOption" parameterType="String" resultType="com.stay.alive.member.vo.Member">
-		SELECT rating_no, rating_name, member_option_no, member_option_name FROM member WHERE member_id = #{memberId}
+		SELECT rating_no, 
+				rating_name, 
+				member_option_no, 
+				member_option_name 
+		FROM member WHERE member_id = #{memberId}
 	</select>
 	<insert id="insertCompany" parameterType="com.stay.alive.company.vo.Company">
-		INSERT INTO company(member_id, company_name, company_homepage, company_address, company_email, company_detail, rating_no, rating_name, member_option_no, member_option_name, company_register_date) VALUES(#{memberId}, #{companyName}, #{companyHomepage}, #{companyAddress}, #{companyEmail}, #{companyDetail}, #{ratingNo}, #{ratingName}, #{memberOptionNo}, #{memberOptionName}, now())
+		INSERT INTO company(member_id, 
+							company_name, 
+							company_homepage, 
+							company_address, 
+							company_email, 
+							company_detail, 
+							rating_no, 
+							rating_name, 
+							member_option_no, 
+							member_option_name, 
+							company_register_date) 
+		VALUES(#{memberId}, 
+				#{companyName}, 
+				#{companyHomepage}, 
+				#{companyAddress}, 
+				#{companyEmail}, 
+				#{companyDetail}, 
+				#{ratingNo}, 
+				#{ratingName}, 
+				#{memberOptionNo}, 
+				#{memberOptionName}, 
+				now())
 	</insert>
 	<select id="selectMemberAndCompanySearchListCount" resultType="int" parameterType="HashMap">
         SELECT 
@@ -40,7 +65,10 @@
     </resultMap>   
     <select id="selectMemberAndCompanySearchList" resultMap="resultmap" parameterType="HashMap">
         SELECT 
-        	c.company_no as companyNo, c.company_name as companyName, c.member_id as memberId, m.member_nickname as memberNickname
+        	c.company_no as companyNo, 
+        	c.company_name as companyName, 
+        	c.member_id as memberId, 
+        	m.member_nickname as memberNickname
        	FROM member m INNER JOIN company c
        	ON m.member_id = c.member_id
        	<if test='searchKey != ""'>
@@ -63,10 +91,26 @@
     </select>
     <select id="selectCompanyFromNo" resultType="com.stay.alive.company.vo.Company">
 		SELECT 
-			company_name as companyName, company_detail as companyDetail 
+			company_name as companyName, 
+			company_detail as companyDetail 
 		FROM company WHERE company_no = #{companyNo}
 	</select>
 	<select id="selectCompanyFromId" resultType="com.stay.alive.company.vo.Company">
-		SELECT company_no, company_name FROM company WHERE member_id = #{memberId}
+		SELECT company_no, 
+				company_name
+		FROM company WHERE member_id = #{memberId}
+	</select>
+	<select id="selectCompanyList" resultType="com.stay.alive.company.vo.Company">
+		SELECT
+			company_no as companyNo, 
+			company_name as companyName,
+			member_id as memberId,
+			company_volume as companyVolume,
+			register_salespost_total as registerSalespostTotal,
+			register_accommodation_count as registerAccommodationCount,
+			company_recognition as companyRecognition,
+			company_register_date as companyRegisterDate,
+			company_update_date as companyUpdateDate
+   		FROM company
 	</select>
 </mapper>

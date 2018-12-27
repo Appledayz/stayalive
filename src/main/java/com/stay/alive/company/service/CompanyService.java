@@ -46,4 +46,8 @@ public class CompanyService {
 		return companyMapper.selectCompanyFromNo(companyNo);
 	}
 	
+	public List<Company> getCompanyList() {
+		return companyMapper.selectCompanyList();
+	}
+	
 }
