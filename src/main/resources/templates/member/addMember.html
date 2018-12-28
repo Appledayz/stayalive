@@ -1,258 +1,447 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<!-- Core Stylesheet -->
-		<link rel="stylesheet" href="/main/style.css">
-		<title>Sign up</title>
-		<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
-	</head>
-	<body class="body-wrapper">
-		<!-- header replace -->
-		<div th:replace="header :: header"></div>
-		<!-- ##### Breadcumb Area Start ##### -->
-		<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
-			<div class="bradcumbContent">
-				<h2>Sign up</h2>
-			</div>
-		</section>
-				<!-- ##### Breadcumb Area End ##### -->
-		<section class="contact-form-area mb-100">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="section-heading">
-							<div class="line-"></div>
-							<h2>회원 가입</h2>
-						</div>
-					</div>
-				</div>			
-				<div class="row">
-					<div class="col-md-3">
-						<p>업체는 무엇인가요?</p>
-						<a href="company">
-							<button type="button" class="btn palatin-btn">Click Now</button><br><br>
-						</a>
-						<p>stayalive에 등록된 업체들은 어디있나요?</p>
-						<a href="companyList">
-							<button type="button" class="btn palatin-btn">Click Now</button>
-						</a>
-					</div>
-				<div class="col-md-9">
-					<form action="/member/addMember" method="post" id="addMemberForm" name="join" onsubmit="return validate();">
-						<div class="row">
-						<div class="col-lg-10 input-group">
-							<input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디 (4~10자의 영문,숫자)">
-							<div class="input-group-btn">
-								<button type="button" class="idCheck btn palatin-btn btn-3 m-1" id="hid1" name="hid1" value="0">아이디 중복확인</button>
-							</div>
-						</div>
-						<div class="col-lg-10 input-group">
-							<input type="text" class="form-control" name="memberNickname" id="memberNickname" placeholder="닉네임 (특수문자를 제외한 2~8자)">
-							<div class="input-group-btn">
-								<button type="button" class="nicknameCheck btn palatin-btn btn-3 m-1" id="hid2" name="hid2" value="0">닉네임 중복확인</button>
-							</div>
-						</div>
-						<div class="col-lg-5">
-							<input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="비밀번호 (4~12자의 영문,숫자,특수문자)">
-						</div>
-						<div class="col-lg-5">
-							<input type="password" class="form-control" name="memberPasswordCheck" id="memberPasswordCheck" placeholder="비밀번호 확인">
-						</div>
-						<div class="col-lg-5">
-							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름">
-						</div>
-						<div class="col-lg-5">
-							<input type="text" class="form-control" name="memberPhoneNumber1" id="memberPhoneNumber1" placeholder="연락처">
-						</div>
-						<div class="col-lg-10">
-							<input type="text" class="form-control" name="memberBirth" id="memberBirth" placeholder="생년월일 (예시:19890829)">
-						</div>
-						<div class="col-lg-10">
-							<input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="e-mail">
-						</div>
-						<div class="col-lg-3 input-group">
-							<p>e-mail 수신동의</p>
-							<input type="checkbox" style="width:20px;height:20px" class="memberEmailAccept" name="memberEmailAccept" id="memberEmailAccept" value="Y">
-						</div>
-						<div class="col-lg-3 input-group">
-							<p>sms 수신동의</p>
-							<input type="checkbox" style="width:20px;height:20px" class="memberSmsAccept" name="memberSmsAccept" id="memberSmsAccept" value="Y">
-						</div>
-						<div class="col-lg-6">
-							<button type="submit" id="submitBtn" class="submitBtn btn palatin-btn">가입</button>
-						</div>
-						</div>
-					</form>
-				</div>
-				</div>
-			</div>
-		</section>
-		<!-- footer replace -->
-		<div th:replace="footer :: footer"></div>
-		<!-- ##### All Javascript Script ##### -->
-		<!-- jQuery-2.2.4 js -->
-		<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
-		<!-- Popper js -->
-		<script src="/main/js/bootstrap/popper.min.js"></script>
-		<!-- Bootstrap js -->
-		<script src="/main/js/bootstrap/bootstrap.min.js"></script>
-		<!-- All Plugins js -->
-		<script src="/main/js/plugins/plugins.js"></script>
-		<!-- Active js -->
-		<script src="/main/js/active.js"></script>
-		<script>
-		//1.아이디 중복검사
-		$(".idCheck").click(function(){
-			var query = {memberId : $("#memberId").val()};
-			var re = /^[a-zA-Z0-9]{4,12}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
-			var id = document.getElementById("memberId");
-		
-			if ($("#memberId").val() == ""){
-				alert("아이디를 입력하세요.");
-				return;
-			};
-			if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-				return false;
-			}
-		
-			$.ajax({
-				url : "idCheck",
-				type : "post",
-				data : query,
-				success : function(data) {
-					if(data == 1) {
-						alert("중복된 아이디 입니다.");	
-					} else {
-						alert("사용 가능한 아이디 입니다.");
-						$(".idCheck").val(join.memberId.value); //현재 닉네입 입력란에 기입된 벨류와 닉네임 버튼의 벨류가 같도록 설정
-					}
-				}
-			});
-		});
-		
-		//2.닉네임 중복검사
-		$(".nicknameCheck").click(function(){
-			var inputed = {memberNickname : $("#memberNickname").val()};
-			var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
-			var nick = document.getElementById("memberNickname");
-			
-			if ($("#memberNickname").val() == ""){
-				alert("닉네임을 입력하세요.");
-				return;
-			};
-			if(!check(re3,nick,"닉네임은 2~8자로 작성해 주세요.(특수문자 제외)")) {
-		        return false;
-		    }
-			
-			$.ajax({
-				url : "nicknameCheck",
-				type : "post",
-				data : inputed,
-				success : function(data) {
-					if(data == 1) {
-						alert("중복된 닉네임 입니다.");
-					} else {
-						alert("사용 가능한 닉네임 입니다.");
-						$(".nicknameCheck").val(join.memberNickname.value); //현재 닉네입 입력란에 기입된 벨류와 닉네임 버튼의 벨류가 같도록 설정
-					}
-				}
-			});
-		});
-		
-		//3.각 항목별 유효성검사
-		function validate() {
-			var re = /^[a-zA-Z0-9]{4,12}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
-			var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
-			var re4 = /^[0-9]$/;
-			var re5 = /^[0-9]{8}$/;
-			
-			var id = document.getElementById("memberId");
-			var pw = document.getElementById("memberPassword");
-			var email = document.getElementById("memberEmail");// 이메일이 적합한지 검사할 정규식
-			var nick = document.getElementById("memberNickname");
-			var birth = document.getElementById("memberBirth");
-			// ------------ 이메일 까지 -----------
-			if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-				return false;
-			}
-			if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-				return false;
-			}
-			if(join.memberPassword.value != join.memberPasswordCheck.value) {
-				alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-				join.memberPasswordCheck.value = "";
-				join.memberPasswordCheck.focus();
-				return false;
-			}
-			if(join.memberName.value=="") {
-				alert("이름을 입력해 주세요");
-				join.memberName.focus();
-				return false;
-			}
-			if(join.memberNickname.value=="") {
-				alert("닉네임을 입력해 주세요");
-				join.memberNickname.focus();
-				return false;
-			}
-			if(!check(re3,nick,"닉네임은 2~8자로 작성해 주세요.(특수문자 제외)")) {
-				return false;
-			}
-			if(join.memberBirth.value=="") {
-				alert("생년월일을 입력해 주세요");
-				join.memberBirth.focus();
-				return false;
-			}
-			if(!check(re5,birth,"생년월일을 올바르게 입력해 주세요.")) {
-				return false;
-			}
-			if(join.memberPhoneNumber1.value=="") {
-				alert("연락처를 입력해 주세요");
-				join.memberPhoneNumber1.focus();
-				return false;
-			}
-			if(!check(re3,join.memberPhoneNumber1,"숫자로만 입력해 주세요.")) {
-				return false;
-			}
-			if(email.value=="") {
-				alert("이메일을 입력해 주세요");
-				email.focus();
-				return false;
-			}
-			if(!check(re2, email, "적합하지 않은 이메일 형식입니다.")) {
-				return false;
-			}
-			if(join.hid1.value=="0") { //아이디 중복버튼을 클릭하지 않았을 경우
-				alert("아이디 중복을 확인해 주세요.");
-				join.memberId.focus();
-				return false;
-			}
-			if(join.hid1.value != join.memberId.value) { //중복 확인된 아이디와 현재 아이디 입력창에 기입되어 있는 아이디가 일치하지 않을 경우
-				alert("아이디 중복을 확인해 주세요.");
-				return false;
-			}
-			if(join.hid2.value=="0") { //닉네임 중복버튼을 클릭하지 않았을 경우
-				alert("닉네임 중복을 확인해 주세요.");
-				join.memberNickname.focus();
-				return false;
-			}
-			if(join.hid2.value != join.memberNickname.value) { //중복 확인된 아이디와 현재 아이디 입력창에 기입되어 있는 닉네임이 일치하지 않을 경우
-				alert("아이디 중복을 확인해 주세요.");
-				return false;
-			}
-			alert("회원가입이 완료되었습니다.");
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Core Stylesheet -->
+<link rel="stylesheet" href="/main/style.css">
+<title>Sign up</title>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+<style>
+	table{
+		margin-left: auto; margin-right: auto;
+	}
+</style>
+</head>
+<body>
+<!-- header -->
+<div id="header" class="join_membership" role="banner"><br><br>
+    <h2 class="text-center"><a href="/main"><img src="/main/img/core-img/logo_b.png" alt=""></a></h2>
+</div>
+
+<form action="/member/addMember" method="post" id="addMemberForm" name="join">
+	<table>
+		<tr><td><strong>아이디</strong></td></tr>
+	<tr>
+		<td><input type="text" class="form-control" name="memberId" id="memberId" placeholder="5~20자의 영문 소문자,숫자와 특수기호(_),(-)" style="width:450px;" maxlength="20"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="idCheck" role="alert"></span></td></tr>
+	
+	<tr><td>닉네임</td></tr>
+	<tr>
+		<td><input type="text" class="form-control" name="memberNickname" id="memberNickname" placeholder="특수문자를 제외한 2~8자" style="width:450px;" maxlength="8"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="nicknameCheck" role="alert"></span></td></tr>
+	
+	<tr><td>비밀번호</td></tr>
+	<tr>
+		<td><input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="5~20자의 영문,숫자혼합(특수문자 사용가능)" style="width:450px;"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="pwCheck" role="alert"></span></td></tr>
+	
+	<tr><td>비밀번호 확인</td></tr>
+	<tr>
+		<td><input type="password" class="form-control" name="memberPasswordCheck" id="memberPasswordCheck" placeholder="입력한 비밀번호와 같게 입력해 주세요." style="width:450px;"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="pwCheck2" role="alert"></span></td></tr>
+	
+	<tr><td>이름</td></tr>
+	<tr>
+		<td><input type="text" class="form-control" name="memberName" id="memberName" placeholder="5자로 이내로 입력해 주세요." style="width:450px;" maxlength="5"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="nameCheck" role="alert"></span></td></tr>
+	
+	<tr><td>연락처</td></tr>
+	<tr>
+		<td><input type="text" class="form-control" name="memberPhoneNumber1" id="memberPhoneNumber1" placeholder="-를 제외한 숫자만 입력해 주세요." style="width:450px;" maxlength="11"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="phoneCheck" role="alert"></span></td></tr>
+	
+	<tr><td>생년월일</td></tr>
+	<tr>
+		<td><input type="date" class="form-control" name="memberBirth" id="memberBirth" placeholder="생년월일 (예시:19890829)" style="width:450px;"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="birthCheck" role="alert"></span></td></tr>
+	
+	<tr><td>이메일</td></tr>
+	<tr>
+		<td><input type="text" class="form-control" name="memberEmail" id="memberEmail" style="width:450px;" maxlength="40"></td>
+	</tr>
+	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="emailCheck" role="alert"></span></td></tr>
+</table><br>
+
+	<center>
+	<span class="input group">e-mail 수신동의</span>
+	<input type="checkbox" style="width:20px;height:20px" class="memberEmailAccept" name="memberEmailAccept" id="memberEmailAccept" value="Y">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<span class="input group">sms 수신동의</span>
+	<input type="checkbox" style="width:20px;height:20px" class="memberSmsAccept" name="memberSmsAccept" id="memberSmsAccept" value="Y"><br><br>
+	
+	<button type="button" id="btnJoin" class="submitBtn btn palatin-btn">가입</button>
+	</center>
+</form>
+<script>
+var idFlag = false;
+var pwFlag = false;
+var nickFlag = false;
+
+	$(document).ready(function() {
+    
+	    //아이디
+	    $("#memberId").blur(function() {
+	        idFlag = false;
+	        checkId("first");
+	    });
+	    //닉네임
+	    $("#memberNickname").blur(function() {
+	        nicknameFlag = false;
+	        checkNickname("first");
+	    });
+	    //비밀번호 입력
+	    $("#memberPassword").blur(function() {
+            pwFlag = false;
+            checkPswd1();	    
+	    }).keyup(function(event) {
+            checkShiftUp(event);
+        }).keypress(function(event) {
+            checkCapslock(event);
+        }).keydown(function(event) {
+            checkShiftDown(event);
+        });
+		//비밀번호 확인
+        $("#memberPasswordCheck").blur(function() {
+            checkPswd2();        
+        }).keyup(function(event) {
+            checkShiftUp(event);
+        }).keypress(function(event) {
+            checkCapslock2(event);
+        }).keydown(function(event) {
+            checkShiftDown(event);
+        });
+        //이름
+        $("#memberName").blur(function() {
+	        checkName();	
+	    });
+        //연락처
+        $("#memberPhoneNumber1").blur(function() {
+	        checkPhoneNumber();
+	    });
+        //생년월일
+        $("#memberBirth").blur(function() {
+	        checkBirth();
+	    });
+        //이메일
+        $("#memberEmail").blur(function() {
+	        checkEmail();
+	    });        
+	});
+	function mainSubmit() {        
+		if (!checkUnrealInput()) {
+		    submitOpen();
+		    return false;
 		}
-		
-		function check(re, what, message) {
-			if(re.test(what.value)) {
-				return true;
+    }
+
+    function checkUnrealInput() {
+        if (checkId()
+        		& checkNickname()
+                & checkPswd1()
+   			    & checkPswd2()
+   			 	& checkName()
+                & checkPhoneNumber()
+                & checkBirth()
+                & checkEmail()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+	//아이디 유효성 검사
+    function checkId(event) {
+        if(idFlag) return true;
+
+        var id = $("#memberId").val();
+        var oMsg = $("#idCheck");
+        var query = {memberId : $("#memberId").val()};
+
+        if ( id == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+
+        var isID = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
+        if (!isID.test(id)) {
+            showErrorMsg(oMsg,"5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
+            return false;
+        }
+
+        idFlag = false;
+        
+        $.ajax({
+			url : "idCheck",
+			type : "post",
+			data : query,
+			success : function(data) {
+				if(data == 1) {
+					showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 아이디입니다.");
+				} else {
+					if (event == "first") {
+                        showSuccessMsg(oMsg, "멋진 아이디네요!");
+                    } else {
+                        hideMsg(oMsg);
+                    }
+					idFlag = true;
+				}
 			}
-			alert(message);
-			what.value = "";
-			what.focus();
-		//return false;
+		});
+        return true;
+    }
+	
+	//닉네임 유효성 검사
+    function checkNickname(event) {
+        if(nickFlag) return true;
+
+        var nick = $("#memberNickname").val();
+        var oMsg = $("#nicknameCheck");
+        var query = {memberNickname : $("#memberNickname").val()};
+
+        if ( nick == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        var isNICK = /^[a-zA-Z0-9가-힣]{2,8}$/;
+        if (!isNICK.test(nick)) {
+            showErrorMsg(oMsg,"특수문자를 제외한 2~8자로 작성해 주세요.");
+            return false;
+        }
+
+        var nickFlag = false;
+        
+        $.ajax({
+			url : "nicknameCheck",
+			type : "post",
+			data : query,
+			success : function(data) {
+				if(data == 1) {
+					showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 닉네임입니다.");
+				} else {
+					if (event == "first") {
+                        showSuccessMsg(oMsg, "멋진 닉네임이네요!");
+                    } else {
+                        hideMsg(oMsg);
+                    }
+					nickFlag = true;
+				}
+			}
+		});
+        return true;
+    }
+
+    //비밀번호 유효성 검사-비밀번호입력
+    function checkPswd1() {
+        if(pwFlag) return true;
+
+        var pw = $("#memberPassword").val();
+        var oMsg = $("#pwCheck");
+
+        if (pw == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        
+        var isPw = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+        if (!isPw.test(pw)) {
+            showErrorMsg(oMsg,"5~20자의 영문,숫자를 혼합하여 입력해 주세요.");
+            return false;
+        }
+        if (isPw.test(pw)) {	
+        	oMsg.hide();
+            return true;
+        }	
+        pwFlag = false;
+    }
+    //비밀번호 유효성 검사-비밀번호확인
+    function checkPswd2() {
+        var pswd1 = $("#memberPassword");
+        var pswd2 = $("#memberPasswordCheck");
+        var oMsg = $("#pwCheck2");
+
+        if (pswd2.val() == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        if (pswd1.val() != pswd2.val()) {
+            showErrorMsg(oMsg,"비밀번호가 일치하지 않습니다.");
+            pswd2.val("");
+            return false;
+        } else {
+            hideMsg(oMsg);
+            return true;
+        }
+        return true;
+    }
+    
+    //비밀번호 유효성 검사-capslock 눌러짐 여부 체크
+    var isShift = false;
+    function checkShiftUp(e) {
+        if (e.which && e.which == 16) {
+            isShift = false;
+        }
+    }
+
+    function checkShiftDown(e) {
+        if (e.which && e.which == 16) {
+            isShift = true;
+        }
+    }
+    
+    function checkCapslock(e) {
+        var myKeyCode = 0;
+        var myShiftKey = false;
+        if (window.event) { // IE
+            myKeyCode = e.keyCode;
+            myShiftKey = e.shiftKey;
+        } else if (e.which) { // netscape ff opera
+            myKeyCode = e.which;
+            myShiftKey = isShift;
+        }
+
+        var oMsg = $("#pwCheck");
+        if ((myKeyCode >= 65 && myKeyCode <= 90) && !myShiftKey) {
+            showErrorMsg(oMsg,"Caps Lock이 켜져 있습니다.");
+        } else if ((myKeyCode >= 97 && myKeyCode <= 122) && myShiftKey) {
+            showErrorMsg(oMsg,"Caps Lock이 켜져 있습니다.");
+        } else {
+            hideMsg(oMsg);
+        }
+    }
+
+    function checkCapslock2(e) {
+        var myKeyCode = 0;
+        var myShiftKey = false;
+        if (window.event) { // IE
+            myKeyCode = e.keyCode;
+            myShiftKey = e.shiftKey;
+        } else if (e.which) { // netscape ff opera
+            myKeyCode = e.which;
+            myShiftKey = isShift;
+        }
+
+        var oMsg = $("#pwCheck2");
+        if ((myKeyCode >= 65 && myKeyCode <= 90) && !myShiftKey) {
+            showErrorMsg(oMsg,"Caps Lock이 켜져 있습니다.");
+        } else if ((myKeyCode >= 97 && myKeyCode <= 122) && myShiftKey) {
+            showErrorMsg(oMsg,"Caps Lock이 켜져 있습니다.");
+        } else {
+            hideMsg(oMsg);
+        }
+    }
+    //이름 유효성 검사    
+    function checkName() {
+        var oMsg = $("#nameCheck");
+        var nonchar = /[^가-힣a-zA-Z]/gi;
+        var name = $("#memberName").val();
+        
+        if (name == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        if (name != "" && nonchar.test(name)) {
+            showErrorMsg(oMsg,"한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)");
+            return false;
+        }
+        hideMsg(oMsg);
+        return true;
+    }
+    //전화번호 유효성 검사   
+    function checkPhoneNumber() {
+        var oMsg = $("#phoneCheck");
+        var num = $("#memberPhoneNumber1").val();
+        var onlynum = /^[0-9]{9,11}$/;
+        
+        if (num == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        if (num != "" && !onlynum.test(num)) {
+            showErrorMsg(oMsg,"9~11자의 숫자로만 입력하세요.");
+            return false;
+        }
+        hideMsg(oMsg);
+        return true;
+    }
+    //생년월일 유효성 검사   
+    function checkBirth() {
+        var oMsg = $("#birthCheck");
+        var birth = $("#memberBirth").val();
+        
+        if (birth == "") {
+            showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }
+        hideMsg(oMsg);
+        return true;
+    }
+    //이메일 유효성 검사   
+    function checkEmail() {
+        var oMsg = $("#emailCheck");
+        var email = $("#memberEmail").val();        
+        
+        if (email == "") {
+        	showErrorMsg(oMsg,"필수 정보입니다.");
+            return false;
+        }       
+        var isEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var isHan = /[ㄱ-ㅎ가-힣]/g;
+        
+        if (!isEmail.test(email) || isHan.test(email)) {
+            showErrorMsg(oMsg,"이메일 주소를 다시 확인해주세요.");
+            return false;
+        }
+        hideMsg(oMsg);
+        return true;
+    }
+    
+    function submitClose() {
+        $("#btnJoin").attr("disabled",true);
+        return false;
+    }
+    function submitOpen() {
+        $("#btnJoin").attr("disabled",false);
+    }
+    //에러메시지 출력
+	function showErrorMsg(obj, msg) {
+	    obj.attr("class", "errorBox");
+	    obj.html(msg);
+	    obj.show();
+	}
+	function showSuccessMsg(obj, msg) {
+	    obj.attr("class", "errorBox green");
+	    obj.html(msg);
+	    obj.show();
+	}
+    function hideMsg(obj) {
+        obj.hide();
+    }
+    
+    $("#btnJoin").click(function(event) {
+    	checkId();
+    	checkNickname();
+    	checkPswd1();
+    	checkPswd2();
+    	checkName();
+    	checkPhoneNumber();
+    	checkBirth();
+    	checkEmail();
+
+
+
+		if(checkId() && checkNickname() && checkPswd1() && checkPswd2() && checkName() && checkPhoneNumber() && checkBirth() && checkEmail()) {
+			$("#addMemberForm").submit();
 		}
-		</script>
-	</body>
+	});
+</script>
+</body>
 </html>

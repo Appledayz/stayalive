@@ -5,7 +5,7 @@
 <mapper namespace="com.stay.alive.member.mapper.MemberMapper">
 	<!-- 회원정보 입력 -->
 	<insert id="insertMember" parameterType="com.stay.alive.member.vo.Member">	
-		INSERT INTO member(member_no,
+		INSERT INTO member(
 						member_id,
 						member_password,
 						member_name,
@@ -28,7 +28,7 @@
 						member_lastlogout_date,
 						member_lastlogin_date,
 						member_login_count)
-	    VALUES (#{memberNo},
+	    VALUES (
 			#{memberId},
 			#{memberPassword},
 			#{memberName},
@@ -39,13 +39,13 @@
 			#{memberEmailAccept},
 			#{memberSmsAccept},
 			1,
-			123,
+			'일반',
 			1,
-			123,
+			'게스트',
 			1,
-			123,
+			'실버',
 			1,
-			123,
+			'프리미엄01',
 			now(),
 			now(),
 			now(),

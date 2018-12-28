@@ -103,34 +103,14 @@
 					<!-- ##### Rooms Area Start ##### -->
 					<section class="rooms-area section-padding-0-100">
 						<div class="container">
-							<div class="row">
-								<!-- Single Rooms Area -->
-								<div class="col-12 col-md-6" th:each="list:${#numbers.sequence(1,4)}">
-									<a href="#"  style="padding:0 15px 0 15px">
-										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
-											<!-- Limit -->
-                        					<p class="price-from" >객실 가격</p>
-											<!-- Thumbnail -->
-											<div class="bg-thumbnail bg-img" style="background-image: url(/main/img/bg-img/1.jpg;"></div>
-											<!-- Rooms Text -->
-											<div class="rooms-text">
-												<div class="line"></div>
-												<h4>Deluxe Room</h4>
-												<p style="word-break: break-all;">Room Content</p>
-												<div class="line"></div>
+							<div class="row" id="roomArea">
 
-											</div>
-										</div>
-									</a>
-								</div>
 							</div>
 
 							<div class="col-12">
 								<!-- Pagination -->
 								<div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
-									
 									<nav>
-
 									</nav>
 								</div>
 							</div>
@@ -141,11 +121,12 @@
 			</div>
 		</div>
 	</section>
+
 	<!-- ##### category Area End ##### -->
 
 	<!-- footer replace -->
 	<div th:replace="footer :: footer"></div>
-
+	
 	<!-- Popper js -->
 	<script src="/main/js/bootstrap/popper.min.js"></script>
 	<!-- Bootstrap js -->
@@ -154,5 +135,29 @@
 	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
 	<script src="/main/js/active.js"></script>
+	<script th:inline="javascript">
+	//<![CDATA[
+			$("#roomArea").empty();
+			var list = [[${list}]];
+			console.log(list);
+			$.each(list, function(index,item) {
+				var html = "<div class='col-12 col-md-6'>";
+				html += "<a href='/main'  style='padding:0 15px 0 15px'>";
+				html += "<div class='single-rooms-area wow fadeInUp' data-wow-delay='20ms'>"
+				html += "<p class='price-from' >" + item.dutchauctionUpdatePrice +"</p>"
+				html += "<div class='bg-thumbnail bg-img' style='background-image: url(/main/img/bg-img/1.jpg;'></div>"
+				html += "<div class='rooms-text'>"
+				html += "<div class='line'></div>"
+				html += "<h4>Deluxe Room</h4>"
+				html += "<p style='word-break: break-all;'>Room Content</p>"
+				html += "<div class='line'></div></div></div></a></div>"
+				$("#roomArea").append(html);
+			});
+
+
+	//]]>
+		
+		
+	</script>
 </body>
 </html>

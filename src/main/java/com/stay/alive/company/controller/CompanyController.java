@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.company.service.CompanyService;
 import com.stay.alive.company.vo.Company;
+import com.stay.alive.member.service.MemberService;
+import com.stay.alive.member.vo.Member;
 
 @Controller
 @RequestMapping("company")
@@ -24,6 +26,8 @@ public class CompanyController {
 	
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("main")
 	public String company() {
@@ -52,6 +56,9 @@ public class CompanyController {
 	public String companyRegister(Company company, HttpSession session) {
 		String contextPath = session.getServletContext().getRealPath("/upload/images");
 		companyService.companyRegister(company, contextPath);
+		Member member = memberService.getMember(company.getMemberId());
+		session.setAttribute("groupName", member.getGroupName());
+		System.out.println(member.getGroupName() + "<--groupName");
 		return "redirect:/accommodation/main";
 	}
 	

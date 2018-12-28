@@ -1,12 +1,17 @@
 package com.stay.alive.auction.dutch.service;
 
-import static org.quartz.DateBuilder.*;
+import static org.quartz.DateBuilder.dateOf;
+import static org.quartz.DateBuilder.futureDate;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
+
+import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -76,9 +81,11 @@ public class DutchauctionService {
 	}
 	public void addDutchAuctionScheduler(DutchAuction dutchAuction) {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+
 		JobDetail jobDetail = jobDetail(dutchAuction);
 		Trigger trigger = jobTrigger(dutchAuction);
 		try {
+			scheduler.getListenerManager().addTriggerListener(new DutchAuctionRegisterTriggerListener("Listener" + dutchAuction.getDutchauctionNo()));
 			scheduler.scheduleJob(jobDetail, trigger);
 			scheduler.start();
 		} catch (SchedulerException e) {
@@ -160,5 +167,8 @@ public class DutchauctionService {
 	}
 	public void modifyUpdatePrice(DutchAuction dutchAuction) {
 		dutchauctionMapper.updateCurrentPrice(dutchAuction);
+	}
+	public ArrayList<DutchAuction> getDutchAuctionAll() {
+		return dutchauctionMapper.selectDutchAuctionAll();
 	}
 }

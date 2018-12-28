@@ -1,11 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+
 </head>
+
+
+
 <body>
-	<h1>welcome!</h1>
-	<button type="button" onclick="location.href='/main'">메인화면으로</button>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-2.jpg);">
+        <div class="bradcumbContent">
+            <h2>Welcome</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### About Us Area Start ##### -->
+    <section class="about-us-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="about-text mb-100">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>환영합니다!</h2>
+                        </div>
+                        <p>StayAlive에 가입해 주셔서 감사합니다. StayAlive는 당신이 고객일 때에도 숙박시설의 사장님 일 때에도 언제나 만족할 수 있는 합리적인 가격으로 함께하겠습니다.</p>
+                        <a href="companyRegister" class="btn palatin-btn mt-50">숙소 등록하기</a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-thumbnail mb-100">
+                        <img src="/main/img/bg-img/2.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### About Us Area End ##### -->
+	
+	<!-- ##### Milestones Area Start ##### -->
+    <section class="our-milestones section-padding-100-0 bg-img bg-overlay bg-fixed" style="background-image: url(/main/img/bg-img/bg-4.jpg);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-heading text-center white">
+                        <div class="line-"></div>
+                        <h2>네덜란드식 경매는 무엇인가요?</h2>
+                        <p>함께하는 stayalive에서  숙소를 등록하고 싶으시다면 먼저 업체를 등록하셔야 합니다. 숙소는 1개의 건물 단위로 등록이 가능하며 사업자 번호를 포함한 여러 정보가 필요합니다. 숙소 등록까지 완료하시면 진정한 stayalive의 파트너가 될 것입니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- Single Cool Facts -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="300ms">
+                        <div class="scf-text">
+                            <i class="icon-cocktail-1"></i>
+                            <h2><span class="counter">231</span></h2>
+                            <p>업체 등록 수</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="500ms">
+                        <div class="scf-text">
+                            <i class="icon-swimming-pool"></i>
+                            <h2><span class="counter">425</span></h2>
+                            <p>숙소 등록 수</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="700ms">
+                        <div class="scf-text">
+                            <i class="icon-resort"></i>
+                            <h2><span class="counter">1534</span></h2>
+                            <p>객실 등록 수</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Cool Facts -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="900ms">
+                        <div class="scf-text">
+                            <i class="icon-restaurant"></i>
+                            <h2><span class="counter">25,843</span></h2>
+                            <p>전체 이용자 수</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ##### Testimonial Area End ##### -->
+
+	<!-- footer replace -->
+    <div th:replace="footer :: footer"></div>
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
+    <script>
+		$("#accommodation").addClass('active');
+	</script>
 </body>
+
 </html>
