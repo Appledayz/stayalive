@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- jQuery-2.2.4 js -->
+<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+<input type=hidden id="message" th:value="${msg}">
+<input type=hidden id="returnUrl" th:value="${url}">
+<script type="text/javascript">
+	var message = $("#message").val();
+	var returnUrl = $("#returnUrl").val();
+	alert(message);
+	location.href = returnUrl;
+</script>
+</body>
+</html>

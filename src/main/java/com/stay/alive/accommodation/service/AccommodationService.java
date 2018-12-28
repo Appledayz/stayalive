@@ -15,6 +15,10 @@ import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
+import com.stay.alive.member.group.mapper.MemberGroupMapper;
+import com.stay.alive.member.group.vo.MemberGroup;
+import com.stay.alive.member.mapper.MemberMapper;
+import com.stay.alive.member.vo.Member;
 
 @Service
 @Transactional
@@ -24,6 +28,10 @@ public class AccommodationService {
 	@Autowired
 	private ImageFileMapper imageFileMapper;
 	//회원ID를 통해 숙소정보를 얻어오는 메서드
+	@Autowired 
+	private MemberGroupMapper memberGroupMapper;
+	@Autowired
+	private MemberMapper memberMapper;
 	public String[] getAccommodationNames(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
@@ -125,5 +133,20 @@ public class AccommodationService {
 		addImageFile(imageFile, file, path, memberId, 6, "사업자등록");
 		imageFileMapper.insertImageFile(imageFile);
 		return imageFile.getImageFileNo();
+	}
+	public void accommodationRecognitionModify(int accommodationNo) {
+		accommodationMapper.updateAccommodationRecognition(accommodationNo); // 숙소 승인 유무 변경(Y)
+		Accommodation accommodation = accommodationMapper.selectAccommodationFromNo(accommodationNo);
+		String memberId = accommodation.getMemberId();
+		Member member = new Member();
+		MemberGroup memberGroup = memberGroupMapper.selectOneMemberGroup(5);
+		member.setMemberId(memberId);
+		member.setGroupNo(memberGroup.getGroupNo());
+		member.setGroupName(memberGroup.getGroupName());
+		if(memberMapper.updateGroupOfMember(member) == 1) { // 회원그룹 변경(5 - 호스트(진))
+			System.out.println("회원그룹 업데이트 성공");
+		} else {
+			System.out.println("회원그룹 업데이트 실패");
+		}
 	}
 }

@@ -77,4 +77,10 @@
 	<insert id="insertSigunguName" parameterType="String" >
 		INSERT INTO address_sigungu(address_sigungu_name, address_sigungu_date) VALUES(#{addressSigunguName}, now())
 	</insert>
+	<update id="updateAccommodationRecognition" parameterType="int">
+		UPDATE accommodation 
+		SET 
+			accommodation_recognition = 'Y'
+		WHERE accommodation_no = #{accommodationNo}
+	</update>
 </mapper>

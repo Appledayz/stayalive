@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stay.alive.member.service.MemberService;
@@ -64,7 +63,9 @@ public class MemberController {
 	public String modifyMember(HttpSession session, Model model) {
 		String memberId = (String)session.getAttribute("memberId");
 		if(memberId == null) {
-			return "/login/login";
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("url", "/login");
+			return "alert";
 		} else {
 			Member member = memberService.getMember(memberId);
 			model.addAttribute("member", member);

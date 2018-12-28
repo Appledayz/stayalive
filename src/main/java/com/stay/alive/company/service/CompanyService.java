@@ -83,4 +83,20 @@ public class CompanyService {
 		return companyMapper.selectCompanyFromId(memberId);
 	}
 	
+	public void companyRecognitionModify(int companyNo) {
+		companyMapper.updateCompanyRecognition(companyNo); // 업체(호스트) 승인 유무 변경(Y)
+		Company company = companyMapper.selectCompanyFromNo(companyNo);
+		String memberId = company.getMemberId();
+		Member member = new Member();
+		MemberGroup memberGroup = memberGroupMapper.selectOneMemberGroup(2);
+		member.setMemberId(memberId);
+		member.setGroupNo(memberGroup.getGroupNo());
+		member.setGroupName(memberGroup.getGroupName());
+		if(memberMapper.updateGroupOfMember(member) == 1) { // 회원그룹 변경(2 - 호스트)
+			System.out.println("회원그룹 업데이트 성공");
+		} else {
+			System.out.println("회원그룹 업데이트 실패");
+		}
+	}
+	
 }

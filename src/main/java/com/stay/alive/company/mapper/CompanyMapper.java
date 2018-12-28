@@ -17,4 +17,5 @@ public interface CompanyMapper {
 	public Company selectCompanyFromNo(int companyNo);
 	public Company selectCompanyFromId(String memberId);
 	public List<Company> selectCompanyList();
+	public void updateCompanyRecognition(int companyNo);
 }

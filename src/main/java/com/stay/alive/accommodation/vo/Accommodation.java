@@ -30,6 +30,7 @@ public class Accommodation {
 	private String accommodationPhone; //숙소 연락처
 	private String accommodationEmail; //숙소 이메일
 	private String accommodationDetail; //세부내용
+	private String accommodationRecognition; // 숙소 승인 여부
 	private String accommodationRegisterDate; //숙소 등록일자
 	private String accommodationUpdateDate; //마지막 숙소 등록정보 수정일
 	private int imageFileNo; //사업자등록 파일 번호

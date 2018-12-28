@@ -92,7 +92,8 @@
     <select id="selectCompanyFromNo" resultType="com.stay.alive.company.vo.Company">
 		SELECT 
 			company_name as companyName, 
-			company_detail as companyDetail 
+			company_detail as companyDetail,
+			member_id as memberId
 		FROM company WHERE company_no = #{companyNo}
 	</select>
 	<select id="selectCompanyFromId" resultType="com.stay.alive.company.vo.Company">
@@ -111,4 +112,10 @@
 			company_update_date as companyUpdateDate
    		FROM company
 	</select>
+	<update id="updateCompanyRecognition" parameterType="int">
+		UPDATE company 
+		SET 
+			company_recognition = 'Y'
+		WHERE company_no = #{companyNo}
+	</update>
 </mapper>

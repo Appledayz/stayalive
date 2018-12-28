@@ -19,4 +19,5 @@ public interface AccommodationMapper {
 	public ArrayList<Accommodation> selectAccommodationAll();
 	public Accommodation selectAccommodationFromNo(int accommodationNo);
 	public int selectAccommodationNo(String AccommodationName);
+	public void updateAccommodationRecognition(int accommodationNo);
 }

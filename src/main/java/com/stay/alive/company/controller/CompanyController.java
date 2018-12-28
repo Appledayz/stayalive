@@ -35,9 +35,13 @@ public class CompanyController {
 		String memberId = (String)session.getAttribute("memberId");
 		int companyRegisterCheckNo = companyService.checkMemberIdOfCompany(memberId);
 		if(memberId == null) {
-			return "redirect:/login";
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("url", "/login");
+			return "alert";
 		} else if(companyRegisterCheckNo == 1) {
-			return "redirect:/accommodation/main";
+			model.addAttribute("msg", "이미 업체를 등록하셨습니다. 숙소를 등록해 주세요.");
+			model.addAttribute("url", "/accommodation/main");
+			return "alert";
 		} else {
 			model.addAttribute("memberId", memberId);
 			return "company/companyRegister";

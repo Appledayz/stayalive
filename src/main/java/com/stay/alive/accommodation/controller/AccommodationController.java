@@ -39,18 +39,22 @@ public class AccommodationController {
 	public String accommodationRegister(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
 		if(memberId == null) {
-			return "redirect:/login";
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("url", "/login");
+			return "alert";
 		}
 		Member member = memberService.getMember(memberId);
 		int groupNo = member.getGroupNo();
-		if(groupNo == 2 || groupNo == 4) {
+		if(groupNo != 1) {
 			Company company = companyService.getCompanyFromId(memberId);
 			model.addAttribute("companyNo", company.getCompanyNo());
 			model.addAttribute("companyName", company.getCompanyName());
 			
 			return "accommodation/accommodationRegister";
 		} else {
-			return "redirect:/company/main";
+			model.addAttribute("msg", "업체를 등록하셔야 숙소등록이 가능합니다.");
+			model.addAttribute("url", "/company/main");
+			return "alert";
 		}
 	}
 	//등록 액션
