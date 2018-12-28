@@ -39,17 +39,21 @@
 		  		type: 'GET',
 				contentType:"application/x-www-form-urlencoded",
 				success: function(data){
-					console.log(data.boardMemberContent)
 		            $(".modal-body").append("<br><div class='card border-light'><div class='card-header '><h4 class='text-center'>게시글 상세내용</h4></div><div class='card-body'></div></div>");
 				    $(".card-body").append(data.boardMemberContent);
          	    }
 		  	});
 		});
 		
+		var link;
+		$("a").click(function() {
+			link = "/board/modify?data=" + $(this).data("remote");
+		});
 		$("#modifyBtn").click(function() {
-			
+			location.href = link;
 		});
 		
+
 	});
 // ]]>
 </script>
