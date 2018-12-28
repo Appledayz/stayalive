@@ -11,6 +11,9 @@ import com.stay.alive.common.PageMaker;
 import com.stay.alive.common.PageMakerService;
 import com.stay.alive.company.mapper.CompanyMapper;
 import com.stay.alive.company.vo.Company;
+import com.stay.alive.member.group.mapper.MemberGroupMapper;
+import com.stay.alive.member.group.vo.MemberGroup;
+import com.stay.alive.member.mapper.MemberMapper;
 import com.stay.alive.member.vo.Member;
 
 @Service
@@ -19,16 +22,42 @@ public class CompanyService {
 	
 	@Autowired 
 	private CompanyMapper companyMapper;
+	@Autowired 
+	private MemberGroupMapper memberGroupMapper;
+	@Autowired
+	private MemberMapper memberMapper;
+	
+	public int checkMemberIdOfCompany(String memberId) {
+		if(memberId == null) {
+			return 0;
+		} else {
+			if(companyMapper.selectCompanyFromId(memberId) == null) {
+				return 0;
+			} else {
+				return 1;
+			}
+		}
+	}
 	
 	public void companyRegister(Company company, String realPath) {
 		//업체정보 등록
 		String memberId = company.getMemberId();
-		Member member = companyMapper.selectMemberRatingAndOption(memberId);
+		Member member = new Member();
+		member = companyMapper.selectMemberRatingAndOption(memberId);
 		company.setRatingNo(member.getRatingNo());
 		company.setRatingName(member.getRatingName());
 		company.setMemberOptionNo(member.getMemberOptionNo());
 		company.setMemberOptionName(member.getMemberOptionName());
 		companyMapper.insertCompany(company); //업체 정보 데이터베이스에 등록
+		MemberGroup memberGroup = memberGroupMapper.selectOneMemberGroup(4);
+		member.setMemberId(memberId);
+		member.setGroupNo(memberGroup.getGroupNo());
+		member.setGroupName(memberGroup.getGroupName());
+		if(memberMapper.updateGroupOfMember(member) == 1) { // 회원그룹 변경(4 - 업체등록자)
+			System.out.println("회원그룹 업데이트 성공");
+		} else {
+			System.out.println("회원그룹 업데이트 실패");
+		}
 	}
 	
 	public List<HashMap<String, Object>> getCompanySearchList(HashMap<String, Object> map) {

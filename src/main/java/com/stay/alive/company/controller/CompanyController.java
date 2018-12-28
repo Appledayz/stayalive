@@ -33,8 +33,11 @@ public class CompanyController {
 	@GetMapping("register")
 	public String companyRegister(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
+		int companyRegisterCheckNo = companyService.checkMemberIdOfCompany(memberId);
 		if(memberId == null) {
-			return "login/login";
+			return "redirect:/login";
+		} else if(companyRegisterCheckNo == 1) {
+			return "redirect:/accommodation/main";
 		} else {
 			model.addAttribute("memberId", memberId);
 			return "company/companyRegister";

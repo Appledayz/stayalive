@@ -22,5 +22,6 @@ public interface MemberMapper {
 	int updateMember(Member member);
 	int deleteMember(Member member);
 	public abstract Member selectOne(String memberId);
+	int updateGroupOfMember(Member member);
 	
 }

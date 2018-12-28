@@ -96,6 +96,13 @@
 			FROM member
 			WHERE member_id = #{memberId}
     </delete>
+    <update id="updateGroupOfMember" parameterType="com.stay.alive.member.vo.Member">
+		UPDATE member
+			SET 
+				group_no = #{groupNo},
+				group_name = #{groupName}
+			WHERE member_id = #{memberId}
+    </update>
 </mapper>
 
 	
