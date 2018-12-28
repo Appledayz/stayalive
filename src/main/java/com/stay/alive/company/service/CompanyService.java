@@ -79,4 +79,8 @@ public class CompanyService {
 		return companyMapper.selectCompanyList();
 	}
 	
+	public Company getCompanyFromId(String memberId) {
+		return companyMapper.selectCompanyFromId(memberId);
+	}
+	
 }
