@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.login.mapper.LoginMapper;
+import com.stay.alive.login.vo.LoginVo;
 import com.stay.alive.member.vo.Member;
 
 
@@ -14,8 +15,10 @@ public class LoginService {
 	@Autowired
 	private LoginMapper loginMapper;
 	
-	public int memberLogin(Member member) {
+	public LoginVo memberLogin(LoginVo loginVo) {
 		System.out.println("LoginService.java");
-		return loginMapper.memberLogin(member);
+		LoginVo loginMember = loginMapper.selectLogin(loginVo);
+		System.out.println(loginMember+"<--loginMember");
+		return loginMember;
 	}
 }

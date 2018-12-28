@@ -2,9 +2,9 @@ package com.stay.alive.login.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.stay.alive.member.vo.Member;
+import com.stay.alive.login.vo.LoginVo;
 
 @Mapper
 public interface LoginMapper {
-	int memberLogin(Member member);
+	LoginVo selectLogin(LoginVo loginVo);
 }

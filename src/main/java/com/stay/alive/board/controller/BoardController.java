@@ -34,17 +34,21 @@ public class BoardController {
 	//게시판 등록 액션
 	@PostMapping("register")
 	public String boardRegisterAction(BoardMember boardMember,HttpSession session) {
-		String memberId = "ID1";
+		String memberId = "id001";
 		System.out.println(memberId+"-------------------------------------------------------------------------------");
-		String path = session.getServletContext().getRealPath("image/board");
+		String path = session.getServletContext().getRealPath("image/business");
 		boardMember.setMemberId(memberId);
 		boardService.addBoardMember(boardMember, path);
 		return "redirect:/board/free";
 	}
+	@GetMapping(value="findModify", produces="application/json")
+	public @ResponseBody BoardMember boardFindModify(String name) {
+		return boardService.getBoardInfo(name);
+	}
 	//게시판 수정
 	@GetMapping("modify")
 	public String boardModify(Model model) {
-		String memberId = "ID1";
+		String memberId = "id001";
 		String[] names = boardService.getBoardName(memberId);
 		model.addAttribute("names", names);
 		return "board/boardModify";
@@ -52,27 +56,23 @@ public class BoardController {
 	//게시판 수정 액션
 	@PostMapping("modifyAction")
 	public String boardModifyAction(BoardMember boardMember, HttpSession session) {
-		String memberId = "ID1";
-		String path = session.getServletContext().getRealPath("image/board");
+		String memberId = "id001";
+		String path = session.getServletContext().getRealPath("image/business");
 		boardMember.setMemberId(memberId);
 		boardService.modifyBoard(boardMember, path);
 		return "redirect:/board/free";
-	}
-	@GetMapping(value="findModify", produces="application/json")
-	public @ResponseBody BoardMember boardFindModify(String name) {
-		return boardService.getBoardInfo(name);
-	}
-	//숙소 리스트
-	@GetMapping("list")
-	public String boardList(Model model) {
-		ArrayList<BoardMember> boardMember = boardService.getBoardAll();
-		model.addAttribute("list", boardMember);
-		return "board/boardList";
 	}
 	//모달
 	@GetMapping("detail")
 	public @ResponseBody BoardMember boardDetail(int boardMemberNo) {
 		return boardService.getBoardFromNo(boardMemberNo);
+	}
+	//게시글 리스트
+	@GetMapping("list")
+	public String boardList(Model model) {
+		ArrayList<BoardMember> boardMember = boardService.getBoardAll();
+		model.addAttribute("list", boardMember);
+		return "board/boardList";
 	}
 	//게시글 삭제
 	@GetMapping("remove")

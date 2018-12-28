@@ -98,7 +98,7 @@ public class BoardService {
 		imageFile.setMemberId(memberId); //임시로 회원아이디 세팅
 		for(MultipartFile file: multipartFile) {
 			if(!file.isEmpty()) {
-				imageTag = imageTag + addImageFile(imageFile, file, path, memberId, 5, "게시판");
+				imageTag = imageTag + addImageFile(imageFile, file, path, memberId, 2, "게시판");
 				imageFileMapper.insertImageFile(imageFile);
 			}
 		}

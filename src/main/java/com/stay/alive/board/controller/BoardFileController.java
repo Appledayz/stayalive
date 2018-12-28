@@ -17,11 +17,12 @@ public class BoardFileController {
 	@Autowired
 	private BoardService boardService;
 	
+	//글 이미지 등록
 	@PostMapping("addDetailImage")
 	@ResponseBody
 	public String addDetailImage(MultipartFile[] file,HttpSession session) {
 		String path = session.getServletContext().getRealPath("image/board");
-		String memberId = "ID1";
+		String memberId = "id001";
 		return boardService.addDetailImageFiles(file, path, memberId);
 	}
 }

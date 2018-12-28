@@ -5,8 +5,8 @@
 
 <mapper namespace="com.stay.alive.login.mapper.LoginMapper" >
 	<!-- 로그인 -->
-	<select id="memberLogin" parameterType="com.stay.alive.member.vo.Member" resultType="java.lang.Integer">
-		SELECT COUNT(member_no) FROM member WHERE member_id = #{memberId} AND member_password = #{memberPassword}
+	<select id="selectLogin" parameterType="com.stay.alive.login.vo.LoginVo" resultType="com.stay.alive.login.vo.LoginVo">
+		SELECT member_id, member_password, group_name, member_nickname FROM member WHERE member_id = #{memberId} AND member_password = #{memberPassword}
 	</select>
 	<!-- 로그인 -->
 </mapper>

@@ -22,7 +22,7 @@
 		VALUES(
 		#{boardCategoryNo},
 		#{boardCategoryName},
-		"ID1",
+		"id001",
 		'1',
 		"게스트",
 		#{boardMemberTitle},
@@ -37,7 +37,7 @@
 	
 	<update id="updateBoard" parameterType="com.stay.alive.board.vo.BoardMember">
 		UPDATE board_member 
-		SET board_member_content = #{boardMemberContent}, image_file_no = #{imageFileNo}, board_member_modify_date = now() WHERE board_member_no = #{boardMeberNo}
+		SET board_member_content = #{boardMemberContent}, image_file_no = #{imageFileNo}, board_member_modify_date = now() WHERE board_member_no = #{boardMemberNo}
 	</update>
 	<delete id="deleteBoard">
 		DELETE FROM board_member WHERE board_member_no = #{boardMemberNo}
