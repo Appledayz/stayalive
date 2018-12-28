@@ -44,7 +44,7 @@
   
   <insert id="insertReverseauctionTender" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionTender">
   	INSERT INTO reverseauction_tender(
-  			reverseauction_no,
+  			reverseauction_tender_no,
   			member_id,
   			company_no,
   			company_name,

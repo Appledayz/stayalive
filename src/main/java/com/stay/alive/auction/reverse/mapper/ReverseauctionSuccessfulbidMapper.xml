@@ -11,11 +11,18 @@
   </select>
     
   <select id="selectForSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
-  	SELECT *
-  	FROM reverseauction_tender t
-  	INNER JOIN guestroom_option g ON t.guestroom_no = g.guestroom_no
-  	INNER JOIN reverseauction_register r ON t.reverseauction_no = r.reverseauction_no
-  	WHERE t.reverseauction_tender_no=#{reverseacutionTenderNo}
+  	SELECT 
+  		t.reverseauction_no,
+  		t.reverseauction_tender_no,
+  		g.guestroom_option_no,
+  		g.guestroom_option_name,
+  		t.reverseauction_tender_price,
+  		r.reverseauction_rooming_date,
+  		r.reverseauction_leaving_date
+	FROM ((reverseauction_tender t
+	LEFT JOIN reverseauction_register r ON t.reverseauction_no = r.reverseauction_no)
+	LEFT JOIN guestroom_option g ON t.guestroom_no = g.guestroom_no)
+	WHERE t.reverseauction_tender_no=#{reverseacutionTenderNo}
   </select>
   
   <select id="selectAuctionStateByName" parameterType="string" resultType="com.stay.alive.auction.vo.AuctionStateCategory">
@@ -24,7 +31,7 @@
   	WHERE auction_state_category_name=#{string}
   </select>
   
-  <insert id="insertReverseauctionSuccessfulbid">
+  <insert id="insertReverseauctionSuccessfulbid" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
   	INSERT INTO reverseauction_successfulbid(
   			reverseauction_successfulbid_no,
   			reverseauction_no,
@@ -41,7 +48,8 @@
   	VALUES(	0,
   			#{reverseauctionNo},
   			#{reverseauctionTenderNo},
-  			#{guestroomOptionNo},
+  			<if test="guestroomOptionNo!=0">#{guestroomOptionNo},</if>
+  			<if test="guestroomOptionNo==0">null,</if>
   			#{guestroomOptionName},
   			#{guestroomAdditionalPrice},
   			#{reverseauctionSuccessfulbidPrice},
