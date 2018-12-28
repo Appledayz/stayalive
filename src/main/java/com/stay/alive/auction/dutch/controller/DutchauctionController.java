@@ -1,15 +1,10 @@
 package com.stay.alive.auction.dutch.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +21,14 @@ import com.stay.alive.guestroom.vo.GuestRoom;
 @Controller
 @RequestMapping("auction/dutch")
 public class DutchauctionController {
-	private int groupNum = 0;
 	@Autowired
 	private DutchauctionService dutchauctionService;
-
-	
 	
 	@GetMapping("list")
 	public String dutchauctionList(Model model){
 		String id = "ID1";
-
+		ArrayList<DutchAuction> list=  dutchauctionService.getDutchAuctionAll();
+		model.addAttribute("list",list);
 		return "dutchauction/dutchauctionList";
 	}
 	@GetMapping("register")

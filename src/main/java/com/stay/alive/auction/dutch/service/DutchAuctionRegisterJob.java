@@ -13,6 +13,8 @@ import com.stay.alive.auction.dutch.vo.DutchAuction;
 public class DutchAuctionRegisterJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+
+		
 		//System.out.println(context.getJobDetail().getKey().getName());;
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		DutchAuction dutchAuction = (DutchAuction)jobDataMap.get("dutchAuction");
