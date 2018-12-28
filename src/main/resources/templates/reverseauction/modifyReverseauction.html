@@ -17,7 +17,24 @@
 				document.getElementById('modifyForm').submit();
 			});
 			let input = $('#modifyForm').find('input');
-			console.log(input);
+			for(let i=0; i<input.length; i++){
+				input[i].origin=input[i].value;
+			}
+			input.css("background-color", "rgba(255, 165, 0, 0.1)");
+			input.change((e)=>{
+				if(e.target.value==e.target.origin){
+					e.target.style.backgroundColor = "rgba(255, 165, 0, 0.1)";
+				}else{
+					e.target.style.backgroundColor = "rgba(203, 134, 112, 0.3)";
+				}
+			});
+			$('input[name="reverseauctionRoomingDate"], input[name="reverseauctionLeavingDate"]').blur((e)=>{
+				if(e.target.value==e.target.origin){
+					e.target.style.backgroundColor = "rgba(255, 165, 0, 0.1)";
+				}else{
+					e.target.style.backgroundColor = "rgba(203, 134, 112, 0.3)";
+				}
+			})
 			$('#from, #to, #closeDate').datepicker({
 			    language: 'en',
 			    dateFormat:'yyyy-mm-dd',
@@ -103,50 +120,6 @@
 		</div>
 	</section>
     
-	<!-- <h1>ReverseauctionDetail</h1>
-	<form th:action="@{/auction/reverse/modify}" th:object="${Reverseauction}" method="post">
-		<input th:type="hidden" th:field="*{reverseauctionNo}">
-		<table border="1">
-			<tbody>
-				<tr>
-					<td>TenderLimit</td>
-					<td><input th:field="*{reverseauctionTenderLimit}"></td>
-				</tr>
-				<tr>
-					<td>TendercloseDate</td>
-					<td><input th:field="*{reverseauctionTendercloseDate}"></td>
-				</tr>
-				<tr>
-					<td>RoomingDate</td>
-					<td><input th:field="*{reverseauctionRoomingDate}"></td>
-				</tr>
-				<tr>
-					<td>LeavingDate</td>
-					<td><input th:field="*{reverseauctionLeavingDate}"></td>
-				</tr>
-				<tr>
-					<td>Title</td>
-					<td><input th:field="*{reverseauctionTitle}"></td>
-				</tr>
-				<tr>
-					<td>Address</td>
-					<td><input th:field="*{reverseauctionAddress}"></td>
-				</tr>
-				<tr>
-					<td>AddressMore</td>
-					<td><input th:field="*{reverseauctionAddressMore}"></td>
-				</tr>
-				<tr>
-					<td>Content</td>
-					<td><input th:field="*{reverseauctionContent}"></td>
-				</tr>
-				<tr>
-					<td><button th:type="submit">submit</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</form> -->
-					
 	<!-- footer replace -->
     <div th:replace="footer :: footer"></div>
     

@@ -37,6 +37,8 @@ public class ReverseauctionTenderController {
 			if(session.getAttribute("memberId")!=null) {
 				model.addAttribute("reverseauctionNo", reverseauctionNo);
 				model.addAttribute("accommodations",reverseauctionTenderService.getAccommodation((String)session.getAttribute("memberId")));
+			}else {
+				return "redirect:/login";
 			}
 			return "/reverseauction/addReverseauctionTender";
 		}

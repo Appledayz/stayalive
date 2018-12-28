@@ -67,8 +67,11 @@ public class ReverseauctionController {
 	}
 	// 3. 역경매 등록 폼
 	@GetMapping("add")
-	public String addReverseauction() {
+	public String addReverseauction(HttpSession session) {
 		System.out.println("ReverseauctionController.addReverseauction() GET");
+		if(session.getAttribute("memberId")==null) {
+			return "redirect:/login";
+		}
 		return "/reverseauction/addReverseauction";
 	}
 	// 4. 역경매 등록 액션
@@ -77,6 +80,8 @@ public class ReverseauctionController {
 		System.out.println("ReverseauctionController.addReverseauction() POST");
 		if(session.getAttribute("memberId")!=null) {
 			reverseauction.setMemberId((String)session.getAttribute("memberId"));
+		}else {
+			return "redirect:/login";
 		}
 		reverseauctionService.addReverseauctionOne(reverseauction);
 		return "redirect:/auction/reverse/list";

@@ -128,8 +128,10 @@
                     			<td>TenderState</td></tr>
                     		<tr><td th:text="${m.reverseauctionNumberOfPeople}">Trevelers</td>
                     			<td th:text="${m.auctionStateCategoryName}"></td></tr>
-                    		<tr><td>Price</td></tr>
-                    		<tr><td th:text="'￦'+${m.reverseauctionTenderLimit}+'↓'">Price</td></tr>
+                    		<tr><td>Price</td>
+                    			<td>id</td></tr>
+                    		<tr><td th:text="'￦'+${m.reverseauctionTenderLimit}+'↓'">Price</td>
+                    			<td th:text="${m.memberId}"></td></tr>
                     		<tr><td colspan="2">Going to</td></tr>
                     		<tr><td colspan="2" th:text="${m.reverseauctionAddress}+' '+${m.reverseauctionAddressMore}">Going to</td></tr>
                     		<tr><td>Check-in</td>
