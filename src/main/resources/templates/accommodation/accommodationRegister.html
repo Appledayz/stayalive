@@ -28,7 +28,6 @@
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
 	<script type="text/javascript">
-	
 	    $(function(){
 	    	var count = 1;
 	        //전역변수
@@ -140,9 +139,9 @@
                 <div class="col-md-9">
 			 		<form id="insertBoardFrm" enctype="multipart/form-data">
 			 			<div class="row">
-			    			<input type="hidden" name="companyNo" value="9"> <!-- 컨트롤러에서 데이터 가져되야된다  -->
+			    			<input type="hidden" name="companyNo" th:value="${companyNo}">
 			    			<div class="col-lg-6">
-                                <input type="text" class="form-control" name="companyName" th:value="${companyName}" readonly><!-- 컨트롤러에서 데이터 가져되야된다  -->
+                                <input type="text" class="form-control" name="companyName" th:value="${companyName}" readonly>
                             </div>
                             <div class="col-lg-6">
                                 <input type="text" class="form-control" name="accommodationName" placeholder="숙소명">

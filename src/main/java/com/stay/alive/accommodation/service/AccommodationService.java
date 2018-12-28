@@ -24,7 +24,7 @@ public class AccommodationService {
 	@Autowired
 	private ImageFileMapper imageFileMapper;
 	//회원ID를 통해 숙소정보를 얻어오는 메서드
-	public String[] getAccommodationName(String memberId) {
+	public String[] getAccommodationNames(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
 	public Accommodation getAccommodationInfo(String name) {

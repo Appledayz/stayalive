@@ -45,7 +45,9 @@ public class AccommodationController {
 		int groupNo = member.getGroupNo();
 		if(groupNo == 2 || groupNo == 4) {
 			Company company = companyService.getCompanyFromId(memberId);
+			model.addAttribute("companyNo", company.getCompanyNo());
 			model.addAttribute("companyName", company.getCompanyName());
+			
 			return "accommodation/accommodationRegister";
 		} else {
 			return "redirect:/company/main";
@@ -54,7 +56,8 @@ public class AccommodationController {
 	//등록 액션
 	@PostMapping("register")
 	public String  accommodationRegisterAction(Accommodation accommodation,HttpSession session) {
-		String memberId = "ID1";
+		String memberId = (String)session.getAttribute("memberId");
+		
 		String path = session.getServletContext().getRealPath("image/business");
 		accommodation.setMemberId(memberId);
 		accommodationService.addAccommodation(accommodation, path);
@@ -69,7 +72,7 @@ public class AccommodationController {
 	@GetMapping("modify")
 	public String  accommodationModify(Model model) {
 		String memberId = "ID1"; //임시 아이디(세션추가 필요)
-		String[] names = accommodationService.getAccommodationName(memberId);
+		String[] names = accommodationService.getAccommodationNames(memberId);
 		model.addAttribute("names", names);
 		return "accommodation/accommodationModify";
 	}

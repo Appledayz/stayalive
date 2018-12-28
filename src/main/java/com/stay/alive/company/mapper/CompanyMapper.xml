@@ -96,9 +96,7 @@
 		FROM company WHERE company_no = #{companyNo}
 	</select>
 	<select id="selectCompanyFromId" resultType="com.stay.alive.company.vo.Company">
-		SELECT company_no, 
-				company_name
-		FROM company WHERE member_id = #{memberId}
+		SELECT * FROM company WHERE member_id = #{memberId}
 	</select>
 	<select id="selectCompanyList" resultType="com.stay.alive.company.vo.Company">
 		SELECT
