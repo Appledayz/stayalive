@@ -45,6 +45,11 @@
          	    }
 		  	});
 		});
+		
+		$("#modifyBtn").click(function() {
+			
+		});
+		
 	});
 // ]]>
 </script>
@@ -79,15 +84,14 @@
 	        </div>
         </div>
         <div class="row justify-content-center">
-				<div class="col-12 col-lg-6">
-					<div class="section-heading text-center">
-						<div class="line-"></div>
-						<h3>자유롭게 글을 남겨주세요</h3>
-						<!-- <p>###</p> -->
-						<a href="/board/register" class="btn palatin-btn mt-50">게시글 등록</a>
-					</div>
+			<div class="col-12 col-lg-6">
+				<div class="section-heading text-center">
+					<div class="line-"></div>
+					<h3>자유롭게 글을 남겨주세요</h3>
+					<a href="/board/register" class="btn palatin-btn mt-50">게시글 등록</a>
 				</div>
 			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="search-result bg-gray">
@@ -138,7 +142,7 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>이름</th>
+									<th>제목</th>
 									<th>ID</th>
 									<th>추천</th>
 									<th>댓글</th>
@@ -179,7 +183,7 @@
 	            <div class="modal-body">
 	            </div>
 	            <div class="modal-footer">
-	            	<button type="button" class="btn btn-secondary" onclick="location.href='/board/modify'">수정</button>
+	            	<button type="button" id ="modifyBtn" class="btn btn-secondary" >수정</button>
 	            	<button type="button" class="btn btn-secondary" onclick="location.href='/board/remove'">삭제</button>
 	                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	            </div>

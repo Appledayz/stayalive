@@ -21,9 +21,11 @@ import com.stay.alive.board.vo.BoardMember;
 public class BoardController {
 	@Autowired
 	private BoardService boardService;
-	//게시판 메인
+	//자유게시판
 	@GetMapping("free")
-	public String board() {
+	public String boardList(Model model) {
+		ArrayList<BoardMember> boardMember = boardService.getBoardAll();
+		model.addAttribute("list", boardMember);
 		return "board/freeBoard";
 	}
 	//게시판 등록
@@ -66,13 +68,6 @@ public class BoardController {
 	@GetMapping("detail")
 	public @ResponseBody BoardMember boardDetail(int boardMemberNo) {
 		return boardService.getBoardFromNo(boardMemberNo);
-	}
-	//게시글 리스트
-	@GetMapping("list")
-	public String boardList(Model model) {
-		ArrayList<BoardMember> boardMember = boardService.getBoardAll();
-		model.addAttribute("list", boardMember);
-		return "board/boardList";
 	}
 	//게시글 삭제
 	@GetMapping("remove")
