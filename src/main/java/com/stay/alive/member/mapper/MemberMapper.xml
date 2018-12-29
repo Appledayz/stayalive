@@ -73,7 +73,8 @@
 			member_email as memberEmail,
 			member_email_accept as memberEmailAccept,
 			member_sms_accept as memberSmsAccept,
-			group_no as groupNo
+			group_no as groupNo,
+			group_name as groupName
 	        FROM member
 	        WHERE member_id = #{memberId}
     </select>

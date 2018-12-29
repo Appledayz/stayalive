@@ -58,7 +58,6 @@ public class CompanyService {
 		} else {
 			System.out.println("회원그룹 업데이트 실패");
 		}
-		company.setMemberId(memberId);
 	}
 	
 	public List<HashMap<String, Object>> getCompanySearchList(HashMap<String, Object> map) {

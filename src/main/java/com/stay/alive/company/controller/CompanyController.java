@@ -56,6 +56,7 @@ public class CompanyController {
 	public String companyRegister(Company company, HttpSession session) {
 		String contextPath = session.getServletContext().getRealPath("/upload/images");
 		companyService.companyRegister(company, contextPath);
+		System.out.println(company.getMemberId() + "<--memberId");
 		Member member = memberService.getMember(company.getMemberId());
 		session.setAttribute("groupName", member.getGroupName());
 		System.out.println(member.getGroupName() + "<--groupName");
