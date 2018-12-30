@@ -5,37 +5,17 @@
 <mapper namespace="com.stay.alive.auction.dutch.mapper.DutchauctionMapper" >
 	<insert id="insertDutchAuction" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction" useGeneratedKeys="true" keyProperty="dutchauctionNo">
 		INSERT INTO dutchauction_register(
-			member_id,
-		  	company_no,
-		  	company_name,
-		  	accommodation_no, 
-		 	accommodation_name, 
-		  	guestroom_no, 
-		  	guestroom_name, 
-		  	dutchauction_register_date, 
-		  	dutchauction_startprice,
-		  	maximum_discount_price,
-		  	dutchauction_sale_unit, 
-		  	dutchauction_sale_interval, 
-		  	dutchauction_close_date, 
-		  	dutchauction_checkin_date, 
-		  	dutchauction_checkout_date) 
+			member_id, company_no, company_name,
+		  	accommodation_no, accommodation_name, guestroom_no, 
+		  	guestroom_name, dutchauction_register_date, dutchauction_startprice,
+		  	maximum_discount_price, dutchauction_sale_unit, dutchauction_sale_interval, 
+		 	dutchauction_close_date, dutchauction_checkin_date, dutchauction_checkout_date) 
 		VALUES(
-			#{memberId},
-			#{companyNo},
-			#{companyName},
-			#{accommodationNo},
-			#{accommodationName},
-			#{guestroomNo},
-			#{guestroomName},
-			now(),
-			#{dutchauctionStartprice},
-			#{maximumDiscountPrice},
-			#{dutchauctionSaleUnit},
-			#{dutchauctionSaleInterval},
-			#{dutchauctionCloseDate},
-			#{dutchauctionCheckinDate},
-			#{dutchauctionCheckoutDate})
+			#{memberId}, #{companyNo}, #{companyName},
+			#{accommodationNo}, #{accommodationName}, #{guestroomNo},
+			#{guestroomName}, now(), #{dutchauctionStartprice},
+			#{maximumDiscountPrice}, #{dutchauctionSaleUnit}, #{dutchauctionSaleInterval},
+			#{dutchauctionCloseDate}, #{dutchauctionCheckinDate}, #{dutchauctionCheckoutDate})
 	</insert>
 	<update id="updateCurrentPrice" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
 		UPDATE dutchauction_register 

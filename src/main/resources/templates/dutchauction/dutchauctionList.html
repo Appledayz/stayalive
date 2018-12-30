@@ -154,15 +154,14 @@
 												<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
 												<!-- 할인 -->
 												<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
-												<!-- 할인 -->
-												<p th:text="'할인단위 : ' + ${item.dutchauctionSaleUnit}+'원'">할인단위</p>
 												<!-- 판매가 -->
 												<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
 												<!-- Date -->
 												<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
 												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
-												<p th:text="${item.get('memberId')} ? '종료 상태 :' + ${item.auctionStateCategoryName} : '종료 상태 :' + ${item.auctionStateCategoryName}">퇴실 시간</p>
+												<p th:text="'종료 상태 :' + ${item.auctionStateCategoryName}">퇴실 시간</p>
 												<p th:if="${item.get('memberId') != null}" th:text="'낙찰자 : ' + ${item.memberId}">퇴실 시간</p>
+												<p th:if="${item.get('dutchauctionSuccessfulbidDate') != null}" th:text="'낙찰일 : ' + ${item.dutchauctionSuccessfulbidDate}">낙찰일</p>
 											</div>
 										</div>
 									</a>
