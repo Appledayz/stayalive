@@ -38,13 +38,68 @@
 			#{dutchauctionCheckoutDate})
 	</insert>
 	<update id="updateCurrentPrice" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
-		UPDATE dutchauction_register SET dutchauction_update_price = #{dutchauctionUpdatePrice}, dutchauction_update_date = now() WHERE dutchauction_no = #{dutchauctionNo}
+		UPDATE dutchauction_register 
+		SET dutchauction_update_price = #{dutchauctionUpdatePrice}, dutchauction_update_date = now() 
+		WHERE dutchauction_no = #{dutchauctionNo}
 	</update>
 	<update id="updateStateCategoryToExpired" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
-		UPDATE dutchauction_register SET auction_state_category_no = #{auctionStateCategoryNo}, auction_state_category_name = #{auctionStateCategoryName} WHERE dutchauction_no = #{dutchauctionNo}
+		UPDATE dutchauction_register 
+		SET auction_state_category_no = #{auctionStateCategoryNo}, auction_state_category_name = #{auctionStateCategoryName} 
+		WHERE dutchauction_no = #{dutchauctionNo}
 	</update>
+	<resultMap type="Map" id="DutchAuctionListResultMap">
+		<result javaType="String" column="accommodation_name" property="accommodationName"/>
+		<result javaType="String" column="guestroom_name" property="guestroomName"/>
+		<result javaType="int" column="dutchauction_startprice" property="dutchauctionStartprice"/>
+		<result javaType="int" column="dutchauction_sale_unit" property="dutchauctionSaleUnit"/>
+		<result javaType="int" column="dutchauction_sale_interval" property="dutchauctionSaleInterval"/>
+		<result javaType="int" column="dutchauction_update_price" property="dutchauctionUpdatePrice"/>
+		<result javaType="String" column="dutchauction_checkin_date" property="dutchauctionCheckinDate"/>
+		<result javaType="String" column="dutchauction_checkout_date" property="dutchauctionCheckoutDate"/>
+		<result javaType="String" column="dutchauction_register_date" property="dutchauctionRegisterDate"/>
+		<result javaType="String" column="image_file_stored_name" property="imageFileStoredName"/>
+		<result javaType="String" column="image_file_ext" property="imageFileExt"/>
+		<result javaType="String" column="accommodation_address" property="accommodationAddress"/>
+		<result javaType="String" column="member_id" property="memberId"/>
+		<result javaType="String" column="dutchauction_successfulbid_date" property="dutchauctionSuccessfulbidDate"/>
+		<result javaType="String" column="auction_state_category_name" property="auctionStateCategoryName"/>
+	</resultMap>
 	<!-- 네덜란드식 역경매 리스트 -->
-	<select id="selectDutchAuctionAll" resultType="com.stay.alive.auction.dutch.vo.DutchAuction">
-		SELECT * FROM dutchauction_register 
+	<select id="selectDutchAuctionList" resultMap="DutchAuctionListResultMap" parameterType="com.stay.alive.common.PageMaker">
+		SELECT d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			i.image_file_stored_name, i.image_file_ext,
+			a.accommodation_address
+		FROM dutchauction_register as d 
+			INNER JOIN guestroom as g on d.guestroom_no = g.guestroom_no
+			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
+			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
+		WHERE d.auction_state_category_no = 1
+		ORDER BY d.dutchauction_register_date ASC
+		LIMIT #{startRow}, #{rowPerPage}
+	</select>
+	<select id="selectClosedDutchAuctionList" resultMap="DutchAuctionListResultMap" >
+		SELECT d.accommodation_name, d.guestroom_name, d.dutchauction_startprice, d.auction_state_category_name,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			i.image_file_stored_name, i.image_file_ext,
+			ds.member_id, ds.dutchauction_successfulbid_date
+		FROM dutchauction_register as d 
+			INNER JOIN guestroom as g on d.guestroom_no = g.guestroom_no
+			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
+			LEFT OUTER JOIN dutchauction_successfulbid as ds on ds.dutchauction_register_no = d.dutchauction_no
+		WHERE NOT(d.auction_state_category_no = 1)
+		ORDER BY d.dutchauction_register_date ASC
+	</select>
+	<select id="selectCountDutchAuction" resultType="int">
+		SELECT count(*) 
+		FROM dutchauction_register
+		WHERE auction_state_category_no = 1
+	</select>
+	<select id="selectCountClosedDutchAuction" resultType="int">
+		SELECT count(*) 
+		FROM dutchauction_register
+		WHERE NOT(auction_state_category_no = 1) 
 	</select>
 </mapper>

@@ -6,16 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Core Stylesheet -->
 	<link rel="stylesheet" href="/main/style.css">
-	<!-- jQuery-2.2.4 js -->
-	<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script type="text/javascript">
-		$(document).ready(()=>{
-
-		});
-	</script>
-	<title>reverseauctionList</title>
+	<title>역경매 리스트</title>
 </head>
 <body>
 	<!-- Preloader -->
@@ -31,9 +22,9 @@
 	<div th:replace="header :: header"></div>
 
 	<!-- ##### Breadcumb Area Start ##### -->
-	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
+	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/bg-6.jpg);">
 		<div class="bradcumbContent">
-			<h2>Dutch Book</h2>
+			<h2>Reverse Book</h2>
 		</div>
 	</section>
 	<!-- ##### Breadcumb Area End ##### -->
@@ -43,30 +34,31 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-
+					<div class="section-heading">
+					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-12 col-lg-6">
 					<div class="section-heading text-center">
 						<div class="line-"></div>
-						<h2>Choose dutchAuctions</h2>
-						<p>시간에 지남에 따라 가격이 내려가는 방식.</p>
-						
+						<h2>Choose ReverseAuctions</h2>
+						<p>호스트가 입찰하면 게스트가 낙찰을 합니다.</p>
+						<a href="/auction/reverse/add" class="btn palatin-btn mt-50">역경매 등록</a>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="search-result bg-gray">
-						<h2 ></h2>
+						<h2></h2>
 						<p ></p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-3">
-					<form action="/auction/reverse/list" method="get">
+				<div class="col-lg-3">
+					<form action="" method="get">
 						<select class="form-control" name="sk">
 							<option value="0">==== 선택 ====</option>
 							<option value="reverseauction_title">제목</option>
@@ -74,13 +66,12 @@
 							<option value="3">업체회원닉네임</option>
 						</select>
 						<input type="text" class="form-control" name="sv" id="search" placeholder="검색어를 입력하세요">
-						<input type="text" class="form-control" id="datePicker1" name="date1" placeholder="Check-in" autocomplete=off>
-						<input type="text" class="form-control" id="datePicker2" name="date2" placeholder="Check-out" autocomplete=off>
+						<input type="text" class="form-control" id="datePicker1" name="date1" placeholder="Check-in" autocomplete=off readonly>
+						<input type="text" class="form-control" id="datePicker2" name="date2" placeholder="Check-out" autocomplete=off readonly>
 						<button type="submit" class="btn palatin-btn form-control" style="margin-bottom:30px">Search Now</button>
 					</form>
 				</div>
-				<div class="col-md-9">
-
+				<div class="col-lg-9">
 					<div class="row">
 						<div class="col-md-10">
 							<select>
@@ -100,33 +91,115 @@
 							</div>
 						</div>
 					</div>
-					<!-- ##### Rooms Area Start ##### -->
-					<section class="rooms-area section-padding-0-100">
+					<!-- ##### Auction Area Start ##### -->
+					<section class="rooms-area section-padding-0-0">
 						<div class="container">
-							<div class="row" id="roomArea">
-
+							<div class="row">
+								<!-- Single Rooms Area -->
+								<div class="col-12 col-md-6" th:if="${PM.allCount}>0" th:each="item : ${list}" >
+									<a href="#"  style="padding:0 15px 0 15px" >
+										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms" style="height: 400px">
+											<!-- Limit -->
+											<div th:with="result=${100-((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice *100)}">
+                        						<p class="price-from" th:utext = "|${item.dutchauctionUpdatePrice}원 <br><span style='color:red;font-size:20px'>${#numbers.formatInteger(result, 0,'COMMA')}%</span> 할인|" style="font-size: 16px;"></p>
+                        					</div>
+											<!-- Thumbnail -->
+											<div class="bg-thumbnail bg-img" th:style="'background-image: url(/image/guestroom/'+${item.imageFileStoredName}+'.'+${item.imageFileExt}+');'" ></div>
+											<!-- Rooms Text -->
+											<div class="rooms-text" >
+												<div class="line"></div>
+												<h4 th:text="${item.accommodationName}">Deluxe Room</h4>
+												<p style="word-break: break-all;" th:text="${item.guestroomName}">Room Content</p>
+												<div class="line"></div>
+												<!-- 주소 -->
+												<p th:text="'위치 : ' + ${item.accommodationAddress}">Address</p>
+												<!-- 시작 -->
+												<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
+												<!-- 할인 -->
+												<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
+												<!-- 할인 -->
+												<p th:text="'할인단위 : ' + ${item.dutchauctionSaleUnit}+'원'">할인단위</p>
+												<!-- 판매가 -->
+												<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
+												<!-- Date -->
+												<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
+												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
+											</div>
+										</div>
+									</a>
+								</div>
 							</div>
-
-							<div class="col-12">
-								<!-- Pagination -->
-								<div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
-									<nav>
-									</nav>
+						<button type="button" class="btn palatin-btn form-control" style="margin-bottom:30px" id="closeBtn">종료된 경매 보기</button>
+					</section>
+					<!-- ##### Auction Area End ##### -->
+					<!-- ##### ClosedAuction Area Start ##### -->
+					<section class="rooms-area section-padding-0-0" id="close">
+						<div class="container" >
+							<div class="row">
+								<!-- Single Rooms Area -->
+								<div class="col-12 col-md-6" th:each="item : ${closedList}" >
+									<a href="#"  style="padding:0 15px 0 15px" >
+										<div class="single-rooms-area" style="height: 400px">
+											<!-- Limit -->
+                        						<p class="price-from" th:utext = "|낙찰가<br>****원|" style="font-size: 16px;"></p>
+											<!-- Thumbnail -->
+											<div class="bg-thumbnail bg-img" th:style="'background-image: url(/image/guestroom/'+${item.imageFileStoredName}+'.'+${item.imageFileExt}+');'" ></div>
+											<!-- Rooms Text -->
+											<div class="rooms-text" >
+												<div class="line"></div>
+												<h4 th:text="${item.accommodationName}">Deluxe Room</h4>
+												<p style="word-break: break-all;" th:text="${item.guestroomName}">Room Content</p>
+												<div class="line"></div>
+												<!-- 시작 -->
+												<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
+												<!-- 할인 -->
+												<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
+												<!-- 할인 -->
+												<p th:text="'할인단위 : ' + ${item.dutchauctionSaleUnit}+'원'">할인단위</p>
+												<!-- 판매가 -->
+												<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
+												<!-- Date -->
+												<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
+												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
+												<p th:text="${item.get('memberId')} ? '종료 상태 :' + ${item.auctionStateCategoryName} : '종료 상태 :' + ${item.auctionStateCategoryName}">퇴실 시간</p>
+												<p th:if="${item.get('memberId') != null}" th:text="'낙찰자 : ' + ${item.memberId}">퇴실 시간</p>
+											</div>
+										</div>
+									</a>
 								</div>
 							</div>
 						</div>
 					</section>
-					<!-- ##### Rooms Area End ##### -->
+					<!-- ##### ClosedAuction Area Start ##### -->
+					<div class="col-12" >
+						<!-- Pagination -->
+						<div class="pagination-area wow fadeInUp"
+							data-wow-delay="200ms">
+							<nav>
+								<ul class="pagination">
+									<li class="page-item" th:if="${prevPage}">
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+									</li>
+									<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
+										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i})}">01.</a>
+									</li>
+									<li class="page-item" th:if="${nextPage}">
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-
 	<!-- ##### category Area End ##### -->
 
 	<!-- footer replace -->
 	<div th:replace="footer :: footer"></div>
-	
+	<!-- jQuery-2.2.4 js -->
+	<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
 	<!-- Popper js -->
 	<script src="/main/js/bootstrap/popper.min.js"></script>
 	<!-- Bootstrap js -->
@@ -135,30 +208,20 @@
 	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
 	<script src="/main/js/active.js"></script>
-	<script th:inline="javascript">
-		$("#dutchauctionList").addClass('active');
-	//<![CDATA[
-			$("#roomArea").empty();
-			var list = [[${list}]];
-			console.log(list);
-			$.each(list, function(index,item) {
-				var html = "<div class='col-12 col-md-6'>";
-				html += "<a href='/main'  style='padding:0 15px 0 15px'>";
-				html += "<div class='single-rooms-area wow fadeInUp' data-wow-delay='20ms'>"
-				html += "<p class='price-from' >" + item.dutchauctionUpdatePrice +"</p>"
-				html += "<div class='bg-thumbnail bg-img' style='background-image: url(/main/img/bg-img/1.jpg;'></div>"
-				html += "<div class='rooms-text'>"
-				html += "<div class='line'></div>"
-				html += "<h4>Deluxe Room</h4>"
-				html += "<p style='word-break: break-all;'>Room Content</p>"
-				html += "<div class='line'></div></div></div></a></div>"
-				$("#roomArea").append(html);
-			});
-
-
-	//]]>
-		
-		
+	<script>
+		$("#close").hide();
+		var closeSwitch = false;
+		$("#closeBtn").click(function() {
+			if(!closeSwitch) {
+				closeSwitch = true;
+				$("#close").show();
+			}
+			else {
+				closeSwitch = false;
+				$("#close").hide();
+			}
+			
+		});
 	</script>
 </body>
 </html>

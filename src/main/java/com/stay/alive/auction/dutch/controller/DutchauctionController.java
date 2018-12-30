@@ -1,6 +1,8 @@
 package com.stay.alive.auction.dutch.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.auction.dutch.service.DutchauctionService;
 import com.stay.alive.auction.dutch.vo.DutchAuction;
+import com.stay.alive.common.PageMaker;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Controller
@@ -25,10 +29,14 @@ public class DutchauctionController {
 	private DutchauctionService dutchauctionService;
 	
 	@GetMapping("list")
-	public String dutchauctionList(Model model){
+	public String dutchauctionList(Model model, @RequestParam(defaultValue = "1") int currentPage, HashMap<String, String> paraMap, PageMaker pageMaker){
 		String id = "ID1";
-		ArrayList<DutchAuction> list=  dutchauctionService.getDutchAuctionAll();
+		pageMaker.setCurrentPage(currentPage);
+		ArrayList<Map<String, Object>> list = dutchauctionService.getDutchAuctionList(pageMaker);
+		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList();
+		model.addAttribute("PM", pageMaker);
 		model.addAttribute("list",list);
+		model.addAttribute("closedList",closedList);
 		return "dutchauction/dutchauctionList";
 	}
 	@GetMapping("register")
@@ -56,12 +64,15 @@ public class DutchauctionController {
 													int guestroomAddOrSelect,
 													HttpSession session) 
 	{
+		
+		/* String memberId = (String)session.getAttribute("memberId"); */
 		String memberId = "ID1";
 		DutchAuction dutchAuction = new DutchAuction();
 		dutchAuction.setMemberId(memberId);
 		dutchAuction.setAccommodationName(accommodationName);
 		dutchAuction.setGuestroomName(guestroomName);
 		dutchAuction.setDutchauctionStartprice(dutchauctionStartprice);
+		dutchAuction.setDutchauctionUpdatePrice(dutchauctionStartprice);
 		dutchAuction.setMaximumDiscountPrice(maximumDiscountPrice);
 		dutchAuction.setDutchauctionSaleUnit(dutchauctionSaleUnit);
 		dutchAuction.setDutchauctionSaleInterval(dutchauctionSaleInterval);

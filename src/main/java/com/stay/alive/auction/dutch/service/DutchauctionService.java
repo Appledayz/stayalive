@@ -9,12 +9,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.UUID;
 
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
@@ -29,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.auction.dutch.mapper.DutchauctionMapper;
 import com.stay.alive.auction.dutch.vo.DutchAuction;
+import com.stay.alive.common.PageMaker;
+import com.stay.alive.common.PageMakerService;
 import com.stay.alive.company.mapper.CompanyMapper;
 import com.stay.alive.company.vo.Company;
 import com.stay.alive.file.ImageFile;
@@ -51,14 +55,27 @@ public class DutchauctionService {
 	private GuestRoomMapper guestRoomMapper;
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
-	public JobDetail jobDetail(DutchAuction dutchAuction) {
+	public JobDetail registerJobDetail(DutchAuction dutchAuction) {
 		JobDataMap jabDataMap = new JobDataMap();
 		jabDataMap.put("dutchAuction", dutchAuction);
 		jabDataMap.put("dutchauctionMapper", dutchauctionMapper);
-		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("JOB"+ dutchAuction.getDutchauctionNo())
+		return JobBuilder.newJob(DutchAuctionRegisterJob.class).withIdentity("registerJob"+ dutchAuction.getDutchauctionNo())
 				.usingJobData(jabDataMap).storeDurably().build();
 	}
-	public Trigger jobTrigger(DutchAuction dutchAuction) {
+	public Trigger registerJobTrigger(DutchAuction dutchAuction) {
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInSeconds(10).repeatForever(); //.withIntervalInHours(dutchAuction.getDutchauctionSaleInterval()).repeatForever();
+		return TriggerBuilder.newTrigger().forJob(registerJobDetail(dutchAuction))
+				.withIdentity("registerTrigger"+dutchAuction.getDutchauctionNo()).startAt(futureDate(10, IntervalUnit.SECOND)).withSchedule(scheduleBuilder).build();
+	}
+	public JobDetail closeJobDetail(DutchAuction dutchAuction) {
+		JobDataMap jabDataMap = new JobDataMap();
+		jabDataMap.put("dutchAuction", dutchAuction);
+		jabDataMap.put("dutchauctionMapper", dutchauctionMapper);
+		return JobBuilder.newJob(DutchAuctionCloseJob.class).withIdentity("closeJob"+ dutchAuction.getDutchauctionNo())
+				.usingJobData(jabDataMap).storeDurably().build();
+	}
+	public Trigger closeJobTrigger(DutchAuction dutchAuction) {
 		Calendar calendar = Calendar.getInstance();
 		String dateTimeStr = dutchAuction.getDutchauctionCloseDate();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
@@ -74,19 +91,19 @@ public class DutchauctionService {
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		int year = calendar.get(Calendar.YEAR);
-		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(10).repeatForever(); //.withIntervalInHours(dutchAuction.getDutchauctionSaleInterval()).repeatForever();
-		return TriggerBuilder.newTrigger().forJob(jobDetail(dutchAuction))
-				.withIdentity("TRIGGER"+dutchAuction.getDutchauctionNo()).startAt(futureDate(10, IntervalUnit.SECOND)).endAt(dateOf(hour, minute, second, day, month , year)).withSchedule(scheduleBuilder).build();
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule().withRepeatCount(0);
+		return TriggerBuilder.newTrigger().forJob(closeJobDetail(dutchAuction))
+				.withIdentity("closeTrigger"+dutchAuction.getDutchauctionNo()).startAt(dateOf(hour, minute, second, day, month , year)).withSchedule(scheduleBuilder).build();
 	}
 	public void addDutchAuctionScheduler(DutchAuction dutchAuction) {
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
-
-		JobDetail jobDetail = jobDetail(dutchAuction);
-		Trigger trigger = jobTrigger(dutchAuction);
+		JobDetail registerjobDetail = registerJobDetail(dutchAuction);
+		Trigger  registertrigger = registerJobTrigger(dutchAuction);
+		JobDetail closejobDetail = closeJobDetail(dutchAuction);
+		Trigger  closetrigger = closeJobTrigger(dutchAuction);
 		try {
-			scheduler.getListenerManager().addTriggerListener(new DutchAuctionRegisterTriggerListener("Listener" + dutchAuction.getDutchauctionNo()));
-			scheduler.scheduleJob(jobDetail, trigger);
+			scheduler.scheduleJob(registerjobDetail, registertrigger);
+			scheduler.scheduleJob(closejobDetail, closetrigger);
 			scheduler.start();
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
@@ -168,7 +185,16 @@ public class DutchauctionService {
 	public void modifyUpdatePrice(DutchAuction dutchAuction) {
 		dutchauctionMapper.updateCurrentPrice(dutchAuction);
 	}
-	public ArrayList<DutchAuction> getDutchAuctionAll() {
-		return dutchauctionMapper.selectDutchAuctionAll();
+	public ArrayList<Map<String, Object>> getDutchAuctionList(PageMaker pageMaker) {
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(6);
+		pageMaker.setAllCount(dutchauctionMapper.selectCountDutchAuction());
+		PageMakerService.pageMakerService(pageMaker);
+		return dutchauctionMapper.selectDutchAuctionList(pageMaker);
 	}
+	//종료된 역경매 리스트(전체)
+	public ArrayList<Map<String, Object>> getClosedDutchAuctionList() {
+		return dutchauctionMapper.selectClosedDutchAuctionList();
+	}
+	
 }
