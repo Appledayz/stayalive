@@ -70,7 +70,7 @@ public class ReverseauctionService {
 		return i;
 	}
 	// 역경매목록 조회 (memberId로)
-	public List<Reverseauction> selectReverseauctionListById(Reverseauction reverseauction) {
+	public List<Reverseauction> getReverseauctionListById(Reverseauction reverseauction) {
 		System.out.println("ReverseauctionService.selectReverseauctionListById()");
 		return reverseauctionMapper.selectReverseauctionListById(reverseauction);
 	}

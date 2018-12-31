@@ -1,5 +1,7 @@
 package com.stay.alive.auction.reverse.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,5 +57,11 @@ public class ReverseauctionSuccessfulbidService {
 		System.out.println("ReverseauctionService.removeReverseauctionSuccessfulbid()");
 		reverseauctionSuccessfulbidMapper.deleteReverseauctionSuccessfulbid(reverseauctionSuccessfulbidNo);
 		return 0;
+	}
+	
+	// 낙찰목록 조회 (memberId로)
+	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(ReverseauctionSuccessfulbid bid) {
+		System.out.println("ReverseauctionService.getReverseauctionSuccessfulbid()");
+		return reverseauctionSuccessfulbidMapper.getSuccessfulbidById(bid);
 	}
 }

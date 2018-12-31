@@ -1,5 +1,7 @@
 package com.stay.alive.auction.reverse.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
@@ -22,4 +24,6 @@ public interface ReverseauctionSuccessfulbidMapper {
 	AuctionStateCategory selectAuctionStateByName(String string);
 	// 역경매 입찰 상태갱신
 	void updateReverseauctionTenderState(int reverseauctionTenderNo, AuctionStateCategory auctionStateCategory);
+	// 낙찰목록 조회 (memberId로)
+	List<ReverseauctionSuccessfulbid> getSuccessfulbidById(ReverseauctionSuccessfulbid bid);
 }

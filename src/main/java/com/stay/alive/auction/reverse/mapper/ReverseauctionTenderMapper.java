@@ -36,4 +36,6 @@ public interface ReverseauctionTenderMapper {
 	Company selectCompany(String memberId);
 	// 역경매입찰 카운트-1
 	void updateReverseauctionTenderCountDown(int reverseauctionNo);
+	// 역경매입찰 조회 (memberId로)
+	List<ReverseauctionTender> selectTenderListById(ReverseauctionTender tender);
 }

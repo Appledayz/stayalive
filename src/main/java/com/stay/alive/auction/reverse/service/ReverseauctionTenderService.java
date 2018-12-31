@@ -78,4 +78,8 @@ public class ReverseauctionTenderService {
 		System.out.println("ReverseauctionTenderService.minusReverseauctionTenderCount()");
 		reverseauctionTenderMapper.updateReverseauctionTenderCountDown(reverseauctionNo);
 	}
+	// 역경매입찰목록 조회
+	public List<ReverseauctionTender> getReverseauctionTenderListById(ReverseauctionTender tender){
+		return reverseauctionTenderMapper.selectTenderListById(tender);
+	}
 }

@@ -62,6 +62,7 @@
   <select id="selectReverseauctionListById" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT
   	  reverseauction_no,
+  	  reverseauction_tender_limit,
 	  reverseauction_register_date,
 	  reverseauction_update_date,
 	  reverseauction_title,
