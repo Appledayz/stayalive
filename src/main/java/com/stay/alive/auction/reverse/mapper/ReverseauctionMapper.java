@@ -29,4 +29,6 @@ public interface ReverseauctionMapper {
 	int plusReverseauctionHits(int reverseauctionNo);
 	// 역경매 상태 조회
 	String selectReverseauctionState(int reverseauctionNo);
+	// 역경매목록 조회 (memberId로)
+	List<Reverseauction> selectReverseauctionListById(Reverseauction reverseauction);
 }

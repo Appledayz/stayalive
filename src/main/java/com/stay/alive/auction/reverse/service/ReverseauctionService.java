@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.auction.reverse.mapper.ReverseauctionMapper;
-import com.stay.alive.auction.reverse.mapper.ReverseauctionSuccessfulbidMapper;
 import com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
 import com.stay.alive.common.PageMaker;
@@ -20,8 +19,6 @@ public class ReverseauctionService {
 	private ReverseauctionMapper reverseauctionMapper;
 	@Autowired
 	private ReverseauctionTenderMapper reverseauctionTenderMapper;
-	@Autowired
-	private ReverseauctionSuccessfulbidMapper reverseauctionSuccessfulbidMapper;
 	
 	// 1. 역경매 전체목록 조회
 	public List<Reverseauction> getReverseauctionList(PageMaker pageMaker){
@@ -71,5 +68,10 @@ public class ReverseauctionService {
 			i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
 		}
 		return i;
+	}
+	// 역경매목록 조회 (memberId로)
+	public List<Reverseauction> selectReverseauctionListById(Reverseauction reverseauction) {
+		System.out.println("ReverseauctionService.selectReverseauctionListById()");
+		return reverseauctionMapper.selectReverseauctionListById(reverseauction);
 	}
 }
