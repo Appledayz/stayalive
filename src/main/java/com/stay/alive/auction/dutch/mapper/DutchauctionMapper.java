@@ -18,4 +18,5 @@ public interface DutchauctionMapper {
 	public int selectCountDutchAuction();
 	public int selectCountClosedDutchAuction();
 	public Map<String,Object> selectDutchAuctionDetail(int dutchauctionNo);
+	public ArrayList<DutchAuction> selectDutchAuctionFromId(String mamberId);
 }

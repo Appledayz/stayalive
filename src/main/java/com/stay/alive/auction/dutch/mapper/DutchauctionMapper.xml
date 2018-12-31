@@ -125,4 +125,17 @@
 		FROM dutchauction_register
 		WHERE NOT(auction_state_category_no = 1) 
 	</select>
+	<select id="selectDutchAuctionFromId" resultType="com.stay.alive.auction.dutch.vo.DutchAuction" parameterType="String">
+		SELECT accommodation_name,
+			guestroom_name,
+			dutchauction_register_date,
+			dutchauction_startprice,
+			maximum_discount_price,
+			dutchauction_sale_unit,
+			dutchauction_sale_interval,
+			dutchauction_close_date,
+			auction_state_category_name,
+		FROM dutchauction_register
+		WHERE member_id = #{memberId}
+	</select>
 </mapper>
