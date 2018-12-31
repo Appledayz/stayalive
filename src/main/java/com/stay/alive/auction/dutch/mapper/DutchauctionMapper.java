@@ -14,6 +14,7 @@ public interface DutchauctionMapper {
 	public void updateCurrentPrice(DutchAuction dutchAuction);
 	public void updateStateCategory(DutchAuction dutchAuction);
 	public ArrayList<Map<String, Object>> selectDutchAuctionList(PageMaker pageMaker);
+	public ArrayList<Map<String, Object>> selectRecentDutchAuctionList();
 	public ArrayList<Map<String, Object>> selectClosedDutchAuctionList();
 	public int selectCountDutchAuction();
 	public int selectCountClosedDutchAuction();

@@ -102,68 +102,48 @@
                 <div class="col-12 col-lg-6">
                     <div class="section-heading text-center">
                         <div class="line-"></div>
-                        <h2>인기 DutchAuction 정보</h2>
+                        <h2>최근 DutchAuction 정보</h2>
                         <p>DutchAuction 이란? 판매자가 최고 가격으로부터 점차 가격을 낮추어 가다가 <br> 구매희망자가 나오면 최초의 구매희망자에게 판매하는 경매 가격결정 방법입니다</p>
                     </div>
                 </div>
             </div>
-
             <div class="row justify-content-center">
-
                 <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Deluxe Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/8.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Double Suite</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/9.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $100/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Single Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
+				<div class="col-12 col-md-6 col-lg-4" th:if="${#lists.size(recentDutchAuctionList) != 0}" th:each="item : ${recentDutchAuctionList}" >
+					<a th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}"   style="padding:0 15px 0 15px" >
+						<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms" style="height: 400px">
+							<!-- Limit -->
+							<div th:with="result=${100-((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice *100)}">
+                    			<p class="price-from" th:utext = "|${item.dutchauctionUpdatePrice}원 <br><span style='color:red;font-size:20px'>${#numbers.formatInteger(result, 0,'COMMA')}%</span> 할인|" style="font-size: 16px;"></p>
+                    		</div>
+							<!-- Thumbnail -->
+							<div class="bg-thumbnail bg-img" th:style="'background-image: url(/image/guestroom/'+${item.imageFileStoredName}+'.'+${item.imageFileExt}+');'" ></div>
+							<!-- Rooms Text -->
+							<div class="rooms-text" >
+								<div class="line"></div>
+								<h4 th:text="${item.accommodationName}">Deluxe Room</h4>
+								<p style="word-break: break-all;" th:text="${item.guestroomName}">Room Content</p>
+								<div class="line"></div>
+								<!-- 주소 -->
+								<p th:text="'위치 : ' + ${item.accommodationAddress}">Address</p>
+								<!-- 시작 -->
+								<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
+								<!-- 할인 -->
+								<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
+								<!-- 할인 -->
+								<p th:text="'할인단위 : ' + ${item.dutchauctionSaleUnit}+'원'">할인단위</p>
+								<!-- 판매가 -->
+								<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
+								<!-- Date -->
+								<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
+								<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div th:unless="${#lists.size(recentDutchAuctionList) != 0}">
+					<h3>현재 진행되고 있는 경매가 없습니다.</h3>
+				</div>
             </div>
         </div>
     </section>
@@ -176,7 +156,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="section-heading text-center">
                         <div class="line-"></div>
-                        <h2>인기 ReverseAuction 정보</h2>
+                        <h2>최근 ReverseAuction 정보</h2>
                         <p>ReverseAuction 이란? 보통 경매와는 반대라고 생각하면 됩니다. <br> 역경매(ReverseAuction)는 상품을 팔려는 다수의 판매자 중 가장 낮은 가격을 제시하는 판매 상품을 구매하는 방식입니다.</p>
                     </div>
                 </div>

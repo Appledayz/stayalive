@@ -102,6 +102,20 @@
 		ORDER BY d.dutchauction_register_date ASC
 		LIMIT #{startRow}, #{rowPerPage}
 	</select>
+	<select id="selectRecentDutchAuctionList" resultMap="DutchAuctionListResultMap">
+		SELECT d.dutchauction_no, d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			i.image_file_stored_name, i.image_file_ext,
+			a.accommodation_address
+		FROM dutchauction_register as d 
+			INNER JOIN guestroom as g on d.guestroom_no = g.guestroom_no
+			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
+			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
+		WHERE d.auction_state_category_no = 1
+		ORDER BY d.dutchauction_register_date ASC
+		LIMIT 0, 3
+	</select>
 	<select id="selectClosedDutchAuctionList" resultMap="DutchAuctionListResultMap" >
 		SELECT d.accommodation_name, d.guestroom_name, d.dutchauction_startprice, d.auction_state_category_name,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,

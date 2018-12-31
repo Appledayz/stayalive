@@ -208,4 +208,7 @@ public class DutchauctionService {
 	public void modifyStateCategory(DutchAuction dutchAuction) {
 		dutchauctionMapper.updateStateCategory(dutchAuction);
 	}
+	public ArrayList<Map<String, Object>> getRecentDutchAuctionList() {
+		return dutchauctionMapper.selectRecentDutchAuctionList();
+	};
 }
