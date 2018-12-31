@@ -80,6 +80,7 @@ public class ReverseauctionTenderService {
 	}
 	// 역경매입찰목록 조회
 	public List<ReverseauctionTender> getReverseauctionTenderListById(ReverseauctionTender tender){
+		System.out.println("ReverseauctionTenderService.getReverseauctionTenderListById()");
 		return reverseauctionTenderMapper.selectTenderListById(tender);
 	}
 }
