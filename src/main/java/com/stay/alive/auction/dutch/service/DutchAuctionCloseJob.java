@@ -28,7 +28,7 @@ public class DutchAuctionCloseJob extends QuartzJobBean{
 		}
 		dutchAuction.setAuctionStateCategoryNo(4);
 		dutchAuction.setAuctionStateCategoryName("만료");
-		dutchauctionMapper.updateStateCategoryToExpired(dutchAuction); //데이터베이스에서 카테고리 업데이트
+		dutchauctionMapper.updateStateCategory(dutchAuction); //데이터베이스에서 카테고리 업데이트
 		
 	}
 

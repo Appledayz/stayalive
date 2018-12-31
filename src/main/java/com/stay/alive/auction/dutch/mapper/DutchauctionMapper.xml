@@ -22,7 +22,7 @@
 		SET dutchauction_update_price = #{dutchauctionUpdatePrice}, dutchauction_update_date = now() 
 		WHERE dutchauction_no = #{dutchauctionNo}
 	</update>
-	<update id="updateStateCategoryToExpired" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
+	<update id="updateStateCategory" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
 		UPDATE dutchauction_register 
 		SET auction_state_category_no = #{auctionStateCategoryNo}, auction_state_category_name = #{auctionStateCategoryName} 
 		WHERE dutchauction_no = #{dutchauctionNo}
@@ -46,6 +46,7 @@
 		<result javaType="String" column="auction_state_category_name" property="auctionStateCategoryName"/>
 	</resultMap>
 	<resultMap type="Map" id="DutchAuctionDetailResultMap">
+		<result javaType="String" column="dutchauction_no" property="dutchauctionNo"/>
 		<result javaType="String" column="member_id" property="memberId"/>
 		<result javaType="String" column="company_name" property="companyName"/>
 		<result javaType="String" column="accommodation_name" property="accommodationName"/>
@@ -72,12 +73,11 @@
 	<!-- 네덜란드식 역경매 상세 -->
 	<select id="selectDutchAuctionDetail" parameterType="int" resultMap="DutchAuctionDetailResultMap">
 		SELECT 
-			d.member_id, d.company_name, d.dutchauction_startprice,
+			d.member_id, d.company_name, d.dutchauction_startprice, d.dutchauction_no,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
 			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
 			a.accommodation_email, a.accommodation_name, a.accommodation_category_name,
-			a.accommodation_latitude, a.accommodation_longitude,  a.accommodation_address,
-			a.accommodation_phone,
+			a.accommodation_latitude, a.accommodation_longitude,  a.accommodation_address, a.accommodation_phone,
 			i.image_file_stored_name, i.image_file_ext,
 			g.guestroom_capacity, g.guestroom_size, g.guestroom_detail, g.guestroom_name
 		FROM dutchauction_register AS d
@@ -125,7 +125,7 @@
 		FROM dutchauction_register
 		WHERE NOT(auction_state_category_no = 1) 
 	</select>
-	<select id="selectDutchAuctionFromId" resultType="com.stay.alive.auction.dutch.vo.DutchAuction" parameterType="String">
+	<select id="selectDutchAuctionsFromId" resultType="com.stay.alive.auction.dutch.vo.DutchAuction" parameterType="String">
 		SELECT accommodation_name,
 			guestroom_name,
 			dutchauction_register_date,
@@ -137,5 +137,10 @@
 			auction_state_category_name,
 		FROM dutchauction_register
 		WHERE member_id = #{memberId}
+	</select>
+		<select id="selectDutchAuctionFromNo" resultType="com.stay.alive.auction.dutch.vo.DutchAuction" parameterType="int">
+		SELECT *
+		FROM dutchauction_register
+		WHERE dutchauction_no = #{dutchauctionNo}
 	</select>
 </mapper>

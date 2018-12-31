@@ -199,8 +199,13 @@ public class DutchauctionService {
 	public Map<String, Object> getDutchAuctionDetail(int dutchauctionNo) {
 		return dutchauctionMapper.selectDutchAuctionDetail(dutchauctionNo);
 	}
-	public ArrayList<DutchAuction> getDutchAuctionFromId(String mamberId) {
-		return dutchauctionMapper.selectDutchAuctionFromId(mamberId);
+	public ArrayList<DutchAuction> getDutchAuctionsFromId(String mamberId) {
+		return dutchauctionMapper.selectDutchAuctionsFromId(mamberId);
 	};
-	
+	public DutchAuction getDutchAuctionFromNo(int dutchauctionNo) {
+		return dutchauctionMapper.selectDutchAuctionFromNo(dutchauctionNo);
+	};
+	public void modifyStateCategory(DutchAuction dutchAuction) {
+		dutchauctionMapper.updateStateCategory(dutchAuction);
+	}
 }

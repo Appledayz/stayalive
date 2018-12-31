@@ -34,7 +34,7 @@ public class DutchAuctionRegisterJob extends QuartzJobBean {
 				context.getScheduler().deleteJob(closeJobKey);
 				dutchAuction.setAuctionStateCategoryNo(4);
 				dutchAuction.setAuctionStateCategoryName("만료");
-				dutchauctionMapper.updateStateCategoryToExpired(dutchAuction); //데이터베이스에서 카테고리 업데이트
+				dutchauctionMapper.updateStateCategory(dutchAuction); //데이터베이스에서 카테고리 업데이트
 			} catch (SchedulerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -40,12 +40,16 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-heading">
-						<div class="line-"></div>
-						<h2>더치옥션 상세</h2>
+
 					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center">
+				<div id="map" style="width: 925px; height: 400px;"></div>
+			</div>
+			
+			<div class="row justify-content-center" style="padding-top: 30px">
+			
 				<div class="col-lg-8">
 					<div class="section-heading text-center">
 						<div class="line-"></div>
@@ -56,6 +60,7 @@
 						<div class="row">
 							<div class="col-sm-4"></div>
 							<div class="col-sm-4">
+								<button class="btn palatin-btn mt-30" id="bidBtn">낙찰</button>
 								<a href="#" class="btn palatin-btn mt-30">더치옥션 삭제</a>
 							</div>
 						</div>
@@ -85,7 +90,7 @@
 			<div class="row">
 				<div class="col-lg-4">
 					<!-- 다음 맵 그려질 위치  -->
-					<div id="map" style="width: 420px; height: 340px;"></div>
+
 				</div>
 				<div class="col-lg-2" ></div>
 				<div class="col-lg-6">
@@ -150,11 +155,14 @@
 											
 						</tbody>
 					</table>
+					
+	
+					
 				</div>
 			</div>
-			<div class="col-lg-5" style="padding-top: 20px; ">
-				<img th:src="'/image/guestroom/'+${detail.imageFileStoredName} + '.' + ${detail.imageFileExt}">
-			</div>
+<!-- 			<div class="col-lg-5" style="padding-top: 20px; ">
+				<img th:src="'/image/guestroom/'+${detail.imageFileStoredName} + '.' + ${detail.imageFileExt}" >
+			</div> -->
 		</div>
 	</section>
 </body>
@@ -175,7 +183,7 @@
 	<!--다음 지도 API  -->
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
 
-	<script>
+	<script th:inline="javascript">
 	//<![CDATA[
 		$(document).ready(function() {
 			var mapTypeControl = new daum.maps.MapTypeControl();
@@ -189,21 +197,28 @@
 			}
 		    var map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
 		    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+		    map.setMapTypeId(daum.maps.MapTypeId.HYBRID);
 		    var marker = new daum.maps.Marker({ // 마커생성
 		        position: location
 		    });
 		    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+		    var accommodationName = [[${detail.accommodationName}]];
+		    var imageFileStoredName = [[${detail.imageFileStoredName}]];
+		    var imageFileExt = [[${detail.imageFileExt}]]
+		    var accommodationAddress = [[${detail.accommodationAddress}]];
+		    var accommodationPhone = [[${detail.accommodationPhone}]];
+		    var accommodationEmail = [[${detail.accommodationEmail}]];
 		    var content = '<div class="wrap">' + 
 	        '    <div class="info">' + 
-	        '        <div class="title">[[${detail.accommodationName}]]</div>' +    
+	        '        <div class="title">' + accommodationName + '</div>' +    
 	        '        <div class="body">' + 
 	        '           <div class="img">' +
-	                        "<img src='/image/guestroom/[[${detail.imageFileStoredName}]].[[${detail.imageFileExt}]]' width='73' height='70'>" +
+	        '                <img src="/image/guestroom/' +imageFileStoredName + '.' + imageFileExt + '" width="73" height="70">' +
 	        '           </div>' + 
 	        '           <div class="desc">' + 
-	        '                <div class="ellipsis">[[${detail.accommodationAddress}]]</div>' + 
-	        '                <div class="jibun ellipsis">[[${detail.accommodationPhone}]]</div>' +
-	        '                <div class="jibun ellipsis">[[${detail.accommodationEmail}]]</div>' + 
+	        '                <div class="ellipsis">' + accommodationAddress + '</div>' + 
+	        '                <div class="jibun ellipsis">' + accommodationPhone + '</div>' +
+	        '                <div class="jibun ellipsis">' + accommodationEmail + '</div>' + 
 	        '            </div>' + 
 	        '        </div>' + 
 	        '    </div>' +    
@@ -213,7 +228,14 @@
 	            map: map,
 	            position: marker.getPosition()       
 	        });
-	       
+	        var dutchauctionNo = [[${detail.dutchauctionNo}]];
+	        $("#bidBtn").click(function() {
+	        	if(confirm("낙찰하시겠습니까?")) {
+	        		
+	        		window.location.href="/auction/dutch/successfulbid?dutchauctionNo="+dutchauctionNo;
+	        	}
+	        });
+	        
 		});
 	// ]]>
 	</script>
