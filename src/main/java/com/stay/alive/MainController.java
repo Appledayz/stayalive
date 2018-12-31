@@ -11,11 +11,6 @@ public class MainController {
 		return "main";
 	}
 	
-	@GetMapping("/auction")
-	public String accessAuction() {
-		return "auction";
-	}
-	
 	@GetMapping("/workingPage")
 	public String accessWorkingPage() {
 		return "workingPage";

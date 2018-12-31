@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <!-- Title -->
-    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Core Stylesheet -->
 	<link rel="stylesheet" href="/main/style.css">
 	<!-- 다음 맵 마커 오버레이 css -->
 	<link rel="stylesheet" href="/mapoverlay.css"> 
+	<title>역경매 상세 페이지</title>
 </head>
 <body>
 	<!-- Preloader -->
@@ -29,7 +26,7 @@
 	<!-- ##### Breadcumb Area Start ##### -->
 	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
 		<div class="bradcumbContent">
-			<h2>AuctionDetail</h2>
+			<h2>상세</h2>
 		</div>
 	</section>
 	<!-- ##### Breadcumb Area End ##### -->
@@ -40,46 +37,16 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="section-heading">
-						<div class="line-"></div>
-						<h2>더치옥션 상세</h2>
 					</div>
 				</div>
 			</div>
 			<div class="row justify-content-center">
-				<div class="col-lg-8">
+				<div class="col-12 col-lg-6">
 					<div class="section-heading text-center">
 						<div class="line-"></div>
-						<h2 th:text="${detail.accommodationName}">숙소 이름</h2>
-						<p th:text="${detail.accommodationCategoryName}">숙소 분류</p>
-						<p th:text="${detail.guestroomName}">객실 이름</p>
-						<p th:text="'등록일 : '+${detail.dutchauctionRegisterDate}">경매 등록일</p>
-						<div class="row">
-							<div class="col-sm-4"></div>
-							<div class="col-sm-4">
-								<a href="#" class="btn palatin-btn mt-30">더치옥션 삭제</a>
-							</div>
-						</div>
+						<h2>객실 상세 내용</h2>
+						<p>현재 객실의 상세 내용</p>
 					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="about-thumbnail mb-100">
-                    	<table class="table table-striped table-bordered table-hover">
-                    		<tr><td>객실 수용 인원</td>
-                    			<td>객실 크기</td></tr>
-                    		<tr><td th:text="${detail.guestroomCapacity}">객실 수용 인원</td>
-                    			<td th:text="${detail.guestroomSize} + '㎡'">객실 크기</td></tr>
-                    		<tr><td>현재가격</td>
-                    			<td>판매자ID</td></tr>
-                    		<tr><td th:text="${detail.dutchauctionUpdatePrice} + '원'">현재가격</td>
-                    			<td th:text="${detail.memberId}">판매자ID</td></tr>
-                    		<tr><td colspan="2">숙소 주소</td></tr>
-                    		<tr><td colspan="2" th:text="${detail.accommodationAddress}">숙소 주소</td></tr>
-                    		<tr><td>입실일</td>
-                    			<td>퇴실일</td></tr>
-                    		<tr><td th:text="${detail.dutchauctionCheckinDate}">입실일</td>
-                    			<td th:text="${detail.dutchauctionCheckoutDate}">퇴실일</td></tr>
-                    	</table>
-                    </div>
 				</div>
 			</div>
 			<div class="row">
