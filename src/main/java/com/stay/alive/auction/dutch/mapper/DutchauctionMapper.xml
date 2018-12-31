@@ -7,13 +7,13 @@
 		INSERT INTO dutchauction_register(
 			member_id, company_no, company_name,
 		  	accommodation_no, accommodation_name, guestroom_no, 
-		  	guestroom_name, dutchauction_register_date, dutchauction_startprice,
+		  	guestroom_name, dutchauction_register_date, dutchauction_startprice, dutchauction_update_price,
 		  	maximum_discount_price, dutchauction_sale_unit, dutchauction_sale_interval, 
 		 	dutchauction_close_date, dutchauction_checkin_date, dutchauction_checkout_date) 
 		VALUES(
 			#{memberId}, #{companyNo}, #{companyName},
 			#{accommodationNo}, #{accommodationName}, #{guestroomNo},
-			#{guestroomName}, now(), #{dutchauctionStartprice},
+			#{guestroomName}, now(), #{dutchauctionStartprice}, ${dutchauctionUpdatePrice},
 			#{maximumDiscountPrice}, #{dutchauctionSaleUnit}, #{dutchauctionSaleInterval},
 			#{dutchauctionCloseDate}, #{dutchauctionCheckinDate}, #{dutchauctionCheckoutDate})
 	</insert>
@@ -28,6 +28,7 @@
 		WHERE dutchauction_no = #{dutchauctionNo}
 	</update>
 	<resultMap type="Map" id="DutchAuctionListResultMap">
+		<result javaType="String" column="dutchauction_no" property="dutchauctionNo"/>
 		<result javaType="String" column="accommodation_name" property="accommodationName"/>
 		<result javaType="String" column="guestroom_name" property="guestroomName"/>
 		<result javaType="int" column="dutchauction_startprice" property="dutchauctionStartprice"/>
@@ -44,9 +45,51 @@
 		<result javaType="String" column="dutchauction_successfulbid_date" property="dutchauctionSuccessfulbidDate"/>
 		<result javaType="String" column="auction_state_category_name" property="auctionStateCategoryName"/>
 	</resultMap>
+	<resultMap type="Map" id="DutchAuctionDetailResultMap">
+		<result javaType="String" column="member_id" property="memberId"/>
+		<result javaType="String" column="company_name" property="companyName"/>
+		<result javaType="String" column="accommodation_name" property="accommodationName"/>
+		<result javaType="String" column="guestroom_name" property="guestroomName"/>
+		<result javaType="int" column="dutchauction_startprice" property="dutchauctionStartprice"/>
+		<result javaType="int" column="dutchauction_sale_unit" property="dutchauctionSaleUnit"/>
+		<result javaType="int" column="dutchauction_sale_interval" property="dutchauctionSaleInterval"/>
+		<result javaType="int" column="dutchauction_update_price" property="dutchauctionUpdatePrice"/>
+		<result javaType="String" column="dutchauction_checkin_date" property="dutchauctionCheckinDate"/>
+		<result javaType="String" column="dutchauction_checkout_date" property="dutchauctionCheckoutDate"/>
+		<result javaType="String" column="dutchauction_register_date" property="dutchauctionRegisterDate"/>
+		<result javaType="int" column="guestroom_capacity" property="guestroomCapacity"/>
+		<result javaType="int" column="guestroom_size" property="guestroomSize"/>
+		<result javaType="String" column="guestroom_detail" property="guestroomDetail"/>
+		<result javaType="String" column="accommodation_category_name" property="accommodationCategoryName"/>	
+		<result javaType="double" column="accommodation_latitude" property="accommodationLatitude"/>
+		<result javaType="double" column="accommodation_longitude" property="accommodationLongitude"/>
+		<result javaType="String" column="accommodation_address" property="accommodationAddress"/>
+		<result javaType="String" column="accommodation_phone" property="accommodationPhone"/>
+		<result javaType="String" column="accommodation_email" property="accommodationEmail"/>
+		<result javaType="String" column="image_file_stored_name" property="imageFileStoredName"/>
+		<result javaType="String" column="image_file_ext" property="imageFileExt"/>
+	</resultMap>
+	<!-- 네덜란드식 역경매 상세 -->
+	<select id="selectDutchAuctionDetail" parameterType="int" resultMap="DutchAuctionDetailResultMap">
+		SELECT 
+			d.member_id, d.company_name, d.dutchauction_startprice,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			a.accommodation_email, a.accommodation_name, a.accommodation_category_name,
+			a.accommodation_latitude, a.accommodation_longitude,  a.accommodation_address,
+			a.accommodation_phone,
+			i.image_file_stored_name, i.image_file_ext,
+			g.guestroom_capacity, g.guestroom_size, g.guestroom_detail, g.guestroom_name
+		FROM dutchauction_register AS d
+		INNER JOIN accommodation AS a ON d.accommodation_no = a.accommodation_no
+		INNER JOIN guestroom AS g ON d.guestroom_no = g.guestroom_no
+		INNER JOIN image_file AS i ON g.image_file_no = i.image_file_no
+		WHERE dutchauction_no = #{dutchauctionNo}
+	</select>
+
 	<!-- 네덜란드식 역경매 리스트 -->
 	<select id="selectDutchAuctionList" resultMap="DutchAuctionListResultMap" parameterType="com.stay.alive.common.PageMaker">
-		SELECT d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
+		SELECT d.dutchauction_no, d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
 			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
 			i.image_file_stored_name, i.image_file_ext,

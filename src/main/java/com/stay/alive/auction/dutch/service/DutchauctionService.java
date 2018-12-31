@@ -196,5 +196,8 @@ public class DutchauctionService {
 	public ArrayList<Map<String, Object>> getClosedDutchAuctionList() {
 		return dutchauctionMapper.selectClosedDutchAuctionList();
 	}
+	public Map<String, Object> getDutchAuctionDetail(int dutchauctionNo) {
+		return dutchauctionMapper.selectDutchAuctionDetail(dutchauctionNo);
+	}
 	
 }
