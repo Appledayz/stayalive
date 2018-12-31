@@ -60,16 +60,6 @@
 	                                    		<li><a href="/workingPage">나의 옥션 목록</a></li>                        	
                                     		</ul>
 	                                    </li>
-	                                    <li><a href="/member/modifyMember">회원</a>
-	                                        <ul class="dropdown">
-	                                        	<li><a href="/workingPage">회원 숙소예약현황</a></li>
-	                                        	<li><a href="/workingPage">회원 입찰목록</a></li>
-	                                        	<li><a href="/workingPage">회원 결제내역</a></li>
-	                                            <li><a href="/member/modifyMember">회원정보 수정</a></li>
-	                                            <li><a href="/workingPage">회원정보 조회</a></li>
-	                                            <li><a href="/workingPage">회원 탈퇴</a></li>
-	                                        </ul>
-	                                    </li>
 	                                    <li><a href="/board/free">게시판</a>
 	                                    	<ul class="dropdown">
 	                                    		<li><a href="/workingPage">공지 사항</a></li>
@@ -97,13 +87,6 @@
 	                                            <li><a href="/workingPage">업체 삭제</a></li>
 	                                        </ul>
                                         </li>                          
-	                                    <li><a href="/ad">광고</a>	                                    	
-                                            <ul class="dropdown">
-                                            	<li><a href="/workingPage">광고</a></li>
-                                                <li><a href="/ad/adRegister">광고 등록</a></li>	
-                                                <li><a href="/workingPage">나의 광고 목록</a></li>
-                                            </ul>	                                        
-	                                    </li>
 	                                </ul>
 	
 	                                <!-- Button -->
@@ -126,7 +109,11 @@
 				                            		<a href="#" id="dropdownBtn" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" th:text="${session.memberNickname}">
 										   		  	</a>
 			                            		 	<div class="dropdown-menu">
-				                            		 	<a class="dropdown-item text-dark" href="/member/modifyMember">정보수정</a>
+			                            		 		<a class="dropdown-item text-dark" href="/workingPage">나의 숙소예약현황</a>
+			                            		 		<a class="dropdown-item text-dark" href="/workingPage">나의 입찰목록</a>
+			                            		 		<a class="dropdown-item text-dark" href="/workingPage">나의 결제내역</a>
+				                            		 	<a class="dropdown-item text-dark" href="/member/modifyMember">내 정보조회</a>
+				                            		 	<a class="dropdown-item text-dark" href="/member/modifyMember">내 정보수정</a>
 				                            			<a class="dropdown-item text-dark" href="/login/memberLogout">로그아웃</a>
 				                            		</div>
 			                            		</div>
