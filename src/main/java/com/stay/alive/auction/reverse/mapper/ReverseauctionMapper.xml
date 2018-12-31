@@ -59,7 +59,7 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
   
-  <select id="selectReverseauctionListById" parameterType="com.stay.alive.auctin.reverse.vo.Reverseauction" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  <select id="selectReverseauctionListById" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT
   	  reverseauction_no,
 	  reverseauction_register_date,
