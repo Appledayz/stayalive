@@ -16,4 +16,9 @@ public class MainController {
 		return "auction";
 	}
 	
+	@GetMapping("/workingPage")
+	public String accessWorkingPage() {
+		return "workingPage";
+	}
+	
 }
