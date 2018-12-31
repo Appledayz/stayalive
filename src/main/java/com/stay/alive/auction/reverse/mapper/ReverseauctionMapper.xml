@@ -23,6 +23,12 @@
   	</where>
   </select>
   
+  <select id="selectReverseauctionState" resultType="String">
+  	SELECT auction_state_category_name
+  	FROM reverseauction_register
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </select>
+  
   <select id="selectReverseauctionList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	SELECT *
   	FROM reverseauction_register

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.auction.reverse.mapper.ReverseauctionMapper;
+import com.stay.alive.auction.reverse.mapper.ReverseauctionSuccessfulbidMapper;
 import com.stay.alive.auction.reverse.mapper.ReverseauctionTenderMapper;
 import com.stay.alive.auction.reverse.vo.Reverseauction;
-import com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.common.PageMakerService;
 
@@ -20,6 +20,8 @@ public class ReverseauctionService {
 	private ReverseauctionMapper reverseauctionMapper;
 	@Autowired
 	private ReverseauctionTenderMapper reverseauctionTenderMapper;
+	@Autowired
+	private ReverseauctionSuccessfulbidMapper reverseauctionSuccessfulbidMapper;
 	
 	// 1. 역경매 전체목록 조회
 	public List<Reverseauction> getReverseauctionList(PageMaker pageMaker){
@@ -64,8 +66,10 @@ public class ReverseauctionService {
 	public int removeReverseauction(int reverseauctionNo) {
 		System.out.println("ReverseauctionService.removeReverseauction()");
 		int i=0;
-		i+=reverseauctionTenderMapper.deleteReverseauctionTender(reverseauctionNo);
-		i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
+		if(!reverseauctionMapper.selectReverseauctionState(reverseauctionNo).equals("낙찰완료")) {
+			i+=reverseauctionTenderMapper.deleteReverseauctionTender(reverseauctionNo);
+			i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
+		}
 		return i;
 	}
 }

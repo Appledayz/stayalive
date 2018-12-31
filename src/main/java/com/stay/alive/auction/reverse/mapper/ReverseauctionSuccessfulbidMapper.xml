@@ -80,4 +80,9 @@
   	DELETE FROM reverseauction_successfulbid
   	WHERE reverseauction_successfulbid_no=#{reverseauctionSuccessfulbidNo}
   </delete>
+  
+  <delete id="deleteReverseauctionSuccessfulbidForDeleteReverseauction">
+  	DELETE FROM reverseauction_successfulbid
+  	WHERE reverseauction_no=#{reverseauctionNo}
+  </delete>
 </mapper>

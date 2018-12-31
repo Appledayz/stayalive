@@ -9,7 +9,16 @@
    	<script type="text/javascript">
 		window.addEventListener('load',()=>{
 			document.getElementById('addBtn').addEventListener("click", ()=>{
-				document.getElementById('addForm').submit();
+				if(!checkAcc()){
+					$('#helper').text('숙소를 선택해주세요');
+				}else if(!checkGuest()){
+					$('#helper').text('객실을 선택해주세요');
+				}else if(!checkPrice()){
+					$('#helper').text('가격을 입력해주세요');
+				}
+				if(checkAcc() & checkGuest() & checkPrice()){
+					document.getElementById('addForm').submit();
+				}
 			});
 			$("#selectAcc").change(function(e) {
 				if($(this).val() != 0 ) {
@@ -38,6 +47,27 @@
 				}
 			});
 		});
+		
+		function checkAcc(){
+			if($('#selectAcc').val()==0){
+				return false;
+			}
+			return true;
+		}
+		function checkGuest(){
+			if($('#selectGuestroom').val()==0){
+				return false;
+			}
+			return true;
+		}
+		function checkPrice(){
+			let re = /[^\d]/;
+			if($('#price').val()==""){
+				return false;
+			}
+			return !re.test($('#price').val());
+		}
+		
 		function findGuestroom(selectedAccNo) {
 			$.ajax({
 		  		url : "/auction/reverse/tender/findGuestroom",
@@ -105,10 +135,9 @@
 				 		</select>
 			 		</div>
 			    	<div class="row">
-						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="accommodationGuestroomAllcount" type="text" name="accommodationGuestroomAllcount"></div>
-						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="guestroomStateCount" type="text" name="guestroomStateCount"></div>
-						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="reverseauctionTenderPrice" type="text" name="reverseauctionTenderPrice"></div>
-						<div class="col-md-6 col-lg-4"><input class="form-control" th:placeholder="reverseauctionTenderPrice" type="text" name="reverseauctionTenderContent"></div>
+						<div class="col-lg-12"><input class="form-control" placeholder="Price (num)" type="text" name="reverseauctionTenderPrice" id="price"></div>
+						<div class="col-lg-12"><input class="form-control" placeholder="Content" type="text" name="reverseauctionTenderContent"></div>
+				 		<span id="helper" style="color:red;"></span>
 						<div class="col-lg-12"><button type="button" class="btn palatin-btn mt-50" id="addBtn">입력</button></div>
 					</div>
 				</form>

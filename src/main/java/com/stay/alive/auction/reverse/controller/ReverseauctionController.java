@@ -113,7 +113,9 @@ public class ReverseauctionController {
 	@GetMapping("remove")
 	public String deleteReverseauction(int reverseauctionNo) {
 		System.out.println("ReverseauctionController.deleteReverseauction() GET");
-		reverseauctionService.removeReverseauction(reverseauctionNo);
+		if(reverseauctionService.removeReverseauction(reverseauctionNo)==0) {
+			return "redirect:/auction/reverse/detail?fail=true&reverseauctionNo=" + reverseauctionNo;
+		}
 		return "redirect:/auction/reverse/list";
 	}
 }

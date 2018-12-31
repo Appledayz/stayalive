@@ -15,9 +15,10 @@ public interface ReverseauctionSuccessfulbidMapper {
 	ReverseauctionSuccessfulbid selectReverseauctionSuccessfulbid(int reverseauctionNo);
 	// 낙찰 삭제
 	int deleteReverseauctionSuccessfulbid(int reverseauctionSuccessfulbidNo);
+	int deleteReverseauctionSuccessfulbidForDeleteReverseauction(int reverseauctionNo);
 	// 역경매 상태갱신
 	int updateReverseauctionState(int reverseauctionNo, AuctionStateCategory auctionStateCategory);
-	// "낙찰완료" 상태 조회
+	// 상태이름으로 상태카테고리 정보 조회
 	AuctionStateCategory selectAuctionStateByName(String string);
 	// 역경매 입찰 상태갱신
 	void updateReverseauctionTenderState(int reverseauctionTenderNo, AuctionStateCategory auctionStateCategory);

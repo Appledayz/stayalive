@@ -153,33 +153,49 @@
 				</div>
 				<div class="col-lg-10" style="background-color:rgb(50,50,50); border:1px solid rgb(203, 134, 112)">
 					<div style="display: flex; flex-direction: column;">
-						<div th:each="tender : ${m2}" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); margin: 10px 0; padding:5px;">
-							<div class="row" style="border:1px solid blue">
-								<div class="col-lg-8" style="border:1px solid red;">
-									<p th:text="${tender.reverseauctionTenderNo}"></p>
+						<div th:each="tender : ${m2}">
+							<div class="row tender" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); margin: 10px 0; padding:5px;">
+								<div class="col-lg-9">
+									<div class="row">
+										<div class="col-md-2 col-lg-3">
+											<span style="position:absolute; bottom:0; right:0; background-color:#6AC5AC;">div</span>
+											<p th:text="${tender.reverseauctionTenderNo}"></p>
+										</div>
+										<div class="col-md-2 col-lg-3">
+											<span style="position:absolute; bottom:0; right:0; background-color:#6AC5AC;">div</span>
+											<p th:text="${tender.accommodationName}+' '+${tender.guestroomName}"></p>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<span style="position:absolute; bottom:0; right:0; background-color:#6AC5AC;">div</span>
+											<p th:text="'￦'+${tender.reverseauctionTenderPrice}+'/night'"></p>
+										</div>
+										<div class="col-md-4 col-lg-3">
+											<span style="position:absolute; bottom:0; right:0; background-color:#6AC5AC;">div</span>
+											<p th:text="${tender.reverseauctionTenderContent}"></p>
+										</div>
+									</div>
 								</div>
-								<div class="col-lg-4" style="border:1px solid yellow">
+								<div class="col-lg-3">
 									<button class="btn btn-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote=${tender.accommodationNo}">숙소상세보기</button>
 									<form action="/auction/reverse/successfulbid/add" method="get">
 										<input type="hidden" th:name="reverseauctionTenderNo" th:value="${tender.reverseauctionTenderNo}">
 										<input type="hidden" th:name="reverseauctionNo" th:value="${tender.reverseauctionNo}">
 										<button type="button" class="btn SuccessfulbidBtn" onclick="check(this)" th:text="낙찰">낙찰</button>
 									</form>
-									<a class="btn btn-danger" style="font-size:1rem" th:href="@{/auction/reverse/tender/remove(reverseauctionTenderNo=${tender.reverseauctionTenderNo},reverseauctionNo=${tender.reverseauctionNo})}">삭제</a>
+									<!-- <a class="btn btn-danger" style="font-size:1rem" th:href="@{/auction/reverse/tender/remove(reverseauctionTenderNo=${tender.reverseauctionTenderNo},reverseauctionNo=${tender.reverseauctionNo})}">삭제</a> -->
 								</div>
 							</div>
-							<table style="color:white; border:1px solid white">
+							<!-- <table style="color:white; border:1px solid white">
 								<tr>
-									<td th:text="${tender.reverseauctionTenderNo}"></td>
-									<td th:text="${tender.reverseauctionTenderContent}"></td>
-									<td th:text="${tender.accommodationName}"></td>
-									<td th:text="${tender.guestroomName}"></td>
-									<td th:text="${tender.reverseauctionTenderDate}"></td>
-									<td th:text="${tender.reverseauctionTenderPrice}"></td>
-									<td th:text="${tender.auctionStateCategoryName}"></td>
+									<td th:text="${tender.reverseauctionTenderNo}">입찰넘버</td>
+									<td th:text="${tender.reverseauctionTenderContent}">입찰내용</td>
+									<td th:text="${tender.accommodationName}">입찰숙소이름</td>
+									<td th:text="${tender.guestroomName}">입찰객실이름</td>
+									<td th:text="${tender.reverseauctionTenderDate}">입찰일</td>
+									<td th:text="${tender.reverseauctionTenderPrice}">입찰금액</td>
+									<td th:text="${tender.auctionStateCategoryName}">경매상태</td>
 								</tr>
-							</table>
-							
+							</table> -->
 						</div>
 					</div>
 				</div>
