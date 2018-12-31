@@ -9,91 +9,9 @@
 
     <!-- Title -->
     <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="/main/img/core-img/favicon.ico">
-	<!--다음 주소검색 API  -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<!--다음 지도 API  -->
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
-	<!-- jquery(3.3.1)  -->
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<!-- bootstrap(4.1.3)  -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<!-- 다음 맵 마커 오버레이 css -->
-	<link rel="stylesheet" href="/mapoverlay.css"> 
 	<!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
 </head>
-<script th:inline="javascript">
-//<![CDATA[ 
-	$(function() {
-		$("#accommodationList").addClass('active');
-		var map;
-		var latitude;
-		var longitude;
-		var location;
-		$('#theModal').on('show.bs.modal', function (e) {
-			$(".modal-body").empty(); //기존에 있던 modal body에 있는 태그들을 제거
-			var button = $(e.relatedTarget);
-		  	$.ajax({
-		  		url : "detail",
-		  		data : {"accommodationNo" : button.data("remote")},
-		  		type: 'GET',
-				contentType:"application/x-www-form-urlencoded",
-				success: function(data){
-					$(".modal-body").append("<div id='map' style='width:460px;height:400px;'></div>"); //맵이 들어갈 태그 생성
-					var mapTypeControl = new daum.maps.MapTypeControl();
-				    var mapContainer = document.getElementById('map'); // 지도를 표시할 div태그
-				    latitude = data.accommodationLatitude; //위도
-				    longitude = data.accommodationLongitude; //경도
-				    location = new daum.maps.LatLng(latitude, longitude); //좌표정보 생성
-				    var mapOption = { 
-				        center: location, // 지도의 중심좌표
-				        level: 3 // 지도의 확대 레벨			 
-					}
-				    map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
-				    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
-				    var marker = new daum.maps.Marker({ // 마커생성
-				        position: location
-				    });
-				    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
-				    var content = '<div class="wrap">' + 
-		            '    <div class="info">' + 
-		            '        <div class="title">' + 
-		            			data.accommodationName + 
-		            '        </div>' + 
-		            '        <div class="body">' + 
-		            '           <div class="img">' +
-		            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-		            '           </div>' + 
-		            '           <div class="desc">' + 
-		            '                <div class="ellipsis">'+ data.accommodationAddress +'</div>' + 
-		            '                <div class="jibun ellipsis">' + data.accommodationPhone + '</div>' +
-		            '                <div class="jibun ellipsis">' + data.accommodationEmail + '</div>' + 
-		            '            </div>' + 
-		            '        </div>' + 
-		            '    </div>' +    
-		            '</div>';
-		            var overlay = new daum.maps.CustomOverlay({
-		                content: content,
-		                map: map,
-		                position: marker.getPosition()       
-		            });
-		            $(".modal-body").append("<br><div class='card border-light'><div class='card-header '><h4 class='text-center'>숙소 상세내용</h4></div><div class='card-body'></div></div>"); //숙소 상세정보 추가
-				    $(".card-body").append(data.accommodationDetail); //숙소 상세정보 추가
-         	    }
-		  	});
-		});
-		$('#theModal').on('shown.bs.modal', function() {
-			map.relayout();
-			map.setCenter(location); //기존좌표로 이동
-		});
-	});
-// ]]>
-</script>
 
 <body>
 	<body class="body-wrapper">
@@ -233,4 +151,81 @@
     <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
+    <!--다음 주소검색 API  -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<!--다음 지도 API  -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+	<!-- 다음 맵 마커 오버레이 css -->
+	<link rel="stylesheet" href="/mapoverlay.css"> 
+    
+    <script th:inline="javascript">
+//<![CDATA[ 
+	$(function() {
+		$("#accommodationList").addClass('active');
+		var map;
+		var latitude;
+		var longitude;
+		var location;
+		$('#theModal').on('show.bs.modal', function (e) {
+			$(".modal-body").empty(); //기존에 있던 modal body에 있는 태그들을 제거
+			var button = $(e.relatedTarget);
+		  	$.ajax({
+		  		url : "detail",
+		  		data : {"accommodationNo" : button.data("remote")},
+		  		type: 'GET',
+				contentType:"application/x-www-form-urlencoded",
+				success: function(data){
+					$(".modal-body").append("<div id='map' style='width:460px;height:400px;'></div>"); //맵이 들어갈 태그 생성
+					var mapTypeControl = new daum.maps.MapTypeControl();
+				    var mapContainer = document.getElementById('map'); // 지도를 표시할 div태그
+				    latitude = data.accommodationLatitude; //위도
+				    longitude = data.accommodationLongitude; //경도
+				    location = new daum.maps.LatLng(latitude, longitude); //좌표정보 생성
+				    var mapOption = { 
+				        center: location, // 지도의 중심좌표
+				        level: 3 // 지도의 확대 레벨			 
+					}
+				    map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
+				    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+				    var marker = new daum.maps.Marker({ // 마커생성
+				        position: location
+				    });
+				    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+				    var content = '<div class="wrap">' + 
+		            '    <div class="info">' + 
+		            '        <div class="title">' + 
+		            			data.accommodationName + 
+		            '        </div>' + 
+		            '        <div class="body">' + 
+		            '           <div class="img">' +
+		            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+		            '           </div>' + 
+		            '           <div class="desc">' + 
+		            '                <div class="ellipsis">'+ data.accommodationAddress +'</div>' + 
+		            '                <div class="jibun ellipsis">' + data.accommodationPhone + '</div>' +
+		            '                <div class="jibun ellipsis">' + data.accommodationEmail + '</div>' + 
+		            '            </div>' + 
+		            '        </div>' + 
+		            '    </div>' +    
+		            '</div>';
+		            var overlay = new daum.maps.CustomOverlay({
+		                content: content,
+		                map: map,
+		                position: marker.getPosition()       
+		            });
+		            $(".modal-body").append("<br><div class='card border-light'><div class='card-header '><h4 class='text-center'>숙소 상세내용</h4></div><div class='card-body'></div></div>"); //숙소 상세정보 추가
+				    $(".card-body").append(data.accommodationDetail); //숙소 상세정보 추가
+         	    }
+		  	});
+		});
+		$('#theModal').on('shown.bs.modal', function() {
+			map.relayout();
+			map.setCenter(location); //기존좌표로 이동
+		});
+	});
+// ]]>
+</script>
+    
+    
+    
 </html>

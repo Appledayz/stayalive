@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Core Stylesheet -->
+	<link rel="stylesheet" href="/main/style.css">
+	<!-- 다음 맵 마커 오버레이 css -->
+	<link rel="stylesheet" href="/mapoverlay.css"> 
+	<title>역경매 상세 페이지</title>
+</head>
+<body>
+	<!-- Preloader -->
+	<div class="preloader d-flex align-items-center justify-content-center">
+		<div class="cssload-container">
+			<div class="cssload-loading">
+				<i></i><i></i><i></i><i></i>
+			</div>
+		</div>
+	</div>
+
+	<!-- header replace -->
+	<div th:replace="header :: header"></div>
+	
+	<!-- ##### Breadcumb Area Start ##### -->
+	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
+		<div class="bradcumbContent">
+			<h2>상세</h2>
+		</div>
+	</section>
+	<!-- ##### Breadcumb Area End ##### -->
+
+	<!-- ##### category Area Start ##### -->
+	<section class="contact-form-area mb-100">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section-heading">
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-6">
+					<div class="section-heading text-center">
+						<div class="line-"></div>
+						<h2>객실 상세 내용</h2>
+						<p>현재 객실의 상세 내용</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<!-- 다음 맵 그려질 위치  -->
+					<div id="map" style="width: 420px; height: 340px;"></div>
+				</div>
+				<div class="col-lg-2" ></div>
+				<div class="col-lg-6">
+					<table class="table table-border">
+						<tbody >
+							<tr>
+								<td>업체 이름</td>
+								<td th:text="${detail.companyName}"></td>
+							</tr>
+							<tr>
+								<td>숙소 이름</td>
+								<td th:text="${detail.accommodationName}"></td>
+							</tr>	
+							<tr>
+								<td>숙소 분류</td>
+								<td th:text="${detail.accommodationCategoryName}"></td>
+							</tr>				
+							<tr>
+								<td>객실 이름</td>
+								<td th:text="${detail.guestroomName}"></td>
+							</tr>
+							<tr>
+								<td>시작가</td>
+								<td th:text="${detail.dutchauctionStartprice}"></td>
+							</tr>
+							<tr>
+								<td>할인</td>
+								<td th:text="${detail.dutchauctionSaleInterval}"></td>
+							</tr>
+							<tr>
+								<td>할인단위</td>
+								<td th:text="${detail.dutchauctionSaleUnit}"></td>
+							</tr>
+							<tr>
+								<td>현재가격</td>
+								<td th:text="${detail.dutchauctionUpdatePrice}"></td>
+							</tr>
+							<tr>
+								<td>입실</td>
+								<td th:text="${detail.dutchauctionCheckinDate}"></td>
+							</tr>
+							<tr>
+								<td>퇴실</td>
+								<td th:text="${detail.dutchauctionCheckoutDate}"></td>
+							</tr>
+							<tr>
+								<td>경매 등록일</td>
+								<td th:text="${detail.dutchauctionRegisterDate}"></td>
+							</tr>
+							<tr>
+								<td>수용 인원</td>
+								<td th:text="${detail.guestroomCapacity}"></td>
+							</tr>
+							<tr>
+								<td>객실 크기</td>
+								<td th:text="${detail.guestroomSize}"></td>
+							</tr>
+							<tr>
+								<td>객실 상세</td>
+								<td th:text="${detail.guestroomDetail}"></td>
+							</tr>
+											
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-5" style="padding-top: 20px; ">
+				<img th:src="'/image/guestroom/'+${detail.imageFileStoredName} + '.' + ${detail.imageFileExt}">
+			</div>
+		</div>
+	</section>
+</body>
+	<!-- ##### category Area End ##### -->
+
+	<!-- footer replace -->
+	<div th:replace="footer :: footer"></div>
+	<!-- jQuery-2.2.4 js -->
+	<script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+	<!-- Popper js -->
+	<script src="/main/js/bootstrap/popper.min.js"></script>
+	<!-- Bootstrap js -->
+	<script src="/main/js/bootstrap/bootstrap.min.js"></script>
+	<!-- All Plugins js -->
+	<script src="/main/js/plugins/plugins.js"></script>
+	<!-- Active js -->
+	<script src="/main/js/active.js"></script>
+	<!--다음 지도 API  -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+
+	<script>
+	//<![CDATA[
+		$(document).ready(function() {
+			var mapTypeControl = new daum.maps.MapTypeControl();
+		    var mapContainer = document.getElementById('map'); // 지도를 표시할 div태그
+		    var latitude = [[${detail.accommodationLatitude}]]; //위도
+		    var longitude = [[${detail.accommodationLongitude}]]; //경도
+		    var location = new daum.maps.LatLng(latitude, longitude); //좌표정보 생성
+		    var mapOption = { 
+		        center: location, // 지도의 중심좌표
+		        level: 2 // 지도의 확대 레벨			 
+			}
+		    var map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
+		    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+		    var marker = new daum.maps.Marker({ // 마커생성
+		        position: location
+		    });
+		    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+		    var content = '<div class="wrap">' + 
+	        '    <div class="info">' + 
+	        '        <div class="title">[[${detail.accommodationName}]]</div>' +    
+	        '        <div class="body">' + 
+	        '           <div class="img">' +
+	                        "<img src='/image/guestroom/[[${detail.imageFileStoredName}]].[[${detail.imageFileExt}]]' width='73' height='70'>" +
+	        '           </div>' + 
+	        '           <div class="desc">' + 
+	        '                <div class="ellipsis">[[${detail.accommodationAddress}]]</div>' + 
+	        '                <div class="jibun ellipsis">[[${detail.accommodationPhone}]]</div>' +
+	        '                <div class="jibun ellipsis">[[${detail.accommodationEmail}]]</div>' + 
+	        '            </div>' + 
+	        '        </div>' + 
+	        '    </div>' +    
+	        '</div>';
+	        var overlay = new daum.maps.CustomOverlay({
+	            content: content,
+	            map: map,
+	            position: marker.getPosition()       
+	        });
+	       
+		});
+	// ]]>
+	</script>
+
+</html>

@@ -39,6 +39,14 @@ public class DutchauctionController {
 		model.addAttribute("closedList",closedList);
 		return "dutchauction/dutchauctionList";
 	}
+	//역경매 상세
+	@GetMapping("detail")
+	public String dutchauctionDetail(Model model, int dutchauctionNo){
+		Map<String,Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
+		model.addAttribute("detail",detail);
+		return "dutchauction/dutchauctionDetail";
+	}
+	//역경매 등록
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model) throws SchedulerException {
 		String id = "ID1";
@@ -46,7 +54,7 @@ public class DutchauctionController {
 		model.addAttribute("name", accommodationName);
 		return "dutchauction/dutchauctionRegister";
 	}
-	//역경매 등록
+	//역경매 등록액션
 	@PostMapping("registerAction")
 	public String registerActionDutch(String accommodationName,
 													String guestroomName,
