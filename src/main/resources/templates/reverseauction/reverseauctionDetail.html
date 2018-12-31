@@ -156,7 +156,7 @@
                     			<td>id</td></tr>
                     		<tr><td th:text="'￦'+${m.reverseauctionTenderLimit}+'↓'">Price</td>
                     			<td th:text="${m.memberId}"></td></tr>
-                    		<tr><td colspan="2">Going to</td></tr>
+                    		<tr><td colspan="2">목적지</td></tr>
                     		<tr><td colspan="2" th:text="${m.reverseauctionAddress}+' '+${m.reverseauctionAddressMore}">Going to</td></tr>
                     		<tr><td>체크인</td>
                     			<td>체크아웃</td></tr>
@@ -211,17 +211,7 @@
 									<!-- <a class="btn btn-danger" style="font-size:1rem" th:href="@{/auction/reverse/tender/remove(reverseauctionTenderNo=${tender.reverseauctionTenderNo},reverseauctionNo=${tender.reverseauctionNo})}">삭제</a> -->
 								</div>
 							</div>
-							<!-- <table style="color:white; border:1px solid white">
-								<tr>
-									<td th:text="${tender.reverseauctionTenderNo}">입찰넘버</td>
-									<td th:text="${tender.reverseauctionTenderContent}">입찰내용</td>
-									<td th:text="${tender.accommodationName}">입찰숙소이름</td>
-									<td th:text="${tender.guestroomName}">입찰객실이름</td>
-									<td th:text="${tender.reverseauctionTenderDate}">입찰일</td>
-									<td th:text="${tender.reverseauctionTenderPrice}">입찰금액</td>
-									<td th:text="${tender.auctionStateCategoryName}">경매상태</td>
-								</tr>
-							</table> -->
+							<!-- <td th:text="${tender.reverseauctionTenderDate}">입찰일</td> -->
 						</div>
 					</div>
 				</div>
