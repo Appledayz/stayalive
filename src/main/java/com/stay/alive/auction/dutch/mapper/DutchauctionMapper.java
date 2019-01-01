@@ -16,9 +16,11 @@ public interface DutchauctionMapper {
 	public ArrayList<Map<String, Object>> selectDutchAuctionList(PageMaker pageMaker);
 	public ArrayList<Map<String, Object>> selectRecentDutchAuctionList();
 	public ArrayList<Map<String, Object>> selectClosedDutchAuctionList();
-	public int selectCountDutchAuction();
-	public int selectCountClosedDutchAuction();
+	public int selectDutchAuctionCount();
+	public int selectDutchAuctionSearchCount(String sk,String sv,String checkInDate,String checkOutDate);
+	public int selectClosedDutchAuctionCount();
 	public Map<String,Object> selectDutchAuctionDetail(int dutchauctionNo);
 	public DutchAuction selectDutchAuctionFromNo(int dutchauctionNo);
 	public ArrayList<DutchAuction> selectDutchAuctionsFromId(String mamberId);
+	public ArrayList<Map<String, Object>> selectDutchAuctionSearchList(PageMaker pageMaker,String sk, String sv, String checkInDate, String checkOutDate);
 }

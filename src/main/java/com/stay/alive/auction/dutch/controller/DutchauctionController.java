@@ -21,18 +21,34 @@ import com.stay.alive.auction.dutch.service.DutchauctionService;
 import com.stay.alive.auction.dutch.vo.DutchAuction;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.guestroom.vo.GuestRoom;
+import com.stay.alive.member.service.MemberService;
 
 @Controller
 @RequestMapping("auction/dutch")
 public class DutchauctionController {
 	@Autowired
 	private DutchauctionService dutchauctionService;
-	
+	@Autowired
+	private MemberService memberService;
 	@GetMapping("list")
-	public String dutchauctionList(Model model, @RequestParam(defaultValue = "1") int currentPage, HashMap<String, String> paraMap, PageMaker pageMaker){
-		String id = "ID1";
+	public String dutchauctionList(Model model, 
+								   @RequestParam(defaultValue = "1") int currentPage, 
+								   HashMap<String, String> paraMap, 
+								   PageMaker pageMaker, 
+								   @RequestParam(defaultValue = "") String sk, 
+								   @RequestParam(defaultValue = "") String sv,
+								   @RequestParam(defaultValue = "") String checkInDate,
+								   @RequestParam(defaultValue = "") String checkOutDate)
+	{
 		pageMaker.setCurrentPage(currentPage);
-		ArrayList<Map<String, Object>> list = dutchauctionService.getDutchAuctionList(pageMaker);
+		ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		if((!sk.equals("") && !sk.equals("select")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
+			list = dutchauctionService.getDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
+		}
+		else {
+			list = dutchauctionService.getDutchAuctionList(pageMaker);
+		}
+
 		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList();
 		model.addAttribute("PM", pageMaker);
 		model.addAttribute("list",list);
@@ -43,16 +59,36 @@ public class DutchauctionController {
 	@GetMapping("detail")
 	public String dutchauctionDetail(Model model, int dutchauctionNo){
 		Map<String,Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
-		model.addAttribute("detail",detail);
-		return "dutchauction/dutchauctionDetail";
+		if((int)detail.get("auctionStateCategoryNo") == 1) {
+			model.addAttribute("detail",detail);
+			return "dutchauction/dutchauctionDetail";
+		}
+		else {
+			model.addAttribute("msg","종료된 경매입니다.");
+			model.addAttribute("url","/auction/dutch/list");
+			return "alert";
+		}
+		
 	}
 	//역경매 등록
 	@GetMapping("register")
-	public String dutchauctionRegister(Model model) throws SchedulerException {
-		String id = "ID1";
-		String[] accommodationName = dutchauctionService.getAccommodationName(id);
-		model.addAttribute("name", accommodationName);
-		return "dutchauction/dutchauctionRegister";
+	public String dutchauctionRegister(Model model, HttpSession session) throws SchedulerException {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId == null) {
+			return "redirect:/login";
+		}
+		else if(memberId != null && memberService.getMemberGroupNoFromId(memberId) == 2) {//회원이 호스트일때 역경매 등록 뷰로 이동가능
+			String[] accommodationName = dutchauctionService.getAccommodationName(memberId);
+			model.addAttribute("name", accommodationName);
+			return "dutchauction/dutchauctionRegister";
+		}
+		else {
+			model.addAttribute("msg","호스트만 경매 등록이 가능합니다.");
+			model.addAttribute("url","/main");
+			return "alert";
+		}
+		
+		
 	}
 	//역경매 등록액션
 	@PostMapping("registerAction")
@@ -73,8 +109,7 @@ public class DutchauctionController {
 													HttpSession session) 
 	{
 		
-		/* String memberId = (String)session.getAttribute("memberId"); */
-		String memberId = "ID1";
+		String memberId = (String)session.getAttribute("memberId");
 		DutchAuction dutchAuction = new DutchAuction();
 		dutchAuction.setMemberId(memberId);
 		dutchAuction.setAccommodationName(accommodationName);

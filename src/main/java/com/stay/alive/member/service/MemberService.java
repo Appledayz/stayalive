@@ -38,4 +38,7 @@ public class MemberService {
 	public int removeMember(Member member) {
 		return memberMapper.deleteMember(member);
 	}
+	public int getMemberGroupNoFromId(String memberId) {
+		return memberMapper.selectMemberGroupNoFromId(memberId);
+	}
 }

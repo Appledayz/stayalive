@@ -53,11 +53,14 @@
 		<result javaType="String" column="guestroom_name" property="guestroomName"/>
 		<result javaType="int" column="dutchauction_startprice" property="dutchauctionStartprice"/>
 		<result javaType="int" column="dutchauction_sale_unit" property="dutchauctionSaleUnit"/>
+		<result javaType="int" column="maximum_discount_price" property="maximumDiscountPrice"/>
 		<result javaType="int" column="dutchauction_sale_interval" property="dutchauctionSaleInterval"/>
 		<result javaType="int" column="dutchauction_update_price" property="dutchauctionUpdatePrice"/>
+		<result javaType="String" column="dutchauction_close_date" property="dutchauctionCloseDate"/>
 		<result javaType="String" column="dutchauction_checkin_date" property="dutchauctionCheckinDate"/>
 		<result javaType="String" column="dutchauction_checkout_date" property="dutchauctionCheckoutDate"/>
 		<result javaType="String" column="dutchauction_register_date" property="dutchauctionRegisterDate"/>
+		<result javaType="int" column="auction_state_category_no" property="auctionStateCategoryNo"/>
 		<result javaType="int" column="guestroom_capacity" property="guestroomCapacity"/>
 		<result javaType="int" column="guestroom_size" property="guestroomSize"/>
 		<result javaType="String" column="guestroom_detail" property="guestroomDetail"/>
@@ -73,9 +76,9 @@
 	<!-- 네덜란드식 역경매 상세 -->
 	<select id="selectDutchAuctionDetail" parameterType="int" resultMap="DutchAuctionDetailResultMap">
 		SELECT 
-			d.member_id, d.company_name, d.dutchauction_startprice, d.dutchauction_no,
-			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
-			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			d.member_id, d.company_name, d.dutchauction_startprice, d.dutchauction_no, d.maximum_discount_price,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price, d.dutchauction_close_date,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date, d.auction_state_category_no,
 			a.accommodation_email, a.accommodation_name, a.accommodation_category_name,
 			a.accommodation_latitude, a.accommodation_longitude,  a.accommodation_address, a.accommodation_phone,
 			i.image_file_stored_name, i.image_file_ext,
@@ -102,6 +105,46 @@
 		ORDER BY d.dutchauction_register_date ASC
 		LIMIT #{startRow}, #{rowPerPage}
 	</select>
+	<!-- 네덜란드식 역경매 검색 리스트 -->
+	<select id="selectDutchAuctionSearchList" resultMap="DutchAuctionListResultMap" >
+		SELECT d.dutchauction_no, d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
+			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
+			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
+			i.image_file_stored_name, i.image_file_ext, 
+			a.accommodation_address
+		FROM dutchauction_register as d 
+			INNER JOIN guestroom as g on d.guestroom_no = g.guestroom_no
+			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
+			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
+		<where>
+			 d.auction_state_category_no = 1 
+			<if test="!sk.equals('select')" >
+				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
+			</if>
+			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
+				AND d.dutchauction_checkin_date  &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
+			</if>
+		</where>
+		ORDER BY d.dutchauction_register_date ASC
+		LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
+	</select>
+	<select id="selectDutchAuctionSearchCount" resultType="int">
+		SELECT count(*) 
+		FROM dutchauction_register as d
+			INNER JOIN guestroom as g on d.guestroom_no = g.guestroom_no
+			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
+			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
+		<where>
+			 d.auction_state_category_no = 1 
+			<if test="!sk.equals('select')">
+				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
+			</if>
+			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
+				AND d.dutchauction_checkin_date  &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
+			</if>
+		</where>
+	</select>
+	
 	<select id="selectRecentDutchAuctionList" resultMap="DutchAuctionListResultMap">
 		SELECT d.dutchauction_no, d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
@@ -129,12 +172,12 @@
 		WHERE NOT(d.auction_state_category_no = 1)
 		ORDER BY d.dutchauction_register_date ASC
 	</select>
-	<select id="selectCountDutchAuction" resultType="int">
+	<select id="selectDutchAuctionCount" resultType="int">
 		SELECT count(*) 
 		FROM dutchauction_register
 		WHERE auction_state_category_no = 1
 	</select>
-	<select id="selectCountClosedDutchAuction" resultType="int">
+	<select id="selectClosedDutchAuctionCount" resultType="int">
 		SELECT count(*) 
 		FROM dutchauction_register
 		WHERE NOT(auction_state_category_no = 1) 
