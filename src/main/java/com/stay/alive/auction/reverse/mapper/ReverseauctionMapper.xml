@@ -73,6 +73,14 @@
     WHERE member_id = #{memberId}
   </select>
   
+  <select id="selectRecentReverseauctionList" resultType="com.stay.alive.auction.reverse.vo.Reverseauction">
+  	SELECT *
+  	FROM reverseauction_register
+  	WHERE auction_state_category_no=1
+	ORDER BY reverseauction_register_date DESC
+  	LIMIT 0,3
+  </select>
+  
   <insert id="insertReverseauction" parameterType="com.stay.alive.auction.reverse.vo.Reverseauction">
   	INSERT INTO reverseauction_register(
   			reverseauction_no,

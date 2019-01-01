@@ -1,6 +1,8 @@
 package com.stay.alive.auction.reverse.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,5 +75,10 @@ public class ReverseauctionService {
 	public List<Reverseauction> getReverseauctionListById(Reverseauction reverseauction) {
 		System.out.println("ReverseauctionService.selectReverseauctionListById()");
 		return reverseauctionMapper.selectReverseauctionListById(reverseauction);
+	}
+	// 촤근 역경매 3개 조회
+	public List<Reverseauction> getRecentReverseauctionList() {
+		System.out.println("ReverseauctionService.getRecentReverseauctionList()");
+		return reverseauctionMapper.selectRecentReverseauctionList();
 	}
 }

@@ -163,61 +163,36 @@
             </div>
 
             <div class="row justify-content-center">
-
                 <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/1.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Deluxe Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/8.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $150/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Double Suite</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
-                <!-- Single Rooms Area -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
-                        <!-- Thumbnail -->
-                        <div class="bg-thumbnail bg-img" style="background-image: url(main/img/bg-img/9.jpg);"></div>
-                        <!-- Price -->
-                        <p class="price-from">From $100/night</p>
-                        <!-- Rooms Text -->
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Single Room</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque.</p>
-                        </div>
-                        <!-- Book Room -->
-                        <a href="#" class="book-room-btn btn palatin-btn">Book Room</a>
-                    </div>
-                </div>
-
+                <div class="col-12 col-md-6 col-lg-4" th:if="${#lists.size(recentReverseauctionList) != 0}" th:each="item : ${recentReverseauctionList}">
+					<a href="#" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
+						<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+							<!-- No -->
+           					<p class="price-from" th:text="${item.reverseauctionNo}"></p>
+							<!-- Thumbnail -->
+							<div class="bg-thumbnail bg-img" style="background-image: url(/main/img/bg-img/1.jpg);"></div>
+							<!-- Rooms Text -->
+							<div class="rooms-text">
+								<div class="line"></div>
+								<h4 th:text="${item.reverseauctionTitle}">Deluxe Room</h4>
+								<p th:text="${item.reverseauctionContent}" style="word-break: break-all;">Room Content</p>
+								<div class="line"></div>
+								<!-- Address -->
+								<p th:text="'Going to : '+${item.reverseauctionAddress}+' '+${item.reverseauctionAddressMore}">Address</p>
+								<!-- Limit -->
+								<p th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'">Limit</p>
+								<!-- NumberOfPeople -->
+								<p th:text="'Travelers : '+${item.reverseauctionNumberOfPeople}">Trevelers</p>
+								<!-- Date -->
+								<p th:text="'check-in : '+${item.reverseauctionRoomingDate}">check-in</p>
+								<p th:text="'check-out : '+${item.reverseauctionLeavingDate}">check-out</p>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div th:unless="${#lists.size(recentReverseauctionList) != 0}">
+					<h3>현재 진행되고 있는 경매가 없습니다.</h3>
+				</div>
             </div>
         </div>
     </section>
