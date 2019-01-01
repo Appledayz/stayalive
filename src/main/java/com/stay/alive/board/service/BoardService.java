@@ -27,13 +27,8 @@ public class BoardService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addBoardMember(BoardMember boardMember, String path) {		
 		System.out.println("게시판 등록");
-		int imageFileNo = addBoardFiles(boardMember.getFile(), path, boardMember.getMemberId());
-		boardMember.setImageFileNo(imageFileNo);
-		
-		int categoryNo = boardMember.getBoardCategoryNo();
-		String categoryName = boardMapper.selectCategoryName(categoryNo);
-		System.out.println(categoryName);
-		boardMember.setBoardCategoryName(categoryName);
+		boardMember.setBoardCategoryNo(1);
+		boardMember.setBoardCategoryName("자유게시판");
 		
 		/*int groupNo = boardMember.getGroupNo();
 		String groupName = boardMapper.selectGroupName(groupNo);
@@ -90,7 +85,7 @@ public class BoardService {
 				e.printStackTrace();
 			}
 		}
-		return "<img style=\"width:300px;height:300px\" src=\"/image/boardMember/" + storedFileName + "." + ext + "\">";
+		return "<img style=\"width:300px;height:300px\" src=\"/image/board/" + storedFileName + "." + ext + "\">";
 	}
 	public String addDetailImageFiles(MultipartFile[] multipartFile, String path, String memberId) {
 		String imageTag = "";
