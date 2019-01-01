@@ -48,9 +48,13 @@ public class DutchauctionController {
 		else {
 			list = dutchauctionService.getDutchAuctionList(pageMaker);
 		}
-
+		
 		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList();
 		model.addAttribute("PM", pageMaker);
+		model.addAttribute("sk", sk);
+		model.addAttribute("sv", sv);
+		model.addAttribute("checkInDate", checkInDate);
+		model.addAttribute("checkOutDate", checkOutDate);
 		model.addAttribute("list",list);
 		model.addAttribute("closedList",closedList);
 		return "dutchauction/dutchauctionList";

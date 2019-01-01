@@ -179,13 +179,13 @@
 							<nav>
 								<ul class="pagination">
 									<li class="page-item" th:if="${prevPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
 									</li>
 									<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i})}">01.</a>
+										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
 									</li>
 									<li class="page-item" th:if="${nextPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
 									</li>
 								</ul>
 							</nav>

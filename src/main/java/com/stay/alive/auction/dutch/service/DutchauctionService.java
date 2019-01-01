@@ -188,14 +188,14 @@ public class DutchauctionService {
 	public ArrayList<Map<String, Object>> getDutchAuctionList(PageMaker pageMaker) {
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(6);
-		pageMaker.setAllCount(dutchauctionMapper.selectClosedDutchAuctionCount());
+		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionCount());
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionList(pageMaker);
 	}
 	public ArrayList<Map<String, Object>> getDutchAuctionSearchList(PageMaker pageMaker,String sk, String sv, String checkInDate, String checkOutDate) {
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(6);
-		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(sk, sv, checkInDate, checkOutDate)); //수정 필요
+		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(sk, sv, checkInDate, checkOutDate));
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
 	}
