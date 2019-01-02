@@ -27,7 +27,8 @@
 						member_lastupdate_date,
 						member_lastlogout_date,
 						member_lastlogin_date,
-						member_login_count)
+						member_login_count,
+						salt)
 	    VALUES (
 			#{memberId},
 			#{memberPassword},
@@ -50,7 +51,8 @@
 			now(),
 			now(),
 			now(),
-			1)
+			1,
+			#{salt})
 	</insert>
 	<!-- 아이디 중복 확인 -->
 	<select id="idCheck" resultType="com.stay.alive.member.vo.Member">

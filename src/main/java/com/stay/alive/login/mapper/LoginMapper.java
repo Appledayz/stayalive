@@ -7,4 +7,5 @@ import com.stay.alive.login.vo.LoginVo;
 @Mapper
 public interface LoginMapper {
 	LoginVo selectLogin(LoginVo loginVo);
+	String selectMemberSaltFromId(String memberId);
 }

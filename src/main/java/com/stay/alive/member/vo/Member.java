@@ -38,6 +38,7 @@ public class Member {
 	private String memberLastloginDate;//마지막 로그인일자
 	private int memberLoginCount;//로그인 횟수
 	
+	private String salt; //암호화에 사용되는 정보
 	//private int memberPaxNumber;//팩스
 	//private String memberComment;//메시지
 	//private String memberBirthYear;//생년

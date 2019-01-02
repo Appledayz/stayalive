@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.stay.alive.common.SHA256Util;
 import com.stay.alive.login.service.LoginService;
 import com.stay.alive.login.vo.LoginVo;
 
@@ -32,9 +34,15 @@ public class LoginController {
 	@PostMapping(value="/memberLogin")
 	public String memberLogin(HttpSession session, LoginVo loginVo) throws IOException {
 		System.out.println("LoginController.java");
-		String LoginCheck = null;
-		if(loginService.memberLogin(loginVo)!=null) {
-			LoginVo sessionLogin = loginService.memberLogin(loginVo);
+		LoginVo sessionLogin = null;
+		String salt = loginService.getMemberSaltFromId(loginVo.getMemberId()); // 아이디가 없으면 null값이 들어간다
+		if(salt != null) {
+			String passWord = loginVo.getMemberPassword();
+			passWord = SHA256Util.getEncrypt(passWord, salt);
+			loginVo.setMemberPassword(passWord);
+			sessionLogin = loginService.memberLogin(loginVo);
+		}
+		if(sessionLogin != null) {
 			session.setAttribute("sessionLogin", sessionLogin);		
 			session.setAttribute("memberId", sessionLogin.getMemberId());
 			System.out.println(sessionLogin.getMemberId() + "<--memberId");
@@ -42,11 +50,10 @@ public class LoginController {
 			System.out.println(sessionLogin.getGroupName() + "<--groupName");
 			session.setAttribute("memberNickname", sessionLogin.getMemberNickname());
 			System.out.println(sessionLogin.getMemberNickname() + "<--memberNickname");
-			LoginCheck = "redirect:/main";
+			return "redirect:/main";
 		}else {
-			LoginCheck = "/login/login";
+			return "/login/login";
 		}
-		return LoginCheck;
 	}
 	//로그아웃
 	@GetMapping(value = "/memberLogout")

@@ -20,4 +20,7 @@ public class LoginService {
 		System.out.println(loginMember+"<--loginMember");
 		return loginMember;
 	}
+	public String getMemberSaltFromId(String memberId) {
+		return loginMapper.selectMemberSaltFromId(memberId);
+	}
 }
