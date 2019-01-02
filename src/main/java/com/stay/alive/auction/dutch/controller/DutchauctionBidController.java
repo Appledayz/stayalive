@@ -21,8 +21,8 @@ public class DutchauctionBidController {
 	
 	@GetMapping("successfulbid")
 	public String DutchauctionBid(int dutchauctionNo, HttpSession session) {
-		/* String memberId = (String)session.getAttribute("memberId"); */
-		String memberId = "ID1";
+		String memberId = (String)session.getAttribute("memberId");
+
 		DutchAuction dutchAuction = dutchauctionService.getDutchAuctionFromNo(dutchauctionNo);
 		if(dutchAuction.getAuctionStateCategoryName().equals("낙찰대기중") && dutchAuction.getAuctionStateCategoryNo() == 1) {
 			dutchauctionBidService.removeJobInCurrentScheduler(dutchauctionNo); // 현재 진행되고 있는 스케줄링 종료

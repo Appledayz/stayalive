@@ -42,8 +42,8 @@ public class AccommodationService {
 		return accommodationMapper.selectAccommodationFromNo(accommodationNo);
 	}
 	//숙소 리스트 
-	public ArrayList<Accommodation> getAccommodationAll() {
-		return accommodationMapper.selectAccommodationAll();
+	public ArrayList<Accommodation> getAccommodationList() {
+		return accommodationMapper.selectAccommodationList();
 	}
 	//숙소 수정
 	public void modifyAccommodation(Accommodation accommodation, String path) {

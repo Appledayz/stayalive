@@ -18,7 +18,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- header replace -->
 	<div th:replace="header :: header"></div>
 
@@ -61,7 +60,7 @@
 				<div class="col-lg-3">
 					<form action="list" method="get">
 						<select class="form-control" name="sk" id="searchSelect">
-							<option value="select">==== 선택 ====</option>
+							<option value="0">==== 선택 ====</option>
 							<option value="accommodation_address">주소</option>
 							<option value="accommodation_name">숙소이름</option>
 							<option value="member_id">업체회원ID</option>
@@ -254,11 +253,11 @@
 				}
 			}
 		});	
-		if($("#searchSelect").val() == "select") {
+		if($("#searchSelect").val() == "0") {
 			$("#search").attr("disabled",true);
 		}
 		$("#searchSelect").change(function() {
-			if($("#searchSelect").val() == "select") {
+			if($("#searchSelect").val() == "0") {
 				$("#search").attr("disabled",true);
 				checkInDate.attr("disabled",false);
 				checkOutDate.attr("disabled",false);

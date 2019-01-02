@@ -16,7 +16,8 @@ public interface AccommodationMapper {
 	public String[] selectAccommodationName(String memberId);
 	public Accommodation selectAccommodationInfo(String name);
 	public void updateAccommodation(Accommodation accommodation);
-	public ArrayList<Accommodation> selectAccommodationAll();
+	public ArrayList<Accommodation> selectAccommodationList();
+	public ArrayList<Accommodation> getAccommodationSearchList(String select, String searchWord);
 	public Accommodation selectAccommodationFromNo(int accommodationNo);
 	public int selectAccommodationNo(String AccommodationName);
 	public void updateAccommodationRecognition(int accommodationNo);

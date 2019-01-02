@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -97,8 +98,17 @@ public class AccommodationController {
 	}
 	//숙소 리스트
 	@GetMapping("list")
-	public String accommodationList(Model model) {
-		ArrayList<Accommodation> accommodation = accommodationService.getAccommodationAll();
+	public String accommodationList(Model model,@RequestParam(defaultValue="") String searchKey, String searchWord) {
+		ArrayList<Accommodation> accommodation = new ArrayList<Accommodation>();
+		System.out.println(searchKey + "<==");
+		if(!searchKey.equals("") && !searchKey.equals("0")) {
+			
+		}
+		else {
+			accommodation = accommodationService.getAccommodationList();
+		}
+		model.addAttribute("select", searchKey);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("list", accommodation);
 		return "accommodation/accommodationList";
 	}

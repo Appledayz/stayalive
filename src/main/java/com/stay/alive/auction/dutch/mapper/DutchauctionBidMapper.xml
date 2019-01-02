@@ -3,15 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.stay.alive.auction.dutch.mapper.DutchauctionBidMapper" >
-	<select id="selectDutchauctionSuccessfulbidFromId" parameterType="String" resultType="com.stay.alive.auction.dutch.vo.DutchAuctionBid">
-		SELECT dutchauction_register_no,
-			dutchauction_successfulbid_price,
-			dutchauction_successfulbid_date,
-			dutchauction_checkin_date,
-			dutchauction_chechout_date,
-			auction_state_category_name
-		FROM dutchauction_successfulbid
-		WHERE member_id = #{memberId}
+	<resultMap type="Map" id="successfulbidResultMap">
+		<result javaType="String" column="host_id" property="hostId"/>
+		<result javaType="String" column="guest_id" property="guestId"/>
+		<result javaType="int" column="dutchauction_successfulbid_price" property="dutchauctionSuccessfulbidPrice"/>
+		<result javaType="String" column="dutchauction_successfulbid_date" property="dutchauctionSuccessfulbidDate"/>
+		<result javaType="String" column="dutchauction_checkin_date" property="dutchauctionCheckinDate"/>
+		<result javaType="String" column="dutchauction_chechout_date" property="dutchauctionChechoutDate"/>
+		<result javaType="String" column="auction_state_category_name" property="auctionStateCategoryName"/>
+	</resultMap>
+	<select id="selectDutchauctionSuccessfulbidFromId" resultMap="successfulbidResultMap">
+		SELECT d.member_id AS host_id,
+				ds.member_id AS guest_id,
+				ds.dutchauction_successfulbid_price,
+				ds.dutchauction_successfulbid_date,
+				ds.dutchauction_checkin_date,
+				ds.dutchauction_chechout_date,
+				ds.auction_state_category_name
+		FROM dutchauction_register AS d
+		INNER JOIN dutchauction_successfulbid ds
+		ON d.dutchauction_no = ds.dutchauction_register_no
+		<where>
+			<if test='groupName.equals("호스트")'>
+				WHERE d.member_id = #{memberId}
+			</if>
+			<if test='groupName.equals("게스트")'>
+				WHERE ds.member_id = #{memberId}
+			</if>
+		</where>
+		ORDER BY dutchauction_successfulbid_date ASC
 	</select>
 	<insert id="insertDutchauctionSuccessfulbid" parameterType="com.stay.alive.auction.dutch.vo.DutchAuctionBid">
 		INSERT INTO dutchauction_successfulbid(dutchauction_register_no, member_id, dutchauction_successfulbid_price, dutchauction_successfulbid_date, dutchauction_checkin_date, dutchauction_chechout_date, auction_state_category_no, auction_state_category_name) 

@@ -22,7 +22,7 @@ public class AdminAccommodationController {
 	
 	@GetMapping("accommodationManagement")
 	public String accommodationManagement(Model model) {
-		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationAll();
+		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationList();
 		model.addAttribute("accommodationList", accommodationList);
 		return "admin/accommodationManagement/accommodationManagement";
 	}

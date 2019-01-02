@@ -42,7 +42,7 @@ public class DutchauctionController {
 	{
 		pageMaker.setCurrentPage(currentPage);
 		ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		if((!sk.equals("") && !sk.equals("select")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
+		if((!sk.equals("") && !sk.equals("0")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
 			list = dutchauctionService.getDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
 		}
 		else {

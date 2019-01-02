@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.stay.alive.auction.dutch.mapper.DutchauctionBidMapper;
 import com.stay.alive.auction.dutch.vo.DutchAuctionBid;
+import com.sun.javafx.collections.MappingChange.Map;
 
 @Service
 public class DutchauctionBidService {
@@ -18,8 +19,8 @@ public class DutchauctionBidService {
 	DutchauctionBidMapper dutchauctionBidMapper;
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
-	public ArrayList<DutchAuctionBid> getDutchauctionSuccessfulbidFromId(String memberId) {
-		return dutchauctionBidMapper.selectDutchauctionSuccessfulbidFromId(memberId);
+	public ArrayList<Map<String, Object>> getDutchauctionSuccessfulbidFromId(String memberId, String groupName) {
+		return dutchauctionBidMapper.selectDutchauctionSuccessfulbidFromId(memberId, groupName);
 	}
 	public void addDutchauctionSuccessfulbid(DutchAuctionBid dutchAuctionBid) {
 		dutchauctionBidMapper.insertDutchauctionSuccessfulbid(dutchAuctionBid);

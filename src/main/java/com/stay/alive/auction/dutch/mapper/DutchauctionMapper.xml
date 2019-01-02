@@ -118,11 +118,11 @@
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		<where>
 			 d.auction_state_category_no = 1 
-			<if test="!sk.equals('select')" >
+			<if test='!sk.equals("0")'>
 				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
 			</if>
 			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
-				AND d.dutchauction_checkin_date  &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
+				AND d.dutchauction_checkin_date &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
 			</if>
 		</where>
 		ORDER BY d.dutchauction_register_date ASC
@@ -136,7 +136,7 @@
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		<where>
 			 d.auction_state_category_no = 1 
-			<if test="!sk.equals('select')">
+			<if test='!sk.equals("0")'>
 				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
 			</if>
 			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
@@ -144,7 +144,6 @@
 			</if>
 		</where>
 	</select>
-	
 	<select id="selectRecentDutchAuctionList" resultMap="DutchAuctionListResultMap">
 		SELECT d.dutchauction_no, d.accommodation_name, d.guestroom_name, d.dutchauction_startprice,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,

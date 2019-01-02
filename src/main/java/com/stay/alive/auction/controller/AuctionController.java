@@ -23,12 +23,13 @@ public class AuctionController {
 	@GetMapping("myAuctionList")
 	public String myAuctionList(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupname");
 		if(memberId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다.");
 			model.addAttribute("url", "/login");
 			return "alert";
 		} else {
-			model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId));
+			model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupName));
 			return "auction/myAuctionList";
 		}
 	}
