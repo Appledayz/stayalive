@@ -62,13 +62,10 @@ public class ReverseauctionSuccessfulbidService {
 	// 낙찰목록 조회 (memberId로)
 	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(String memberId, String groupName) {
 		System.out.println("ReverseauctionService.getReverseauctionSuccessfulbid()");
-		if(groupName.equals("구매자")) {
-			return reverseauctionSuccessfulbidMapper.getSuccessfulbidByGuestId(memberId);
-		}
-		if(groupName.equals("판매자") || groupName.equals("관리자")) {
+		if(groupName.equals("호스트") || groupName.equals("관리자")) {
 			return reverseauctionSuccessfulbidMapper.getSuccessfulbidByHostId(memberId);
 		}else {
-			return null;
+			return reverseauctionSuccessfulbidMapper.getSuccessfulbidByGuestId(memberId);
 		}
 	}
 }
