@@ -62,17 +62,9 @@ public class DutchauctionController {
 	//역경매 상세
 	@GetMapping("detail")
 	public String dutchauctionDetail(Model model, int dutchauctionNo){
-		Map<String,Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
-		if((int)detail.get("auctionStateCategoryNo") == 1) {
-			model.addAttribute("detail",detail);
-			return "dutchauction/dutchauctionDetail";
-		}
-		else {
-			model.addAttribute("msg","종료된 경매입니다.");
-			model.addAttribute("url","/auction/dutch/list");
-			return "alert";
-		}
-		
+		Map<String, Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
+		model.addAttribute("detail", detail);
+		return "dutchauction/dutchauctionDetail";
 	}
 	//역경매 등록
 	@GetMapping("register")

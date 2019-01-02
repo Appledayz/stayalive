@@ -50,13 +50,14 @@ public class AuctionController {
 			model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
 			model.addAttribute("reverseauctionTenderList", reverseauctionTenderService.getReverseauctionTenderListById(reverseauctionTender));
 			model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupName));
-			return "auction/myAuctionListOfHost";
+			
 		} else {
 			model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupName));
 			model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
 			model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupName));
-			return "auction/myAuctionList";
 		}
+		model.addAttribute("groupName",groupName);
+		return "auction/myAuctionList";
 	}
 	
 }

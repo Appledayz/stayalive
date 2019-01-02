@@ -75,8 +75,8 @@ public class AccommodationController {
 	}
 	//수정 뷰
 	@GetMapping("modify")
-	public String  accommodationModify(Model model) {
-		String memberId = "ID1"; //임시 아이디(세션추가 필요)
+	public String  accommodationModify(Model model, HttpSession session) {
+		String memberId = (String)session.getAttribute("memberId"); //임시 아이디(세션추가 필요)
 		String[] names = accommodationService.getAccommodationNames(memberId);
 		model.addAttribute("names", names);
 		return "accommodation/accommodationModify";
