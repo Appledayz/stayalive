@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.member.option.mapper.MemberOptionMapper" >
+	<select id="selectMemberOptionList" resultType="com.stay.alive.member.option.vo.MemberOption">
+      	SELECT 
+	      	member_option_no as memberOptionNo, 
+	      	member_option_name as memberOptionName,
+	      	member_option_detail as memberOptionDetail,
+	      	member_option_date as memberOptionDate
+   		FROM member_option
+	</select>
+	<insert id="insertMemberOption" parameterType="com.stay.alive.member.option.vo.MemberOption">
+		INSERT INTO member_option(member_option_name,
+								member_option_detail,
+								member_option_date) 
+		VALUES(#{memberOptionName},
+				#{memberOptionDetail},
+				now())
+	</insert>
+	<select id="selectOneMemberOption" parameterType="int" resultType="com.stay.alive.member.option.vo.MemberOption">
+      	SELECT 
+	      	member_option_no as memberOptionNo,
+	      	member_option_name as memberOptionName,
+	      	member_option_detail as memberOptionDetail,
+	      	member_option_date as optionRegisterDate
+   		FROM member_option
+   		WHERE member_option_no = #{memberOptionNo}
+	</select>
+	<update id="updateMemberOption" parameterType="com.stay.alive.member.option.vo.MemberOption">
+		UPDATE member_option
+			SET member_option_name = #{optionName},
+				member_option_detail = #{memberOptionDetail}
+			WHERE member_option_no = #{memberOptionNo}
+    </update>
+    <delete id="deleteMemberOption" parameterType="int">
+		DELETE
+			FROM member_option
+			WHERE member_option_no = #{memberOptionNo}
+    </delete>
+</mapper>
