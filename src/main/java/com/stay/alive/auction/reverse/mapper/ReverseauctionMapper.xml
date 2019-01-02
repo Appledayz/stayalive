@@ -15,11 +15,11 @@
 	  	<if test="sv != null and sv != ''">
 	  	  ${sk} LIKE CONCAT('%',#{sv},'%')</if>
 	  	<if test="date1 != null and date2 == null">
-	  	  AND reverseauction_rooming_date &gt; #{date1}</if>
+	  	  AND reverseauction_rooming_date &gt;= #{date1}</if>
 	  	<if test="date2 != null and date1 == null">
-	  	  AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	  AND reverseauction_leaving_date &lt;= #{date2}</if>
 	  	<if test="date1 != null and date2 != null">
-	  	  AND reverseauction_rooming_date &gt; #{date1} AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	  AND reverseauction_rooming_date &gt;= #{date1} AND reverseauction_leaving_date &lt;= #{date2}</if>
   	</where>
   </select>
   
@@ -42,11 +42,11 @@
 	  	<if test="sv != null and sv != ''">
 	  	  ${sk} LIKE CONCAT('%',#{sv},'%')</if>
 	  	<if test="date1 != null and date2 == null">
-	  	  AND reverseauction_rooming_date &gt; #{date1}</if>
+	  	  AND reverseauction_rooming_date &gt;= #{date1}</if>
 	  	<if test="date2 != null and date1 == null">
-	  	  AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	  AND reverseauction_leaving_date &lt;= #{date2}</if>
 	  	<if test="date1 != null and date2 != null">
-	  	  AND reverseauction_rooming_date &gt; #{date1} AND reverseauction_leaving_date &lt; #{date2}</if>
+	  	  AND reverseauction_rooming_date &gt;= #{date1} AND reverseauction_leaving_date &lt;= #{date2}</if>
   	</where>
 	ORDER BY reverseauction_register_date DESC
 	LIMIT #{pageMaker.startRow},#{pageMaker.rowPerPage}

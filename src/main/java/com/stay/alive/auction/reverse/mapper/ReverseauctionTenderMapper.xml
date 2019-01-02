@@ -16,12 +16,10 @@
   	WHERE reverseauction_no=#{reverseauctionNo}
   </select>
   
-  <select id="selectAccommodationImg" resultType="com.stay.alive.file.ImageFile">
+  <select id="selectTenderAccommodation" resultType="com.stay.alive.accommodation.vo.Accommodation">
   	SELECT *
-  	FROM image_file i
-  	INNER JOIN accommodation a
-  	ON i.image_file_no = a.image_file_no
-  	WHERE a.accommodation_no=#{accommodationNo}
+  	FROM accommodation
+  	WHERE accommodation_no=#{accommodationNo}
   </select>
   
   <select id="selectAccommodation" resultType="com.stay.alive.accommodation.vo.Accommodation">

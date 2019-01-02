@@ -111,9 +111,10 @@ public class ReverseauctionController {
 	}
 	// 8. 역경매 삭제
 	@GetMapping("remove")
-	public String deleteReverseauction(int reverseauctionNo) {
+	public String deleteReverseauction(int reverseauctionNo, HttpSession session) {
 		System.out.println("ReverseauctionController.deleteReverseauction() GET");
-		if(reverseauctionService.removeReverseauction(reverseauctionNo)==0) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(reverseauctionService.removeReverseauction(reverseauctionNo, memberId)==0) {
 			return "redirect:/auction/reverse/detail?fail=true&reverseauctionNo=" + reverseauctionNo;
 		}
 		return "redirect:/auction/reverse/list";

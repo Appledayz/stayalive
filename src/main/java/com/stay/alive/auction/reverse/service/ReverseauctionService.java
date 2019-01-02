@@ -1,8 +1,6 @@
 package com.stay.alive.auction.reverse.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,10 +60,11 @@ public class ReverseauctionService {
 		return reverseauctionMapper.updateReverseauction(reverseauction);
 	}
 	// 7. 역경매 삭제
-	public int removeReverseauction(int reverseauctionNo) {
+	public int removeReverseauction(int reverseauctionNo, String memberId) {
 		System.out.println("ReverseauctionService.removeReverseauction()");
 		int i=0;
-		if(!reverseauctionMapper.selectReverseauctionState(reverseauctionNo).equals("낙찰완료")) {
+		if(!reverseauctionMapper.selectReverseauctionState(reverseauctionNo).equals("낙찰완료")
+				&& reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(memberId)) {
 			i+=reverseauctionTenderMapper.deleteReverseauctionTender(reverseauctionNo);
 			i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
 		}

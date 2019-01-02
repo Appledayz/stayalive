@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.auction.reverse.service.ReverseauctionTenderService;
 import com.stay.alive.auction.reverse.vo.ReverseauctionTender;
-import com.stay.alive.file.ImageFile;
 import com.stay.alive.guestroom.vo.GuestRoom;
 
 @Controller
@@ -79,11 +79,11 @@ public class ReverseauctionTenderController {
 			System.out.println("ReverseauctionTenderController.restReverseauctionTenderDetail() GET");
 			return reverseauctionTenderService.getTenderDetail(reverseauctionTenderNo);
 		}
-		// 숙소 이미지 가져오기
-		@GetMapping("accommodationImg")
-		public @ResponseBody ImageFile restAccommodationImg(int accommodationNo){
+		// 숙소 가져오기
+		@GetMapping("AccoDetail")
+		public @ResponseBody Accommodation restGetAccommodation(int accommodationNo){
 			System.out.println("ReverseauctionTenderController.restAccommodationImg() GET");
-			return reverseauctionTenderService.getTenderAccommodationImg(accommodationNo);
+			return reverseauctionTenderService.getTenderAccommodation(accommodationNo);
 		}
 		// 객실 정보(No, Name) 가져오기
 		@GetMapping("findGuestroom")

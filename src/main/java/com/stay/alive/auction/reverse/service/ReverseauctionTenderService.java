@@ -60,9 +60,9 @@ public class ReverseauctionTenderService {
 		reverseauctionTenderMapper.updateReverseauctionTenderCountUp(reverseauctionNo);
 	}
 	// 숙소이미지 조회
-	public ImageFile getTenderAccommodationImg(int accommodationNo) {
+	public Accommodation getTenderAccommodation(int accommodationNo) {
 		System.out.println("ReverseauctionTenderService.plusReverseauctionTenderCount()");
-		return reverseauctionTenderMapper.selectAccommodationImg(accommodationNo);
+		return reverseauctionTenderMapper.selectTenderAccommodation(accommodationNo);
 	}
 	// 자기 숙소 조회
 	public List<Accommodation> getAccommodation(String memberId) {
