@@ -149,4 +149,10 @@ public class AccommodationService {
 			System.out.println("회원그룹 업데이트 실패");
 		}
 	}
+	public ArrayList<Accommodation> getAccommodationSearchList(String searchKey, String searchWord) {
+		return accommodationMapper.selectAccommodationSearchList(searchKey, searchWord);
+	}
+	public int selectAccommodationSearchCount(String searchKey, String searchWord) {
+		return accommodationMapper.selectAccommodationSearchCount(searchKey, searchWord);
+	}
 }

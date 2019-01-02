@@ -36,16 +36,24 @@
 		SELECT * 
 		FROM accommodation
 	</select>
-	<select id="getAccommodationSearchList" resultType="com.stay.alive.accommodation.vo.Accommodation">
+	<select id="selectAccommodationSearchList" resultType="com.stay.alive.accommodation.vo.Accommodation">
 		SELECT * 
 		FROM accommodation
 		<where>
-			<if test='!select.equals("0")'>
-				${select} LIKE CONCAT('%',${searchWord},'%')
+			<if test='!searchKey.equals("0")'>
+				${searchKey} LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
 	</select>	
-
+		<select id="selectAccommodationSearchCount" resultType="int">
+		SELECT count(*) 
+		FROM accommodation
+		<where>
+			<if test='!searchKey.equals("0")'>
+				${searchKey} LIKE CONCAT('%',#{searchWord},'%')
+			</if>
+		</where>
+	</select>	
 	<insert id="insertAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
 		INSERT INTO accommodation(
 			member_id, company_no, company_name,

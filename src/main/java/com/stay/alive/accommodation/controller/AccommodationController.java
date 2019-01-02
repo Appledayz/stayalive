@@ -99,17 +99,18 @@ public class AccommodationController {
 	//숙소 리스트
 	@GetMapping("list")
 	public String accommodationList(Model model,@RequestParam(defaultValue="") String searchKey, String searchWord) {
-		ArrayList<Accommodation> accommodation = new ArrayList<Accommodation>();
-		System.out.println(searchKey + "<==");
+		ArrayList<Accommodation> accommodationList = new ArrayList<Accommodation>();
 		if(!searchKey.equals("") && !searchKey.equals("0")) {
-			
+			accommodationList = accommodationService.getAccommodationSearchList(searchKey, searchWord);
+			model.addAttribute("companyListCount", accommodationService.selectAccommodationSearchCount(searchKey, searchWord));
 		}
 		else {
-			accommodation = accommodationService.getAccommodationList();
+			accommodationList = accommodationService.getAccommodationList();
 		}
+		
 		model.addAttribute("select", searchKey);
 		model.addAttribute("searchWord", searchWord);
-		model.addAttribute("list", accommodation);
+		model.addAttribute("list", accommodationList);
 		return "accommodation/accommodationList";
 	}
 	//숙소 상세 이미지 등록(ajax요청)
