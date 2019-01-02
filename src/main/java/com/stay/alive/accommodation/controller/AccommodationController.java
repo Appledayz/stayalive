@@ -39,18 +39,16 @@ public class AccommodationController {
 	@GetMapping("register")
 	public String accommodationRegister(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupName");
 		if(memberId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다.");
 			model.addAttribute("url", "/login");
 			return "alert";
 		}
-		Member member = memberService.getMember(memberId);
-		int groupNo = member.getGroupNo();
-		if(groupNo != 1) {
+		if(!groupName.equals("게스트")) {
 			Company company = companyService.getCompanyFromId(memberId);
 			model.addAttribute("companyNo", company.getCompanyNo());
 			model.addAttribute("companyName", company.getCompanyName());
-			
 			return "accommodation/accommodationRegister";
 		} else {
 			model.addAttribute("msg", "업체를 등록하셔야 숙소등록이 가능합니다.");

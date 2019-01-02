@@ -47,9 +47,12 @@ public class AccommodationService {
 	}
 	//숙소 수정
 	public void modifyAccommodation(Accommodation accommodation, String path) {
-		removeBusinessImageFile(accommodation.getImageFileNo());//기존에 있던 사업자 등록파일 삭제
-		int newFileNo = addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());//새로운 사업자 등록 파일 추가
-		accommodation.setImageFileNo(newFileNo); //새로 추가된  사업자 등록 번호 세팅 
+		MultipartFile businessNumberFile = accommodation.getBusinessNumberFile();
+		if(!businessNumberFile.isEmpty()) { //파일을 선택했다면 기존에 있던 사업자 등록파일을 삭제하고 새로운 파일로 수정
+			removeBusinessImageFile(accommodation.getImageFileNo());
+			int newFileNo = addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());//새로운 사업자 등록 파일 추가
+			accommodation.setImageFileNo(newFileNo); //새로 추가된  사업자 등록 번호 세팅 
+		}
 		accommodationMapper.updateAccommodation(accommodation);
 	}
 	//숙소 추가

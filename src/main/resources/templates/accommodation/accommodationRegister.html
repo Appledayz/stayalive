@@ -9,87 +9,9 @@
 
     <!-- Title -->
     <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
-
-	<!--다음 주소검색 API  -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<!--다음 지도 API  -->
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
-	<!-- jquery(3.3.1)  -->
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	<!-- bootstrap(4.1.3)  -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<!-- smarteditor 플러그인(2.9.1)  -->
-	<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
-	<script type="text/javascript">
-	    $(function(){
-	    	var count = 1;
-	        //전역변수
-	        var obj = [];              
-	        //스마트에디터 프레임생성
-	        nhn.husky.EZCreator.createInIFrame({
-	            oAppRef: obj,
-	            elPlaceHolder: "editor",
-	            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
-	            fCreator: "createSEditor2"
-	        });
-	        //전송버튼
-	        $("#insertBoard").click(function(){
-	            var setForm = $('#insertBoardFrm');
-	            setForm.attr('action','register');
-	            setForm.attr('method','post');
-	            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-	            $("#insertBoardFrm").submit();
-	        });
-	        $("#uploadbutton").click(function(){
-	        	if(count > 1) {
-	        		alert("업로드는 한번만 할 수 있습니다.");
-	        		return;
-	        	}
-	        	count++;
-	            var form = $('#insertBoardFrm')[0];
-	            var formData = new FormData(form);
-	      	  $.ajax({
-	      	    url: 'addDetailImage',
-	      	    data : formData,
-	      	    type: 'POST',
-	      	    processData:false,
-	      	    contentType:false,
-	      	    success: function(data){
-	      	    	obj.getById["editor"].exec("PASTE_HTML", [data]);
-	      	    }
-	      	  });
-	        });  
-	        
-	      //주소-좌표 변환 객체를 생성
-	        var geocoder = new daum.maps.services.Geocoder();
-	        function execDaumPostcode() {
-	            new daum.Postcode({
-	                oncomplete: function(data) {
-	                	// 주소 정보를 해당 필드에 넣는다.
-						$("#accommodationAddress").val(data.address);
-	                    // 주소로 상세 정보를 검색
-	                    geocoder.addressSearch(data.address, function(results, status) {
-	                        // 정상적으로 검색이 완료됐으면
-	                        if (status === daum.maps.services.Status.OK) {
-	                            var result = results[0]; //첫번째 결과의 값을 활용
-	        					$("#accommodationLatitude").val(result.y); //위도
-	        					$("#accommodationLongitude").val(result.x); //경도
-	        					$("#addressSidoName").val(data.sido);
-	        					$("#addressSigunguName").val(data.sigungu);
-	                        }
-	                    });
-	                }
-	            }).open();
-	        }
-	        $("#addressSearch").click(function() {
-	        	execDaumPostcode();
-	        })
-	    });
-	</script>
+
 </head>
 <body>
 	<!-- Preloader -->
@@ -102,7 +24,7 @@
 	<!-- header replace -->
     <div th:replace="header :: header"></div>
 
- <!-- ##### Breadcumb Area Start ##### -->
+ 	<!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background4.jpg);">
         <div class="bradcumbContent">
             <h2>Accommodation Registration</h2>
@@ -112,7 +34,7 @@
 
     <!-- ##### Contact Form Area Start ##### -->
     <section class="contact-form-area mb-100">
-        <div class="container">
+        <div class="container" style="max-width: 1050px">
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading">
@@ -189,7 +111,7 @@
                             	<button class="btn palatin-btn btn-3 m-1" type="button" id="uploadbutton">업로드</button>
                             </div>  	
 			    			<div class="col-lg-12">
-			    				<textarea name="accommodationDetail" id="editor"></textarea>
+			    				<textarea name="accommodationDetail" id="editor" style="width: 756px;"></textarea>
 			    			</div>
 			    			<div class="col-12 text-center">
                        		 	<button type="button" id="insertBoard" class="btn palatin-btn mt-50">숙소 등록하기</button>
@@ -200,10 +122,6 @@
             </div>
         </div>
     </section>
-    <!-- ##### Contact Form Area End ##### -->
-
-	<!-- footer replace -->
-    <div th:replace="footer :: footer"></div>
 
     <!-- ##### All Javascript Script ##### -->
     <!-- jQuery-2.2.4 js -->
@@ -216,8 +134,80 @@
     <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
-    <script>
-		$("#accommodationRegister").addClass('active');
+    <!--다음 주소검색 API  -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<!--다음 지도 API  -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+	<!-- smarteditor 플러그인(2.9.1)  -->
+	<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+
+	<script type="text/javascript">
+	    $(function(){
+	    	var count = 1;
+	        //전역변수
+	        var obj = [];              
+	        //스마트에디터 프레임생성
+	        nhn.husky.EZCreator.createInIFrame({
+	            oAppRef: obj,
+	            elPlaceHolder: "editor",
+	            sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+	            fCreator: "createSEditor2"
+	        });
+	        //전송버튼
+	        $("#insertBoard").click(function(){
+	            var setForm = $('#insertBoardFrm');
+	            setForm.attr('action','register');
+	            setForm.attr('method','post');
+	            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+	            $("#insertBoardFrm").submit();
+	        });
+	        $("#uploadbutton").click(function(){
+	        	if(count > 1) {
+	        		alert("업로드는 한번만 할 수 있습니다.");
+	        		return;
+	        	}
+	        	count++;
+	            var form = $('#insertBoardFrm')[0];
+	            var formData = new FormData(form);
+	      	  $.ajax({
+	      	    url: 'addDetailImage',
+	      	    data : formData,
+	      	    type: 'POST',
+	      	    processData:false,
+	      	    contentType:false,
+	      	    success: function(data){
+	      	    	obj.getById["editor"].exec("PASTE_HTML", [data]);
+	      	    }
+	      	  });
+	        });
+	      //주소-좌표 변환 객체를 생성
+	        var geocoder = new daum.maps.services.Geocoder();
+	        function execDaumPostcode() {
+	            new daum.Postcode({
+	                oncomplete: function(data) {
+	                	// 주소 정보를 해당 필드에 넣는다.
+						$("#accommodationAddress").val(data.address);
+	                    // 주소로 상세 정보를 검색
+	                    geocoder.addressSearch(data.address, function(results, status) {
+	                        // 정상적으로 검색이 완료됐으면
+	                        if (status === daum.maps.services.Status.OK) {
+	                            var result = results[0]; //첫번째 결과의 값을 활용
+	        					$("#accommodationLatitude").val(result.y); //위도
+	        					$("#accommodationLongitude").val(result.x); //경도
+	        					$("#addressSidoName").val(data.sido);
+	        					$("#addressSigunguName").val(data.sigungu);
+	                        }
+	                    });
+	                }
+	            }).open();
+	        }
+	        $("#addressSearch").click(function() {
+	        	execDaumPostcode();
+	        })
+	        $("#accommodationRegister").addClass('active');
+	    });
+	    
 	</script>
+
 </body>
 </html>
