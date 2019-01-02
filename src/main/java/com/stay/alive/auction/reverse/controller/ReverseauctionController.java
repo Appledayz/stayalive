@@ -97,9 +97,13 @@ public class ReverseauctionController {
 	}
 	// 6. 역경매 수정 폼
 	@GetMapping("modify")
-	public String modifyReverseauction(Model model, int reverseauctionNo) {
+	public String modifyReverseauction(Model model, int reverseauctionNo, HttpSession session) {
 		System.out.println("ReverseauctionController.modifyReverseauction() GET");
-		model.addAttribute("m",reverseauctionService.modifyReverseauctionForm(reverseauctionNo));
+		Reverseauction reverseauction = reverseauctionService.modifyReverseauctionForm(reverseauctionNo, (String)session.getAttribute("memberId"));
+		if(reverseauction==null) {
+			return "redirect:/auction/reverse/detail?fail=true&reverseauctionNo="+reverseauctionNo;
+		}
+		model.addAttribute("m",reverseauction);
 		return "/reverseauction/modifyReverseauction";
 	}
 	// 7. 역경매 수정 액션

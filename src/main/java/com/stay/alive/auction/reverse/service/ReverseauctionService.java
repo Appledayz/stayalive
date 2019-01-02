@@ -50,9 +50,12 @@ public class ReverseauctionService {
 		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 	}
 	// 5. 역경매 수정 폼
-	public Reverseauction modifyReverseauctionForm(int reverseauctionNo) {
+	public Reverseauction modifyReverseauctionForm(int reverseauctionNo, String memberId) {
 		System.out.println("ReverseauctionService.modifyReverseauctionForm()");
-		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
+		if(reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(memberId)) {
+			return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
+		}
+		return null;
 	}
 	// 6. 역경매 수정 액션
 	public int modifyReverseauctionAction(Reverseauction reverseauction) {

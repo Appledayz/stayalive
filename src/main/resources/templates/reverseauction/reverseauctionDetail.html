@@ -37,33 +37,6 @@
  				elem.parentElement.submit();
  			}
 	    }
-	    /* 모달 */
-	  	$(function() {
-	  		$('#theModal').on('show.bs.modal', function (e) {
-	  			$('.modal-body').empty();
-	  			let button = $(e.relatedTarget);
-	  			let modalbody = $('.modal-body');
-	  		  	$.ajax({
-	  		  		url : "/accommodation/detail",
-	  		  		data : {"accommodationNo" : button.data("remote")},
-	  		  		type: 'GET',
-	  				contentType:"application/x-www-form-urlencoded",
-	  				success: (data)=>{
-	  					modalbody.append($('<p></p>').text('accommodationNo : '+data.accommodationNo));
-	  					modalbody.append($('<p></p>').text('accommodationName : '+data.accommodationName));
-	  					$.ajax({
-	  			  			url : "/auction/reverse/tender/accommodationImg",
-	  			  			data : {"accommodationNo" : data.accommodationNo},
-	  			  			type : "GET",
-	  		  				contentType:"application/x-www-form-urlencoded",
-	  						success: (data)=>{
-	  							modalbody.append('<p> imageFilePath : '+data.imageFilePath+'</p>');
-	  						}
-	  			  		});
-	           	    }
-	  		  	});
-	  		});
-	  	});
     </script>
     <style>
     	.tender td{
@@ -136,12 +109,12 @@
 						<p th:if="${m.reverseauctionUpdateDate!=null}" th:text="'수정일 : '+${m.reverseauctionUpdateDate}">역경매 등록일</p>
 						<div class="row">
 							<div class="col-sm-2"></div>
-							<div class="col-sm-4">
+							<div class="col-sm-4" th:if="${m.memberId.equals(session.memberId)}==true">
 								<a th:href="@{/auction/reverse/modify(reverseauctionNo=${m.reverseauctionNo})}" class="btn palatin-btn mt-30">역경매수정하기</a>
 							</div>
-							<form class="col-sm-4" th:action="@{/auction/reverse/remove(reverseauctionNo=${m.reverseauctionNo})}" method="GET">
+							<form class="col-sm-4" th:if="${m.memberId.equals(session.memberId)}==true" th:action="@{/auction/reverse/remove(reverseauctionNo=${m.reverseauctionNo})}" method="GET">
 								<input type="hidden" th:name="reverseauctionNo" th:value="${m.reverseauctionNo}">
-								<button onclick="check(this)" class="btn palatin-btn mt-30">역경매삭제하기</button>
+								<button type="button" onclick="check(this)" class="btn palatin-btn mt-30">역경매삭제하기</button>
 							</form>
 							<div class="col-sm-2"></div>
 						</div>
@@ -208,12 +181,10 @@
 									<form action="/auction/reverse/successfulbid/add" method="get">
 										<input type="hidden" th:name="reverseauctionTenderNo" th:value="${tender.reverseauctionTenderNo}">
 										<input type="hidden" th:name="reverseauctionNo" th:value="${tender.reverseauctionNo}">
-										<button type="button" class="btn SuccessfulbidBtn" onclick="check(this)" th:text="낙찰하기">낙찰하기</button>
+										<button type="button" class="btn btn-light SuccessfulbidBtn" onclick="check(this)" th:text="낙찰하기">낙찰하기</button>
 									</form>
-									<!-- <a class="btn btn-danger" style="font-size:1rem" th:href="@{/auction/reverse/tender/remove(reverseauctionTenderNo=${tender.reverseauctionTenderNo},reverseauctionNo=${tender.reverseauctionNo})}">삭제</a> -->
 								</div>
 							</div>
-							<!-- <td th:text="${tender.reverseauctionTenderDate}">입찰일</td> -->
 						</div>
 					</div>
 				</div>
@@ -233,4 +204,87 @@
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
 </body>
+    <!--다음 주소검색 API  -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<!--다음 지도 API  -->
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
+	<!-- 다음 맵 마커 오버레이 css -->
+	<link rel="stylesheet" href="/mapoverlay.css">
+	<script type="text/javascript">
+	    /* 모달 */
+	  	$(function() {
+			$("#accommodationList").addClass('active');
+			var map;
+			var latitude;
+			var longitude;
+			var location;
+			$('#theModal').on('show.bs.modal', function (e) {
+				$(".modal-body").empty(); //기존에 있던 modal body에 있는 태그들을 제거
+				var button = $(e.relatedTarget);
+			  	$.ajax({
+			  		url : "/auction/reverse/tender/AccoDetail",
+			  		data : {"accommodationNo" : button.data("remote")},
+			  		type: 'GET',
+					contentType:"application/x-www-form-urlencoded",
+					success: function(data){
+						$(".modal-body").append("<div id='map' style='width:460px;height:400px;'></div>"); //맵이 들어갈 태그 생성
+						var mapTypeControl = new daum.maps.MapTypeControl();
+					    var mapContainer = document.getElementById('map'); // 지도를 표시할 div태그
+					    latitude = data.accommodationLatitude; //위도
+					    longitude = data.accommodationLongitude; //경도
+					    location = new daum.maps.LatLng(latitude, longitude); //좌표정보 생성
+					    var mapOption = { 
+					        center: location, // 지도의 중심좌표
+					        level: 3 // 지도의 확대 레벨			 
+						}
+					    map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
+					    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+					    var marker = new daum.maps.Marker({ // 마커생성
+					        position: location
+					    });
+					    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+					    var content = '<div class="wrap">' + 
+			            '    <div class="info">' + 
+			            '        <div class="title">' + 
+			            			data.accommodationName + 
+			            '        </div>' + 
+			            '        <div class="body">' + 
+			            '           <div class="img">' +
+			            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+			            '           </div>' + 
+			            '           <div class="desc">' + 
+			            '                <div class="ellipsis">'+ data.accommodationAddress +'</div>' + 
+			            '                <div class="jibun ellipsis">' + data.accommodationPhone + '</div>' +
+			            '                <div class="jibun ellipsis">' + data.accommodationEmail + '</div>' + 
+			            '            </div>' + 
+			            '        </div>' + 
+			            '    </div>' +    
+			            '</div>';
+			            var overlay = new daum.maps.CustomOverlay({
+			                content: content,
+			                map: map,
+			                position: marker.getPosition()       
+			            });
+			            $(".modal-body").append("<br><div class='card border-light'><div class='card-header '><h4 class='text-center'>숙소 상세내용</h4></div><div class='card-body'></div></div>"); //숙소 상세정보 추가
+					    $(".card-body").append(data.accommodationDetail); //숙소 상세정보 추가
+	         	    }
+			  	});
+			});
+			$('#theModal').on('shown.bs.modal', function() {
+				map.relayout();
+				map.setCenter(location); //기존좌표로 이동
+			});
+		});
+	  	if($("#select").val() == "0") {
+			$("#searchWord").attr("disabled",true);
+		}
+		$("#select").change(function() {
+			if($("#select").val() != "0") {
+				$("#searchWord").attr("disabled",false);
+			}
+			else {
+				$("#searchWord").attr("disabled",true);
+			}
+		});
+	</script>
 </html>
