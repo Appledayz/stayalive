@@ -245,24 +245,5 @@
 	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
 	<script src="/main/js/active.js"></script>
-	<script>
-		if($("#searchSelect").val() == "0") {
-			$("#search").attr("disabled",true);
-		}
-		$("#searchSelect").change(function() {
-			if($("#searchSelect").val() == "0") {
-				$("#search").attr("disabled",true);
-				checkInDate.attr("disabled",false);
-				checkOutDate.attr("disabled",false);
-			}
-			else {
-				$("#search").attr("disabled",false);
-				checkInDate.val("");
-				checkOutDate.val("");
-				checkInDate.attr("disabled",true);
-				checkOutDate.attr("disabled",true);
-			}
-		});
-	</script>
 </body>
 </html>

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stay.alive.login.mapper.LoginMapper;
 import com.stay.alive.login.vo.LoginVo;
-import com.stay.alive.member.vo.Member;
 
 
 @Service
