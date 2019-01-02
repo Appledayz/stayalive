@@ -40,8 +40,7 @@
   	FROM reverseauction_register
   	<where>
 	  	<if test="sv != null and sv != ''">
-	  	  ${sk} LIKE #{sv}
-	  	</if>
+	  	  ${sk} LIKE CONCAT('%',#{sv},'%')</if>
 	  	<if test="date1 != null and date2 == null">
 	  	  AND reverseauction_rooming_date &gt; #{date1}</if>
 	  	<if test="date2 != null and date1 == null">
