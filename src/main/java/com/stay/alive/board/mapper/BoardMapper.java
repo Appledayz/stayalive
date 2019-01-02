@@ -1,5 +1,6 @@
 package com.stay.alive.board.mapper;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,7 @@ public interface BoardMapper {
 	public BoardMember selectBoardInfo(String name);
 	public BoardMember selectBoardFromNo(int boardMemberNo);
 	public int selectBoardNo(String BoardName);
-	public ArrayList<BoardMember> selectBoardAll();
+	public int selectBoardSearchListCount(HashMap<String, Object> map);
+	public ArrayList<BoardMember> selectBoardSearchList(HashMap<String, Object> map);
 	public int deleteBoard(int boardMemberNo);
 }

@@ -53,7 +53,48 @@
 	<select id="selectBoardInfo" resultType="com.stay.alive.board.vo.BoardMember">
 		SELECT * FROM board_member WHERE board_member_title = #{name}
 	</select>
-	<select id="selectBoardAll" resultType="com.stay.alive.board.vo.BoardMember">
-		SELECT * FROM board_member
+	<select id="selectBoardSearchListCount" resultType="int" parameterType="HashMap">
+        SELECT 
+        	COUNT(*)
+       	FROM board_member
+       	<choose>
+	       	<when test='searchKey.equals("board_member_title")'>
+	       		WHERE board_member_title LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("member_id")'>
+	       		WHERE member_id LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("board_member_content")'>
+	       		WHERE board_member_content LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("board_member_title_content")'>
+	       		WHERE (board_member_title LIKE CONCAT('%', #{searchWord}, '%') OR board_member_content LIKE CONCAT('%', #{searchWord}, '%')) AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<otherwise>
+	       		WHERE board_category_name = #{boardCategoryName}
+	       	</otherwise>
+       	</choose>
+    </select>
+	<select id="selectBoardSearchList" resultType="com.stay.alive.board.vo.BoardMember" parameterType="HashMap">
+		SELECT * 
+		FROM board_member 
+       	<choose>
+	       	<when test='searchKey.equals("board_member_title")'>
+	       		WHERE board_member_title LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("member_id")'>
+	       		WHERE member_id LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("board_member_content")'>
+	       		WHERE board_member_content LIKE CONCAT('%', #{searchWord}, '%') AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<when test='searchKey.equals("board_member_title_content")'>
+	       		WHERE (board_member_title LIKE CONCAT('%', #{searchWord}, '%') OR board_member_content LIKE CONCAT('%', #{searchWord}, '%')) AND board_category_name = #{boardCategoryName}
+	       	</when>
+	       	<otherwise>
+	       		WHERE board_category_name = #{boardCategoryName}
+	       	</otherwise>
+       	</choose>
+       	ORDER BY board_member_no DESC LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
 	</select>
 </mapper>

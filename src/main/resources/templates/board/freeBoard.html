@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -70,7 +70,7 @@
     <!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background2.jpg);">
         <div class="bradcumbContent">
-            <h2>Board List</h2>
+            <h2>FreeBoard</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
@@ -101,11 +101,12 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3">
-				<form action="boardList" method="get">
+				<form action="/board/free" method="get">
 					<select class="form-control" id="select1" name="searchKey">
 					      <option value="">==== 선택 ====</option>
 					      <option value="board_member_title">제목</option>
 					      <option value="board_member_content">내용</option>
+					      <option value="board_member_title_content">제목+내용</option>
 					      <option value="member_id">회원ID</option>
 					</select>
 					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="searchWord">
@@ -149,7 +150,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="board : ${list}" class="table-secondary">
+								<tr th:each="board : ${boardList}" class="table-secondary">
 									<td><a href="#" class="text-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote=${board.boardMemberNo}" th:text="${board.boardMemberTitle}"></a></td>
 									<td th:text="${board.memberId}"></td>					
 									<td th:text="${board.boardMemberRecommend}"></td>
@@ -158,8 +159,18 @@
 									<!-- <td><a th:href="@{/board/modify(boardMemberNo=${board.boardMemberNo})}">수정</a></td>
 									<td><a th:href="@{/board/remove(boardMemberNo=${board.boardMemberNo})}">삭제</a></td> -->
 								</tr>
-							</tbody>
+							</tbody>							
 						</table>
+						  <!-- Pagination -->
+					    <div class="pagination-area wow fadeInUp" data-wow-delay="100ms">
+					        <nav>
+					            <ul class="pagination">
+					                <li class="page-item" th:if="${prevPage}"><a class="page-link" th:href="@{/board/free(searchKey=${searchKey},searchWord=${searchWord},currentPage=${(currentBlock - 1) * pagePerBlock})}">이전</a></li>
+					                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}" th:classappend="${currentPage} == ${i} ? active : null"><a class="page-link" th:href="@{/board/free(searchKey=${searchKey},searchWord=${searchWord},currentPage=${i})}" th:text="${i}"></a></li>
+					                <li class="page-item" th:if="${nextPage}"><a class="page-link" th:href="@{/board/free(searchKey=${searchKey},searchWord=${searchWord},currentPage=${currentBlock * pagePerBlock + 1})}">다음</a></li>
+					            </ul>
+					        </nav>
+					    </div>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@ package com.stay.alive.board.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import com.stay.alive.board.mapper.BoardMapper;
 import com.stay.alive.board.vo.BoardMember;
+import com.stay.alive.common.PageMaker;
+import com.stay.alive.common.PageMakerService;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
 
@@ -117,8 +120,15 @@ public class BoardService {
 		file.delete(); //실제 저장된 파일 삭제
 	}
 	//게시글 리스트
-	public ArrayList<BoardMember> getBoardAll(){
-		return boardMapper.selectBoardAll();
+	public ArrayList<BoardMember> getBoardSearchList(HashMap<String, Object> map){
+		PageMaker pageMaker = (PageMaker)map.get("pageMaker");
+		int boardListCount = boardMapper.selectBoardSearchListCount(map);
+		map.put("boardListCount", boardListCount);
+		pageMaker.setRowPerPage(10);
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setAllCount(boardListCount);
+		pageMaker = PageMakerService.pageMakerService(pageMaker);
+		return boardMapper.selectBoardSearchList(map);
 	}
 	//게시글 삭제
 	public int removeBoard(int boardMemberNo) {
