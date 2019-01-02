@@ -168,7 +168,7 @@
 								</tr>
 								<tr th:each="item : ${list}">
 									<td th:text="${item.reverseauctionNo}">no</td>
-									<td th:text="${item.reverseauctionTitle}">title</td>
+									<td><a style="color:DodgerBlue;" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="${item.reverseauctionTitle}">title</a></td>
 									<td th:text="${item.reverseauctionContent}">Content</td>
 									<td th:text="${item.reverseauctionAddress}+' '+${item.reverseauctionAddressMore}">addredss</td>
 									<td th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'">limit</td>
