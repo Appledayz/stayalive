@@ -91,7 +91,7 @@
 			<div class="row">
 				<div class="col-lg-3">
 					<form action="/auction/reverse/list" method="get">
-						<select class="form-control" name="sk">
+						<select class="form-control" name="sk" id="searchSelect">
 							<option value="0">==== 선택 ====</option>
 							<option value="reverseauction_title">제목</option>
 							<option value="reverseauction_content">내용</option>
@@ -101,10 +101,34 @@
 						<input type="text" class="form-control" id="datePicker2" name="date2" placeholder="Check-out" autocomplete=off>
 						<button type="submit" class="btn palatin-btn form-control" style="margin-bottom:30px">Search Now</button>
 					</form>
+					<p>더치옥션은 무엇인가요?</p>
+					<a href="/auction">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>리버스옥션(역경매)은 무엇인가요?</p>
+					<a href="/auction">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>더치옥션으로 숙소를 예약하고싶어요.</p>
+					<a href="/auction/dutch/list">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>더치옥션을 등록하고싶어요.</p>
+					<a href="/auction/dutch/register">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>리버스옥션을 등록하고싶어요.</p>
+					<a href="/auction/reverse/add">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>내 옥션 목록을 보고싶어요.</p>
+					<a href="/myAuctionList">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button>
+					</a>
 				</div>
 				<div class="col-lg-9">
 					<div class="row">
-						<div class="col-md-10">
+						<div class="col-md-11">
 							<select>
 								<option>Most Recent</option>
 								<option value="1">Most Popular</option>
@@ -112,7 +136,7 @@
 								<option value="4">Highest Price</option>
 							</select>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-1">
 							<div class="view">
 								<strong>Views</strong>
 								<ul class="list-inline">
@@ -221,5 +245,24 @@
 	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
 	<script src="/main/js/active.js"></script>
+	<script>
+		if($("#searchSelect").val() == "0") {
+			$("#search").attr("disabled",true);
+		}
+		$("#searchSelect").change(function() {
+			if($("#searchSelect").val() == "0") {
+				$("#search").attr("disabled",true);
+				checkInDate.attr("disabled",false);
+				checkOutDate.attr("disabled",false);
+			}
+			else {
+				$("#search").attr("disabled",false);
+				checkInDate.val("");
+				checkOutDate.val("");
+				checkInDate.attr("disabled",true);
+				checkOutDate.attr("disabled",true);
+			}
+		});
+	</script>
 </body>
 </html>
