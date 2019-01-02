@@ -18,7 +18,7 @@ public class DutchauctionBidService {
 	DutchauctionBidMapper dutchauctionBidMapper;
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
-	ArrayList<DutchAuctionBid> getDutchauctionSuccessfulbidFromId(String memberId) {
+	public ArrayList<DutchAuctionBid> getDutchauctionSuccessfulbidFromId(String memberId) {
 		return dutchauctionBidMapper.selectDutchauctionSuccessfulbidFromId(memberId);
 	}
 	public void addDutchauctionSuccessfulbid(DutchAuctionBid dutchAuctionBid) {

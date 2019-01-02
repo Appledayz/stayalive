@@ -29,9 +29,9 @@
     <div th:replace="header :: header"></div>
     
     <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background5.jpg);">
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
         <div class="bradcumbContent">
-            <h2>Company List</h2>
+            <h2>My AuctionList</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
@@ -42,7 +42,7 @@
 	        <div class="col-12">
 	            <div class="section-heading">
 	                <div class="line-"></div>
-	                <h2>업체 리스트</h2>
+	                <h2>내 옥션 목록</h2>
 	            </div>
 	        </div>
         </div>
@@ -73,7 +73,7 @@
 	            <div class="palatin-tabs-content">
 	                <ul class="nav nav-tabs" id="myTab" role="tablist">
 	                    <li class="nav-item">
-	                        <a class="nav-link" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">Mauris diam</a>
+	                        <a class="nav-link" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">더치옥션 낙찰 목록</a>
 	                    </li>
 	                    <li class="nav-item">
 	                        <a class="nav-link" id="tab--2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Ttristique sed posuere</a>
@@ -88,7 +88,30 @@
 	                        <div class="palatin-tab-content">
 	                            <!-- Tab Text -->
 	                            <div class="palatin-tab-text">
-	                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet.</p>
+	                               <div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>낙찰가</th>
+														<th>낙찰일</th>
+														<th>숙소 입실일</th>
+														<th>숙소 퇴실일</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${dutchauctionSuccessfulbidList}" class="table-secondary">
+														<td><a href="#" th:text="${item.dutchauctionSuccessfulbidPrice}"></a></td>
+														<td th:text="${item.dutchauctionSuccessfulbidDate}"></td>
+														<td th:text="${item.dutchauctionCheckinDate}"></td>
+														<td th:text="${item.dutchauctionChechoutDate}"></td>
+														<td th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
 	                            </div>
 	                        </div>
 	                    </div>
