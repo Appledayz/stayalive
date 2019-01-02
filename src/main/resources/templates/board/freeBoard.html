@@ -162,7 +162,7 @@
 							</tbody>							
 						</table>
 						  <!-- Pagination -->
-					    <div class="pagination-area wow fadeInUp" data-wow-delay="100ms">
+					    <div class="pagination-area wow fadeInUp" data-wow-delay="100ms" th:if="${boardListCount} > 0">
 					        <nav>
 					            <ul class="pagination">
 					                <li class="page-item" th:if="${prevPage}"><a class="page-link" th:href="@{/board/free(searchKey=${searchKey},searchWord=${searchWord},currentPage=${(currentBlock - 1) * pagePerBlock})}">이전</a></li>
