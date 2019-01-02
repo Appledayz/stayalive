@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <!-- Core Stylesheet -->
 <link rel="stylesheet" href="/main/style.css">
+<link rel="stylesheet" href="/datepicker/css/datepicker.css"/>
 <title>Sign up</title>
 <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 <style>
@@ -26,43 +27,43 @@
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="idCheck" role="alert"></span></td></tr>
 	
-	<tr><td>닉네임</td></tr>
+	<tr><td><strong>닉네임</strong></td></tr>
 	<tr>
 		<td><input type="text" class="form-control" name="memberNickname" id="memberNickname" placeholder="특수문자를 제외한 2~8자" style="width:450px;" maxlength="8"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="nicknameCheck" role="alert"></span></td></tr>
 	
-	<tr><td>비밀번호</td></tr>
+	<tr><td><strong>비밀번호</strong></td></tr>
 	<tr>
 		<td><input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="5~20자의 영문,숫자혼합(특수문자 사용가능)" style="width:450px;"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="pwCheck" role="alert"></span></td></tr>
 	
-	<tr><td>비밀번호 확인</td></tr>
+	<tr><td><strong>비밀번호 확인</strong></td></tr>
 	<tr>
 		<td><input type="password" class="form-control" name="memberPasswordCheck" id="memberPasswordCheck" placeholder="입력한 비밀번호와 같게 입력해 주세요." style="width:450px;"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="pwCheck2" role="alert"></span></td></tr>
 	
-	<tr><td>이름</td></tr>
+	<tr><td><strong>이름</strong></td></tr>
 	<tr>
 		<td><input type="text" class="form-control" name="memberName" id="memberName" placeholder="5자로 이내로 입력해 주세요." style="width:450px;" maxlength="5"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="nameCheck" role="alert"></span></td></tr>
 	
-	<tr><td>연락처</td></tr>
+	<tr><td><strong>연락처</strong></td></tr>
 	<tr>
 		<td><input type="text" class="form-control" name="memberPhoneNumber1" id="memberPhoneNumber1" placeholder="-를 제외한 숫자만 입력해 주세요." style="width:450px;" maxlength="11"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="phoneCheck" role="alert"></span></td></tr>
 	
-	<tr><td>생년월일</td></tr>
+	<tr><td><strong>생년월일</strong></td></tr>
 	<tr>
 		<td><input type="date" class="form-control" name="memberBirth" id="memberBirth" placeholder="생년월일 (예시:19890829)" style="width:450px;"></td>
 	</tr>
 	<tr><td><span class="errorBox" style="display:none;font-size:1em;" id="birthCheck" role="alert"></span></td></tr>
 	
-	<tr><td>이메일</td></tr>
+	<tr><td><strong>이메일</strong></td></tr>
 	<tr>
 		<td><input type="text" class="form-control" name="memberEmail" id="memberEmail" style="width:450px;" maxlength="40"></td>
 	</tr>
@@ -70,11 +71,11 @@
 </table><br>
 
 	<center>
-	<span class="input group">e-mail 수신동의</span>
+	<span class="input group"><strong>e-mail 수신동의</strong></span>
 	<input type="checkbox" style="width:20px;height:20px" class="memberEmailAccept" name="memberEmailAccept" id="memberEmailAccept" value="Y">
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	
-	<span class="input group">sms 수신동의</span>
+	<span class="input group"><strong>sms 수신동의</strong></span>
 	<input type="checkbox" style="width:20px;height:20px" class="memberSmsAccept" name="memberSmsAccept" id="memberSmsAccept" value="Y"><br><br>
 	
 	<button type="button" id="btnJoin" class="submitBtn btn palatin-btn">가입</button>
@@ -413,12 +414,12 @@ var nickFlag = false;
     }
     //에러메시지 출력
 	function showErrorMsg(obj, msg) {
-	    obj.attr("class", "errorBox");
+	    obj.attr("class", "text-danger");
 	    obj.html(msg);
 	    obj.show();
 	}
 	function showSuccessMsg(obj, msg) {
-	    obj.attr("class", "errorBox green");
+	    obj.attr("class", "text-success");
 	    obj.html(msg);
 	    obj.show();
 	}
@@ -435,8 +436,6 @@ var nickFlag = false;
     	checkPhoneNumber();
     	checkBirth();
     	checkEmail();
-
-
 
 		if(checkId() && checkNickname() && checkPswd1() && checkPswd2() && checkName() && checkPhoneNumber() && checkBirth() && checkEmail()) {
 			$("#addMemberForm").submit();

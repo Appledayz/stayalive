@@ -73,8 +73,14 @@
 			member_email as memberEmail,
 			member_email_accept as memberEmailAccept,
 			member_sms_accept as memberSmsAccept,
+			state_no as stateNo,
+			state_name as stateName,
 			group_no as groupNo,
-			group_name as groupName
+			group_name as groupName,
+			rating_no as ratingNo,
+			rating_name as ratingName,
+			member_option_no as memberOptionNo,
+			member_option_name as memberOptionName
 	        FROM member
 	        WHERE member_id = #{memberId}
     </select>

@@ -27,7 +27,7 @@ public class MemberController {
 	@PostMapping("addMember")
 	public String addMember(Member member) {
 		memberService.addMember(member);
-		return "member/welcome";
+		return "member/main";
 	}
 	//1-3.환영페이지로
 	@GetMapping("welcome")
