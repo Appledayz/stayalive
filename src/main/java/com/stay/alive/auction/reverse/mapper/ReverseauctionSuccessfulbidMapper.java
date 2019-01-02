@@ -24,6 +24,9 @@ public interface ReverseauctionSuccessfulbidMapper {
 	AuctionStateCategory selectAuctionStateByName(String string);
 	// 역경매 입찰 상태갱신
 	void updateReverseauctionTenderState(int reverseauctionTenderNo, AuctionStateCategory auctionStateCategory);
-	// 낙찰목록 조회 (memberId로)
-	List<ReverseauctionSuccessfulbid> getSuccessfulbidById(ReverseauctionSuccessfulbid bid);
+	// 낙찰목록 조회 (판매자 memberId로)
+	List<ReverseauctionSuccessfulbid> getSuccessfulbidByGuestId(String memberId);
+	// 낙찰목록 조회 (구매자 memberIdfh)
+	List<ReverseauctionSuccessfulbid> getSuccessfulbidByHostId(String memberId);
+	
 }

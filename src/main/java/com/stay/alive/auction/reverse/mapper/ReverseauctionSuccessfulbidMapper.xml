@@ -31,16 +31,30 @@
   	WHERE auction_state_category_name=#{string}
   </select>
   
-  <select id="getSuccessfulbidById" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
+  <select id="getSuccessfulbidByGuestId" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
     SELECT
-      reverseauction_no,
-	  reverseauction_successfulbid_price,
-	  reverseauction_successfulbid_date,
-	  reverseauction_rooming_date,
-	  reverseauction_leaving_date,
-	  auction_state_category_name
-    FROM reverseauction_successfulbid
-    WHERE member_id = #{memberId}
+      s.reverseauction_no,
+	  s.reverseauction_successfulbid_price,
+	  s.reverseauction_successfulbid_date,
+	  s.reverseauction_rooming_date,
+	  s.reverseauction_leaving_date,
+	  s.auction_state_category_name
+    FROM reverseauction_successfulbid s
+    INNER JOIN reverseauction_register r ON s.reverseauction_no = r.reverseauction_no
+    WHERE r.member_id = #{memberId}
+  </select>
+  
+  <select id="getSuccessfulbidByHostId" resultType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">
+    SELECT
+      s.reverseauction_no,
+	  s.reverseauction_successfulbid_price,
+	  s.reverseauction_successfulbid_date,
+	  s.reverseauction_rooming_date,
+	  s.reverseauction_leaving_date,
+	  s.auction_state_category_name
+    FROM reverseauction_successfulbid s
+    INNER JOIN reverseauction_tender t ON s.reverseauction_tender_no = t.reverseauction_tender_no
+    WHERE t.member_id = #{memberId}
   </select>
   
   <insert id="insertReverseauctionSuccessfulbid" parameterType="com.stay.alive.auction.reverse.vo.ReverseauctionSuccessfulbid">

@@ -15,6 +15,7 @@
 	    		$(state).css("background-color","rgba(60, 179, 113, 0.2)");
     		}
     	});
+    	
    		//url에서 get parameter value 구하는 함수
 	    function getQuerystring(name){
 	    	let _tempUrl = location.search.substring(1);
@@ -31,11 +32,12 @@
 	    	history.go(-1);
 	    }
 	    function check(elem){
- 			let result = confirm('Are you sure?');
+ 			let result = confirm('확실한가요? 실행 후 취소할 수 없습니다.');
  			if(result){
  				elem.parentElement.submit();
  			}
 	    }
+	    /* 모달 */
 	  	$(function() {
 	  		$('#theModal').on('show.bs.modal', function (e) {
 	  			$('.modal-body').empty();

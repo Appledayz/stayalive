@@ -134,6 +134,8 @@
                         					<p class="price-from" th:text="${item.reverseauctionNo}"></p>
 											<!-- Thumbnail -->
 											<div class="bg-thumbnail bg-img" style="background-image: url(/main/img/bg-img/1.jpg);"></div>
+											<!-- blind -->
+											<i th:if="${item.auctionStateCategoryName}=='낙찰완료'" class="fa fa-check" style="color:DodgerBlue; z-index:100; position:absolute; right:0; top:-15px;" th:text="낙찰완료"></i>
 											<!-- Rooms Text -->
 											<div class="rooms-text">
 												<div class="line"></div>
