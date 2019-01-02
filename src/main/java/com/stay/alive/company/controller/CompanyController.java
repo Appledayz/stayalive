@@ -34,7 +34,7 @@ public class CompanyController {
 		return "company/company";
 	}
 	
-	@GetMapping("register")
+	@GetMapping("register")	
 	public String companyRegister(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
 		int companyRegisterCheckNo = companyService.checkMemberIdOfCompany(memberId);

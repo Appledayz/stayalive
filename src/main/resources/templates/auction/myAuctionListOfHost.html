@@ -1,10 +1,299 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+</head>
+
+<body class="body-wrapper">
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+	
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+    
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
+        <div class="bradcumbContent">
+            <h2>My AuctionList</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+<section class="contact-form-area mb-100">
+	<div class="container">
+		<div class="row">
+	        <div class="col-12">
+	            <div class="section-heading">
+	                <div class="line-"></div>
+	                <h2>내 옥션 목록(호스트)</h2>
+	            </div>
+	        </div>
+        </div>
+		<div class="row">
+			<div class="col-md-3">
+				<p>더치옥션은 무엇인가요?</p>
+				<a href="/auction">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+				</a>
+				<p>리버스옥션(역경매)은 무엇인가요?</p>
+				<a href="/auction">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+				</a>
+				<p>더치옥션으로 숙소를 예약하고싶어요.</p>
+				<a href="/auction/dutch/list">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+				</a>
+				<p>리버스옥션으로 숙소를 예약하고싶어요.</p>
+				<a href="/auction/reverse/list">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+				</a>
+				<p>더치옥션을 등록하고싶어요.</p>
+				<a href="/auction/dutch/register">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+				</a>
+				<p>리버스옥션을 등록하고싶어요.</p>
+				<a href="/auction/reverse/add">
+					<button type="button" class="btn palatin-btn btn-2">Click Now</button>
+				</a>
+			</div>
+			<div class="col-md-9">
+				 <!-- ##### Tabs ##### -->
+	            <div class="palatin-tabs-content">
+	                <ul class="nav nav-tabs" id="myTab" role="tablist">
+	                    <li class="nav-item">
+	                        <a class="nav-link active" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">더치옥션 등록 목록</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">더치옥션 낙찰 목록</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="true">역경매 등록 목록</a>
+	                    </li>
+   	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--4" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">역경매 입찰 목록</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--5" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5" aria-selected="false">역경매 낙찰 목록</a>
+	                    </li>
+	                </ul>
+	
+	                <div class="tab-content mb-100" id="myTabContent">
+	                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab--1">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                            	<div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>상세보기</th>
+														<th>숙소명</th>
+														<th>객실명</th>
+														<th>등록일</th>
+														<th>경매시작가</th>
+														<th>최대할인가</th>
+														<th>할인가격</th>
+														<th>시간주기</th>
+														<th>경매종료일</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${dutchauctionList}" class="table-secondary">
+														<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}" th:text="상세보기"></a></td>
+														<td th:text="${item.accommodationName}"></td>
+														<td th:text="${item.guestroomName}"></td>
+														<td th:text="${item.dutchauctionRegisterDate}"></td>
+														<td th:text="${item.dutchauctionStartprice}"></td>
+														<td th:text="${item.maximumDiscountPrice}"></td>
+														<td th:text="${item.dutchauctionSaleUnit}"></td>
+														<td th:text="${item.dutchauctionSaleInterval}"></td>
+														<td th:text="${item.dutchauctionCloseDate}"></td>
+														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab--2">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                            	<div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>상세보기</th>
+														<th>낙찰가</th>
+														<th>낙찰일</th>
+														<th>숙소 입실일</th>
+														<th>숙소 퇴실일</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${dutchauctionSuccessfulbidList}" class="table-secondary">
+														<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionRegisterNo})}" th:text="상세보기"></a></td>
+														<td th:text="${item.dutchauctionSuccessfulbidPrice}"></td>
+														<td th:text="${item.dutchauctionSuccessfulbidDate}"></td>
+														<td th:text="${item.dutchauctionCheckinDate}"></td>
+														<td th:text="${item.dutchauctionChechoutDate}"></td>
+														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab--3">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                            	<div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>상세보기</th>
+														<th>제목</th>
+														<th>등록일</th>
+														<th>수정일</th>
+														<th>입찰한도가</th>
+														<th>입찰건수</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${reverseauctionList}" class="table-secondary">
+														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+														<td th:text="${item.reverseauctionTitle}"></td>
+														<td th:text="${item.reverseauctionRegisterDate}"></td>
+														<td th:text="${item.reverseauctionUpdateDate}"></td>
+														<td th:text="${item.reverseauctionTenderLimit}"></td>
+														<td th:text="${item.reverseauctionTenderCount}"></td>
+														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab--4">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                            	<div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>상세보기</th>
+														<th>숙소명</th>
+														<th>객실명</th>
+														<th>입찰일</th>
+														<th>수정일</th>
+														<th>입찰가격</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${reverseauctionTenderList}" class="table-secondary">
+														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+														<td th:text="${item.accommodationName}"></td>
+														<td th:text="${item.guestroomName}"></td>
+														<td th:text="${item.reverseauctionTenderDate}"></td>
+														<td th:text="${item.reverseauctionTenderUpdateDate}"></td>
+														<td th:text="${item.reverseauctionTenderPrice}"></td>
+														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="tab--5">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                            	<div class="row">
+										<div class="col-md-12">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th>상세보기</th>
+														<th>낙찰가</th>
+														<th>낙찰일</th>
+														<th>숙소 입실일</th>
+														<th>숙소 퇴실일</th>
+														<th>경매 상태</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="item : ${reverseauctionSuccessfulbidList}" class="table-secondary">
+														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+														<td th:text="${item.reverseauctionSuccessfulbidPrice}"></td>
+														<td th:text="${item.reverseauctionSuccessfulbidDate}"></td>
+														<td th:text="${item.reverseauctionRoomingDate}"></td>
+														<td th:text="${item.reverseauctionLeavingDate}"></td>
+														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+	
+	<!-- footer replace -->
+	<div th:replace="footer :: footer"></div>
+ 	   
+    <!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
+    <script th:inline="javascript">
+		$("#myAuctionList").addClass('active');
+	</script>
 </body>
 </html>
