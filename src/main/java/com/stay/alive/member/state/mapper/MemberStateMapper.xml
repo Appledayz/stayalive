@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.member.state.mapper.MemberStateMapper" >
+	<select id="selectMemberStateList" resultType="com.stay.alive.member.state.vo.MemberState">
+      	SELECT 
+	      	state_no as stateNo, 
+	      	state_name as stateName, 
+	      	state_register_date as stateRegisterDate
+   		FROM member_state
+	</select>
+	<insert id="insertMemberState" parameterType="com.stay.alive.member.state.vo.MemberState">
+		INSERT INTO member_state(state_name, 
+								state_register_date) 
+		VALUES(#{stateName}, 
+				now())
+	</insert>
+	<select id="selectOneMemberState" parameterType="int" resultType="com.stay.alive.member.state.vo.MemberState">
+      	SELECT 
+	      	state_no as stateNo, 
+	      	state_name as stateName, 
+	      	state_register_date as stateRegisterDate
+   		FROM member_state
+   		WHERE state_no = #{stateNo}
+	</select>
+	<update id="updateMemberState" parameterType="com.stay.alive.member.state.vo.MemberState">
+		UPDATE member_state
+			SET state_name = #{stateName}
+			WHERE state_no = #{stateNo}
+    </update>
+    <delete id="deleteMemberState" parameterType="int">
+		DELETE
+			FROM member_state
+			WHERE state_no = #{stateNo}
+    </delete>
+</mapper>

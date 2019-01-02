@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.member.rating.mapper.MemberRatingMapper" >
+	<select id="selectMemberRatingList" resultType="com.stay.alive.member.rating.vo.MemberRating">
+      	SELECT 
+	      	rating_no as ratingNo, 
+	      	rating_name as ratingName, 
+	      	rating_register_date as ratingRegisterDate,
+	      	buyer_year_volume as buyerYearVolume,
+	      	seller_year_volume as sellerYearVolume
+   		FROM member_rating
+	</select>
+	<insert id="insertMemberRating" parameterType="com.stay.alive.member.rating.vo.MemberRating">
+		INSERT INTO member_rating(rating_name, 
+								rating_register_date,
+								buyer_year_volume,
+								seller_year_volume) 
+		VALUES(#{ratingName}, 
+				now(),
+				#{buyerYearVolume},
+				#{sellerYearVolume})
+	</insert>
+	<select id="selectOneMemberRating" parameterType="int" resultType="com.stay.alive.member.rating.vo.MemberRating">
+      	SELECT
+	      	rating_no as ratingNo, 
+	      	rating_name as ratingName, 
+	      	rating_register_date as ratingRegisterDate,
+	      	buyer_year_volume as buyerYearVolume,
+	      	seller_year_volume as sellerYearVolume
+   		FROM member_rating
+   		WHERE rating_no = #{ratingNo}
+	</select>
+	<update id="updateMemberRating" parameterType="com.stay.alive.member.rating.vo.MemberRating">
+		UPDATE member_rating
+			SET rating_name = #{ratingName},
+				buyer_year_volume = #{buyerYearVolume},
+				seller_year_volume = #{sellerYearVolume}
+			WHERE rating_no = #{ratingNo}
+    </update>
+    <delete id="deleteMemberRating" parameterType="int">
+		DELETE
+			FROM member_rating
+			WHERE rating_no = #{ratingNo}
+    </delete>
+</mapper>
