@@ -110,6 +110,11 @@
 				group_name = #{groupName}
 			WHERE member_id = #{memberId}
     </update>
+    <select id="selectMemberGroupNoFromId" resultType="int">
+    	SELECT group_no
+    	FROM member
+    	WHERE member_id = #{memberId}
+    </select>
 </mapper>
 
 	

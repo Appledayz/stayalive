@@ -81,21 +81,47 @@
 	</div>
 	<section class="contact-form-area mb-100">
 	    <div class="container">
-		    <div class="contact-form-area">
-				<form action="/auction/reverse/add" method="POST" id="addForm">
-			    	<div class="row">
-						<div class="col-lg-4"><input class="form-control" th:placeholder="Trevelers" type="text" name="reverseauctionNumberOfPeople"></div>
-						<div class="col-lg-4"><input class="form-control" th:placeholder="Price_less_than" type="text" name="reverseauctionTenderLimit"></div>
-						<div class="col-lg-4"><input class="form-control" id="closeDate" data-timepicker="true" th:placeholder="TendercloseDate" type="text" name="reverseauctionTendercloseDate" autocomplete=off></div>
-						<div class="col-lg-4"><input class="form-control" id="from" th:placeholder="Check-In" type="text" name="reverseauctionRoomingDate" autocomplete=off></div>
-						<div class="col-lg-4"><input class="form-control" id="to" th:placeholder="Check-Out" type="text" name="reverseauctionLeavingDate" autocomplete=off></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="Title" type="text" name="reverseauctionTitle"></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="Address" type="text" name="reverseauctionAddress"></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="AddressMore" type="text" name="reverseauctionAddressMore"></div>
-						<div class="col-lg-12"><input class="form-control" th:placeholder="Content" type="text" name="reverseauctionContent"></div>
-						<div class="col-lg-4"><button type="button" class="btn palatin-btn mt-50" id="addBtn">입력</button></div>
+          	<div class="row">
+            	<div class="col-md-3">
+            		<p>리버스옥션(역경매)은 무엇인가요?</p>
+					<a href="/auction">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>리버스옥션으로 숙소를 예약하고싶어요.</p>
+					<a href="/auction/reverse/list">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>더치옥션은 무엇인가요?</p>
+					<a href="/auction">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>더치옥션으로 숙소를 예약하고싶어요.</p>
+					<a href="/auction/dutch/list">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
+					</a>
+					<p>더치옥션을 등록하고싶어요.</p>
+					<a href="/auction/dutch/register">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button>
+					</a>
+				</div>
+                <div class="col-md-9">
+				    <div class="contact-form-area">
+						<form action="/auction/reverse/add" method="POST" id="addForm">
+					    	<div class="row">
+								<div class="col-lg-4"><input class="form-control" th:placeholder="인원수" type="text" name="reverseauctionNumberOfPeople"></div>
+								<div class="col-lg-4"><input class="form-control" th:placeholder="가격한도" type="text" name="reverseauctionTenderLimit"></div>
+								<div class="col-lg-4"><input class="form-control" id="closeDate" data-timepicker="true" th:placeholder="입찰마감일" type="text" name="reverseauctionTendercloseDate" autocomplete=off></div>
+								<div class="col-lg-4"><input class="form-control" id="from" th:placeholder="체크인" type="text" name="reverseauctionRoomingDate" autocomplete=off></div>
+								<div class="col-lg-4"><input class="form-control" id="to" th:placeholder="체크아웃" type="text" name="reverseauctionLeavingDate" autocomplete=off></div>
+								<div class="col-lg-12"><input class="form-control" th:placeholder="역경매제목" type="text" name="reverseauctionTitle"></div>
+								<div class="col-lg-12"><input class="form-control" th:placeholder="숙박희망주소" type="text" name="reverseauctionAddress"></div>
+								<div class="col-lg-12"><input class="form-control" th:placeholder="추가숙박희망주소" type="text" name="reverseauctionAddressMore"></div>
+								<div class="col-lg-12"><input class="form-control" th:placeholder="역경매내용" type="text" name="reverseauctionContent"></div>
+								<div class="col-lg-12 text-center"><button type="button" class="btn palatin-btn mt-50" id="addBtn">리버스옥션 등록하기</button></div>
+							</div>
+						</form>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</section>

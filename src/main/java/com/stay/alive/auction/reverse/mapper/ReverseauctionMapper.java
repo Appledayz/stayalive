@@ -1,6 +1,8 @@
 package com.stay.alive.auction.reverse.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -31,4 +33,6 @@ public interface ReverseauctionMapper {
 	String selectReverseauctionState(int reverseauctionNo);
 	// 역경매목록 조회 (memberId로)
 	List<Reverseauction> selectReverseauctionListById(Reverseauction reverseauction);
+	// 최근 역경매 3개 조회
+	List<Reverseauction> selectRecentReverseauctionList();
 }

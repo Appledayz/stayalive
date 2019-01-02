@@ -1,25 +1,17 @@
--- --------------------------------------------------------
--- 호스트:                          stayalive29.cafe24.com
--- 서버 버전:                        10.1.13-MariaDB - MariaDB Server
--- 서버 OS:                        Linux
--- HeidiSQL 버전:                  9.5.0.5355
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- 테이블 stayalive29.accommodation 구조 내보내기
 CREATE TABLE IF NOT EXISTS `accommodation` (
   `accommodation_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '숙소 등록 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
   `company_no` int(11) NOT NULL COMMENT '업체 등록 번호(FK)',
-  `company_name` varchar(50) NOT NULL COMMENT '업체명',
+  `company_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_category_no` int(11) NOT NULL COMMENT '숙소 카테고리 번호(FK)',
-  `accommodation_category_name` varchar(50) NOT NULL COMMENT '숙소 카테고리 명',
-  `accommodation_name` varchar(50) NOT NULL COMMENT '숙소명',
+  `accommodation_category_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소 카테고리 명',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `accommodation_latitude` double NOT NULL COMMENT '숙소 위도',
   `accommodation_longitude` double NOT NULL COMMENT '숙소 경도',
   `address_sido_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '시/도',
@@ -31,42 +23,46 @@ CREATE TABLE IF NOT EXISTS `accommodation` (
   `accommodation_phone` varchar(50) NOT NULL COMMENT '숙소 연락처',
   `accommodation_email` varchar(50) DEFAULT NULL COMMENT '숙소 이메일',
   `accommodation_detail` varchar(2000) DEFAULT NULL COMMENT '세부내용',
+  `accommodation_recognition` enum('Y','N') DEFAULT 'N' COMMENT '숙소 승인 여부',
   `accommodation_register_date` datetime NOT NULL COMMENT '숙소 등록일자',
   `accommodation_update_date` datetime DEFAULT NULL COMMENT '마지막 숙소 등록정보 수정일',
-  `image_file_no` int(11) DEFAULT NULL COMMENT '사업자 등록 파일',
+  `image_file_no` int(11) NOT NULL COMMENT '사업자 등록 파일',
   PRIMARY KEY (`accommodation_no`),
+  UNIQUE KEY `accommodation_name` (`accommodation_name`),
   KEY `FK_accommodation_accommodation_category` (`accommodation_category_no`),
   KEY `FK_accommodation_company` (`company_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_accommodation_accommodation_category_2` (`accommodation_category_name`),
+  KEY `FK_accommodation_company_2` (`company_name`),
+  KEY `FK_accommodation_image_file` (`image_file_no`),
   KEY `FK_accommodation_address_sido` (`address_sido_name`),
   KEY `FK_accommodation_address_sigungu` (`address_sigungu_name`),
-  KEY `FK_accommodation_image_file` (`image_file_no`),
   CONSTRAINT `FK_accommodation_accommodation_category` FOREIGN KEY (`accommodation_category_no`) REFERENCES `accommodation_category` (`accommodation_category_no`),
-  CONSTRAINT `FK_accommodation_address_sido` FOREIGN KEY (`address_sido_name`) REFERENCES `address_sido` (`address_sido_name`),
-  CONSTRAINT `FK_accommodation_address_sigungu` FOREIGN KEY (`address_sigungu_name`) REFERENCES `address_sigungu` (`address_sigungu_name`),
+  CONSTRAINT `FK_accommodation_accommodation_category_2` FOREIGN KEY (`accommodation_category_name`) REFERENCES `accommodation_category` (`accommodation_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_accommodation_address_sido` FOREIGN KEY (`address_sido_name`) REFERENCES `address_sido` (`address_sido_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_accommodation_address_sigungu` FOREIGN KEY (`address_sigungu_name`) REFERENCES `address_sigungu` (`address_sigungu_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_accommodation_company` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
-  CONSTRAINT `FK_accommodation_image_file` FOREIGN KEY (`image_file_no`) REFERENCES `image_file` (`image_file_no`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `FK_accommodation_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='숙소';
+  CONSTRAINT `FK_accommodation_company_2` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_accommodation_image_file` FOREIGN KEY (`image_file_no`) REFERENCES `image_file` (`image_file_no`),
+  CONSTRAINT `FK_accommodation_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='숙소';
 
--- 테이블 데이터 stayalive29.accommodation:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `accommodation` DISABLE KEYS */;
-INSERT INTO `accommodation` (`accommodation_no`, `member_id`, `company_no`, `company_name`, `accommodation_category_no`, `accommodation_category_name`, `accommodation_name`, `accommodation_latitude`, `accommodation_longitude`, `address_sido_name`, `address_sigungu_name`, `accommodation_address`, `member_business_number`, `accommodation_score`, `accommodation_guestroom_total`, `accommodation_phone`, `accommodation_email`, `accommodation_detail`, `accommodation_register_date`, `accommodation_update_date`, `image_file_no`) VALUES
-	(6, 'ID1', 9, 'stayalive', 1, '호텔', '1', 33.450701, 126.570667, '전북', '전주시 덕진구', '1', '1', 1, 1, '1', 'asd', '<h1>hello<h1>', '2018-12-12 00:00:00', '2018-12-17 09:03:56', 8),
-	(8, 'ID1', 9, '여기어때', 3, '민박\r\n', '2', 35.85640723489145, 127.15621482988078, '전북', '전주시 덕진구', '전북 전주시 덕진구 견훤로 515', 'dd', NULL, NULL, 'qwe', 'qwe', '<p><br></p>', '2018-12-13 00:00:00', NULL, 8),
-	(9, 'ID1', 20, '야놀자', 2, '모텔', '3', 35.85640723489145, 127.15621482988078, '전북', '전주시 덕진구', '', '', NULL, NULL, '', NULL, '<h1>hello world<h1>', '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `accommodation` (`accommodation_no`, `member_id`, `company_no`, `company_name`, `accommodation_category_no`, `accommodation_category_name`, `accommodation_name`, `accommodation_latitude`, `accommodation_longitude`, `address_sido_name`, `address_sigungu_name`, `accommodation_address`, `member_business_number`, `accommodation_score`, `accommodation_guestroom_total`, `accommodation_phone`, `accommodation_email`, `accommodation_detail`, `accommodation_recognition`, `accommodation_register_date`, `accommodation_update_date`, `image_file_no`) VALUES
+	(2, 'ID1', 395, '카카오', 2, '모텔', '신라호텔', 36.02211458718752, 127.10966454548515, '강원', '강북구', 'ㅇㅇㅇㅇㅇ', '0100-0000', NULL, NULL, '01011111111', 'dirvein@drivein.com', NULL, 'N', '0000-00-00 00:00:00', NULL, 126),
+	(8, 'stayalive001', 395, '카카오', 2, '모텔', '드라이브인 무인텔', 36.02211458718752, 127.24921621702563, '전북', '완주군', 'c', '123-123', NULL, NULL, '01011111111', 'dirvein@drivein.com', '<p>저렴한 가격에 모셔요~!</p>', 'N', '2018-12-28 14:39:21', NULL, 167),
+	(11, 'id001', 403, '1', 1, '호텔\r\n', '1', 35.84077327837114, 127.10966454548515, '전북', '전주시 덕진구', '전북 전주시 덕진구 가련산로 5', '1', NULL, NULL, '01011111111', 'dirvein@drivein.com', '<p><img style="width:300px;height:300px" src="/image/accommodation/b710cf6b-99f7-4f3f-88c8-8a3aa5f73a15.jpg"><img style="width:300px;height:300px" src="/image/accommodation/e5d099fe-59e5-4df7-8790-36e99b549470.png">&nbsp;</p><p>ㄹㅇㄴㄹㄴㅇㄹ</p>', 'Y', '2018-12-28 16:29:10', NULL, 173);
 /*!40000 ALTER TABLE `accommodation` ENABLE KEYS */;
 
--- 테이블 stayalive29.accommodation_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `accommodation_category` (
   `accommodation_category_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '숙소 카테고리 번호(PK)',
-  `accommodation_category_name` varchar(50) NOT NULL COMMENT '숙소 카테고리명',
+  `accommodation_category_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소 카테고리명',
   `accommodation_category_registration_date` date NOT NULL COMMENT '숙소 카테고리 등록일',
   `accommodation_category_update_date` date DEFAULT NULL COMMENT '마지막 카테고리 등록정보 수정일',
-  PRIMARY KEY (`accommodation_category_no`)
+  PRIMARY KEY (`accommodation_category_no`),
+  UNIQUE KEY `accommodation_category_name` (`accommodation_category_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='숙소 카테고리';
 
--- 테이블 데이터 stayalive29.accommodation_category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `accommodation_category` DISABLE KEYS */;
 INSERT INTO `accommodation_category` (`accommodation_category_no`, `accommodation_category_name`, `accommodation_category_registration_date`, `accommodation_category_update_date`) VALUES
 	(1, '호텔\r\n', '2018-12-03', NULL),
@@ -74,7 +70,6 @@ INSERT INTO `accommodation_category` (`accommodation_category_no`, `accommodatio
 	(3, '민박\r\n', '2018-12-03', NULL);
 /*!40000 ALTER TABLE `accommodation_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.address_sido 구조 내보내기
 CREATE TABLE IF NOT EXISTS `address_sido` (
   `address_sido_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '도 번호(PK)',
   `address_sido_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '도 이름',
@@ -83,7 +78,6 @@ CREATE TABLE IF NOT EXISTS `address_sido` (
   UNIQUE KEY `address_sido_name` (`address_sido_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='주소 : 시/도';
 
--- 테이블 데이터 stayalive29.address_sido:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `address_sido` DISABLE KEYS */;
 INSERT INTO `address_sido` (`address_sido_no`, `address_sido_name`, `address_sido_date`) VALUES
 	(1, '전북', '2018-11-11'),
@@ -91,24 +85,26 @@ INSERT INTO `address_sido` (`address_sido_no`, `address_sido_name`, `address_sid
 	(7, '강원', '2018-12-14');
 /*!40000 ALTER TABLE `address_sido` ENABLE KEYS */;
 
--- 테이블 stayalive29.address_sigungu 구조 내보내기
 CREATE TABLE IF NOT EXISTS `address_sigungu` (
   `address_sigungu_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '시 번호(PK)',
   `address_sigungu_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '시 이름',
   `address_sigungu_date` date NOT NULL COMMENT '시 등록일',
   PRIMARY KEY (`address_sigungu_no`),
   UNIQUE KEY `address_sigungu_name` (`address_sigungu_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='주소 : 시';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='주소 : 시';
 
--- 테이블 데이터 stayalive29.address_sigungu:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `address_sigungu` DISABLE KEYS */;
 INSERT INTO `address_sigungu` (`address_sigungu_no`, `address_sigungu_name`, `address_sigungu_date`) VALUES
 	(1, '전주시 덕진구', '2018-12-13'),
 	(7, '중랑구', '2018-12-14'),
-	(8, '평창군', '2018-12-14');
+	(8, '평창군', '2018-12-14'),
+	(9, '강북구', '2018-12-20'),
+	(10, '광진구', '2018-12-27'),
+	(15, '동대문구', '2018-12-28'),
+	(16, '완주군', '2018-12-28'),
+	(17, '노원구', '2018-12-28');
 /*!40000 ALTER TABLE `address_sigungu` ENABLE KEYS */;
 
--- 테이블 stayalive29.ad_cost 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ad_cost` (
   `ad_cost_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '광고 단가 번호(PK)',
   `ad_cost_type` varchar(50) NOT NULL COMMENT '광고 타입',
@@ -117,7 +113,6 @@ CREATE TABLE IF NOT EXISTS `ad_cost` (
   PRIMARY KEY (`ad_cost_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='광고단가';
 
--- 테이블 데이터 stayalive29.ad_cost:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `ad_cost` DISABLE KEYS */;
 INSERT INTO `ad_cost` (`ad_cost_no`, `ad_cost_type`, `ad_cost_perday`, `ad_cost_size`) VALUES
 	(1, '플래시', 14000, '340X700'),
@@ -125,12 +120,12 @@ INSERT INTO `ad_cost` (`ad_cost_no`, `ad_cost_type`, `ad_cost_perday`, `ad_cost_
 	(3, '이미지\r\n', 3000, '340X700');
 /*!40000 ALTER TABLE `ad_cost` ENABLE KEYS */;
 
--- 테이블 stayalive29.ad_file 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ad_file` (
   `ad_file_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '광고 파일 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
   `ad_register_no` int(11) NOT NULL COMMENT '광고 등록 번호(FK)',
   `file_register_table_no` int(10) NOT NULL COMMENT '파일 등록 테이블 번호(FK)',
+  `file_register_table_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '테이블 명',
   `ad_file_path` varchar(50) NOT NULL COMMENT '파일경로',
   `ad_file_stored_name` varchar(50) NOT NULL COMMENT '저장된 파일 이름',
   `ad_file_real_name` varchar(50) NOT NULL COMMENT '파일 오리지널 이름',
@@ -142,16 +137,16 @@ CREATE TABLE IF NOT EXISTS `ad_file` (
   KEY `ad_register_no` (`ad_register_no`),
   KEY `member_id` (`member_id`),
   KEY `file_register_table_no` (`file_register_table_no`),
+  KEY `FK_ad_file_image_file_category` (`file_register_table_name`),
   CONSTRAINT `FK_ad_file_ad_register` FOREIGN KEY (`ad_register_no`) REFERENCES `ad_register` (`ad_register_no`),
-  CONSTRAINT `FK_ad_file_file_register_table` FOREIGN KEY (`file_register_table_no`) REFERENCES `file_register_table` (`file_register_table_no`),
+  CONSTRAINT `FK_ad_file_file_register_table` FOREIGN KEY (`file_register_table_no`) REFERENCES `image_file_category` (`image_file_category_no`),
+  CONSTRAINT `FK_ad_file_image_file_category` FOREIGN KEY (`file_register_table_name`) REFERENCES `image_file_category` (`image_file_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_ad_file_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='광고 파일(관리자)';
 
--- 테이블 데이터 stayalive29.ad_file:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `ad_file` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ad_file` ENABLE KEYS */;
 
--- 테이블 stayalive29.ad_group 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ad_group` (
   `ad_group_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '광고 그룹 번호(PK)',
   `ad_group_name` varchar(50) NOT NULL COMMENT '그룹명',
@@ -160,7 +155,6 @@ CREATE TABLE IF NOT EXISTS `ad_group` (
   PRIMARY KEY (`ad_group_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='광고 그룹(관리자)';
 
--- 테이블 데이터 stayalive29.ad_group:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `ad_group` DISABLE KEYS */;
 INSERT INTO `ad_group` (`ad_group_no`, `ad_group_name`, `ad_group_date`, `ad_group_cost`) VALUES
 	(1, '메인스크롤 배너', '2018-11-19', 10000),
@@ -168,7 +162,6 @@ INSERT INTO `ad_group` (`ad_group_no`, `ad_group_name`, `ad_group_date`, `ad_gro
 	(3, '메인 하단', '2018-11-21', 2000);
 /*!40000 ALTER TABLE `ad_group` ENABLE KEYS */;
 
--- 테이블 stayalive29.ad_refund 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ad_refund` (
   `ad_refund_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '광고 환불 번호(PK)',
   `ad_no` int(11) NOT NULL COMMENT '광고 번호(FK)',
@@ -179,14 +172,13 @@ CREATE TABLE IF NOT EXISTS `ad_refund` (
   CONSTRAINT `FK_ad_no` FOREIGN KEY (`ad_no`) REFERENCES `ad_register` (`ad_register_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='광고 환불';
 
--- 테이블 데이터 stayalive29.ad_refund:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `ad_refund` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ad_refund` ENABLE KEYS */;
 
--- 테이블 stayalive29.ad_register 구조 내보내기
 CREATE TABLE IF NOT EXISTS `ad_register` (
   `ad_register_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '광고 등록 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
+  `ad_register_name` varchar(50) DEFAULT NULL COMMENT '광고명',
   `ad_register_date` date DEFAULT NULL COMMENT '광고 신청일',
   `ad_register_confirm` date DEFAULT NULL COMMENT '광고 승인일',
   `ad_cost_no` int(11) NOT NULL COMMENT '광고 단가 번호(FK)',
@@ -194,7 +186,6 @@ CREATE TABLE IF NOT EXISTS `ad_register` (
   `ad_register_end` date DEFAULT NULL COMMENT '마감시간',
   `ad_register_post` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '광고 게시 유무',
   `ad_group_no` int(11) NOT NULL COMMENT '광고 그룹 번호(FK)',
-  `ad_register_link` varchar(50) DEFAULT NULL COMMENT '광고링크',
   `ad_register_view` int(11) DEFAULT NULL COMMENT '노출수',
   `ad_register_click` int(11) DEFAULT NULL COMMENT '클릭수',
   `ad_update_date` date DEFAULT NULL COMMENT '광고 수정일',
@@ -205,38 +196,34 @@ CREATE TABLE IF NOT EXISTS `ad_register` (
   CONSTRAINT `FK_ad_register_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
   CONSTRAINT `ad_cost_no` FOREIGN KEY (`ad_cost_no`) REFERENCES `ad_cost` (`ad_cost_no`),
   CONSTRAINT `ad_group_no` FOREIGN KEY (`ad_group_no`) REFERENCES `ad_group` (`ad_group_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='광고 등록(판매자)';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='광고 등록(판매자)';
 
--- 테이블 데이터 stayalive29.ad_register:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `ad_register` DISABLE KEYS */;
-INSERT INTO `ad_register` (`ad_register_no`, `member_id`, `ad_register_date`, `ad_register_confirm`, `ad_cost_no`, `ad_register_start`, `ad_register_end`, `ad_register_post`, `ad_group_no`, `ad_register_link`, `ad_register_view`, `ad_register_click`, `ad_update_date`) VALUES
-	(1, 'ID1', '2018-12-11', '2018-12-11', 1, '2018-12-19', '2018-12-20', 'N', 2, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `ad_register` ENABLE KEYS */;
 
--- 테이블 stayalive29.auction_state_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `auction_state_category` (
   `auction_state_category_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '경매 상태 카테고리 번호(PK)',
   `auction_state_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '상태 카테고리명',
   `auction_state_category_date` date NOT NULL COMMENT '상테 카테고리 등록일',
-  PRIMARY KEY (`auction_state_category_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='경매 상태 카테고리';
+  PRIMARY KEY (`auction_state_category_no`),
+  UNIQUE KEY `auction_state_category_name` (`auction_state_category_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='경매 상태 카테고리';
 
--- 테이블 데이터 stayalive29.auction_state_category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `auction_state_category` DISABLE KEYS */;
 INSERT INTO `auction_state_category` (`auction_state_category_no`, `auction_state_category_name`, `auction_state_category_date`) VALUES
-	(1, '낙찰대기중\r\n', '2018-11-19'),
-	(2, '낙찰완료\r\n', '2018-11-20'),
-	(3, '결제완료\r\n', '2018-11-21');
+	(1, '낙찰대기중', '2018-11-19'),
+	(2, '낙찰완료', '2018-11-20'),
+	(3, '결제완료', '2018-11-21'),
+	(4, '만료', '2018-12-20');
 /*!40000 ALTER TABLE `auction_state_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_admin 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_admin` (
   `board_admin_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '관리자 게시글번호(PK)',
   `board_category_no` int(11) NOT NULL COMMENT '게시판 카테고리 번호(FK)',
-  `board_category_name` varchar(50) DEFAULT NULL COMMENT '카테고리명(게시판명)',
+  `board_category_name` varchar(50) NOT NULL COMMENT '카테고리명(게시판명)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '관리자아이디',
-  `group_no` varchar(50) DEFAULT NULL COMMENT '회원 그룹 번호(FK)',
-  `group_name` varchar(50) DEFAULT NULL COMMENT '그룹명',
+  `group_no` int(11) NOT NULL COMMENT '회원 그룹 번호(FK)',
+  `group_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '그룹명',
   `board_admin_title` varchar(50) DEFAULT NULL COMMENT '제목',
   `board_admin_content` varchar(50) DEFAULT NULL COMMENT '내용',
   `board_admin_register_date` date DEFAULT NULL COMMENT '게시글 등록일자',
@@ -245,29 +232,35 @@ CREATE TABLE IF NOT EXISTS `board_admin` (
   `board_member_file` int(11) DEFAULT NULL COMMENT '파일',
   `board_member_modify_date` date DEFAULT NULL COMMENT '게시글 마지막 수정일자',
   `board_state_no` int(11) NOT NULL COMMENT '게시판 상태 번호(FK)',
-  `board_state_name` varchar(50) DEFAULT NULL COMMENT '상태명',
+  `board_state_name` varchar(50) NOT NULL COMMENT '상태명',
   PRIMARY KEY (`board_admin_no`),
   KEY `admin_category_no` (`board_category_no`),
   KEY `admin_state_no` (`board_state_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_board_admin_board_category` (`board_category_name`),
+  KEY `FK_board_admin_member_group` (`group_no`),
+  KEY `FK_board_admin_member_group_2` (`group_name`),
+  KEY `FK_board_admin_board_state_2` (`board_state_name`),
+  CONSTRAINT `FK_board_admin_board_category` FOREIGN KEY (`board_category_name`) REFERENCES `board_category` (`board_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_board_admin_board_state` FOREIGN KEY (`board_state_no`) REFERENCES `board_state` (`board_state_no`),
+  CONSTRAINT `FK_board_admin_board_state_2` FOREIGN KEY (`board_state_name`) REFERENCES `board_state` (`board_state_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_board_admin_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  CONSTRAINT `FK_board_admin_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`),
+  CONSTRAINT `FK_board_admin_member_group_2` FOREIGN KEY (`group_name`) REFERENCES `member_group` (`group_name`) ON UPDATE CASCADE,
   CONSTRAINT `admin_category_no` FOREIGN KEY (`board_category_no`) REFERENCES `board_category` (`board_category_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시판(관리자)';
 
--- 테이블 데이터 stayalive29.board_admin:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_admin` DISABLE KEYS */;
 /*!40000 ALTER TABLE `board_admin` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_category` (
   `board_category_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '게시판 카테고리 번호(PK)',
   `board_category_name` varchar(50) NOT NULL COMMENT '카테고리명(게시판명)',
   `board_category_date` date NOT NULL COMMENT '카테고리 등록일',
-  PRIMARY KEY (`board_category_no`)
+  PRIMARY KEY (`board_category_no`),
+  UNIQUE KEY `board_category_name` (`board_category_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='게시판(카테고리) ';
 
--- 테이블 데이터 stayalive29.board_category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_category` DISABLE KEYS */;
 INSERT INTO `board_category` (`board_category_no`, `board_category_name`, `board_category_date`) VALUES
 	(1, '자유게시판', '2018-12-03'),
@@ -275,41 +268,53 @@ INSERT INTO `board_category` (`board_category_no`, `board_category_name`, `board
 	(3, '공지사항', '2018-12-03');
 /*!40000 ALTER TABLE `board_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_member 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_member` (
   `board_member_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '회원 게시글번호(PK)',
   `board_category_no` int(11) NOT NULL COMMENT '게시판 카테고리 번호(FK)',
   `board_category_name` varchar(50) NOT NULL COMMENT '카테고리명(게시판명)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
   `group_no` int(11) NOT NULL COMMENT '회원 그룹 번호(FK)',
-  `group_name` varchar(50) NOT NULL COMMENT '그룹명',
+  `group_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '그룹명',
   `board_member_title` varchar(50) NOT NULL COMMENT '제목',
-  `board_member_content` varchar(50) DEFAULT NULL COMMENT '내용',
+  `board_member_content` varchar(1000) DEFAULT NULL COMMENT '내용',
   `board_member_secret` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '비밀글',
   `board_member_register_date` date NOT NULL COMMENT '게시글 등록일자',
   `board_member_hits` int(11) unsigned zerofill DEFAULT NULL COMMENT '조회수',
   `board_member_recommend` int(11) unsigned zerofill DEFAULT NULL COMMENT '추천',
   `board_member_reply` int(11) unsigned zerofill DEFAULT NULL COMMENT '댓글',
-  `board_member_file` int(11) DEFAULT NULL COMMENT '파일',
+  `image_file_no` int(11) DEFAULT NULL COMMENT '파일',
   `board_member_modify_date` date DEFAULT NULL COMMENT '게시글 마지막 수정일자',
   `board_state_no` int(11) NOT NULL COMMENT '게시판 상태 번호(FK)',
-  `board_state_name` varchar(50) DEFAULT NULL COMMENT '상태명',
+  `board_state_name` varchar(50) NOT NULL COMMENT '상태명',
   PRIMARY KEY (`board_member_no`),
   KEY `member_category_no` (`board_category_no`),
   KEY `member_state_no` (`board_state_no`),
   KEY `group_no` (`group_no`),
   KEY `member_id` (`member_id`),
+  KEY `image_file_no` (`image_file_no`),
+  KEY `FK_board_member_board_category_2` (`board_category_name`),
+  KEY `FK_board_member_member_group_2` (`group_name`),
+  KEY `FK_board_member_board_state` (`board_state_name`),
   CONSTRAINT `FK_board_member_board_category` FOREIGN KEY (`board_category_no`) REFERENCES `board_category` (`board_category_no`),
+  CONSTRAINT `FK_board_member_board_category_2` FOREIGN KEY (`board_category_name`) REFERENCES `board_category` (`board_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_board_member_board_state` FOREIGN KEY (`board_state_name`) REFERENCES `board_state` (`board_state_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_board_member_image_file` FOREIGN KEY (`image_file_no`) REFERENCES `image_file` (`image_file_no`) ON DELETE SET NULL,
   CONSTRAINT `FK_board_member_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
   CONSTRAINT `FK_board_member_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`),
+  CONSTRAINT `FK_board_member_member_group_2` FOREIGN KEY (`group_name`) REFERENCES `member_group` (`group_name`) ON UPDATE CASCADE,
   CONSTRAINT `member_state_no` FOREIGN KEY (`board_state_no`) REFERENCES `board_state` (`board_state_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시판(회원)';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='게시판(회원)';
 
--- 테이블 데이터 stayalive29.board_member:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_member` DISABLE KEYS */;
+INSERT INTO `board_member` (`board_member_no`, `board_category_no`, `board_category_name`, `member_id`, `group_no`, `group_name`, `board_member_title`, `board_member_content`, `board_member_secret`, `board_member_register_date`, `board_member_hits`, `board_member_recommend`, `board_member_reply`, `image_file_no`, `board_member_modify_date`, `board_state_no`, `board_state_name`) VALUES
+	(25, 1, '자유게시판', 'id001', 1, '게스트', '111', '<p><img style="width:300px;height:300px" src="/image/boardMember/014a0059-f09d-4798-b86c-ab6862e51635.jpg"><img style="width:300px;height:300px" src="/image/boardMember/44af4419-3673-4e69-9030-a9d79ad12b14.jpg">&nbsp;</p>', 'N', '2018-12-28', NULL, NULL, NULL, NULL, NULL, 1, '일반'),
+	(26, 1, '자유게시판', 'id001', 1, '게스트', '111', '<p><img style="width:300px;height:300px" src="/image/boardMember/b16f7e31-0580-463c-b735-9a8eabe96ea7.jpg"><img style="width:300px;height:300px" src="/image/boardMember/d5507595-fed5-44f0-8ec5-e72a3c328d34.jpg">&nbsp;</p>', 'N', '2018-12-28', NULL, NULL, NULL, NULL, NULL, 1, '일반'),
+	(27, 1, '자유게시판', 'id001', 1, '게스트', '1111111', '<p><img style="width:300px;height:300px" src="/image/boardMember/a2e3aa1f-6c4f-4d80-b93a-61f964fc34e0.jpg"><img style="width:300px;height:300px" src="/image/boardMember/59af0f2d-c496-4c27-89eb-d82fb539c796.jpg">&nbsp;</p>', 'N', '2018-12-28', NULL, NULL, NULL, NULL, NULL, 1, '일반'),
+	(28, 1, '자유게시판', 'id001', 1, '게스트', '222', '<p><img style="width:300px;height:300px" src="/image/boardMember/3aca47d1-ad9f-4304-8d73-b20a172f5101.jpg"><img style="width:300px;height:300px" src="/image/boardMember/466dca7f-892b-4c63-a503-7b0e95517b99.jpg">&nbsp;</p>', 'N', '2018-12-28', NULL, NULL, NULL, NULL, NULL, 1, '일반'),
+	(29, 1, '자유게시판', 'id001', 1, '게스트', 'asd', '<p><img style="width:300px;height:300px" src="/image/boardMember/8580a15f-0da0-4c19-95c4-9b72862f3b38.gif">&nbsp;</p>', 'N', '2019-01-01', NULL, NULL, NULL, 176, NULL, 1, '일반'),
+	(30, 1, '자유게시판', 'id001', 1, '게스트', '하이', '<p><img style="width:300px;height:300px" src="/image/board/66716fc6-9340-42c4-a83a-1c0f785392b3.png">&nbsp;</p><p><br></p><p>안녕하세요!</p>', 'N', '2019-01-01', NULL, NULL, NULL, NULL, NULL, 1, '일반');
 /*!40000 ALTER TABLE `board_member` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_nonmember 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_nonmember` (
   `board_nonmember_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '비회원 게시글번호(PK)',
   `board_category_no` int(11) NOT NULL COMMENT '게시판 카테고리 번호',
@@ -325,27 +330,29 @@ CREATE TABLE IF NOT EXISTS `board_nonmember` (
   `board_nonmember_file` int(11) DEFAULT NULL COMMENT '파일',
   `board_nonmember_modify_date` date DEFAULT NULL COMMENT '게시글 마지막 수정일자',
   `board_state_no` int(11) NOT NULL COMMENT '게시판 상태 번호(FK)',
-  `board_state_name` varchar(50) DEFAULT NULL COMMENT '상태명',
+  `board_state_name` varchar(50) NOT NULL COMMENT '상태명',
   PRIMARY KEY (`board_nonmember_no`),
   KEY `nonmember_category_no` (`board_category_no`),
   KEY `nonmember_state_no` (`board_state_no`),
+  KEY `FK_board_nonmember_board_category_2` (`board_category_name`),
+  KEY `FK_board_nonmember_board_state_2` (`board_state_name`),
   CONSTRAINT `FK_board_nonmember_board_category` FOREIGN KEY (`board_category_no`) REFERENCES `board_category` (`board_category_no`),
-  CONSTRAINT `FK_board_nonmember_board_state` FOREIGN KEY (`board_state_no`) REFERENCES `board_state` (`board_state_no`)
+  CONSTRAINT `FK_board_nonmember_board_category_2` FOREIGN KEY (`board_category_name`) REFERENCES `board_category` (`board_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_board_nonmember_board_state` FOREIGN KEY (`board_state_no`) REFERENCES `board_state` (`board_state_no`),
+  CONSTRAINT `FK_board_nonmember_board_state_2` FOREIGN KEY (`board_state_name`) REFERENCES `board_state` (`board_state_name`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시판(비회원)';
 
--- 테이블 데이터 stayalive29.board_nonmember:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_nonmember` DISABLE KEYS */;
 /*!40000 ALTER TABLE `board_nonmember` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_reply 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_reply` (
   `board_reply_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '게시판 댓글 번호(PK)',
   `group_no` int(11) NOT NULL COMMENT '회원 그룹 번호(FK)',
-  `group_name` varchar(50) DEFAULT NULL COMMENT '그룹명',
+  `group_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '그룹명',
   `board_no` int(11) DEFAULT NULL COMMENT '각 게시판 게시글번호',
   `board_category_no` int(11) NOT NULL COMMENT '게시글 카테고리 번호',
   `board_reply_ip` varchar(50) DEFAULT NULL COMMENT 'IP주소',
-  `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin COMMENT '회원 아이디',
+  `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '회원 아이디',
   `board_reply_content` varchar(50) DEFAULT NULL COMMENT '내용',
   `board_reply_secret` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '비밀댓글',
   `board_reply_date` date NOT NULL COMMENT '댓글단 날짜',
@@ -353,24 +360,24 @@ CREATE TABLE IF NOT EXISTS `board_reply` (
   KEY `reply_group_no` (`group_no`),
   KEY `board_category_no` (`board_category_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_board_reply_member_group_2` (`group_name`),
   CONSTRAINT `FK_board_reply_board_category` FOREIGN KEY (`board_category_no`) REFERENCES `board_category` (`board_category_no`),
   CONSTRAINT `FK_board_reply_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
-  CONSTRAINT `FK_board_reply_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`)
+  CONSTRAINT `FK_board_reply_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`),
+  CONSTRAINT `FK_board_reply_member_group_2` FOREIGN KEY (`group_name`) REFERENCES `member_group` (`group_name`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시판(댓글)';
 
--- 테이블 데이터 stayalive29.board_reply:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_reply` DISABLE KEYS */;
 /*!40000 ALTER TABLE `board_reply` ENABLE KEYS */;
 
--- 테이블 stayalive29.board_state 구조 내보내기
 CREATE TABLE IF NOT EXISTS `board_state` (
   `board_state_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '게시판 상태 번호(PK)',
   `board_state_name` varchar(50) NOT NULL COMMENT '상태명',
   `board_state_date` date NOT NULL COMMENT '상태 등록일자',
-  PRIMARY KEY (`board_state_no`)
+  PRIMARY KEY (`board_state_no`),
+  UNIQUE KEY `board_state_name` (`board_state_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='게시판 상태(카테고리)';
 
--- 테이블 데이터 stayalive29.board_state:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board_state` DISABLE KEYS */;
 INSERT INTO `board_state` (`board_state_no`, `board_state_name`, `board_state_date`) VALUES
 	(1, '일반', '2018-12-03'),
@@ -378,20 +385,19 @@ INSERT INTO `board_state` (`board_state_no`, `board_state_name`, `board_state_da
 	(3, '문의대기', '2018-12-03');
 /*!40000 ALTER TABLE `board_state` ENABLE KEYS */;
 
--- 테이블 stayalive29.company 구조 내보내기
 CREATE TABLE IF NOT EXISTS `company` (
   `company_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '업체 등록 번호(PK)',
-  `company_name` varchar(50) DEFAULT NULL COMMENT '업체명',
-  `company_homepage` varchar(50) DEFAULT NULL COMMENT '업체 홈페이지',
-  `company_address` varchar(100) DEFAULT NULL COMMENT '업체 주소',
-  `company_email` varchar(100) DEFAULT NULL COMMENT '업체 이메일',
-  `company_detail` varchar(100) DEFAULT NULL COMMENT '업체 상세정보',
+  `company_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '업체명',
+  `company_homepage` varchar(50) NOT NULL COMMENT '업체 홈페이지',
+  `company_address` varchar(100) NOT NULL COMMENT '업체 주소',
+  `company_email` varchar(100) NOT NULL COMMENT '업체 이메일',
+  `company_detail` varchar(100) NOT NULL COMMENT '업체 상세정보',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙박 업체 회원 아이디',
-  `rating_no` int(11) COMMENT '회원 등급 번호(FK)',
-  `rating_name` varchar(50) DEFAULT NULL COMMENT '등급명',
-  `company_volume` int(11) unsigned DEFAULT '0' COMMENT '업체 거래량',
-  `member_option_no` int(11) COMMENT '회원옵션번호(FK)',
-  `member_option_name` varchar(50) DEFAULT NULL COMMENT '옵션명',
+  `rating_no` int(11) NOT NULL COMMENT '회원 등급 번호(FK)',
+  `rating_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '등급명',
+  `company_volume` int(11) DEFAULT '0' COMMENT '업체 거래량',
+  `member_option_no` int(11) NOT NULL COMMENT '회원옵션번호(FK)',
+  `member_option_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '옵션명',
   `register_salespost_total` int(11) unsigned DEFAULT '0' COMMENT '등록한 판매 게시물 수',
   `register_accommodation_count` int(11) unsigned DEFAULT '0' COMMENT '등록한 숙박시설 수',
   `reverseauction_register_count` int(11) unsigned DEFAULT '0' COMMENT '현재 역경매 입찰 현황(역경매 등록현황)',
@@ -399,472 +405,122 @@ CREATE TABLE IF NOT EXISTS `company` (
   `dutchauction_register_count` int(11) unsigned DEFAULT '0' COMMENT '네덜란드식 경매 등록 현황',
   `dutchauction_sales_count` int(11) unsigned DEFAULT '0' COMMENT '네덜란드식 경매 통한 판매량',
   `company_wishlist_count` int(11) unsigned DEFAULT '0' COMMENT '찜한 사람수',
-  `company_recognition` enum('Y','N') DEFAULT 'N' COMMENT '업체 승인 유무',
+  `company_recognition` enum('Y','N') DEFAULT 'N' COMMENT '업체(호스트) 승인 유무',
   `company_register_date` date DEFAULT NULL COMMENT '업체 등록일자',
   `company_update_date` date DEFAULT NULL COMMENT '마지막 업체 등록정보 수정일',
   PRIMARY KEY (`company_no`),
+  UNIQUE KEY `company_name` (`company_name`),
+  KEY `member_id` (`member_id`),
+  KEY `FK_company_member_rating_2` (`rating_name`),
   KEY `FK_company_member_rating` (`rating_no`),
   KEY `FK_company_member_option` (`member_option_no`),
-  KEY `member_id` (`member_id`),
+  KEY `FK_company_member_option_2` (`member_option_name`),
   CONSTRAINT `FK_company_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
   CONSTRAINT `FK_company_member_option` FOREIGN KEY (`member_option_no`) REFERENCES `member_option` (`member_option_no`),
-  CONSTRAINT `FK_company_member_rating` FOREIGN KEY (`rating_no`) REFERENCES `member_rating` (`rating_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=389 DEFAULT CHARSET=utf8 CHECKSUM=1 COMMENT='업체';
+  CONSTRAINT `FK_company_member_option_2` FOREIGN KEY (`member_option_name`) REFERENCES `member_option` (`member_option_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_company_member_rating` FOREIGN KEY (`rating_no`) REFERENCES `member_rating` (`rating_no`),
+  CONSTRAINT `FK_company_member_rating_2` FOREIGN KEY (`rating_name`) REFERENCES `member_rating` (`rating_name`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=404 DEFAULT CHARSET=utf8 CHECKSUM=1 COMMENT='업체';
 
--- 테이블 데이터 stayalive29.company:~378 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 INSERT INTO `company` (`company_no`, `company_name`, `company_homepage`, `company_address`, `company_email`, `company_detail`, `member_id`, `rating_no`, `rating_name`, `company_volume`, `member_option_no`, `member_option_name`, `register_salespost_total`, `register_accommodation_count`, `reverseauction_register_count`, `reverseauction_successfulbid_count`, `dutchauction_register_count`, `dutchauction_sales_count`, `company_wishlist_count`, `company_recognition`, `company_register_date`, `company_update_date`) VALUES
-	(9, '0', '0', '0', '', '', 'ID1', 4, 'vvip', 1, 1, '프리미엄1', 1, 1, 1, 1, 1, 1, 1, 'N', '2018-12-12', NULL),
-	(11, '1', '1', '1', '1', '', 'id011', 1, '123', 0, 2, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-13', NULL),
-	(12, '2', '2', '2', '2@2', '2', 'id011', 1, '123', 0, 2, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-13', NULL),
-	(13, '', '', '', '', '', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-13', NULL),
-	(14, 'rergdfg', '123', '123', 'asdf@masdf', 'sdfg', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-13', NULL),
-	(15, '3', '3', '3', '3@3', '3', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(16, '4', '4', '4', '4@4', '4', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(17, '5', '5', '5', '5@5', '5', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(18, '6', '6', '6', '6@6', '6', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(19, '7', '7', '7', '7@7', '7', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(20, '8', '8', '8', '8@8', '8', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(22, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(23, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(24, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(25, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(26, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(27, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(28, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(29, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(30, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(31, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(32, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(33, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(34, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(35, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(36, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(37, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(38, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(39, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(40, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(41, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(42, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(43, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(44, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(45, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(46, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(47, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(48, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(49, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(50, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(51, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(52, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(53, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(54, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(55, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(56, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(57, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(58, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(59, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(60, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(61, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(62, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(63, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(64, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(65, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(66, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(67, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(68, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(69, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(70, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(71, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(72, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(73, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(74, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(75, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(76, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(77, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(78, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(79, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(80, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(81, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(82, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(83, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(84, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(85, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(86, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(87, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(88, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(89, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(90, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(91, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(92, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(93, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(94, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(95, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(96, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(97, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(98, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(99, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(100, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(101, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(102, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(103, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(104, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(105, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(106, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(107, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(108, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(109, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(110, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(111, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(112, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(113, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(114, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(115, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(116, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(117, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(118, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(119, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(120, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(121, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(122, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(123, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(124, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(125, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(126, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(127, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(128, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(129, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(130, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(131, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(132, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(133, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(134, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(135, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(136, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(137, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(138, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(139, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(140, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(141, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(142, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(143, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(144, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(145, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(146, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(147, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(148, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(149, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(150, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(151, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(152, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(153, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(154, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(155, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(156, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(157, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(158, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(159, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(160, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(161, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(162, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(163, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(164, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(165, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(166, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(167, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(168, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(169, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(170, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(171, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(172, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(173, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(174, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(175, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(176, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(177, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(178, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(179, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(180, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(181, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(182, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(183, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(184, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(185, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(186, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(187, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(188, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(189, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(190, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(191, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(192, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(193, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(194, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(195, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(196, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(197, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(198, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(199, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(200, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(201, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(202, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(203, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(204, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(205, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(206, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(207, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(208, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(209, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(210, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(211, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(212, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(213, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(214, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(215, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(216, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(217, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(218, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(219, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(220, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(221, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(222, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(223, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(224, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(225, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(226, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(227, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(228, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(229, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(230, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(231, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(232, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(233, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(234, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(235, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(236, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(237, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(238, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(239, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(240, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(241, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(242, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(243, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(244, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(245, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(246, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(247, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(248, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(249, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(250, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(251, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(252, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(253, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(254, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(255, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(256, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(257, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(258, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(259, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(260, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(261, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(262, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(263, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(264, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(265, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(266, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(267, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(268, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(269, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(270, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(271, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(272, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(273, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(274, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(275, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(276, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(277, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(278, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(279, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(280, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(281, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(282, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(283, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(284, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(285, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(286, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(287, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(288, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(289, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(290, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(291, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(292, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(293, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(294, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(295, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(296, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(297, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(298, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(299, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(300, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(301, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(302, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(303, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(304, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(305, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(306, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(307, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(308, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(309, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(310, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(311, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(312, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(313, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(314, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(315, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(316, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(317, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(318, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(319, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(320, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(321, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(322, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(323, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(324, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(325, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(326, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(327, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(328, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(329, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(330, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(331, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(332, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(333, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(334, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(335, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(336, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(337, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(338, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(339, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(340, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(341, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(342, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(343, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(344, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(345, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(346, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(347, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(348, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(349, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(350, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(351, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(352, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(353, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(354, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(355, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(356, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(357, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(358, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(359, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(360, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(361, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(362, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(363, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(364, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(365, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(366, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(367, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(368, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(369, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(370, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(371, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(372, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(373, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(374, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(375, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(376, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(377, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(378, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(379, NULL, NULL, NULL, NULL, NULL, 'id011', 1, NULL, 0, 1, NULL, 0, 0, 0, 0, 0, 0, 0, 'N', NULL, NULL),
-	(380, '', '', '', '', '', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(381, '', '', '', '', '', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(382, 'rergdfg', '123', '123', 'asdf@masdf', '1414', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-14', NULL),
-	(383, '', '', '', '', '', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-17', NULL),
-	(384, '', '', '', '', '', 'id011', 1, '123', 0, 2, '프리미엄2', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-17', NULL),
-	(385, '1', '2', '3', '4@4', '5', 'ID1', 1, '', 0, 1, '', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-18', NULL),
-	(386, '', '', '', '', '', 'ID1', 1, '', 0, 1, '', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-19', NULL),
-	(387, '', '', '', '', '', 'ID1', 1, '', 0, 1, '', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-19', NULL),
-	(388, 'stayalive', 'stayalive.com', '전주시', 'stayalive@naver.com', 'stayalive로 숙소를 싸게 구하자', 'ID1', 1, '', 0, 1, '', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-19', NULL);
+	(395, '카카오', '카카오.com', '전북 전주시 송천동', 'kakao@kakao.com', '믿고 쓰는 카카오', 'stayalive001', 1, '실버', 0, 1, '프리미엄01', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-28', NULL),
+	(396, '업체이름1', '', '', '', '', 'ID1', 1, '실버', 0, 1, '프리미엄01', 0, 0, 0, 0, 0, 0, 0, 'N', '2018-12-28', NULL),
+	(403, '1', '1', '1', '1@1', '1', 'id001', 1, '실버', 0, 1, '프리미엄01', 0, 0, 0, 0, 0, 0, 0, 'Y', '2018-12-28', NULL);
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 
--- 테이블 stayalive29.dutchauction_register 구조 내보내기
 CREATE TABLE IF NOT EXISTS `dutchauction_register` (
   `dutchauction_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '네덜란드식 경매 등록 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
   `company_no` int(10) NOT NULL COMMENT '업체 등록번호(FK)',
-  `company_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '업체명',
+  `company_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_no` int(10) NOT NULL COMMENT '숙소 등록번호(FK)',
-  `accommodation_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `guestroom_no` int(10) NOT NULL COMMENT '객실 등록번호(FK)',
   `guestroom_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '객실명',
   `dutchauction_register_date` datetime NOT NULL COMMENT '등록일',
   `dutchauction_startprice` int(10) NOT NULL COMMENT '경매 시작가',
-  `accommodation_guestroom_allcount` int(10) DEFAULT NULL COMMENT '총 객실 수',
-  `guestroom_state_count` int(10) DEFAULT NULL COMMENT '빈 객실 수',
-  `maximum_discount_price` int(10) NOT NULL COMMENT '최대 할인가',
-  `dutchauction_xpersale` int(10) NOT NULL COMMENT 'x 시간당 할인가',
-  `dutchauction_xvalue` int(10) NOT NULL COMMENT 'x 값',
-  `dutchauction_curent_price` int(10) NOT NULL COMMENT '현재가',
-  `dutchauction_update_price` int(11) DEFAULT NULL COMMENT '마지막 가격 변동 시간(일자)',
+  `maximum_discount_price` int(10) DEFAULT NULL COMMENT '최대 할인가',
+  `dutchauction_sale_unit` int(10) NOT NULL COMMENT 'x 시간당 할인단위',
+  `dutchauction_sale_interval` int(10) NOT NULL COMMENT 'x 값(시간)',
+  `dutchauction_update_price` int(11) DEFAULT NULL COMMENT '최근 변동 가격',
+  `dutchauction_update_date` datetime DEFAULT NULL COMMENT '최근 변동일',
   `dutchauction_close_date` datetime NOT NULL COMMENT '경매 종료일',
-  `dutchauction_rooming_date` datetime DEFAULT NULL COMMENT '숙소 입실일',
-  `dutchauction_leaving_date` datetime DEFAULT NULL COMMENT '숙소 퇴실일',
-  `auction_state_category_no` int(10) NOT NULL COMMENT '경매 상태 카테고리 번호(FK)',
-  `auction_state_category_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '상태 카테고리명',
+  `dutchauction_checkin_date` datetime NOT NULL COMMENT '숙소 입실일',
+  `dutchauction_checkout_date` datetime NOT NULL COMMENT '숙소 퇴실일',
+  `auction_state_category_no` int(10) NOT NULL DEFAULT '1' COMMENT '경매 상태 카테고리 번호(FK)',
+  `auction_state_category_name` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '낙찰대기중' COMMENT '상태 카테고리명',
   PRIMARY KEY (`dutchauction_no`),
   KEY `FK_dutchauction_register_company` (`company_no`),
   KEY `FK_dutchauction_register_accommodation` (`accommodation_no`),
   KEY `FK_dutchauction_register_guestroom` (`guestroom_no`),
   KEY `FK_dutchauction_register_auction_state_category` (`auction_state_category_no`),
-  KEY `member_id` (`member_id`),
+  KEY `FK_dutchauction_register_company_2` (`company_name`),
+  KEY `FK_dutchauction_register_guestroom_2` (`guestroom_name`),
+  KEY `FK_dutchauction_register_auction_state_category_2` (`auction_state_category_name`),
+  KEY `FK_dutchauction_register_member` (`member_id`),
+  KEY `FK_dutchauction_register_accommodation_2` (`accommodation_name`),
   CONSTRAINT `FK_dutchauction_register_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_dutchauction_register_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_dutchauction_register_auction_state_category` FOREIGN KEY (`auction_state_category_no`) REFERENCES `auction_state_category` (`auction_state_category_no`),
+  CONSTRAINT `FK_dutchauction_register_auction_state_category_2` FOREIGN KEY (`auction_state_category_name`) REFERENCES `auction_state_category` (`auction_state_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_dutchauction_register_company` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
+  CONSTRAINT `FK_dutchauction_register_company_2` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_dutchauction_register_guestroom` FOREIGN KEY (`guestroom_no`) REFERENCES `guestroom` (`guestroom_no`),
-  CONSTRAINT `FK_dutchauction_register_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='네덜란드식 경매 등록';
+  CONSTRAINT `FK_dutchauction_register_guestroom_2` FOREIGN KEY (`guestroom_name`) REFERENCES `guestroom` (`guestroom_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_dutchauction_register_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='네덜란드식 경매 등록';
 
--- 테이블 데이터 stayalive29.dutchauction_register:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `dutchauction_register` DISABLE KEYS */;
+INSERT INTO `dutchauction_register` (`dutchauction_no`, `member_id`, `company_no`, `company_name`, `accommodation_no`, `accommodation_name`, `guestroom_no`, `guestroom_name`, `dutchauction_register_date`, `dutchauction_startprice`, `maximum_discount_price`, `dutchauction_sale_unit`, `dutchauction_sale_interval`, `dutchauction_update_price`, `dutchauction_update_date`, `dutchauction_close_date`, `dutchauction_checkin_date`, `dutchauction_checkout_date`, `auction_state_category_no`, `auction_state_category_name`) VALUES
+	(80, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 02:53:25', 100000, 80000, 100, 2, 99700, '2018-12-29 02:54:00', '2018-12-29 02:54:00', '2018-12-29 02:53:00', '2018-12-30 02:53:00', 2, '낙찰완료'),
+	(81, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 02:56:59', 100000, 80000, 5000, 2, 80000, '2018-12-29 02:57:39', '2018-12-29 02:58:00', '2018-12-29 02:56:00', '2018-12-30 02:56:00', 1, '낙찰대기중'),
+	(82, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 02:59:35', 100000, 80000, 100, 2, 99200, '2018-12-29 03:00:55', '2018-12-29 03:01:00', '2018-12-29 02:58:00', '2018-12-30 02:58:00', 2, '낙찰완료'),
+	(86, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 03:24:26', 100000, 80000, 100, 2, 99100, '2018-12-29 03:25:56', '2018-12-29 03:26:00', '2018-12-30 03:24:00', '2018-12-30 03:24:00', 4, '만료'),
+	(87, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 10:53:51', 100000, 80000, 100, 2, 98800, '2018-12-29 10:55:51', '2018-12-29 10:56:00', '2018-12-30 10:53:00', '2018-12-30 10:53:00', 2, '낙찰완료'),
+	(88, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 10:54:24', 100000, 80000, 3000, 2, 91000, '2018-12-29 10:54:54', '2018-12-29 10:55:00', '2018-12-30 10:53:00', '2018-12-31 10:53:00', 1, '낙찰대기중'),
+	(89, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-29 10:56:12', 100000, 80000, 3000, 2, 79000, '2018-12-29 10:57:22', '2018-12-29 11:59:00', '2018-12-30 10:55:00', '2018-12-30 10:55:00', 1, '낙찰대기중'),
+	(90, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-30 17:28:28', 120000, 80000, 3000, 2, 111000, '2018-12-30 17:28:58', '2018-12-30 17:29:00', '2018-12-30 17:27:00', '2018-12-31 17:27:00', 1, '낙찰대기중'),
+	(91, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', '2018-12-30 17:31:37', 100000, 80000, 3000, 2, 79000, '2018-12-30 17:32:47', '2018-12-30 17:37:00', '2018-12-30 17:31:00', '2018-12-31 17:31:00', 1, '낙찰대기중'),
+	(92, 'ID1', 396, '업체이름1', 2, '신라호텔', 33, '객실2', '2019-01-01 02:36:15', 100000, 80000, 3000, 2, 91000, '2019-01-01 02:36:45', '2019-01-01 02:38:00', '2019-01-05 02:35:00', '2019-01-19 02:35:00', 2, '낙찰완료'),
+	(93, 'id001', 403, '1', 11, '1', 35, '1의객실', '2019-01-01 14:35:19', 100000, 80000, 3000, 2, 82000, '2019-01-01 14:36:20', '2019-01-01 14:39:00', '2019-01-01 14:34:00', '2019-01-01 14:34:00', 2, '낙찰완료');
 /*!40000 ALTER TABLE `dutchauction_register` ENABLE KEYS */;
 
--- 테이블 stayalive29.dutchauction_successfulbid 구조 내보내기
 CREATE TABLE IF NOT EXISTS `dutchauction_successfulbid` (
   `dutchauction_successfulbid_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '네덜란드식 경매 낙찰번호(PK)',
   `dutchauction_register_no` int(11) NOT NULL COMMENT '네덜란드식 경매 등록번호(FK)',
-  `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
-  `dutchauction_successfulbid_price` int(10) DEFAULT NULL COMMENT '낙찰가',
-  `dutchauction_successfulbid_date` date DEFAULT NULL COMMENT '낙찰일',
-  `dutchauction_rooming_date` date DEFAULT NULL COMMENT '숙소 입실일',
-  `dutchauction_leaving_date` date DEFAULT NULL COMMENT '숙소 퇴실일',
-  `guestroom_option_no` int(10) NOT NULL COMMENT '객실 옵션 등록 번호(FK)',
+  `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디(낙찰자)',
+  `dutchauction_successfulbid_price` int(10) NOT NULL COMMENT '낙찰가',
+  `dutchauction_successfulbid_date` datetime NOT NULL COMMENT '낙찰일',
+  `dutchauction_checkin_date` datetime NOT NULL COMMENT '숙소 입실일',
+  `dutchauction_chechout_date` datetime NOT NULL COMMENT '숙소 퇴실일',
+  `guestroom_option_no` int(10) DEFAULT NULL COMMENT '객실 옵션 등록 번호(FK)',
   `guestroom_option_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '옵션명',
-  `guestroom_additional_price` int(10) DEFAULT NULL COMMENT '추가 가격/1박',
   `auction_state_category_no` int(10) NOT NULL COMMENT '상태 카테고리 번호(FK)',
-  `auction_state_category_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '상태 카테고리명',
+  `auction_state_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '상태 카테고리명',
   PRIMARY KEY (`dutchauction_successfulbid_no`),
   KEY `FK_dutchauction_successfulbid_dutchauction_register` (`dutchauction_register_no`),
   KEY `FK_dutchauction_successfulbid_auction_state_category` (`auction_state_category_no`),
-  KEY `FK_dutchauction_successfulbid_guestroom_option` (`guestroom_option_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_dutchauction_successfulbid_guestroom_option` (`guestroom_option_no`),
+  KEY `FK_dutchauction_successfulbid_guestroom_option_2` (`guestroom_option_name`),
+  KEY `FK_dutchauction_successfulbid_auction_state_category_2` (`auction_state_category_name`),
   CONSTRAINT `FK_dutchauction_successfulbid_auction_state_category` FOREIGN KEY (`auction_state_category_no`) REFERENCES `auction_state_category` (`auction_state_category_no`),
+  CONSTRAINT `FK_dutchauction_successfulbid_auction_state_category_2` FOREIGN KEY (`auction_state_category_name`) REFERENCES `auction_state_category` (`auction_state_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_dutchauction_successfulbid_dutchauction_register` FOREIGN KEY (`dutchauction_register_no`) REFERENCES `dutchauction_register` (`dutchauction_no`),
   CONSTRAINT `FK_dutchauction_successfulbid_guestroom_option` FOREIGN KEY (`guestroom_option_no`) REFERENCES `guestroom_option` (`guestroom_option_no`),
-  CONSTRAINT `FK_dutchauction_successfulbid_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='네덜란드식 경매 낙찰';
+  CONSTRAINT `FK_dutchauction_successfulbid_guestroom_option_2` FOREIGN KEY (`guestroom_option_name`) REFERENCES `guestroom_option` (`guestroom_option_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_dutchauction_successfulbid_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='네덜란드식 경매 낙찰';
 
--- 테이블 데이터 stayalive29.dutchauction_successfulbid:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `dutchauction_successfulbid` DISABLE KEYS */;
+INSERT INTO `dutchauction_successfulbid` (`dutchauction_successfulbid_no`, `dutchauction_register_no`, `member_id`, `dutchauction_successfulbid_price`, `dutchauction_successfulbid_date`, `dutchauction_checkin_date`, `dutchauction_chechout_date`, `guestroom_option_no`, `guestroom_option_name`, `auction_state_category_no`, `auction_state_category_name`) VALUES
+	(2, 80, 'ID1', 99700, '2019-01-01 02:00:29', '2018-12-29 02:53:00', '2018-12-30 02:53:00', NULL, NULL, 2, '낙찰완료'),
+	(3, 82, 'ID1', 99200, '2019-01-01 02:02:47', '2018-12-29 02:58:00', '2018-12-30 02:58:00', NULL, NULL, 2, '낙찰완료'),
+	(4, 92, 'ID1', 91000, '2019-01-01 02:36:51', '2019-01-05 02:35:00', '2019-01-19 02:35:00', NULL, NULL, 2, '낙찰완료'),
+	(5, 93, 'ID1', 82000, '2019-01-01 14:36:28', '2019-01-01 14:34:00', '2019-01-01 14:34:00', NULL, NULL, 2, '낙찰완료');
 /*!40000 ALTER TABLE `dutchauction_successfulbid` ENABLE KEYS */;
 
--- 테이블 stayalive29.file 구조 내보내기
 CREATE TABLE IF NOT EXISTS `file` (
   `file_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '파일 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
@@ -880,110 +536,98 @@ CREATE TABLE IF NOT EXISTS `file` (
   PRIMARY KEY (`file_no`),
   KEY `FK_file_file_register_table` (`file_register_table_no`),
   KEY `member_id` (`member_id`),
-  CONSTRAINT `FK_file_file_register_table` FOREIGN KEY (`file_register_table_no`) REFERENCES `file_register_table` (`file_register_table_no`),
-  CONSTRAINT `FK_file_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
+  KEY `FK_file_image_file_category` (`file_register_table_name`),
+  CONSTRAINT `FK_file_file_register_table` FOREIGN KEY (`file_register_table_no`) REFERENCES `image_file_category` (`image_file_category_no`),
+  CONSTRAINT `FK_file_image_file_category` FOREIGN KEY (`file_register_table_name`) REFERENCES `image_file_category` (`image_file_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_file_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='파일';
 
--- 테이블 데이터 stayalive29.file:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 
--- 테이블 stayalive29.file_register_table 구조 내보내기
-CREATE TABLE IF NOT EXISTS `file_register_table` (
-  `file_register_table_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '파일 등록 테이블 번호(PK)',
-  `file_register_table_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '테이블명',
-  `file_register_table_date` date NOT NULL COMMENT '테이블 등록일자',
-  PRIMARY KEY (`file_register_table_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='파일 등록 테이블';
-
--- 테이블 데이터 stayalive29.file_register_table:~6 rows (대략적) 내보내기
-/*!40000 ALTER TABLE `file_register_table` DISABLE KEYS */;
-INSERT INTO `file_register_table` (`file_register_table_no`, `file_register_table_name`, `file_register_table_date`) VALUES
-	(1, '역경매', '2018-12-10'),
-	(2, '게시판', '2018-12-10'),
-	(3, '숙소', '2018-12-10'),
-	(4, '업체', '2018-12-10'),
-	(5, '광고', '2018-12-11'),
-	(6, '사업자등록', '2018-12-13');
-/*!40000 ALTER TABLE `file_register_table` ENABLE KEYS */;
-
--- 테이블 stayalive29.guestroom 구조 내보내기
 CREATE TABLE IF NOT EXISTS `guestroom` (
   `guestroom_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '객실 등록 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙박 업체 회원 아이디',
   `company_no` int(11) NOT NULL COMMENT '업체 등록 번호(FK)',
-  `company_name` varchar(50) NOT NULL COMMENT '업체명',
+  `company_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_no` int(11) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) NOT NULL COMMENT '숙소명',
-  `guestroom_name` varchar(50) NOT NULL COMMENT '객실명',
-  `guestroom_image_count` int(10) unsigned zerofill DEFAULT NULL COMMENT '객실 이미지 개수',
-  `guestroom_buy_instant` int(11) NOT NULL COMMENT '즉시구매가(1박기준)',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
+  `guestroom_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '객실명',
+  `guestroom_buy_instant` int(11) NOT NULL DEFAULT '0' COMMENT '즉시구매가(1박기준)',
   `guestroom_capacity` int(11) NOT NULL COMMENT '수용인원',
-  `guestroom_capacity_max` int(11) NOT NULL COMMENT '최대 수용인원',
-  `guestroom_additional_perprice` int(10) unsigned zerofill DEFAULT NULL COMMENT '추가인원당 가격',
-  `guestroom_empty_count` int(10) unsigned zerofill DEFAULT NULL COMMENT '상태(빈 객실수)',
   `guestroom_size` int(11) NOT NULL COMMENT '방크기',
   `guestroom_detail` varchar(50) DEFAULT NULL COMMENT '세부내용',
-  `guestroom_register_date` date NOT NULL COMMENT '객실등록일자',
-  `guestroom_update_date` date DEFAULT NULL COMMENT '마지막 객실 등록정보 수정일',
+  `guestroom_register_date` datetime NOT NULL COMMENT '객실등록일자',
+  `guestroom_update_date` datetime DEFAULT NULL COMMENT '마지막 객실 등록정보 수정일',
+  `image_file_no` int(10) DEFAULT NULL COMMENT '객실 이미지 번호',
   PRIMARY KEY (`guestroom_no`),
+  UNIQUE KEY `guestroom_name` (`guestroom_name`),
   KEY `FK_guestroom_company` (`company_no`),
   KEY `FK_guestroom_accommodation` (`accommodation_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_guestroom_image_file` (`image_file_no`),
+  KEY `FK_guestroom_accommodation_2` (`accommodation_name`),
+  KEY `FK_guestroom_company_2` (`company_name`),
   CONSTRAINT `FK_guestroom_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_guestroom_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_company` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
-  CONSTRAINT `FK_guestroom_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='객실';
+  CONSTRAINT `FK_guestroom_company_2` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_guestroom_image_file` FOREIGN KEY (`image_file_no`) REFERENCES `image_file` (`image_file_no`) ON DELETE SET NULL,
+  CONSTRAINT `FK_guestroom_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='객실';
 
--- 테이블 데이터 stayalive29.guestroom:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `guestroom` DISABLE KEYS */;
-INSERT INTO `guestroom` (`guestroom_no`, `member_id`, `company_no`, `company_name`, `accommodation_no`, `accommodation_name`, `guestroom_name`, `guestroom_image_count`, `guestroom_buy_instant`, `guestroom_capacity`, `guestroom_capacity_max`, `guestroom_additional_perprice`, `guestroom_empty_count`, `guestroom_size`, `guestroom_detail`, `guestroom_register_date`, `guestroom_update_date`) VALUES
-	(2, 'ID1', 9, '1', 6, '1', '1', 0000000001, 1, 1, 0, 0000000001, 0000000001, 1, '1', '2018-12-12', '2018-12-12');
+INSERT INTO `guestroom` (`guestroom_no`, `member_id`, `company_no`, `company_name`, `accommodation_no`, `accommodation_name`, `guestroom_name`, `guestroom_buy_instant`, `guestroom_capacity`, `guestroom_size`, `guestroom_detail`, `guestroom_register_date`, `guestroom_update_date`, `image_file_no`) VALUES
+	(32, 'ID1', 396, '업체이름1', 2, '신라호텔', '객실1', 0, 4, 30, '안녕하세요', '2018-12-28 11:50:11', NULL, 137),
+	(33, 'ID1', 396, '업체이름1', 2, '신라호텔', '객실2', 0, 4, 30, 'asd', '2018-12-28 19:33:01', NULL, 174),
+	(35, 'id001', 403, '1', 11, '1', '1의객실', 0, 4, 30, 'eeeeeee', '2019-01-01 14:35:19', NULL, 180);
 /*!40000 ALTER TABLE `guestroom` ENABLE KEYS */;
 
--- 테이블 stayalive29.guestroom_option 구조 내보내기
 CREATE TABLE IF NOT EXISTS `guestroom_option` (
   `guestroom_option_no` int(11) NOT NULL COMMENT '객실 옵션 등록 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙박 업체 회원 아이디',
   `company_no` int(11) NOT NULL COMMENT '업체 등록 번호(FK)',
-  `company_name` varchar(50) NOT NULL COMMENT '업체명',
+  `company_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_no` int(11) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) NOT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `guestroom_no` int(11) NOT NULL COMMENT '객실 등록 번호(FK)',
-  `guestroom_name` varchar(50) NOT NULL COMMENT '객실명',
-  `guestroom_option_name` varchar(50) DEFAULT NULL COMMENT '옵션명',
+  `guestroom_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '객실명',
+  `guestroom_option_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '옵션명',
   `guestroom_additional_perday` int(10) unsigned zerofill DEFAULT NULL COMMENT '추가가격/1박',
   `guestroom_option_register_date` date NOT NULL COMMENT '옵션등록일자',
   `guestroom_option_update_date` date DEFAULT NULL COMMENT '마지막 옵션 등록정보 수정일',
   PRIMARY KEY (`guestroom_option_no`),
+  UNIQUE KEY `guestroom_option_name` (`guestroom_option_name`),
   KEY `FK_guestroom_option_company` (`company_no`),
   KEY `FK_guestroom_option_accommodation` (`accommodation_no`),
   KEY `FK_guestroom_option_guestroom` (`guestroom_no`),
   KEY `member_id` (`member_id`),
+  KEY `FK_guestroom_option_company_2` (`company_name`),
+  KEY `FK_guestroom_option_accommodation_2` (`accommodation_name`),
+  KEY `FK_guestroom_option_guestroom_2` (`guestroom_name`),
   CONSTRAINT `FK_guestroom_option_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_guestroom_option_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_option_company` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
+  CONSTRAINT `FK_guestroom_option_company_2` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_option_guestroom` FOREIGN KEY (`guestroom_no`) REFERENCES `guestroom` (`guestroom_no`),
-  CONSTRAINT `FK_guestroom_option_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
+  CONSTRAINT `FK_guestroom_option_guestroom_2` FOREIGN KEY (`guestroom_name`) REFERENCES `guestroom` (`guestroom_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_guestroom_option_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='객실 옵션';
 
--- 테이블 데이터 stayalive29.guestroom_option:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `guestroom_option` DISABLE KEYS */;
-INSERT INTO `guestroom_option` (`guestroom_option_no`, `member_id`, `company_no`, `company_name`, `accommodation_no`, `accommodation_name`, `guestroom_no`, `guestroom_name`, `guestroom_option_name`, `guestroom_additional_perday`, `guestroom_option_register_date`, `guestroom_option_update_date`) VALUES
-	(0, 'ID1', 9, '1', 6, '1', 2, '1', '1', 0000010000, '2018-12-13', '2018-12-13');
 /*!40000 ALTER TABLE `guestroom_option` ENABLE KEYS */;
 
--- 테이블 stayalive29.guestroom_service 구조 내보내기
 CREATE TABLE IF NOT EXISTS `guestroom_service` (
   `guestroom_service_no` int(11) NOT NULL COMMENT '객실 서비스 등록 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙박 업체 회원 아이디',
   `company_no` int(11) NOT NULL COMMENT '업체 등록 번호(FK)',
-  `company_name` varchar(50) NOT NULL COMMENT '업체명',
+  `company_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_no` int(11) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) NOT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `guestroom_no` int(11) NOT NULL COMMENT '객실 등록 번호(FK)',
-  `guestroom_name` varchar(50) NOT NULL COMMENT '객실명',
+  `guestroom_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '객실명',
   `guestroom_service_category_no` int(11) NOT NULL COMMENT '객실 서비스 카테고리 번호(FK)',
-  `guestroom_service_category_name` varchar(50) NOT NULL COMMENT '객실 서비스 카테고리 명',
+  `guestroom_service_category_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '객실 서비스 카테고리 명',
   `guestroom_service_registration_date` date NOT NULL COMMENT '객실 서비스 등록 일자',
   `guestroom_service_update_date` date DEFAULT NULL COMMENT '마지막 객실 서비스 등록정보 수정일',
   PRIMARY KEY (`guestroom_service_no`),
@@ -992,27 +636,33 @@ CREATE TABLE IF NOT EXISTS `guestroom_service` (
   KEY `FK_guestroom_service_guestroom` (`guestroom_no`),
   KEY `FK_guestroom_service_guestroom_service_category` (`guestroom_service_category_no`),
   KEY `FK_guestroom_service_member` (`member_id`),
+  KEY `FK_guestroom_service_company_2` (`company_name`),
+  KEY `FK_guestroom_service_accommodation_2` (`accommodation_name`),
+  KEY `FK_guestroom_service_guestroom_2` (`guestroom_name`),
+  KEY `FK_guestroom_service_guestroom_service_category_2` (`guestroom_service_category_name`),
   CONSTRAINT `FK_guestroom_service_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_guestroom_service_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_service_company` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
+  CONSTRAINT `FK_guestroom_service_company_2` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_service_guestroom` FOREIGN KEY (`guestroom_no`) REFERENCES `guestroom` (`guestroom_no`),
+  CONSTRAINT `FK_guestroom_service_guestroom_2` FOREIGN KEY (`guestroom_name`) REFERENCES `guestroom` (`guestroom_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_service_guestroom_service_category` FOREIGN KEY (`guestroom_service_category_no`) REFERENCES `guestroom_service_category` (`guestroom_service_category_no`),
+  CONSTRAINT `FK_guestroom_service_guestroom_service_category_2` FOREIGN KEY (`guestroom_service_category_name`) REFERENCES `guestroom_service_category` (`guestroom_service_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_guestroom_service_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='객실 서비스';
 
--- 테이블 데이터 stayalive29.guestroom_service:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `guestroom_service` DISABLE KEYS */;
 /*!40000 ALTER TABLE `guestroom_service` ENABLE KEYS */;
 
--- 테이블 stayalive29.guestroom_service_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `guestroom_service_category` (
   `guestroom_service_category_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '객실 서비스 카테고리 번호(PK)',
-  `guestroom_service_category_name` varchar(50) NOT NULL COMMENT '객실 서비스 카테고리명',
+  `guestroom_service_category_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '객실 서비스 카테고리명',
   `guestroom_service_category_registration_date` date NOT NULL COMMENT '카테고리 등록일자',
   `guestroom_service_category_update_date` date DEFAULT NULL COMMENT '카테고리 수정일자',
-  PRIMARY KEY (`guestroom_service_category_no`)
+  PRIMARY KEY (`guestroom_service_category_no`),
+  UNIQUE KEY `guestroom_service_category_name` (`guestroom_service_category_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='객실 서비스 카테고리';
 
--- 테이블 데이터 stayalive29.guestroom_service_category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `guestroom_service_category` DISABLE KEYS */;
 INSERT INTO `guestroom_service_category` (`guestroom_service_category_no`, `guestroom_service_category_name`, `guestroom_service_category_registration_date`, `guestroom_service_category_update_date`) VALUES
 	(1, '와이파이\r\n', '2018-12-03', '0000-00-00'),
@@ -1020,36 +670,66 @@ INSERT INTO `guestroom_service_category` (`guestroom_service_category_no`, `gues
 	(3, '객실내PC\r\n', '2018-12-03', '0000-00-00');
 /*!40000 ALTER TABLE `guestroom_service_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.image_file 구조 내보내기
 CREATE TABLE IF NOT EXISTS `image_file` (
   `image_file_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '이미지 파일 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
-  `file_register_table_no` int(10) NOT NULL COMMENT '파일 등록 테이블 번호(FK)',
-  `file_register_table_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '테이블명',
+  `image_file_category_no` int(10) NOT NULL COMMENT '파일 등록 테이블 번호(FK)',
+  `image_file_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '이미지파일 카테고리',
   `image_file_path` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '이미지 파일 경로',
   `image_file_real_name` varchar(50) COLLATE utf8_bin NOT NULL,
   `image_file_stored_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '이미지 파일 이름',
   `image_file_ext` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '이미지 파일 확장자',
   `image_file_type` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '이미지 파일 형식',
   `image_file_size` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '이미지 파일 크기',
-  `image_file_register_date` date NOT NULL COMMENT '이미지 파일 등록일',
+  `image_file_register_date` datetime NOT NULL COMMENT '이미지 파일 등록일',
   PRIMARY KEY (`image_file_no`),
-  KEY `file_register_table_no` (`file_register_table_no`),
   KEY `FK_image_file_member` (`member_id`),
-  CONSTRAINT `FK_image_file_file_register_table` FOREIGN KEY (`file_register_table_no`) REFERENCES `file_register_table` (`file_register_table_no`),
-  CONSTRAINT `FK_image_file_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='이미지 파일';
+  KEY `FK_image_file_image_file_category` (`image_file_category_no`),
+  KEY `FK_image_file_image_file_category_2` (`image_file_category_name`),
+  CONSTRAINT `FK_image_file_image_file_category` FOREIGN KEY (`image_file_category_no`) REFERENCES `image_file_category` (`image_file_category_no`),
+  CONSTRAINT `FK_image_file_image_file_category_2` FOREIGN KEY (`image_file_category_name`) REFERENCES `image_file_category` (`image_file_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_image_file_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='이미지 파일';
 
--- 테이블 데이터 stayalive29.image_file:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `image_file` DISABLE KEYS */;
-INSERT INTO `image_file` (`image_file_no`, `member_id`, `file_register_table_no`, `file_register_table_name`, `image_file_path`, `image_file_real_name`, `image_file_stored_name`, `image_file_ext`, `image_file_type`, `image_file_size`, `image_file_register_date`) VALUES
-	(8, 'ID1', 6, '사업자등록', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\business', '02map-7', '9bbb66fa-535e-4b3b-a327-3b3a59bfa713', 'gif', 'image/gif', '84', '2018-12-13'),
-	(9, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\business', '2612_tristan68', 'ce4a2258-91a1-424e-a9a6-2720dd426043', 'gif', 'image/gif', '184', '2018-12-14'),
-	(10, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\accommodation', '02map-7', '904e9f23-5060-4a97-9ab4-02a5fe71fa79', 'gif', 'image/gif', '84', '2018-12-14'),
-	(11, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\accommodation', '2612_tristan68', '751f0420-4e77-46ce-bcd6-6c5f4d8a2cf7', 'gif', 'image/gif', '184', '2018-12-14');
+INSERT INTO `image_file` (`image_file_no`, `member_id`, `image_file_category_no`, `image_file_category_name`, `image_file_path`, `image_file_real_name`, `image_file_stored_name`, `image_file_ext`, `image_file_type`, `image_file_size`, `image_file_register_date`) VALUES
+	(126, 'id001', 2, '게시판', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.6144787175578216670.80\\image\\board', 'Jellyfish', '22880e33-47b5-42c1-90e9-e2af07008035', 'jpg', 'image/jpeg', '757', '2018-12-28 10:35:17'),
+	(137, 'ID1', 7, '객실', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\guestroom', '2612_tristan68', 'aa353a94-2766-4531-8bb4-4a88e5bfe78e', 'gif', 'image/gif', '184', '2018-12-28 11:50:11'),
+	(166, 'id001', 6, '사업자등록', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\business', '02map-7', '0a30154e-c28a-4a6b-8bd4-688acd35e020', 'gif', 'image/gif', '84', '2018-12-28 14:13:48'),
+	(167, 'stayalive001', 6, '사업자등록', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.8711811985370864063.80\\image\\business', 'logo_b', '59b2f75f-d0e6-41f9-a1a7-55385ac3408a', 'png', 'image/png', '7', '2018-12-28 14:39:21'),
+	(168, 'id001', 6, '사업자등록', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.3954553117659740379.80\\image\\business', 'SA', '2fd77f56-aeea-4794-ba8d-37e329a98efd', 'PNG', 'image/png', '4', '2018-12-28 16:04:09'),
+	(169, 'id001', 6, '사업자등록', 'C:\\Users\\Administrator\\git\\stayalive\\src\\main\\webapp\\image\\business', '2612_tristan68', '708143b2-b16e-4616-81f2-9c28e831614e', 'gif', 'image/gif', '184', '2018-12-28 16:16:44'),
+	(170, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.5569564485186428743.80\\image\\accommodation', 'kang_background', 'dfdc1296-d13e-4e85-8f7e-06dd36421492', 'jpg', 'image/jpeg', '50', '2018-12-28 16:28:06'),
+	(171, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.5569564485186428743.80\\image\\accommodation', 'kang_background', 'b710cf6b-99f7-4f3f-88c8-8a3aa5f73a15', 'jpg', 'image/jpeg', '50', '2018-12-28 16:29:07'),
+	(172, 'ID1', 3, '숙소', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.5569564485186428743.80\\image\\accommodation', 'logo_b', 'e5d099fe-59e5-4df7-8790-36e99b549470', 'png', 'image/png', '7', '2018-12-28 16:29:07'),
+	(173, 'id001', 6, '사업자등록', 'C:\\Users\\Administrator\\AppData\\Local\\Temp\\tomcat-docbase.5569564485186428743.80\\image\\business', 'testcat', '3588d3ad-2664-43d6-b13a-3bdc69ff9bcd', 'JPG', 'image/jpeg', '108', '2018-12-28 16:29:10'),
+	(174, 'ID1', 7, '객실', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\guestroom', '02map', '8f0137cc-fe27-4733-b40a-8a4bd8a11309', 'gif', 'image/gif', '84', '2018-12-28 19:33:01'),
+	(175, 'id001', 2, '게시판', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\board', '02map', '8580a15f-0da0-4c19-95c4-9b72862f3b38', 'gif', 'image/gif', '84', '2019-01-01 09:57:11'),
+	(176, 'id001', 2, '게시판', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\business', '02map', '895829b5-96cb-4452-a7e3-61dc4e4312f2', 'gif', 'image/gif', '84', '2019-01-01 10:10:59'),
+	(177, 'id001', 2, '게시판', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\board', '02map', '28d4650d-3c7e-4bfe-a393-08b53191040c', 'gif', 'image/gif', '84', '2019-01-01 10:24:55'),
+	(178, 'id001', 2, '게시판', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\board', 'mobile_102013424755', '66716fc6-9340-42c4-a83a-1c0f785392b3', 'png', 'image/png', '27', '2019-01-01 11:45:16'),
+	(180, 'id001', 7, '객실', 'C:\\Users\\LKH\\git\\stayalive\\src\\main\\webapp\\image\\guestroom', 'mobile_102013424755', '290abcc8-90a3-4bf9-864f-b740f78e4506', 'png', 'image/png', '27', '2019-01-01 14:35:19');
 /*!40000 ALTER TABLE `image_file` ENABLE KEYS */;
 
--- 테이블 stayalive29.member 구조 내보내기
+CREATE TABLE IF NOT EXISTS `image_file_category` (
+  `image_file_category_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '파일 등록 테이블 번호(PK)',
+  `image_file_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '테이블명',
+  `image_file_category_date` date NOT NULL COMMENT '테이블 등록일자',
+  PRIMARY KEY (`image_file_category_no`),
+  UNIQUE KEY `file_register_table_name` (`image_file_category_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='이미지 파일 카테고리';
+
+/*!40000 ALTER TABLE `image_file_category` DISABLE KEYS */;
+INSERT INTO `image_file_category` (`image_file_category_no`, `image_file_category_name`, `image_file_category_date`) VALUES
+	(1, '역경매', '2018-12-10'),
+	(2, '게시판', '2018-12-10'),
+	(3, '숙소', '2018-12-10'),
+	(4, '업체', '2018-12-10'),
+	(5, '광고', '2018-12-11'),
+	(6, '사업자등록', '2018-12-13'),
+	(7, '객실', '2018-12-21');
+/*!40000 ALTER TABLE `image_file_category` ENABLE KEYS */;
+
 CREATE TABLE IF NOT EXISTS `member` (
   `member_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '회원 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '아이디(UN)',
@@ -1062,13 +742,13 @@ CREATE TABLE IF NOT EXISTS `member` (
   `member_email_accept` enum('Y','N') DEFAULT NULL COMMENT '이메일수신동의',
   `member_sms_accept` enum('Y','N') DEFAULT NULL COMMENT 'sms수신동의',
   `state_no` int(11) NOT NULL COMMENT '회원 상태 번호(FK)',
-  `state_name` varchar(50) NOT NULL COMMENT '상태명',
+  `state_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '상태명',
   `group_no` int(11) NOT NULL COMMENT '회원 그룹 번호(FK)',
-  `group_name` varchar(50) NOT NULL COMMENT '회원 그룹명',
+  `group_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 그룹명',
   `rating_no` int(11) NOT NULL COMMENT '회원 등급 번호(FK)',
-  `rating_name` varchar(50) NOT NULL COMMENT '회원 등급명',
-  `member_option_no` int(11) DEFAULT NULL COMMENT '회원 옵션 번호(FK)',
-  `member_option_name` varchar(50) DEFAULT NULL COMMENT '회원 옵션명',
+  `rating_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 등급명',
+  `member_option_no` int(11) NOT NULL COMMENT '회원 옵션 번호(FK)',
+  `member_option_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 옵션명',
   `member_sns_id` varchar(50) DEFAULT NULL COMMENT 'sns아이디',
   `member_register_date` datetime NOT NULL COMMENT '가입일자',
   `member_lastupdate_date` datetime NOT NULL COMMENT '마지막 정보수정일자',
@@ -1081,55 +761,46 @@ CREATE TABLE IF NOT EXISTS `member` (
   KEY `FK_member_member_state` (`state_no`),
   KEY `FK_member_member_group` (`group_no`),
   KEY `FK_member_member_rating` (`rating_no`),
+  KEY `FK_member_member_group_2` (`group_name`),
+  KEY `FK_member_member_state_2` (`state_name`),
+  KEY `FK_member_member_rating_2` (`rating_name`),
+  KEY `FK_member_member_option_2` (`member_option_name`),
   KEY `FK_member_member_option` (`member_option_no`),
   CONSTRAINT `FK_member_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`),
+  CONSTRAINT `FK_member_member_group_2` FOREIGN KEY (`group_name`) REFERENCES `member_group` (`group_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_member_member_option` FOREIGN KEY (`member_option_no`) REFERENCES `member_option` (`member_option_no`),
+  CONSTRAINT `FK_member_member_option_2` FOREIGN KEY (`member_option_name`) REFERENCES `member_option` (`member_option_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_member_member_rating` FOREIGN KEY (`rating_no`) REFERENCES `member_rating` (`rating_no`),
-  CONSTRAINT `FK_member_member_state` FOREIGN KEY (`state_no`) REFERENCES `member_state` (`state_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8 COMMENT='회원정보';
+  CONSTRAINT `FK_member_member_rating_2` FOREIGN KEY (`rating_name`) REFERENCES `member_rating` (`rating_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_member_member_state` FOREIGN KEY (`state_no`) REFERENCES `member_state` (`state_no`),
+  CONSTRAINT `FK_member_member_state_2` FOREIGN KEY (`state_name`) REFERENCES `member_state` (`state_name`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8 COMMENT='회원정보';
 
--- 테이블 데이터 stayalive29.member:~20 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
 INSERT INTO `member` (`member_no`, `member_id`, `member_password`, `member_name`, `member_nickname`, `member_birth`, `member_phone_number1`, `member_email`, `member_email_accept`, `member_sms_accept`, `state_no`, `state_name`, `group_no`, `group_name`, `rating_no`, `rating_name`, `member_option_no`, `member_option_name`, `member_sns_id`, `member_register_date`, `member_lastupdate_date`, `member_lastlogout_date`, `member_lastlogin_date`, `member_login_count`) VALUES
-	(1, 'ID1', 'PW2', '회원', '닉네임', '2018-12-11', '0', '', 'Y', 'Y', 1, '', 2, '', 1, '', 1, '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
-	(25, 'id011', '123', '박형민', '1234', '2018-12-07', '105123', 'asdfasdf', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 2, '프리미엄2', NULL, '2018-12-12 15:30:37', '2018-12-12 15:30:37', '2018-12-12 15:30:37', '2018-12-12 15:30:37', 1),
-	(109, 'id001', '1234', '박형민', '1234456', '2018-12-05', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 14:54:08', '2018-12-18 14:54:08', '2018-12-18 14:54:08', '2018-12-18 14:54:08', 1),
-	(110, 'id0028', '7890', '박형민', '1235688', '2018-12-05', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:02:26', '2018-12-18 15:02:26', '2018-12-18 15:02:26', '2018-12-18 15:02:26', 1),
-	(111, 'id002', '1234', 'ASDF', '123787', '2018-12-04', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:15:10', '2018-12-18 15:15:10', '2018-12-18 15:15:10', '2018-12-18 15:15:10', 1),
-	(112, 'id003', '1234', 'ASDF', '75675', '2018-12-27', '010512df', 'asdfasdf@adfa', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:18:45', '2018-12-18 15:18:45', '2018-12-18 15:18:45', '2018-12-18 15:18:45', 1),
-	(113, 'id004', '1234', 'ASDF', '123551', '2018-12-03', '010512', 'asdfasdf@adfa', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:22:51', '2018-12-18 15:22:51', '2018-12-18 15:22:51', '2018-12-18 15:22:51', 1),
-	(114, 'id006', '1234', 'ASDF', '1441251', '2018-12-03', '010512', 'asdfasdf@adfa', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:34:15', '2018-12-18 15:34:15', '2018-12-18 15:34:15', '2018-12-18 15:34:15', 1),
-	(115, '12345', '1234', '박형민', '박형민', '2018-12-06', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:52:42', '2018-12-18 15:52:42', '2018-12-18 15:52:42', '2018-12-18 15:52:42', 1),
-	(116, 'id0056', '1234', 'ASDF', '1234', '2018-12-06', '010512', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 15:56:48', '2018-12-18 15:56:48', '2018-12-18 15:56:48', '2018-12-18 15:56:48', 1),
-	(118, 'id01231', '1234', '1231', '51513', '2018-12-10', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 16:24:36', '2018-12-18 16:24:36', '2018-12-18 16:24:36', '2018-12-18 16:24:36', 1),
-	(119, 'id00566', '1234', 'ASDF', '1415', '2018-12-12', '010512', 'asdfasdf@adfa', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 16:28:05', '2018-12-18 16:28:05', '2018-12-18 16:28:05', '2018-12-18 16:28:05', 1),
-	(121, 'id0145', '1234', '박형민', 'vksdlk', '2018-12-05', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 16:32:55', '2018-12-18 16:32:55', '2018-12-18 16:32:55', '2018-12-18 16:32:55', 1),
-	(123, 'id0ad', '1234', '박형민', 'vffbfd', '2018-12-05', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 16:33:45', '2018-12-18 16:33:45', '2018-12-18 16:33:45', '2018-12-18 16:33:45', 1),
-	(124, '', '', '', '', '', '', '', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 17:08:08', '2018-12-18 17:08:08', '2018-12-18 17:08:08', '2018-12-18 17:08:08', 1),
-	(126, '123', '', '', '', '', '', '', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-18 17:08:43', '2018-12-18 17:08:43', '2018-12-18 17:08:43', '2018-12-18 17:08:43', 1),
-	(128, '45647', '1234', '박형민', '1235', '2018-12-05', '0105123', 'asd0f@hana', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-19 10:15:54', '2018-12-19 10:15:54', '2018-12-19 10:15:54', '2018-12-19 10:15:54', 1),
-	(129, 'asdff', '1234', '박형민', '1234d', '2018-12-05', '0105123', 'asdf@hana.com', 'Y', 'Y', 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-19 11:24:18', '2018-12-19 11:24:18', '2018-12-19 11:24:18', '2018-12-19 11:24:18', 1),
-	(130, 'id002jyj', '1234', '박형민', '1234456j', '2018-12-06', '0105123', 'asd0f@hana.com', 'Y', NULL, 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-19 16:27:27', '2018-12-19 16:27:27', '2018-12-19 16:27:27', '2018-12-19 16:27:27', 1),
-	(131, 'id003d', '1234', '박형민', 'asdfas', '19890829', '010512', 'asdf@hana.com', NULL, NULL, 1, '123', 1, '123', 1, '123', 1, '123', NULL, '2018-12-19 16:31:59', '2018-12-19 16:31:59', '2018-12-19 16:31:59', '2018-12-19 16:31:59', 1);
+	(1, 'ID1', '123', '테스터', '테스트', '', '', '', NULL, NULL, 1, '일반', 4, '업체등록자', 1, '실버', 1, '프리미엄01', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(2, 'stayalive001', 'stayalive29', '에스에이', 'SASASA', '20181228', '0101111111', 'stayalive@stayalive.com', NULL, NULL, 1, '일반', 3, '관리자', 1, '실버', 1, '프리미엄01', NULL, '2018-12-28 10:09:06', '2018-12-28 10:09:07', '2018-12-28 10:09:08', '2018-12-28 10:09:09', 1),
+	(3, 'id001', 'pw001', '테스터2', '테스트2', '', '', '', NULL, NULL, 1, '일반', 2, '호스트', 1, '실버', 1, '프리미엄01', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(146, 'id002', 'qwer1234', '박형민', '1234456', '2018-12-03', '01051005670', 'asd0f@hana.com', 'Y', NULL, 1, '일반', 3, '관리자', 1, '실버', 1, '프리미엄01', NULL, '2018-12-28 16:56:13', '2018-12-28 16:56:13', '2018-12-28 16:56:13', '2018-12-28 16:56:13', 1);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_group 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_group` (
   `group_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 그룹 번호(PK)',
   `group_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '그룹명',
   `group_register_date` date NOT NULL COMMENT '회원 그룹 등록일자',
-  PRIMARY KEY (`group_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 그룹';
+  PRIMARY KEY (`group_no`),
+  UNIQUE KEY `group_name` (`group_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 그룹';
 
--- 테이블 데이터 stayalive29.member_group:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_group` DISABLE KEYS */;
 INSERT INTO `member_group` (`group_no`, `group_name`, `group_register_date`) VALUES
 	(1, '게스트', '2018-12-03'),
 	(2, '호스트', '2018-12-03'),
-	(3, '관리자', '2018-12-03');
+	(3, '관리자', '2018-12-03'),
+	(4, '업체등록자', '2018-12-26'),
+	(5, '호스트(진)', '2018-12-27');
 /*!40000 ALTER TABLE `member_group` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_group_update 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_group_update` (
   `update_group_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 그룹 변경 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
@@ -1139,15 +810,13 @@ CREATE TABLE IF NOT EXISTS `member_group_update` (
   PRIMARY KEY (`update_group_no`),
   KEY `FK_member_group_update_member_group` (`group_no`),
   KEY `FK_member_group_update_member` (`member_id`),
-  CONSTRAINT `FK_member_group_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  CONSTRAINT `FK_member_group_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_member_group_update_member_group` FOREIGN KEY (`group_no`) REFERENCES `member_group` (`group_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 그룹 변경';
 
--- 테이블 데이터 stayalive29.member_group_update:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_group_update` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_group_update` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_nickname_update 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_nickname_update` (
   `update_nickname_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 닉네임 변경내역 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
@@ -1155,30 +824,27 @@ CREATE TABLE IF NOT EXISTS `member_nickname_update` (
   `update_nickname_date` date NOT NULL COMMENT '닉네임 변경일자',
   PRIMARY KEY (`update_nickname_no`),
   KEY `FK_member_nickname_update_member` (`member_id`),
-  CONSTRAINT `FK_member_nickname_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
+  CONSTRAINT `FK_member_nickname_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 닉네임 변경';
 
--- 테이블 데이터 stayalive29.member_nickname_update:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_nickname_update` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_nickname_update` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_option 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_option` (
   `member_option_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 옵션 번호(PK)',
   `member_option_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '옵션명',
   `member_option_detail` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '옵션 내용',
   `member_option_date` date NOT NULL COMMENT '회원 옵션 등록일',
-  PRIMARY KEY (`member_option_no`)
+  PRIMARY KEY (`member_option_no`),
+  UNIQUE KEY `member_option_name` (`member_option_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 옵션';
 
--- 테이블 데이터 stayalive29.member_option:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_option` DISABLE KEYS */;
 INSERT INTO `member_option` (`member_option_no`, `member_option_name`, `member_option_detail`, `member_option_date`) VALUES
 	(1, '프리미엄01', 'option01', '2018-12-03'),
 	(2, '프리미엄02', 'option02', '2018-12-03');
 /*!40000 ALTER TABLE `member_option` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_option_update 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_option_update` (
   `update_member_option_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 옵션 변경 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
@@ -1187,25 +853,23 @@ CREATE TABLE IF NOT EXISTS `member_option_update` (
   PRIMARY KEY (`update_member_option_no`),
   KEY `FK_member_option_update_member_option` (`member_option_no`),
   KEY `FK_member_option_update_member` (`member_id`),
-  CONSTRAINT `FK_member_option_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  CONSTRAINT `FK_member_option_update_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_member_option_update_member_option` FOREIGN KEY (`member_option_no`) REFERENCES `member_option` (`member_option_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 옵션 변경';
 
--- 테이블 데이터 stayalive29.member_option_update:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_option_update` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_option_update` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_rating 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_rating` (
   `rating_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 등급 번호(PK)',
   `rating_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '등급명',
   `rating_register_date` date NOT NULL COMMENT '회원 등급 등록일',
   `buyer_year_volume` int(10) unsigned zerofill DEFAULT NULL COMMENT '구매자 1년간 거래량(이상)',
   `seller_year_volume` int(10) unsigned zerofill DEFAULT NULL COMMENT '판매자 1년간 거래량(이상)',
-  PRIMARY KEY (`rating_no`)
+  PRIMARY KEY (`rating_no`),
+  UNIQUE KEY `rating_name` (`rating_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 등급';
 
--- 테이블 데이터 stayalive29.member_rating:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_rating` DISABLE KEYS */;
 INSERT INTO `member_rating` (`rating_no`, `rating_name`, `rating_register_date`, `buyer_year_volume`, `seller_year_volume`) VALUES
 	(1, '실버', '2018-12-03', 0000000010, 0000000100),
@@ -1214,7 +878,6 @@ INSERT INTO `member_rating` (`rating_no`, `rating_name`, `rating_register_date`,
 	(4, 'vvip', '2018-12-03', 0000000100, 0000001000);
 /*!40000 ALTER TABLE `member_rating` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_rating_update 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_rating_update` (
   `update_rating_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 등급 변경 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
@@ -1228,11 +891,9 @@ CREATE TABLE IF NOT EXISTS `member_rating_update` (
   CONSTRAINT `FK_member_rating_update_member_rating` FOREIGN KEY (`rating_no`) REFERENCES `member_rating` (`rating_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT=' 회원 등급 변경';
 
--- 테이블 데이터 stayalive29.member_rating_update:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_rating_update` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_rating_update` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_sms 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_sms` (
   `member_sms_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 sms 인증 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
@@ -1245,19 +906,17 @@ CREATE TABLE IF NOT EXISTS `member_sms` (
   CONSTRAINT `FK_member_sms_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 sms  인증';
 
--- 테이블 데이터 stayalive29.member_sms:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_sms` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_sms` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_state 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_state` (
   `state_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 상태 번호(PK)',
   `state_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '상태명',
   `state_register_date` date NOT NULL COMMENT '회원 상태 등록일자',
-  PRIMARY KEY (`state_no`)
+  PRIMARY KEY (`state_no`),
+  UNIQUE KEY `state_name` (`state_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 상태';
 
--- 테이블 데이터 stayalive29.member_state:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_state` DISABLE KEYS */;
 INSERT INTO `member_state` (`state_no`, `state_name`, `state_register_date`) VALUES
 	(1, '일반', '2018-12-03'),
@@ -1265,7 +924,6 @@ INSERT INTO `member_state` (`state_no`, `state_name`, `state_register_date`) VAL
 	(3, '탈퇴처리', '0000-00-00');
 /*!40000 ALTER TABLE `member_state` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_trading_volume 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_trading_volume` (
   `trading_volume_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 거래량 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원아이디',
@@ -1276,14 +934,12 @@ CREATE TABLE IF NOT EXISTS `member_trading_volume` (
   `trading_month` int(2) DEFAULT NULL COMMENT '월',
   PRIMARY KEY (`trading_volume_no`),
   KEY `FK_member_trading_volume_member` (`member_id`),
-  CONSTRAINT `FK_member_trading_volume_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
+  CONSTRAINT `FK_member_trading_volume_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 거래량';
 
--- 테이블 데이터 stayalive29.member_trading_volume:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_trading_volume` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_trading_volume` ENABLE KEYS */;
 
--- 테이블 stayalive29.member_withdraw 구조 내보내기
 CREATE TABLE IF NOT EXISTS `member_withdraw` (
   `withdraw_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '회원 탈퇴 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
@@ -1291,14 +947,12 @@ CREATE TABLE IF NOT EXISTS `member_withdraw` (
   `withdraw_date` date NOT NULL COMMENT '회원 탈퇴 일자',
   PRIMARY KEY (`withdraw_no`),
   KEY `FK_member_withdraw_member` (`member_id`),
-  CONSTRAINT `FK_member_withdraw_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
+  CONSTRAINT `FK_member_withdraw_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='회원 탈퇴';
 
--- 테이블 데이터 stayalive29.member_withdraw:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `member_withdraw` DISABLE KEYS */;
 /*!40000 ALTER TABLE `member_withdraw` ENABLE KEYS */;
 
--- 테이블 stayalive29.payment 구조 내보내기
 CREATE TABLE IF NOT EXISTS `payment` (
   `payment_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '결제 번호(PK)',
   `payment_category_no` int(11) NOT NULL COMMENT '결제 카테고리 번호(FK)',
@@ -1312,25 +966,27 @@ CREATE TABLE IF NOT EXISTS `payment` (
   PRIMARY KEY (`payment_no`),
   KEY `FK_payment_payment_category` (`payment_category_no`),
   KEY `FK_payment_payment_state_category` (`payment_state_category_no`),
+  KEY `FK_payment_payment_category_2` (`payment_category_name`),
+  KEY `FK_payment_payment_state_category_2` (`payment_state_category_name`),
   KEY `FK_payment_member` (`member_id`),
-  CONSTRAINT `FK_payment_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  CONSTRAINT `FK_payment_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_payment_payment_category` FOREIGN KEY (`payment_category_no`) REFERENCES `payment_category` (`payment_category_no`),
-  CONSTRAINT `FK_payment_payment_state_category` FOREIGN KEY (`payment_state_category_no`) REFERENCES `payment_state_category` (`payment_state_category_no`)
+  CONSTRAINT `FK_payment_payment_category_2` FOREIGN KEY (`payment_category_name`) REFERENCES `payment_category` (`payment_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_payment_payment_state_category` FOREIGN KEY (`payment_state_category_no`) REFERENCES `payment_state_category` (`payment_state_category_no`),
+  CONSTRAINT `FK_payment_payment_state_category_2` FOREIGN KEY (`payment_state_category_name`) REFERENCES `payment_state_category` (`payment_state_category_name`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='결제';
 
--- 테이블 데이터 stayalive29.payment:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 
--- 테이블 stayalive29.payment_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `payment_category` (
   `payment_category_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '결제 카테고리 번호(PK)',
   `payment_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '카테고리명',
   `payment_category_date` date NOT NULL COMMENT '카테고리 등록일자',
-  PRIMARY KEY (`payment_category_no`)
+  PRIMARY KEY (`payment_category_no`),
+  UNIQUE KEY `payment_category_name` (`payment_category_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='결제 카테고리';
 
--- 테이블 데이터 stayalive29.payment_category:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `payment_category` DISABLE KEYS */;
 INSERT INTO `payment_category` (`payment_category_no`, `payment_category_name`, `payment_category_date`) VALUES
 	(1, '역경매', '2018-12-03'),
@@ -1339,15 +995,14 @@ INSERT INTO `payment_category` (`payment_category_no`, `payment_category_name`, 
 	(4, '프리미엄', '2018-12-03');
 /*!40000 ALTER TABLE `payment_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.payment_state_category 구조 내보내기
 CREATE TABLE IF NOT EXISTS `payment_state_category` (
   `payment_state_category_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '결제 상태 카테고리 번호(PK)',
   `payment_state_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '상태 카테고리명',
   `payment_state_category_date` date NOT NULL COMMENT '상태 카테고리 등록일자',
-  PRIMARY KEY (`payment_state_category_no`)
+  PRIMARY KEY (`payment_state_category_no`),
+  UNIQUE KEY `payment_state_category_name` (`payment_state_category_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='결제 상태';
 
--- 테이블 데이터 stayalive29.payment_state_category:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `payment_state_category` DISABLE KEYS */;
 INSERT INTO `payment_state_category` (`payment_state_category_no`, `payment_state_category_name`, `payment_state_category_date`) VALUES
 	(1, '결제대기', '2018-12-03'),
@@ -1355,57 +1010,48 @@ INSERT INTO `payment_state_category` (`payment_state_category_no`, `payment_stat
 	(3, '이용완료', '2018-12-03');
 /*!40000 ALTER TABLE `payment_state_category` ENABLE KEYS */;
 
--- 테이블 stayalive29.reverseauction_register 구조 내보내기
 CREATE TABLE IF NOT EXISTS `reverseauction_register` (
   `reverseauction_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '역경매 등록 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '구매회원아이디',
-  `reverseauction_register_date` date DEFAULT NULL COMMENT '등록일',
-  `reverseauction_update_date` date DEFAULT NULL COMMENT '수정일',
+  `reverseauction_register_date` datetime DEFAULT NULL COMMENT '등록일',
+  `reverseauction_update_date` datetime DEFAULT NULL COMMENT '수정일',
   `reverseauction_tender_limit` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '입찰 한도가',
-  `reverseauction_tenderclose_date` date DEFAULT NULL COMMENT '입찰 마감 일자',
+  `reverseauction_tenderclose_date` datetime DEFAULT NULL COMMENT '입찰 마감 일자',
   `reverseauction_rooming_date` date DEFAULT NULL COMMENT '숙소 입실일자',
   `reverseauction_leaving_date` date DEFAULT NULL COMMENT '숙소 퇴실일자',
   `reverseauction_title` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '제목',
   `reverseauction_address` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '숙소 주소',
   `reverseauction_address_more` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '추가 주소 정보',
   `reverseauction_hits` int(10) DEFAULT NULL COMMENT '조회수',
-  `reverseauction_content` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '내용',
+  `reverseauction_content` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '내용',
   `reverseauction_tender_count` int(10) DEFAULT NULL COMMENT '입찰건수',
   `auction_state_category_no` int(10) NOT NULL COMMENT '경매 상태 카테고리 번호(FK)',
-  `auction_state_category_name` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '상태 카테고리명',
+  `auction_state_category_name` varchar(5) COLLATE utf8_bin NOT NULL COMMENT '상태 카테고리명',
   `reverseauction_number_of_people` int(10) DEFAULT NULL COMMENT '인원수',
   PRIMARY KEY (`reverseauction_no`),
   KEY `auction_state_category_no` (`auction_state_category_no`),
+  KEY `FK_reverseauction_register_auction_state_category_2` (`auction_state_category_name`),
   KEY `FK_reverseauction_register_member` (`member_id`),
   CONSTRAINT `FK_reverseauction_register_auction_state_category` FOREIGN KEY (`auction_state_category_no`) REFERENCES `auction_state_category` (`auction_state_category_no`),
-  CONSTRAINT `FK_reverseauction_register_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매등록';
+  CONSTRAINT `FK_reverseauction_register_auction_state_category_2` FOREIGN KEY (`auction_state_category_name`) REFERENCES `auction_state_category` (`auction_state_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_reverseauction_register_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매등록';
 
--- 테이블 데이터 stayalive29.reverseauction_register:~10 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `reverseauction_register` DISABLE KEYS */;
 INSERT INTO `reverseauction_register` (`reverseauction_no`, `member_id`, `reverseauction_register_date`, `reverseauction_update_date`, `reverseauction_tender_limit`, `reverseauction_tenderclose_date`, `reverseauction_rooming_date`, `reverseauction_leaving_date`, `reverseauction_title`, `reverseauction_address`, `reverseauction_address_more`, `reverseauction_hits`, `reverseauction_content`, `reverseauction_tender_count`, `auction_state_category_no`, `auction_state_category_name`, `reverseauction_number_of_people`) VALUES
-	(13, 'ID1', '2018-12-12', NULL, '300000', '2018-12-04', '2018-12-11', '2018-12-14', '제목', '주소1', '상세주소1', 0, '내용1', 0, 1, '낙찰 대기', 6),
-	(16, 'ID1', '2018-12-14', NULL, '789456', '2018-12-10', '2018-12-07', '2018-12-12', '제목2', '주소4', '상세주소4', 0, '조건 내 적당한 호텔 구함', 0, 1, '낙찰 대기', 5),
-	(17, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(18, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(19, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(20, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(21, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(22, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(23, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 0, 1, '낙찰 대기', 2),
-	(24, 'ID1', '2018-12-17', NULL, '50000', '2018-12-12', '2018-12-14', '2018-12-15', '제목', '주소4', '상세주소4', 0, '내용2', 1, 1, '낙찰 대기', 2);
+	(45, 'ID1', '2018-12-28 09:51:14', '2018-12-28 10:37:11', '3000000', '2018-12-28 09:51:00', '2018-12-28', '2019-03-29', '제목', '주소13', '상세주소1', 20, '조건 내 적당한 호텔 구함', 0, 1, '낙찰대기중', 2),
+	(46, 'ID1', '2018-12-28 11:05:47', NULL, '635132', '2019-01-04 11:05:00', '2018-12-29', '2019-01-03', '제목1', '전라북도 전주시 덕진구', '상세주소3', 27, '조건 내 적당한 호텔 구함', 2, 2, '낙찰완료', 2);
 /*!40000 ALTER TABLE `reverseauction_register` ENABLE KEYS */;
 
--- 테이블 stayalive29.reverseauction_successfulbid 구조 내보내기
 CREATE TABLE IF NOT EXISTS `reverseauction_successfulbid` (
   `reverseauction_successfulbid_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '역경매 낙찰 번호(PK)',
   `reverseauction_no` int(10) NOT NULL COMMENT '역경매 등록 번호(FK)',
   `reverseauction_tender_no` int(10) NOT NULL COMMENT '역경매 입찰 번호(FK)',
-  `guestroom_option_no` int(10) NOT NULL COMMENT '객실 옵션 등록 번호(FK)',
+  `guestroom_option_no` int(10) DEFAULT NULL COMMENT '객실 옵션 등록 번호(FK)',
   `guestroom_option_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '옵션명',
   `guestroom_additional_price` int(10) DEFAULT NULL COMMENT '추가 가격/1박',
-  `reverseauction_successfulbid_price` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '최종 낙찰가',
-  `reverseauction_successfulbid_date` date DEFAULT NULL COMMENT '낙찰일',
+  `reverseauction_successfulbid_price` int(11) DEFAULT NULL COMMENT '최종 낙찰가',
+  `reverseauction_successfulbid_date` datetime DEFAULT NULL COMMENT '낙찰일',
   `reverseauction_rooming_date` date DEFAULT NULL COMMENT '숙소 입실일',
   `reverseauction_leaving_date` date DEFAULT NULL COMMENT '숙소 퇴실일',
   `auction_state_category_no` int(10) NOT NULL COMMENT '경매 상태 카테고리 번호(FK)',
@@ -1414,69 +1060,74 @@ CREATE TABLE IF NOT EXISTS `reverseauction_successfulbid` (
   KEY `FK_reverseauction_successfulbid_reverseauction_register` (`reverseauction_no`),
   KEY `FK_reverseauction_successfulbid_payment_state_category` (`auction_state_category_no`),
   KEY `FK_reverseauction_successfulbid_reverseauction_tender` (`reverseauction_tender_no`),
+  KEY `FK_reverseauction_successfulbid_auction_state_category` (`auction_state_category_name`),
   KEY `FK_reverseauction_successfulbid_guestroom_option` (`guestroom_option_no`),
+  KEY `FK_reverseauction_successfulbid_guestroom_option_2` (`guestroom_option_name`),
+  CONSTRAINT `FK_reverseauction_successfulbid_auction_state_category` FOREIGN KEY (`auction_state_category_name`) REFERENCES `auction_state_category` (`auction_state_category_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_reverseauction_successfulbid_guestroom_option` FOREIGN KEY (`guestroom_option_no`) REFERENCES `guestroom_option` (`guestroom_option_no`),
+  CONSTRAINT `FK_reverseauction_successfulbid_guestroom_option_2` FOREIGN KEY (`guestroom_option_name`) REFERENCES `guestroom_option` (`guestroom_option_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_reverseauction_successfulbid_payment_state_category` FOREIGN KEY (`auction_state_category_no`) REFERENCES `payment_state_category` (`payment_state_category_no`),
   CONSTRAINT `FK_reverseauction_successfulbid_reverseauction_register` FOREIGN KEY (`reverseauction_no`) REFERENCES `reverseauction_register` (`reverseauction_no`),
   CONSTRAINT `FK_reverseauction_successfulbid_reverseauction_tender` FOREIGN KEY (`reverseauction_tender_no`) REFERENCES `reverseauction_tender` (`reverseauction_tender_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매 낙찰';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매 낙찰';
 
--- 테이블 데이터 stayalive29.reverseauction_successfulbid:~2 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `reverseauction_successfulbid` DISABLE KEYS */;
 INSERT INTO `reverseauction_successfulbid` (`reverseauction_successfulbid_no`, `reverseauction_no`, `reverseauction_tender_no`, `guestroom_option_no`, `guestroom_option_name`, `guestroom_additional_price`, `reverseauction_successfulbid_price`, `reverseauction_successfulbid_date`, `reverseauction_rooming_date`, `reverseauction_leaving_date`, `auction_state_category_no`, `auction_state_category_name`) VALUES
-	(15, 16, 53, 0, '1', 0, '1', '2018-12-17', '2018-12-07', '2018-12-12', 2, '낙찰완료'),
-	(20, 13, 52, 0, '1', 0, '1', '2018-12-18', '2018-12-11', '2018-12-14', 2, '낙찰완료');
+	(58, 46, 68, NULL, NULL, 0, 222, '2018-12-28 16:26:45', '2018-12-29', '2019-01-03', 2, '낙찰완료');
 /*!40000 ALTER TABLE `reverseauction_successfulbid` ENABLE KEYS */;
 
--- 테이블 stayalive29.reverseauction_tender 구조 내보내기
 CREATE TABLE IF NOT EXISTS `reverseauction_tender` (
   `reverseauction_tender_no` int(10) NOT NULL AUTO_INCREMENT COMMENT '역경매 입찰 번호(PK)',
   `member_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '숙박업체회원아이디',
   `company_no` int(10) NOT NULL COMMENT '업체 등록 번호(FK)',
-  `company_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '업체명',
+  `company_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '업체명',
   `accommodation_no` int(10) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `guestroom_no` int(10) NOT NULL COMMENT '객실 등록 번호(FK)',
-  `guestroom_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '객실명',
+  `guestroom_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '객실명',
   `reverseauction_no` int(10) NOT NULL COMMENT '역경매 등록 번호(FK)',
   `accommodation_guestroom_allcount` int(10) DEFAULT NULL COMMENT '총 객실 수',
   `guestroom_state_count` int(10) DEFAULT NULL COMMENT '상태(빈 객실수)',
-  `reverseauction_tender_date` date DEFAULT NULL COMMENT '입찰일',
-  `reverseauction_tender_update_date` date DEFAULT NULL COMMENT '입찰 수정일',
+  `reverseauction_tender_date` datetime DEFAULT NULL COMMENT '입찰일',
+  `reverseauction_tender_update_date` datetime DEFAULT NULL COMMENT '입찰 수정일',
   `reverseauction_tender_content` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '기타 적고싶은 말',
   `reverseauction_tender_price` int(10) DEFAULT NULL COMMENT '가격',
   `auction_state_category_no` int(11) NOT NULL COMMENT '경매 상태 카테고리 번호(FK)',
-  `auction_state_category_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '상태 카테고리명',
+  `auction_state_category_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '상태 카테고리명',
   PRIMARY KEY (`reverseauction_tender_no`),
   KEY `FK_reverseauction_tender_auction_state_category` (`auction_state_category_no`),
   KEY `FK_company_no` (`company_no`),
   KEY `accommodation_no` (`accommodation_no`),
   KEY `guestroom_no` (`guestroom_no`),
   KEY `reverseauction_no` (`reverseauction_no`),
+  KEY `FK_reverseauction_tender_company` (`company_name`),
+  KEY `FK_reverseauction_tender_accommodation_2` (`accommodation_name`),
+  KEY `FK_reverseauction_tender_guestroom_2` (`guestroom_name`),
+  KEY `FK_reverseauction_tender_auction_state_category_2` (`auction_state_category_name`),
   KEY `FK_reverseauction_tender_member` (`member_id`),
   CONSTRAINT `FK_company_no` FOREIGN KEY (`company_no`) REFERENCES `company` (`company_no`),
   CONSTRAINT `FK_reverseauction_tender_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_reverseauction_tender_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_reverseauction_tender_auction_state_category` FOREIGN KEY (`auction_state_category_no`) REFERENCES `auction_state_category` (`auction_state_category_no`),
+  CONSTRAINT `FK_reverseauction_tender_auction_state_category_2` FOREIGN KEY (`auction_state_category_name`) REFERENCES `auction_state_category` (`auction_state_category_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_reverseauction_tender_company` FOREIGN KEY (`company_name`) REFERENCES `company` (`company_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_reverseauction_tender_guestroom` FOREIGN KEY (`guestroom_no`) REFERENCES `guestroom` (`guestroom_no`),
-  CONSTRAINT `FK_reverseauction_tender_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  CONSTRAINT `FK_reverseauction_tender_guestroom_2` FOREIGN KEY (`guestroom_name`) REFERENCES `guestroom` (`guestroom_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_reverseauction_tender_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_reverseauction_tender_reverseauction_register` FOREIGN KEY (`reverseauction_no`) REFERENCES `reverseauction_register` (`reverseauction_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매 입찰';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='역경매 입찰';
 
--- 테이블 데이터 stayalive29.reverseauction_tender:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `reverseauction_tender` DISABLE KEYS */;
 INSERT INTO `reverseauction_tender` (`reverseauction_tender_no`, `member_id`, `company_no`, `company_name`, `accommodation_no`, `accommodation_name`, `guestroom_no`, `guestroom_name`, `reverseauction_no`, `accommodation_guestroom_allcount`, `guestroom_state_count`, `reverseauction_tender_date`, `reverseauction_tender_update_date`, `reverseauction_tender_content`, `reverseauction_tender_price`, `auction_state_category_no`, `auction_state_category_name`) VALUES
-	(52, 'ID1', 9, '1', 6, '1', 2, '1', 13, 1, 1, '2018-12-13', NULL, '1', 1, 1, '낙찰대기중'),
-	(53, 'ID1', 242, '1', 8, '1', 2, '1', 16, 1, 1, '2018-12-14', '2018-12-14', '1', 1, 1, '낙찰대기중'),
-	(54, 'ID1', 9, '1', 6, '1', 2, '1', 24, 1, 1, '2018-12-19', NULL, '1', 1, 1, '낙찰대기중'),
-	(55, 'ID1', 9, '1', 6, '1', 2, '1', 24, 1, 1, '2018-12-19', NULL, '1', 1, 1, '낙찰대기중');
+	(68, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', 46, 1, 1, '2018-12-28 12:04:00', NULL, NULL, 222, 2, '낙찰완료'),
+	(69, 'ID1', 396, '업체이름1', 2, '신라호텔', 32, '객실1', 46, 2, 2, '2018-12-28 16:59:10', NULL, '입찰내용1', 22, 1, '낙찰대기중');
 /*!40000 ALTER TABLE `reverseauction_tender` ENABLE KEYS */;
 
--- 테이블 stayalive29.review 구조 내보내기
 CREATE TABLE IF NOT EXISTS `review` (
   `review_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '리뷰 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '구매회원아이디',
   `accommodation_no` int(11) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) DEFAULT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `review_title` varchar(50) DEFAULT NULL COMMENT '제목',
   `review_content` varchar(50) DEFAULT NULL COMMENT '내용',
   `review_score` int(11) DEFAULT NULL COMMENT '평점',
@@ -1485,33 +1136,33 @@ CREATE TABLE IF NOT EXISTS `review` (
   PRIMARY KEY (`review_no`),
   KEY `FK_review_accommodation` (`accommodation_no`),
   KEY `FK_review_member` (`member_id`),
+  KEY `FK_review_accommodation_2` (`accommodation_name`),
   CONSTRAINT `FK_review_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_review_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_review_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='리뷰관리(구매자)';
 
--- 테이블 데이터 stayalive29.review:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 
--- 테이블 stayalive29.wishlist_accommodation 구조 내보내기
 CREATE TABLE IF NOT EXISTS `wishlist_accommodation` (
   `wishlist_accommodation_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '찜하기 숙소 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
   `accommodation_no` int(11) NOT NULL COMMENT '숙소 등록 번호(FK)',
-  `accommodation_name` varchar(50) DEFAULT NULL COMMENT '숙소명',
+  `accommodation_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '숙소명',
   `wishlist_date` date DEFAULT NULL COMMENT '찜한 날짜',
   PRIMARY KEY (`wishlist_accommodation_no`),
   KEY `FK_wishlist_accommodation_accommodation` (`accommodation_no`),
   KEY `FK_wishlist_accommodation_member` (`member_id`),
+  KEY `FK_wishlist_accommodation_accommodation_2` (`accommodation_name`),
   CONSTRAINT `FK_wishlist_accommodation_accommodation` FOREIGN KEY (`accommodation_no`) REFERENCES `accommodation` (`accommodation_no`),
+  CONSTRAINT `FK_wishlist_accommodation_accommodation_2` FOREIGN KEY (`accommodation_name`) REFERENCES `accommodation` (`accommodation_name`) ON UPDATE CASCADE,
   CONSTRAINT `FK_wishlist_accommodation_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='찜하기 숙박';
 
--- 테이블 데이터 stayalive29.wishlist_accommodation:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist_accommodation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist_accommodation` ENABLE KEYS */;
 
--- 테이블 stayalive29.wishlist_dutchauction 구조 내보내기
 CREATE TABLE IF NOT EXISTS `wishlist_dutchauction` (
   `wishlist_dutchauction_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '찜하기 네덜란드식 경매 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
@@ -1524,11 +1175,9 @@ CREATE TABLE IF NOT EXISTS `wishlist_dutchauction` (
   CONSTRAINT `FK_wishlist_dutchauction_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='네덜란드식 경매 찜하기(구매자)';
 
--- 테이블 데이터 stayalive29.wishlist_dutchauction:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist_dutchauction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist_dutchauction` ENABLE KEYS */;
 
--- 테이블 stayalive29.wishlist_reverseauction 구조 내보내기
 CREATE TABLE IF NOT EXISTS `wishlist_reverseauction` (
   `wishlist_reverseauction_no` int(11) NOT NULL AUTO_INCREMENT COMMENT '찜하기 역경매 번호(PK)',
   `member_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '회원 아이디',
@@ -1541,7 +1190,6 @@ CREATE TABLE IF NOT EXISTS `wishlist_reverseauction` (
   CONSTRAINT `FK_wishlist_reverseauction_reverseauction_register` FOREIGN KEY (`reverseauction_no`) REFERENCES `reverseauction_register` (`reverseauction_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='역경매등록정보찜하기(판매자)';
 
--- 테이블 데이터 stayalive29.wishlist_reverseauction:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `wishlist_reverseauction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist_reverseauction` ENABLE KEYS */;
 

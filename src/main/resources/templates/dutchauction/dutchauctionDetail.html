@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
 	<!-- Core Stylesheet -->
 	<link rel="stylesheet" href="/main/style.css">
 	<!-- 다음 맵 마커 오버레이 css -->
 	<link rel="stylesheet" href="/mapoverlay.css"> 
-	<title>역경매 상세 페이지</title>
+    <style>
+    	.detail td{
+    		color:white;
+    	}
+    	.detail th{
+    		color:white;
+    		border-bottom:1px solid rgb(203, 134, 112);
+    	}
+    </style>
 </head>
 <body>
 	<!-- Preloader -->
@@ -26,7 +38,7 @@
 	<!-- ##### Breadcumb Area Start ##### -->
 	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
 		<div class="bradcumbContent">
-			<h2>상세</h2>
+			<h2>DutchAuctionDetail</h2>
 		</div>
 	</section>
 	<!-- ##### Breadcumb Area End ##### -->
@@ -36,91 +48,118 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<div class="section-heading">
-					</div>
+					<div class="section-heading"></div>
 				</div>
 			</div>
-			<div class="row justify-content-center">
-				<div class="col-12 col-lg-6">
+			
+			<div class="row justify-content-center" style="padding-top: 30px">
+			
+				<div class="col-lg-8">
 					<div class="section-heading text-center">
 						<div class="line-"></div>
-						<h2>객실 상세 내용</h2>
-						<p>현재 객실의 상세 내용</p>
+						<h2 th:text="${detail.accommodationName}">숙소 이름</h2>
+						<p th:text="${detail.accommodationCategoryName}">숙소 분류</p>
+						<p th:text="${detail.guestroomName}">객실 이름</p>
+						<p th:text="'등록일 : '+${detail.dutchauctionRegisterDate}">경매 등록일</p>
+						<div class="row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-4">
+								<button class="btn palatin-btn mt-30" id="bidBtn">낙찰하기</button>
+							</div>
+						</div>
 					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="about-thumbnail mb-30">
+                    	<table class="table table-striped table-bordered table-hover">
+                    		<tr><td>객실 수용 인원</td>
+                    			<td>객실 크기</td></tr>
+                    		<tr><td th:text="${detail.guestroomCapacity}">객실 수용 인원</td>
+                    			<td th:text="${detail.guestroomSize} + '㎡'">객실 크기</td></tr>
+                    		<tr><td>현재가격</td>
+                    			<td>판매자ID</td></tr>
+                    		<tr><td style="color:rgb(203, 134, 112);" th:text="${detail.dutchauctionUpdatePrice} + '원'">현재가격</td>
+                    			<td th:text="${detail.memberId}">판매자ID</td></tr>
+                    		<tr><td colspan="2">숙소 주소</td></tr>
+                    		<tr><td colspan="2" th:text="${detail.accommodationAddress}">숙소 주소</td></tr>
+                    		<tr><td>입실일</td>
+                    			<td>퇴실일</td></tr>
+                    		<tr><td th:text="${#strings.substring(detail.dutchauctionCheckinDate,0,16)}">입실일</td>
+                    			<td th:text="${#strings.substring(detail.dutchauctionCheckoutDate,0,16)}">퇴실일</td></tr>
+                    	</table>
+                    </div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4">
-					<!-- 다음 맵 그려질 위치  -->
-					<div id="map" style="width: 420px; height: 340px;"></div>
+				<div class="col-lg-6" style="background-color:rgb(50,50,50); border:1px solid rgb(203, 134, 112)">
+					<div style="display: flex; flex-direction: column;">
+						<br>
+						<img th:src="'/image/guestroom/'+${detail.imageFileStoredName} + '.' + ${detail.imageFileExt}">
+						<div class="detail" style="background-color:rgba(100,100,100,0.2); border:1px solid rgb(203, 134, 112); margin: 10px 0; padding:5px;">
+							<div class="row">
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>업체명</th></tr>
+										<tr><td th:text="${detail.companyName}"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>숙소명</th></tr>
+										<tr><td th:text="${detail.accommodationName}"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>객실명</th></tr>
+										<tr><td th:text="${detail.guestroomName}"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>시작가</th></tr>
+										<tr><td th:text="${detail.dutchauctionStartprice} + '원'"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>할인주기</th></tr>
+										<tr><td th:text="${detail.dutchauctionSaleInterval} + '시간마다'"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>할인단위</th></tr>
+										<tr><td th:text="${detail.dutchauctionSaleUnit} + '원'"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-4 col-lg-4">
+									<table>
+										<tr><th>최대 할인가</th></tr>
+										<tr><td th:text="${detail.maximumDiscountPrice} + '원'"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-8 col-lg-8">
+									<table>
+										<tr><th>경매 종료일</th></tr>
+										<tr><td th:text="${#strings.substring(detail.dutchauctionCloseDate,0,16)}"></td></tr>
+									</table>
+								</div>
+								<div class="col-md-12 col-lg-12">
+									<table>
+										<tr><th>객실 상세정보</th></tr>
+										<tr><td th:text=${detail.guestroomDetail}></td></tr>
+									</table>
+								</div>
+								
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-lg-2" ></div>
 				<div class="col-lg-6">
-					<table class="table table-border">
-						<tbody >
-							<tr>
-								<td>업체 이름</td>
-								<td th:text="${detail.companyName}"></td>
-							</tr>
-							<tr>
-								<td>숙소 이름</td>
-								<td th:text="${detail.accommodationName}"></td>
-							</tr>	
-							<tr>
-								<td>숙소 분류</td>
-								<td th:text="${detail.accommodationCategoryName}"></td>
-							</tr>				
-							<tr>
-								<td>객실 이름</td>
-								<td th:text="${detail.guestroomName}"></td>
-							</tr>
-							<tr>
-								<td>시작가</td>
-								<td th:text="${detail.dutchauctionStartprice}"></td>
-							</tr>
-							<tr>
-								<td>할인</td>
-								<td th:text="${detail.dutchauctionSaleInterval}"></td>
-							</tr>
-							<tr>
-								<td>할인단위</td>
-								<td th:text="${detail.dutchauctionSaleUnit}"></td>
-							</tr>
-							<tr>
-								<td>현재가격</td>
-								<td th:text="${detail.dutchauctionUpdatePrice}"></td>
-							</tr>
-							<tr>
-								<td>입실</td>
-								<td th:text="${detail.dutchauctionCheckinDate}"></td>
-							</tr>
-							<tr>
-								<td>퇴실</td>
-								<td th:text="${detail.dutchauctionCheckoutDate}"></td>
-							</tr>
-							<tr>
-								<td>경매 등록일</td>
-								<td th:text="${detail.dutchauctionRegisterDate}"></td>
-							</tr>
-							<tr>
-								<td>수용 인원</td>
-								<td th:text="${detail.guestroomCapacity}"></td>
-							</tr>
-							<tr>
-								<td>객실 크기</td>
-								<td th:text="${detail.guestroomSize}"></td>
-							</tr>
-							<tr>
-								<td>객실 상세</td>
-								<td th:text="${detail.guestroomDetail}"></td>
-							</tr>
-											
-						</tbody>
-					</table>
+					<!-- 다음 맵 그려질 위치  -->
+					<div id="map" style="width: 540px; height: 500px;"></div>
 				</div>
-			</div>
-			<div class="col-lg-5" style="padding-top: 20px; ">
-				<img th:src="'/image/guestroom/'+${detail.imageFileStoredName} + '.' + ${detail.imageFileExt}">
 			</div>
 		</div>
 	</section>
@@ -142,7 +181,7 @@
 	<!--다음 지도 API  -->
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
 
-	<script>
+	<script th:inline="javascript">
 	//<![CDATA[
 		$(document).ready(function() {
 			var mapTypeControl = new daum.maps.MapTypeControl();
@@ -156,21 +195,28 @@
 			}
 		    var map = new daum.maps.Map(mapContainer, mapOption); //맵 생성
 		    map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+		    map.setMapTypeId(daum.maps.MapTypeId.HYBRID);
 		    var marker = new daum.maps.Marker({ // 마커생성
 		        position: location
 		    });
 		    marker.setMap(map);  // 마커가 지도 위에 표시되도록 설정
+		    var accommodationName = [[${detail.accommodationName}]];
+		    var imageFileStoredName = [[${detail.imageFileStoredName}]];
+		    var imageFileExt = [[${detail.imageFileExt}]]
+		    var accommodationAddress = [[${detail.accommodationAddress}]];
+		    var accommodationPhone = [[${detail.accommodationPhone}]];
+		    var accommodationEmail = [[${detail.accommodationEmail}]];
 		    var content = '<div class="wrap">' + 
 	        '    <div class="info">' + 
-	        '        <div class="title">[[${detail.accommodationName}]]</div>' +    
+	        '        <div class="title">' + accommodationName + '</div>' +    
 	        '        <div class="body">' + 
 	        '           <div class="img">' +
-	                        "<img src='/image/guestroom/[[${detail.imageFileStoredName}]].[[${detail.imageFileExt}]]' width='73' height='70'>" +
+	        '                <img src="/image/guestroom/' +imageFileStoredName + '.' + imageFileExt + '" width="73" height="70">' +
 	        '           </div>' + 
 	        '           <div class="desc">' + 
-	        '                <div class="ellipsis">[[${detail.accommodationAddress}]]</div>' + 
-	        '                <div class="jibun ellipsis">[[${detail.accommodationPhone}]]</div>' +
-	        '                <div class="jibun ellipsis">[[${detail.accommodationEmail}]]</div>' + 
+	        '                <div class="ellipsis">' + accommodationAddress + '</div>' + 
+	        '                <div class="jibun ellipsis">' + accommodationPhone + '</div>' +
+	        '                <div class="jibun ellipsis">' + accommodationEmail + '</div>' + 
 	        '            </div>' + 
 	        '        </div>' + 
 	        '    </div>' +    
@@ -180,7 +226,14 @@
 	            map: map,
 	            position: marker.getPosition()       
 	        });
-	       
+	        var dutchauctionNo = [[${detail.dutchauctionNo}]];
+	        $("#bidBtn").click(function() {
+	        	if(confirm("낙찰하시겠습니까?")) {
+	        		
+	        		window.location.href="/auction/dutch/successfulbid?dutchauctionNo="+dutchauctionNo;
+	        	}
+	        });
+	        
 		});
 	// ]]>
 	</script>

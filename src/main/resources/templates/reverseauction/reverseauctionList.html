@@ -35,6 +35,14 @@
 				}
 			});
 		});
+		function showList1(){
+			$('#list2').css('display','none');
+			$('#list1').css('display','flex');
+		}
+		function showList2(){
+			$('#list1').css('display','none');
+			$('#list2').css('display','flex');
+		}
 	</script>
 	<title>reverseauctionList</title>
 </head>
@@ -62,14 +70,6 @@
 	<!-- ##### category Area Start ##### -->
 	<section class="contact-form-area mb-100">
 		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="section-heading">
-						<div class="line-"></div>
-						<h2>역경매 리스트</h2>
-					</div>
-				</div>
-			</div>
 			<div class="row justify-content-center">
 				<div class="col-12 col-lg-6">
 					<div class="section-heading text-center">
@@ -95,7 +95,6 @@
 							<option value="0">==== 선택 ====</option>
 							<option value="reverseauction_title">제목</option>
 							<option value="reverseauction_content">내용</option>
-							<option value="3">업체회원닉네임</option>
 						</select>
 						<input type="text" class="form-control" name="sv" id="search" placeholder="검색어를 입력하세요">
 						<input type="text" class="form-control" id="datePicker1" name="date1" placeholder="Check-in" autocomplete=off>
@@ -117,8 +116,8 @@
 							<div class="view">
 								<strong>Views</strong>
 								<ul class="list-inline">
-									<li class="list-inline-item"><a href="javascript:void(0);"><i class="fa fa-th-large"></i></a></li>
-									<li class="list-inline-item"><a href="javascript:void(0);"><i class="fa fa-reorder"></i></a></li>
+									<li class="list-inline-item"><a href="javascript:showList1();"><i class="fa fa-th-large"></i></a></li>
+									<li class="list-inline-item"><a href="javascript:showList2();"><i class="fa fa-reorder"></i></a></li>
 								</ul>
 							</div>
 						</div>
@@ -126,12 +125,12 @@
 					<!-- ##### Rooms Area Start ##### -->
 					<section class="rooms-area section-padding-0-100">
 						<div class="container">
-							<div class="row">
+							<div class="row" id="list1">
 								<!-- Single Rooms Area -->
 								<div class="col-12 col-md-6" th:if="${PM.allCount}>0" th:each="item : ${list}">
 									<a href="#" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" style="padding:0 15px 0 15px">
 										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
-											<!-- Limit -->
+											<!-- No -->
                         					<p class="price-from" th:text="${item.reverseauctionNo}"></p>
 											<!-- Thumbnail -->
 											<div class="bg-thumbnail bg-img" style="background-image: url(/main/img/bg-img/1.jpg);"></div>
@@ -154,15 +153,37 @@
 										</div>
 									</a>
 								</div>
-								<div class="col-12 col-md-6" th:unless="${PM.allCount}>0">
-									<p>검색정보와 일치하는 경매를 찾을 수 없습니다.</p>
-								</div>
+							</div>
+							<!-- Single Rooms Area2 -->
+							<table class="table table-dark mt-30" th:if="${PM.allCount}>0" id="list2" style="display:none;">
+								<tr>
+									<td>no</td>
+									<td>title</td>
+									<td>Content</td>
+									<td>addredss</td>
+									<td>limit</td>
+									<td>trevelers</td>
+									<td>chech-in</td>
+									<td>chech-out</td>
+								</tr>
+								<tr th:each="item : ${list}">
+									<td th:text="${item.reverseauctionNo}">no</td>
+									<td th:text="${item.reverseauctionTitle}">title</td>
+									<td th:text="${item.reverseauctionContent}">Content</td>
+									<td th:text="${item.reverseauctionAddress}+' '+${item.reverseauctionAddressMore}">addredss</td>
+									<td th:text="'￦'+${item.reverseauctionTenderLimit}+'↓'">limit</td>
+									<td th:text="${item.reverseauctionNumberOfPeople}">trevelers</td>
+									<td th:text="${item.reverseauctionRoomingDate}">chech-in</td>
+									<td th:text="${item.reverseauctionLeavingDate}">chech-out</td>
+								</tr>
+							</table>
+							<div class="col-12 col-md-6" th:unless="${PM.allCount}>0">
+								<p>검색정보와 일치하는 경매를 찾을 수 없습니다.</p>
 							</div>
 
 							<div class="col-12" th:if="${PM.allCount}>0">
 								<!-- Pagination -->
-								<div class="pagination-area wow fadeInUp"
-									data-wow-delay="200ms">
+								<div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
 									<nav>
 										<ul class="pagination">
 											<li class="page-item" th:if="${prevPage}">

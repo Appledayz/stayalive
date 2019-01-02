@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Core Stylesheet -->
 	<link rel="stylesheet" href="/main/style.css">
+	<link rel="stylesheet" href="/datepicker/css/datepicker.css"/>
 	<title>역경매 리스트</title>
 </head>
 <body>
@@ -58,16 +59,16 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-3">
-					<form action="" method="get">
-						<select class="form-control" name="sk">
-							<option value="0">==== 선택 ====</option>
-							<option value="reverseauction_title">제목</option>
-							<option value="reverseauction_content">내용</option>
-							<option value="3">업체회원닉네임</option>
+					<form action="list" method="get">
+						<select class="form-control" name="sk" id="searchSelect">
+							<option value="select">==== 선택 ====</option>
+							<option value="accommodation_address">주소</option>
+							<option value="accommodation_name">숙소이름</option>
+							<option value="member_id">업체회원ID</option>
 						</select>
 						<input type="text" class="form-control" name="sv" id="search" placeholder="검색어를 입력하세요">
-						<input type="text" class="form-control" id="datePicker1" name="date1" placeholder="Check-in" autocomplete=off readonly>
-						<input type="text" class="form-control" id="datePicker2" name="date2" placeholder="Check-out" autocomplete=off readonly>
+						<input type="text" class="form-control" data-timepicker="true" id="checkInDate" name="checkInDate" placeholder="Check-in" autocomplete=off readonly>
+						<input type="text" class="form-control" data-timepicker="true" id="checkOutDate" name="checkOutDate" placeholder="Check-out" autocomplete=off readonly>
 						<button type="submit" class="btn palatin-btn form-control" style="margin-bottom:30px">Search Now</button>
 					</form>
 				</div>
@@ -129,6 +130,7 @@
 									</a>
 								</div>
 							</div>
+						</div>
 						<button type="button" class="btn palatin-btn form-control" style="margin-bottom:30px" id="closeBtn">종료된 경매 보기</button>
 					</section>
 					<!-- ##### Auction Area End ##### -->
@@ -161,7 +163,7 @@
 												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
 												<p th:text="'종료 상태 :' + ${item.auctionStateCategoryName}">퇴실 시간</p>
 												<p th:if="${item.get('memberId') != null}" th:text="'낙찰자 : ' + ${item.memberId}">퇴실 시간</p>
-												<p th:if="${item.get('dutchauctionSuccessfulbidDate') != null}" th:text="'낙찰일 : ' + ${item.dutchauctionSuccessfulbidDate}">낙찰일</p>
+												<p th:if="${item.get('dutchauctionSuccessfulbidDate') != null}" th:text="'낙찰일 : ' + ${#strings.substring(item.dutchauctionSuccessfulbidDate,0,16)}">낙찰일</p>
 											</div>
 										</div>
 									</a>
@@ -177,13 +179,13 @@
 							<nav>
 								<ul class="pagination">
 									<li class="page-item" th:if="${prevPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock})}">이전</a>
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
 									</li>
 									<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i})}">01.</a>
+										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
 									</li>
 									<li class="page-item" th:if="${nextPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1})}">다음</a>
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
 									</li>
 								</ul>
 							</nav>
@@ -207,6 +209,9 @@
 	<script src="/main/js/plugins/plugins.js"></script>
 	<!-- Active js -->
 	<script src="/main/js/active.js"></script>
+    <!-- datepicker js  -->
+    <script src="/datepicker/js/datepicker.js"></script>
+    <script src="/datepicker/js/i18n/datepicker.en.js"></script>
 	<script>
 		$("#close").hide();
 		var closeSwitch = false;
@@ -219,8 +224,54 @@
 				closeSwitch = false;
 				$("#close").hide();
 			}
-			
 		});
+		//Datepicker
+		$('#checkInDate').datepicker({
+		    language: 'en',
+		    dateFormat:'yyyy-mm-dd',
+		    timeFormat:'hh:ii',
+			autoClose:true
+		});
+		var select = false;
+		var checkInDate = $('#checkInDate');
+		var checkOutDate = $('#checkOutDate');
+		checkOutDate.click(function() {
+			if(checkInDate.val() == "") {
+				alert("입실 일자를 선택해 주세요");
+			}
+			else {
+				if(!select) {
+					select = true;
+					checkOutDate.datepicker({
+					    language: 'en',
+					    dateFormat:'yyyy-mm-dd',
+					    timeFormat:'hh:ii',
+					    minDate: new Date(checkInDate.val()),
+						autoClose:true,
+						Defaults : "focus"
+					});
+					checkOutDate.datepicker().data('datepicker').show();
+				}
+			}
+		});	
+		if($("#searchSelect").val() == "select") {
+			$("#search").attr("disabled",true);
+		}
+		$("#searchSelect").change(function() {
+			if($("#searchSelect").val() == "select") {
+				$("#search").attr("disabled",true);
+				checkInDate.attr("disabled",false);
+				checkOutDate.attr("disabled",false);
+			}
+			else {
+				$("#search").attr("disabled",false);
+				checkInDate.val("");
+				checkOutDate.val("");
+				checkInDate.attr("disabled",true);
+				checkOutDate.attr("disabled",true);
+			}
+		})
+		
 	</script>
 </body>
 </html>

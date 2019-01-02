@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/main/img/core-img/favicon.ico">
+
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="/main/style.css">
+</head>
+
+<body class="body-wrapper">
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+	
+	<!-- header replace -->
+    <div th:replace="header :: header"></div>
+    
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background5.jpg);">
+        <div class="bradcumbContent">
+            <h2>Company List</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+<section class="contact-form-area mb-100">
+	<div class="container">
+		<div class="row">
+	        <div class="col-12">
+	            <div class="section-heading">
+	                <div class="line-"></div>
+	                <h2>업체 리스트</h2>
+	            </div>
+	        </div>
+        </div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="search-result bg-gray">
+					<h2>"<span th:text="${searchWord}"></span>"의 검색 결과</h2>
+					<p><span th:text="${companyListCount}"></span> 개의 항목을 찾았습니다</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<form action="/company/list" method="get">
+					<select class="form-control" id="select1" name="searchKey">
+					      <option value="">==== 선택 ====</option>
+					      <option value="company_name">업체명</option>
+					      <option value="company_name_detail">업체명+내용</option>
+					      <option value="member_id">업체회원ID</option>
+					      <option value="member_nickname">업체회원닉네임</option>
+					</select>
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요" name="searchWord">
+					<button type="submit" class="btn palatin-btn">Search Now</button>
+				</form>
+			</div>
+			<div class="col-md-9">
+				 <!-- ##### Tabs ##### -->
+	            <div class="palatin-tabs-content">
+	                <ul class="nav nav-tabs" id="myTab" role="tablist">
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">Mauris diam</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link" id="tab--2" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Ttristique sed posuere</a>
+	                    </li>
+	                    <li class="nav-item">
+	                        <a class="nav-link active" id="tab--3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="true">Lobortis eget metus</a>
+	                    </li>
+	                </ul>
+	
+	                <div class="tab-content mb-100" id="myTabContent">
+	                    <div class="tab-pane fade" id="tab1" role="tabpanel" aria-labelledby="tab--1">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet.</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab--2">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet.</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="tab-pane fade show active" id="tab3" role="tabpanel" aria-labelledby="tab--3">
+	                        <div class="palatin-tab-content">
+	                            <!-- Tab Text -->
+	                            <div class="palatin-tab-text">
+	                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet.</p>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</section>
+	
+	<!-- footer replace -->
+	<div th:replace="footer :: footer"></div>
+ 	   
+    <!-- jQuery-2.2.4 js -->
+    <script src="/main/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/main/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/main/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/main/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/main/js/active.js"></script>
+    <script th:inline="javascript">
+		$("#companyList").addClass('active');
+	</script>
+</body>
+</html>

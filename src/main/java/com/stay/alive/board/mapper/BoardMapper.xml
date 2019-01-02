@@ -15,21 +15,19 @@
 		board_member_content,
 		board_member_secret,
 		board_member_register_date,
-		image_file_no,
 		board_state_no,
 		board_state_name
 		)
 		VALUES(
 		#{boardCategoryNo},
 		#{boardCategoryName},
-		"id001",
+		#{memberId},
 		'1',
 		"게스트",
 		#{boardMemberTitle},
 		#{boardMemberContent},
 		"N",
 		now(),
-		#{imageFileNo},
 		'1',
 		"일반"
 		)

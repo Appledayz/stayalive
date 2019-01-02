@@ -188,9 +188,16 @@ public class DutchauctionService {
 	public ArrayList<Map<String, Object>> getDutchAuctionList(PageMaker pageMaker) {
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(6);
-		pageMaker.setAllCount(dutchauctionMapper.selectCountDutchAuction());
+		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionCount());
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionList(pageMaker);
+	}
+	public ArrayList<Map<String, Object>> getDutchAuctionSearchList(PageMaker pageMaker,String sk, String sv, String checkInDate, String checkOutDate) {
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(6);
+		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(sk, sv, checkInDate, checkOutDate));
+		PageMakerService.pageMakerService(pageMaker);
+		return dutchauctionMapper.selectDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
 	}
 	//종료된 역경매 리스트(전체)
 	public ArrayList<Map<String, Object>> getClosedDutchAuctionList() {
@@ -199,5 +206,16 @@ public class DutchauctionService {
 	public Map<String, Object> getDutchAuctionDetail(int dutchauctionNo) {
 		return dutchauctionMapper.selectDutchAuctionDetail(dutchauctionNo);
 	}
-	
+	public ArrayList<DutchAuction> getDutchAuctionsFromId(String mamberId) {
+		return dutchauctionMapper.selectDutchAuctionsFromId(mamberId);
+	};
+	public DutchAuction getDutchAuctionFromNo(int dutchauctionNo) {
+		return dutchauctionMapper.selectDutchAuctionFromNo(dutchauctionNo);
+	};
+	public void modifyStateCategory(DutchAuction dutchAuction) {
+		dutchauctionMapper.updateStateCategory(dutchAuction);
+	}
+	public ArrayList<Map<String, Object>> getRecentDutchAuctionList() {//main화면에 최근에 올린 3개의 경매를 가져온다
+		return dutchauctionMapper.selectRecentDutchAuctionList();
+	};
 }

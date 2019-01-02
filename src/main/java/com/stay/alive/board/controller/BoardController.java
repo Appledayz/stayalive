@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.board.service.BoardService;
 import com.stay.alive.board.vo.BoardMember;
@@ -30,17 +29,27 @@ public class BoardController {
 	}
 	//게시판 등록
 	@GetMapping("register")
-	public String boardRegister() {
-		return "board/boardRegister";
+	public String boardRegister(HttpSession session, Model model) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId != null) {
+			return "board/boardRegister";
+		}
+		else {
+			model.addAttribute("msg","로그인 해주세요");
+			model.addAttribute("url", "/board/free");
+			return "alert";
+		}
+		
 	}
 	//게시판 등록 액션
 	@PostMapping("register")
 	public String boardRegisterAction(BoardMember boardMember,HttpSession session) {
-		String memberId = "id001";
-		System.out.println(memberId+"-------------------------------------------------------------------------------");
-		String path = session.getServletContext().getRealPath("image/business");
-		boardMember.setMemberId(memberId);
-		boardService.addBoardMember(boardMember, path);
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId != null) {
+			String path = session.getServletContext().getRealPath("image/board");
+			boardMember.setMemberId(memberId);
+			boardService.addBoardMember(boardMember, path);
+		}
 		return "redirect:/board/free";
 	}
 	@GetMapping(value="findModify", produces="application/json")
@@ -59,7 +68,7 @@ public class BoardController {
 	@PostMapping("modifyAction")
 	public String boardModifyAction(BoardMember boardMember, HttpSession session) {
 		String memberId = "id001";
-		String path = session.getServletContext().getRealPath("image/business");
+		String path = session.getServletContext().getRealPath("image/board");
 		boardMember.setMemberId(memberId);
 		boardService.modifyBoard(boardMember, path);
 		return "redirect:/board/free";

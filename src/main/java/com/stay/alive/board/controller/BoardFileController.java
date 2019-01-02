@@ -21,8 +21,13 @@ public class BoardFileController {
 	@PostMapping("addDetailImage")
 	@ResponseBody
 	public String addDetailImage(MultipartFile[] file,HttpSession session) {
-		String path = session.getServletContext().getRealPath("image/board");
-		String memberId = "id001";
-		return boardService.addDetailImageFiles(file, path, memberId);
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId != null) {
+			String path = session.getServletContext().getRealPath("image/board");
+			return boardService.addDetailImageFiles(file, path, memberId);
+		}
+		else {
+			return "";
+		}
 	}
 }
