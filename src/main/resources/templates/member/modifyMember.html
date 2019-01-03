@@ -18,10 +18,9 @@
 			}
 			console.log(mEA);
 		});
-
 		</script>
-		
 	</head>
+	
 	<body class="body-wrapper">
 		<!-- header replace -->
 		<div th:replace="header :: header"></div>
@@ -60,12 +59,6 @@
 							<div class="input-group-btn">
 								<button type="button" class="nicknameCheck btn palatin-btn btn-3 m-1" id="hid2" name="hid2" value="0">닉네임 중복확인</button>
 							</div>
-						</div>
-						<div class="col-lg-5">
-							<input type="password" class="form-control" name="memberPassword" id="memberPassword" placeholder="비밀번호 (4~12자의 영문,숫자,특수문자)" th:value="${member.memberPassword}">
-						</div>
-						<div class="col-lg-5">
-							<input type="password" class="form-control" name="memberPasswordCheck" id="memberPasswordCheck" placeholder="비밀번호 확인">
 						</div>
 						<div class="col-lg-5">
 							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름" th:value="${member.memberName}" readonly>
@@ -123,9 +116,23 @@
 		<script src="/main/js/active.js"></script>
 		<script>		
 		//2.닉네임 중복검사
-		$(".nicknameCheck").click(function(){
-			var inputed = {memberNickname : $("#memberNickname").val()};
+
+		
+		//3.각 항목별 유효성검사
+		function validate() {
+			var isPw = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
+			var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 			var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
+			var re4 = /^[0-9]{9,11}/;
+			
+			var id = document.getElementById("memberId");
+			var pw = document.getElementById("memberPassword");
+			var email = document.getElementById("memberEmail");// 이메일이 적합한지 검사할 정규식
+			var nick = document.getElementById("memberNickname");
+			var birth = document.getElementById("memberBirth");
+			
+			var inputed = {memberNickname : $("#memberNickname").val()};
+
 			var nick = document.getElementById("memberNickname");
 			
 			if ($("#memberNickname").val() == ""){
@@ -141,38 +148,18 @@
 				type : "post",
 				data : inputed,
 				success : function(data) {
-					if(data == 1) {
+					if(data == 1 && (nick!=$("#memberNickname").val())) {
 						alert("중복된 닉네임 입니다.");
+						return false;
 					} else {
-						alert("사용 가능한 닉네임 입니다.");
-						$(".nicknameCheck").val(join.memberNickname.value); //현재 닉네입 입력란에 기입된 벨류와 닉네임 버튼의 벨류가 같도록 설정
+						return true;
 					}
 				}
 			});
-		});
-		
-		//3.각 항목별 유효성검사
-		function validate() {
-			var isPw = /^.*(?=.{6,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/;
-			var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			var re3 = /^[a-zA-Z0-9가-힣]{2,8}$/;
-			var re4 = /^[0-9]{9,11}/;
 			
-			var id = document.getElementById("memberId");
-			var pw = document.getElementById("memberPassword");
-			var email = document.getElementById("memberEmail");// 이메일이 적합한지 검사할 정규식
-			var nick = document.getElementById("memberNickname");
-			var birth = document.getElementById("memberBirth");
 			// ------------ 이메일 까지 -----------
-			if(!check(isPw,pw,"패스워드는 5~20자의 영문,숫자를 혼합하여 입력해 주세요.")) {
-				return false;
-			}
-			if(join.memberPassword.value != join.memberPasswordCheck.value) {
-				alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-				join.memberPasswordCheck.value = "";
-				join.memberPasswordCheck.focus();
-				return false;
-			}
+
+
 			if(join.memberNickname.value=="") {
 				alert("닉네임을 입력해 주세요");
 				join.memberNickname.focus();
@@ -197,15 +184,7 @@
 			if(!check(re2, email, "적합하지 않은 이메일 형식입니다.")) {
 				return false;
 			}
-			if(join.hid2.value=="0") { //닉네임 중복버튼을 클릭하지 않았을 경우
-				alert("닉네임 중복을 확인해 주세요.");
-				join.memberNickname.focus();
-				return false;
-			}
-			if(join.hid2.value != join.memberNickname.value) { //중복 확인된 아이디와 현재 아이디 입력창에 기입되어 있는 닉네임이 일치하지 않을 경우
-				alert("아이디 중복을 확인해 주세요.");
-				return false;
-			}
+
 		}
 		
 		function check(re, what, message) {
