@@ -108,9 +108,11 @@ public class ReverseauctionController {
 	}
 	// 7. 역경매 수정 액션
 	@PostMapping("modify")
-	public String modifyReverseauction(Reverseauction reverseauction) {
+	public String modifyReverseauction(Reverseauction reverseauction, HttpSession session) {
 		System.out.println("ReverseauctionController.modifyReverseauction() POST");
-		reverseauctionService.modifyReverseauctionAction(reverseauction);
+		if(reverseauctionService.modifyReverseauctionAction(reverseauction, (String)session.getAttribute("memberId"))==0) {
+			return "redirect:/auction/reverse/detail?fail=true&reverseauctionNo="+reverseauction.getReverseauctionNo();
+		}
 		return "redirect:/auction/reverse/detail?reverseauctionNo="+reverseauction.getReverseauctionNo();
 	}
 	// 8. 역경매 삭제

@@ -50,17 +50,20 @@ public class ReverseauctionService {
 		return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 	}
 	// 5. 역경매 수정 폼
-	public Reverseauction modifyReverseauctionForm(int reverseauctionNo, String memberId) {
+	public Reverseauction modifyReverseauctionForm(int reverseauctionNo, String sessionId) {
 		System.out.println("ReverseauctionService.modifyReverseauctionForm()");
-		if(reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(memberId)) {
+		if(reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(sessionId)) {
 			return reverseauctionMapper.selectReverseauctionOne(reverseauctionNo);
 		}
 		return null;
 	}
 	// 6. 역경매 수정 액션
-	public int modifyReverseauctionAction(Reverseauction reverseauction) {
+	public int modifyReverseauctionAction(Reverseauction reverseauction, String sessionId) {
 		System.out.println("ReverseauctionService.modifyReverseauctionAction()");
-		return reverseauctionMapper.updateReverseauction(reverseauction);
+		if(reverseauctionMapper.selectReverseauctionOne(reverseauction.getReverseauctionNo()).getMemberId().equals(sessionId)) {
+			return reverseauctionMapper.updateReverseauction(reverseauction);
+		}
+		return 0;
 	}
 	// 7. 역경매 삭제
 	public int removeReverseauction(int reverseauctionNo, String memberId) {
