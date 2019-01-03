@@ -48,10 +48,14 @@
 					<a href="/accommodation/main">
 						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
 					</a>
-					<p>StayAlive에 등록된 숙소를 보고싶어요.</p>
+					<p>StayAlive의 숙소를 보고싶어요.</p>
 					<a href="/accommodation/list">
-						<button type="button" class="btn palatin-btn btn-2">Click Now</button>
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
 					</a>
+					<p>StayAlive에 숙소를 등록하고싶어요</p>
+					<a href="/accommodation/register">
+						<button type="button" class="btn palatin-btn btn-2">Click Now</button>
+					</a>					
 				</div>
                 <div class="col-md-9">
 			 		<form id="updateBoardFrm" enctype="multipart/form-data">
@@ -126,6 +130,7 @@
 	<!-- smarteditor 플러그인(2.9.1)  -->
 	<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 	<script type="text/javascript">
+		$("#accommodationModify").addClass('active');
 	    $(function(){
 	    	var count = 1;
 	        //전역변수
