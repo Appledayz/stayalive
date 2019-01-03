@@ -70,10 +70,11 @@ public class DutchauctionController {
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model, HttpSession session) throws SchedulerException {
 		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupName");
 		if(memberId == null) {
 			return "redirect:/login";
 		}
-		else if(memberId != null && (memberService.getMemberGroupNoFromId(memberId) == 2 || memberService.getMemberGroupNoFromId(memberId) == 3)) {//회원이 호스트일때 역경매 등록 뷰로 이동가능
+		else if(memberId != null && (groupName.equals("호스트") || groupName.equals("관리자"))) {//회원이 호스트,관리자 일때 역경매 등록가능
 			String[] accommodationName = dutchauctionService.getAccommodationName(memberId);
 			model.addAttribute("name", accommodationName);
 			return "dutchauction/dutchauctionRegister";

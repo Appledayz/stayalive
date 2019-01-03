@@ -90,13 +90,6 @@
 		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 		    <version>1.16</version>
 		</dependency>
-		<!-- java mail -->
-    <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4</version>
-    </dependency>
-
 	</dependencies>
 	<build>
 		<plugins>
