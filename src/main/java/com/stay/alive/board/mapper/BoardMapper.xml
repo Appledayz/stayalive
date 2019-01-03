@@ -35,7 +35,7 @@
 	
 	<update id="updateBoard" parameterType="com.stay.alive.board.vo.BoardMember">
 		UPDATE board_member 
-		SET board_member_content = #{boardMemberContent}, image_file_no = #{imageFileNo}, board_member_modify_date = now() WHERE board_member_no = #{boardMemberNo}
+		SET board_member_content = #{boardMemberContent}, board_member_title = #{boardMemberTitle}, board_member_modify_date = now() WHERE board_member_no = #{boardMemberNo}
 	</update>
 	<delete id="deleteBoard">
 		DELETE FROM board_member WHERE board_member_no = #{boardMemberNo}

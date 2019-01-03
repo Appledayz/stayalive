@@ -40,9 +40,12 @@ public class BoardService {
 	}
 	//게시판 수정
 	public void modifyBoard(BoardMember boardMember, String path) {
-		removeBoardImageFile(boardMember.getImageFileNo());
-		int newFileNo = addBoardFiles(boardMember.getFile(), path, boardMember.getMemberId());
-		boardMember.setImageFileNo(newFileNo);
+		MultipartFile ImageFileNo = boardMember.getFile();
+		if(!ImageFileNo.isEmpty()) {
+			removeBoardImageFile(boardMember.getImageFileNo());
+			int newFileNo = addBoardFiles(boardMember.getFile(), path, boardMember.getMemberId());
+			boardMember.setImageFileNo(newFileNo);
+		}
 		boardMapper.updateBoard(boardMember);
 	}
 	//게시판 이름 가져오기
