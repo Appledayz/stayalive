@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.stay.alive.common.SHA256Util;
 import com.stay.alive.login.service.LoginService;
 import com.stay.alive.login.vo.LoginVo;
 
@@ -45,9 +46,18 @@ public class AdminController {
 	
 	@PostMapping("adminLogin")
 	public String memberLogin(Model model, HttpSession session, LoginVo loginVo) throws IOException {
+		
 		System.out.println("LoginController.java");
+		LoginVo sessionLogin = null;
+		String salt = loginService.getMemberSaltFromId(loginVo.getMemberId()); // 아이디가 없으면 null값이 들어간다
+		if(salt != null) {
+			String passWord = loginVo.getMemberPassword();
+			passWord = SHA256Util.getEncrypt(passWord, salt);
+			loginVo.setMemberPassword(passWord);
+			sessionLogin = loginService.memberLogin(loginVo);
+		}
 		if(loginService.memberLogin(loginVo)!=null) {
-			LoginVo sessionLogin = loginService.memberLogin(loginVo);
+			sessionLogin = loginService.memberLogin(loginVo);
 			session.setAttribute("sessionLogin", sessionLogin);		
 			session.setAttribute("memberId", sessionLogin.getMemberId());
 			System.out.println(sessionLogin.getMemberId() + "<--memberId");
