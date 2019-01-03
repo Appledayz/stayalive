@@ -32,8 +32,13 @@
 		FROM accommodation 
 		WHERE accommodation_name = #{name}
 	</select>
-	<select id="selectAccommodationList" resultType="com.stay.alive.accommodation.vo.Accommodation">
-		SELECT * 
+	<select id="selectAccommodationList" resultType="com.stay.alive.accommodation.vo.Accommodation" parameterType="com.stay.alive.common.PageMaker">
+		SELECT *
+		FROM accommodation
+		LIMIT #{startRow}, #{rowPerPage}
+	</select>
+	<select id="selectAccommodationCount" resultType="int">
+		SELECT count(*) 
 		FROM accommodation
 	</select>
 	<select id="selectAccommodationSearchList" resultType="com.stay.alive.accommodation.vo.Accommodation">
@@ -44,6 +49,7 @@
 				${searchKey} LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
+		LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
 	</select>	
 		<select id="selectAccommodationSearchCount" resultType="int">
 		SELECT count(*) 
@@ -53,7 +59,8 @@
 				${searchKey} LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 		</where>
-	</select>	
+	</select>
+	
 	<insert id="insertAccommodation" parameterType="com.stay.alive.accommodation.vo.Accommodation">
 		INSERT INTO accommodation(
 			member_id, company_no, company_name,

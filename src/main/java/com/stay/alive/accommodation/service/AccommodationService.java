@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.mapper.AccommodationMapper;
 import com.stay.alive.accommodation.vo.Accommodation;
+import com.stay.alive.common.PageMaker;
+import com.stay.alive.common.PageMakerService;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
 import com.stay.alive.member.group.mapper.MemberGroupMapper;
@@ -42,9 +44,14 @@ public class AccommodationService {
 		return accommodationMapper.selectAccommodationFromNo(accommodationNo);
 	}
 	//숙소 리스트 
-	public ArrayList<Accommodation> getAccommodationList() {
-		return accommodationMapper.selectAccommodationList();
+	public ArrayList<Accommodation> getAccommodationList(PageMaker pageMaker) {
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(6);
+		pageMaker.setAllCount(accommodationMapper.selectAccommodationCount());
+		PageMakerService.pageMakerService(pageMaker);
+		return accommodationMapper.selectAccommodationList(pageMaker);
 	}
+	
 	//숙소 수정
 	public void modifyAccommodation(Accommodation accommodation, String path) {
 		MultipartFile businessNumberFile = accommodation.getBusinessNumberFile();
@@ -152,10 +159,15 @@ public class AccommodationService {
 			System.out.println("회원그룹 업데이트 실패");
 		}
 	}
-	public ArrayList<Accommodation> getAccommodationSearchList(String searchKey, String searchWord) {
-		return accommodationMapper.selectAccommodationSearchList(searchKey, searchWord);
+	public ArrayList<Accommodation> getAccommodationSearchList(PageMaker pageMaker, String searchKey, String searchWord) {
+		pageMaker.setPagePerBlock(10);
+		pageMaker.setRowPerPage(6);
+		pageMaker.setAllCount(accommodationMapper.selectAccommodationSearchCount(searchKey, searchWord));
+		PageMakerService.pageMakerService(pageMaker);
+		return accommodationMapper.selectAccommodationSearchList(pageMaker, searchKey, searchWord);
 	}
 	public int selectAccommodationSearchCount(String searchKey, String searchWord) {
 		return accommodationMapper.selectAccommodationSearchCount(searchKey, searchWord);
 	}
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.stay.alive.accommodation.vo.Accommodation;
+import com.stay.alive.common.PageMaker;
 
 @Mapper
 public interface AccommodationMapper {
@@ -16,8 +17,9 @@ public interface AccommodationMapper {
 	public String[] selectAccommodationName(String memberId);
 	public Accommodation selectAccommodationInfo(String name);
 	public void updateAccommodation(Accommodation accommodation);
-	public ArrayList<Accommodation> selectAccommodationList();
-	public ArrayList<Accommodation> selectAccommodationSearchList(String searchKey, String searchWord);
+	public ArrayList<Accommodation> selectAccommodationList(PageMaker pageMaker);
+	public int selectAccommodationCount();
+	public ArrayList<Accommodation> selectAccommodationSearchList(PageMaker pageMaker, String searchKey, String searchWord);
 	public int selectAccommodationSearchCount(String searchKey, String searchWord);
 	public Accommodation selectAccommodationFromNo(int accommodationNo);
 	public int selectAccommodationNo(String AccommodationName);

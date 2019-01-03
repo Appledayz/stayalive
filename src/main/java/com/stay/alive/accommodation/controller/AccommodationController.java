@@ -16,18 +16,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.stay.alive.accommodation.service.AccommodationService;
 import com.stay.alive.accommodation.vo.Accommodation;
+import com.stay.alive.common.PageMaker;
 import com.stay.alive.company.service.CompanyService;
 import com.stay.alive.company.vo.Company;
-import com.stay.alive.member.service.MemberService;
-import com.stay.alive.member.vo.Member;
 
 @Controller
 @RequestMapping("accommodation")
 public class AccommodationController {
 	@Autowired
 	private AccommodationService accommodationService;
-	@Autowired
-	private MemberService memberService;
 	@Autowired
 	private CompanyService companyService;
 	//숙소 메인
@@ -76,7 +73,13 @@ public class AccommodationController {
 	public String  accommodationModify(Model model, HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
 		String groupName = (String)session.getAttribute("groupName");
-		if(!groupName.equals("게스트")) {
+		
+		if(memberId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("url", "/login");
+			return "alert";
+		}
+		else if(!groupName.equals("게스트")) {
 			String[] names = accommodationService.getAccommodationNames(memberId);
 			model.addAttribute("names", names);
 			return "accommodation/accommodationModify";
@@ -90,11 +93,10 @@ public class AccommodationController {
 	//수정 액션
 	@PostMapping("modifyAction")
 	public String  accommodationModifyAction(Accommodation accommodation, HttpSession session) {
-		String memberId = "ID1"; //임시 아이디(세션추가 필요)
+		String memberId = (String)session.getAttribute("memberId");
 		String path = session.getServletContext().getRealPath("image/business");
 		accommodation.setMemberId(memberId);
 		accommodationService.modifyAccommodation(accommodation, path);
-		//System.out.println(accommodation);
 		return "redirect:/main";
 	}
 	//모달을 사용하는 상세정보 
@@ -104,17 +106,22 @@ public class AccommodationController {
 	}
 	//숙소 리스트
 	@GetMapping("list")
-	public String accommodationList(Model model,@RequestParam(defaultValue="") String searchKey, String searchWord) {
+	public String accommodationList(Model model, 
+									@RequestParam(defaultValue="1") int currentPage, 
+									PageMaker pageMaker, 
+									@RequestParam(defaultValue="") String searchKey, 
+									@RequestParam(defaultValue="") String searchWord) 
+	{
+		pageMaker.setCurrentPage(currentPage);
 		ArrayList<Accommodation> accommodationList = new ArrayList<Accommodation>();
 		if(!searchKey.equals("") && !searchKey.equals("0")) {
-			accommodationList = accommodationService.getAccommodationSearchList(searchKey, searchWord);
-			model.addAttribute("companyListCount", accommodationService.selectAccommodationSearchCount(searchKey, searchWord));
+			accommodationList = accommodationService.getAccommodationSearchList(pageMaker, searchKey, searchWord);
 		}
 		else {
-			accommodationList = accommodationService.getAccommodationList();
+			accommodationList = accommodationService.getAccommodationList(pageMaker);
 		}
-		
-		model.addAttribute("select", searchKey);
+		model.addAttribute("PM", pageMaker);
+		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("list", accommodationList);
 		return "accommodation/accommodationList";

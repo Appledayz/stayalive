@@ -1,7 +1,6 @@
 package com.stay.alive.auction.dutch.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -21,29 +20,25 @@ import com.stay.alive.auction.dutch.service.DutchauctionService;
 import com.stay.alive.auction.dutch.vo.DutchAuction;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.guestroom.vo.GuestRoom;
-import com.stay.alive.member.service.MemberService;
 
 @Controller
 @RequestMapping("auction/dutch")
 public class DutchauctionController {
 	@Autowired
 	private DutchauctionService dutchauctionService;
-	@Autowired
-	private MemberService memberService;
 	@GetMapping("list")
 	public String dutchauctionList(Model model, 
-								   @RequestParam(defaultValue = "1") int currentPage, 
-								   HashMap<String, String> paraMap, 
+								   @RequestParam(defaultValue = "1") int currentPage,
 								   PageMaker pageMaker, 
-								   @RequestParam(defaultValue = "") String sk, 
-								   @RequestParam(defaultValue = "") String sv,
+								   @RequestParam(defaultValue = "") String searchKey, 
+								   @RequestParam(defaultValue = "") String searchWord,
 								   @RequestParam(defaultValue = "") String checkInDate,
 								   @RequestParam(defaultValue = "") String checkOutDate)
 	{
 		pageMaker.setCurrentPage(currentPage);
 		ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		if((!sk.equals("") && !sk.equals("0")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
-			list = dutchauctionService.getDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
+		if((!searchKey.equals("") && !searchKey.equals("0")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
+			list = dutchauctionService.getDutchAuctionSearchList(pageMaker, searchKey, searchWord, checkInDate, checkOutDate);
 		}
 		else {
 			list = dutchauctionService.getDutchAuctionList(pageMaker);
@@ -51,8 +46,8 @@ public class DutchauctionController {
 		
 		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList();
 		model.addAttribute("PM", pageMaker);
-		model.addAttribute("sk", sk);
-		model.addAttribute("sv", sv);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("checkInDate", checkInDate);
 		model.addAttribute("checkOutDate", checkOutDate);
 		model.addAttribute("list",list);

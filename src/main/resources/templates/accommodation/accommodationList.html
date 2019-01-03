@@ -44,7 +44,7 @@
 			<div class="col-md-12">
 				<div class="search-result bg-gray">
 					<h2>"<span th:text="${searchWord}"></span>"의 검색 결과</h2>
-					<p><span th:text="${companyListCount}"></span> 개의 항목을 찾았습니다</p>
+					<p><span th:if='${!#strings.equals(searchWord,"")}' th:text="${PM.allCount}"></span> 개의 항목을 찾았습니다</p>
 				</div>
 			</div>
 		</div>
@@ -121,6 +121,25 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+				</div>
+				<div class="col-12" >
+					<!-- Pagination -->
+					<div class="pagination-area wow fadeInUp"
+						data-wow-delay="200ms">
+						<nav>
+							<ul class="pagination">
+								<li class="page-item" th:if="${PM.prevPage}">
+									<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord})}">이전</a>
+								</li>
+								<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
+									<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord})}">1</a>
+								</li>
+								<li class="page-item" th:if="${PM.nextPage}">
+									<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord})}">다음</a>
+								</li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.stay.alive.accommodation.service.AccommodationService;
 import com.stay.alive.accommodation.vo.Accommodation;
+import com.stay.alive.common.PageMaker;
 
 @Controller
 @RequestMapping("admin")
@@ -21,8 +22,8 @@ public class AdminAccommodationController {
 	private AccommodationService accommodationService;
 	
 	@GetMapping("accommodationManagement")
-	public String accommodationManagement(Model model) {
-		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationList();
+	public String accommodationManagement(Model model,PageMaker pageMaker) {
+		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationList(pageMaker);
 		model.addAttribute("accommodationList", accommodationList);
 		return "admin/accommodationManagement/accommodationManagement";
 	}

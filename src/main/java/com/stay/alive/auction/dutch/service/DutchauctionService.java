@@ -191,12 +191,12 @@ public class DutchauctionService {
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionList(pageMaker);
 	}
-	public ArrayList<Map<String, Object>> getDutchAuctionSearchList(PageMaker pageMaker,String sk, String sv, String checkInDate, String checkOutDate) {
+	public ArrayList<Map<String, Object>> getDutchAuctionSearchList(PageMaker pageMaker,String searchKey, String searchWord, String checkInDate, String checkOutDate) {
 		pageMaker.setPagePerBlock(10);
 		pageMaker.setRowPerPage(6);
-		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(sk, sv, checkInDate, checkOutDate));
+		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(searchKey, searchWord, checkInDate, checkOutDate));
 		PageMakerService.pageMakerService(pageMaker);
-		return dutchauctionMapper.selectDutchAuctionSearchList(pageMaker, sk, sv, checkInDate, checkOutDate);
+		return dutchauctionMapper.selectDutchAuctionSearchList(pageMaker, searchKey, searchWord, checkInDate, checkOutDate);
 	}
 	//종료된 역경매 리스트(전체)
 	public ArrayList<Map<String, Object>> getClosedDutchAuctionList() {

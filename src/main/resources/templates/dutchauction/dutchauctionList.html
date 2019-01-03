@@ -24,7 +24,7 @@
 	<!-- ##### Breadcumb Area Start ##### -->
 	<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(/main/img/bg-img/background1.jpg);">
 		<div class="bradcumbContent">
-			<h2>Dutch Book</h2>
+			<h2>DutchAuction</h2>
 		</div>
 	</section>
 	<!-- ##### Breadcumb Area End ##### -->
@@ -34,7 +34,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-12 col-lg-6">
-					<div class="section-heading text-center" style="padding-top: 10px">
+					<div class="section-heading text-center">
 						<div class="line-"></div>
 						<h2>Choose DutchAuction</h2>
 						<p>호스트가 등록하면 게스트가 낙찰을 합니다.</p>
@@ -45,21 +45,21 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="search-result bg-gray">
-						<h2></h2>
-						<p ></p>
+					<h2>"<span th:text="${searchWord}"></span>"의 검색 결과</h2>
+					<p><span th:text="${PM.allCount}"></span> 개의 항목을 찾았습니다</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-3">
 					<form action="list" method="get">
-						<select class="form-control" name="sk" id="searchSelect">
+						<select class="form-control" name="searchKey" id="searchSelect">
 							<option value="0">==== 선택 ====</option>
 							<option value="accommodation_address">주소</option>
 							<option value="accommodation_name">숙소이름</option>
 							<option value="member_id">업체회원ID</option>
 						</select>
-						<input type="text" class="form-control" name="sv" id="search" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" name="searchWord" id="search" placeholder="검색어를 입력하세요">
 						<input type="text" class="form-control" data-timepicker="true" id="checkInDate" name="checkInDate" placeholder="Check-in" autocomplete=off readonly>
 						<input type="text" class="form-control" data-timepicker="true" id="checkOutDate" name="checkOutDate" placeholder="Check-out" autocomplete=off readonly>
 						<button type="submit" class="btn palatin-btn form-control" style="margin-bottom:30px">Search Now</button>
@@ -195,14 +195,14 @@
 							data-wow-delay="200ms">
 							<nav>
 								<ul class="pagination">
-									<li class="page-item" th:if="${prevPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
+									<li class="page-item" th:if="${PM.prevPage}">
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
 									</li>
 									<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
+										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
 									</li>
-									<li class="page-item" th:if="${nextPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
+									<li class="page-item" th:if="${PM.nextPage}">
+										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
 									</li>
 								</ul>
 							</nav>

@@ -212,13 +212,13 @@
 								<div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
 									<nav>
 										<ul class="pagination">
-											<li class="page-item" th:if="${prevPage}">
+											<li class="page-item" th:if="${PM.prevPage}">
 												<a class="page-link" th:href="@{/auction/reverse/list(page=${(PM.currentBlock - 1) * PM.pagePerBlock},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">이전</a>
 											</li>
 											<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
 												<a class="page-link" th:text="${i}+'.'" th:href="@{/auction/reverse/list(page=${i},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">01.</a>
 											</li>
-											<li class="page-item" th:if="${nextPage}">
+											<li class="page-item" th:if="${PM.nextPage}">
 												<a class="page-link" th:href="@{/auction/reverse/list(page=${PM.currentBlock * PM.pagePerBlock + 1},sk=${sk},sv=${sv},date1=${date1},date2=${date2})}">다음</a>
 											</li>
 										</ul>

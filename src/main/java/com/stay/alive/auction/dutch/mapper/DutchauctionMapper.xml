@@ -118,8 +118,8 @@
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		<where>
 			 d.auction_state_category_no = 1 
-			<if test='!sk.equals("0")'>
-				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
+			<if test='!searchKey.equals("0")'>
+				AND a.${searchKey} LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
 				AND d.dutchauction_checkin_date &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
@@ -136,8 +136,8 @@
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		<where>
 			 d.auction_state_category_no = 1 
-			<if test='!sk.equals("0")'>
-				AND a.${sk} LIKE CONCAT('%',#{sv},'%')
+			<if test='!searchKey.equals("0")'>
+				AND a.${searchKey} LIKE CONCAT('%',#{searchWord},'%')
 			</if>
 			<if test="!checkInDate.equals('') and !checkOutDate.equals('')">
 				AND d.dutchauction_checkin_date  &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
