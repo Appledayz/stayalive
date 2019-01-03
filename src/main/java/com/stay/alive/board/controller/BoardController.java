@@ -81,9 +81,15 @@ public class BoardController {
 	@GetMapping("modify")
 	public String boardModify(Model model,HttpSession session) {
 		String memberId = (String)session.getAttribute("memberId");
-		String[] names = boardService.getBoardName(memberId);
-		model.addAttribute("names", names);
-		return "board/boardModify";
+		if(memberId != null) {
+			String[] names = boardService.getBoardName(memberId);
+			model.addAttribute("names", names);
+			return "board/boardModify";
+		}else {
+			model.addAttribute("msg","로그인 해주세요");
+			model.addAttribute("url", "/board/free");
+			return "alert";
+		}
 	}
 	//게시판 수정 액션
 	@PostMapping("modifyAction")
@@ -91,7 +97,7 @@ public class BoardController {
 		String memberId = (String)session.getAttribute("memberId");
 		String path = session.getServletContext().getRealPath("image/board");
 		boardMember.setMemberId(memberId);
-		boardService.modifyBoard(boardMember, path);
+		boardService.modifyBoard(boardMember , path);
 		return "redirect:/board/free";
 	}
 	//모달

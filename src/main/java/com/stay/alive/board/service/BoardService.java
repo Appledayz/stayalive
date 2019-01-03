@@ -26,10 +26,10 @@ public class BoardService {
 	@Autowired
 	private ImageFileMapper imageFileMapper;
 	
-	//게시판 등록
+	//게시글 등록
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addBoardMember(BoardMember boardMember, String path) {		
-		System.out.println("게시판 등록");
+		System.out.println("게시글 등록");
 		boardMember.setBoardCategoryNo(1);
 		boardMember.setBoardCategoryName("자유게시판");
 		/*int groupNo = boardMember.getGroupNo();
@@ -38,17 +38,18 @@ public class BoardService {
 		boardMember.setGroupName(groupName);*/
 		boardMapper.insertBoard(boardMember);
 	}
-	//게시판 수정
+	//게시글 수정
 	public void modifyBoard(BoardMember boardMember, String path) {
-		MultipartFile ImageFileNo = boardMember.getFile();
-		if(!ImageFileNo.isEmpty()) {
+		/*MultipartFile boardFile = boardMember.getFile();
+		System.out.println("boardFile !!!!!!"+boardFile);
+		if(!boardFile.isEmpty()) {
 			removeBoardImageFile(boardMember.getImageFileNo());
 			int newFileNo = addBoardFiles(boardMember.getFile(), path, boardMember.getMemberId());
 			boardMember.setImageFileNo(newFileNo);
-		}
+		}*/
 		boardMapper.updateBoard(boardMember);
 	}
-	//게시판 이름 가져오기
+	//게시글 이름 가져오기
 	public String[] getBoardName(String memberId) {
 		return boardMapper.selectBoardName(memberId);
 	}
