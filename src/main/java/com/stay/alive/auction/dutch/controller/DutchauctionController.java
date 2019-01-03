@@ -73,7 +73,7 @@ public class DutchauctionController {
 		if(memberId == null) {
 			return "redirect:/login";
 		}
-		else if(memberId != null && memberService.getMemberGroupNoFromId(memberId) == 2) {//회원이 호스트일때 역경매 등록 뷰로 이동가능
+		else if(memberId != null && (memberService.getMemberGroupNoFromId(memberId) == 2 || memberService.getMemberGroupNoFromId(memberId) == 3)) {//회원이 호스트일때 역경매 등록 뷰로 이동가능
 			String[] accommodationName = dutchauctionService.getAccommodationName(memberId);
 			model.addAttribute("name", accommodationName);
 			return "dutchauction/dutchauctionRegister";
@@ -83,8 +83,6 @@ public class DutchauctionController {
 			model.addAttribute("url","/main");
 			return "alert";
 		}
-		
-		
 	}
 	//역경매 등록액션
 	@PostMapping("registerAction")
@@ -104,7 +102,6 @@ public class DutchauctionController {
 													int guestroomAddOrSelect,
 													HttpSession session) 
 	{
-		
 		String memberId = (String)session.getAttribute("memberId");
 		DutchAuction dutchAuction = new DutchAuction();
 		dutchAuction.setMemberId(memberId);

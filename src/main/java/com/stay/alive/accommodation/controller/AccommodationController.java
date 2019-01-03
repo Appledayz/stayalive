@@ -74,10 +74,18 @@ public class AccommodationController {
 	//수정 뷰
 	@GetMapping("modify")
 	public String  accommodationModify(Model model, HttpSession session) {
-		String memberId = (String)session.getAttribute("memberId"); //임시 아이디(세션추가 필요)
-		String[] names = accommodationService.getAccommodationNames(memberId);
-		model.addAttribute("names", names);
-		return "accommodation/accommodationModify";
+		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupName");
+		if(!groupName.equals("게스트")) {
+			String[] names = accommodationService.getAccommodationNames(memberId);
+			model.addAttribute("names", names);
+			return "accommodation/accommodationModify";
+		}
+		else {
+			model.addAttribute("msg", "게스트는 숙소수정이 불가능합니다.");
+			model.addAttribute("url", "/main");
+			return "alert";
+		}
 	}
 	//수정 액션
 	@PostMapping("modifyAction")
