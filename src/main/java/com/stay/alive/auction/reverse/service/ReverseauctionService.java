@@ -21,14 +21,6 @@ public class ReverseauctionService {
 	private ReverseauctionTenderMapper reverseauctionTenderMapper;
 	
 	// 1. 역경매 전체목록 조회
-	public List<Reverseauction> getReverseauctionList(PageMaker pageMaker){
-		System.out.println("ReverseauctionService.getReverseauctionList()");
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(10);
-		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauction());
-		PageMakerService.pageMakerService(pageMaker);
-		return reverseauctionMapper.selectReverseauctionList(pageMaker);
-	}
 	// 2. 역경매 등록 폼
 	public int addReverseauctionOne(Reverseauction reverseauction) {
 		System.out.println("ReverseauctionService.addReverseauctionOne()");
@@ -66,11 +58,11 @@ public class ReverseauctionService {
 		return 0;
 	}
 	// 7. 역경매 삭제
-	public int removeReverseauction(int reverseauctionNo, String memberId) {
+	public int removeReverseauction(int reverseauctionNo, String sessionId) {
 		System.out.println("ReverseauctionService.removeReverseauction()");
 		int i=0;
 		if(!reverseauctionMapper.selectReverseauctionState(reverseauctionNo).equals("낙찰완료")
-				&& reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(memberId)) {
+				&& reverseauctionMapper.selectReverseauctionOne(reverseauctionNo).getMemberId().equals(sessionId)) {
 			i+=reverseauctionTenderMapper.deleteReverseauctionTender(reverseauctionNo);
 			i+=reverseauctionMapper.deleteReverseauction(reverseauctionNo);
 		}

@@ -30,16 +30,6 @@ public class ReverseauctionController {
 	private PageMaker pageMaker;
 	
 	// 1. 역경매목록 조회
-	@GetMapping("listAll")
-	public String reverseauctionList(Model model, @RequestParam(value="page", defaultValue="1")int page,
-												  @RequestParam HashMap<String, String> paraMap) {
-		System.out.println("ReverseauctionController.reverseauctionList() GET");
-		pageMaker = new PageMaker();
-		pageMaker.setCurrentPage(page);
-		model.addAttribute("list", reverseauctionService.getReverseauctionList(pageMaker));
-		model.addAttribute("PM", pageMaker);
-		return "/reverseauction/reverseauctionList";
-	}
 	// 2. 역경매목록 검색
 	@GetMapping("list")
 	public String reverseauctionSearchList(Model model, @RequestParam(value="page", defaultValue="1")int page,

@@ -106,7 +106,8 @@
 						<p th:text="${m.reverseauctionContent}">역경매 내용</p>
 						<p th:text="'조회수 : '+${m.reverseauctionHits}" style="margin-top:1em;">조회수</p>
 						<p th:text="'등록일 : '+${m.reverseauctionRegisterDate}">역경매 등록일</p>
-						<p th:if="${m.reverseauctionUpdateDate!=null}" th:text="'수정일 : '+${m.reverseauctionUpdateDate}">역경매 등록일</p>
+						<p th:if="${m.reverseauctionUpdateDate!=null}" th:text="'수정일 : '+${m.reverseauctionUpdateDate}">역경매 수정일</p>
+						<p th:text="'마감일 : '+${m.reverseauctionTendercloseDate}">역경매 마감일</p>
 						<div class="row">
 							<div class="col-sm-2"></div>
 							<div class="col-sm-4" th:if="${m.memberId.equals(session.memberId)}==true">
