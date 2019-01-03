@@ -79,8 +79,8 @@ public class BoardController {
 	}
 	//게시판 수정
 	@GetMapping("modify")
-	public String boardModify(Model model) {
-		String memberId = "id001";
+	public String boardModify(Model model,HttpSession session) {
+		String memberId = (String)session.getAttribute("memberId");
 		String[] names = boardService.getBoardName(memberId);
 		model.addAttribute("names", names);
 		return "board/boardModify";
@@ -88,7 +88,7 @@ public class BoardController {
 	//게시판 수정 액션
 	@PostMapping("modifyAction")
 	public String boardModifyAction(BoardMember boardMember, HttpSession session) {
-		String memberId = "id001";
+		String memberId = (String)session.getAttribute("memberId");
 		String path = session.getServletContext().getRealPath("image/board");
 		boardMember.setMemberId(memberId);
 		boardService.modifyBoard(boardMember, path);
@@ -102,6 +102,8 @@ public class BoardController {
 	//게시글 삭제
 	@GetMapping("remove")
 	public String deleteBoard(int boardMemberNo) {
-		return "redirect:/board/list";
+		boardService.removeBoard(boardMemberNo);
+		System.out.println("게시글 삭제 컨트롤러");
+		return "redirect:/board/free";
 	}
 }

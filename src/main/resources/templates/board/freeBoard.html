@@ -44,14 +44,18 @@
 		  	});
 		});
 		
-		var link;
+		var modifyLink;
+		var removeLink;
 		$("a").click(function() {
-			link = "/board/modify?data=" + $(this).data("remote");
+			modifyLink = "/board/modify?boardMemberNo=" + $(this).data("remote");
+			removeLink = "/board/remove?boardMemberNo=" + $(this).data("remote");
 		});
 		$("#modifyBtn").click(function() {
-			location.href = link;
+			location.href = modifyLink;
 		});
-
+		$("#removeBtn").click(function() {
+			location.href = removeLink;
+		});
 	});
 // ]]>
 </script>
@@ -194,7 +198,7 @@
 	            </div>
 	            <div class="modal-footer">
 	            	<button type="button" id ="modifyBtn" class="btn btn-secondary" >수정</button>
-	            	<button type="button" class="btn btn-secondary" onclick="location.href='/board/remove'">삭제</button>
+	            	<button type="button" id ="removeBtn" class="btn btn-secondary" >삭제</button>
 	                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	            </div>
 	        </div>
@@ -212,6 +216,7 @@
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
     <script type="text/javascript">
+    $("#freeBoard").addClass('active');
 	    if($("#searchSelect").val() == "") {
 			$("#search").attr("disabled",true);
 		}

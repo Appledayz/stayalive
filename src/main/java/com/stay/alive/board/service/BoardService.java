@@ -31,7 +31,11 @@ public class BoardService {
 	public void addBoardMember(BoardMember boardMember, String path) {		
 		System.out.println("게시판 등록");
 		boardMember.setBoardCategoryNo(1);
-		boardMember.setBoardCategoryName("자유게시판");		
+		boardMember.setBoardCategoryName("자유게시판");
+		/*int groupNo = boardMember.getGroupNo();
+		String groupName = boardMapper.selectGroupName(groupNo);
+		System.out.println(groupName);
+		boardMember.setGroupName(groupName);*/
 		boardMapper.insertBoard(boardMember);
 	}
 	//게시판 수정
@@ -128,6 +132,7 @@ public class BoardService {
 	public int removeBoard(int boardMemberNo) {
 		int i=0;
 		i+= boardMapper.deleteBoard(boardMemberNo);
+		System.out.println("게시글 삭제 서비스");
 		return i;
 	}
 }
