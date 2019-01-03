@@ -16,6 +16,7 @@ public interface CompanyMapper {
 	public List<HashMap<String, Object>> selectMemberAndCompanySearchList(HashMap<String, Object> map);
 	public Company selectCompanyFromNo(int companyNo);
 	public Company selectCompanyFromId(String memberId);
+	public int selectCompanyCount();
 	public List<Company> selectCompanyList();
 	public void updateCompanyRecognition(int companyNo);
 }

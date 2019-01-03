@@ -116,6 +116,10 @@
     	FROM member
     	WHERE member_id = #{memberId}
     </select>
+    <select id="selectMemberCount" resultType="int">
+    	SELECT count(*)
+    	FROM member
+    </select>
 </mapper>
 
 	

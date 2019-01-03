@@ -82,6 +82,11 @@ public class CompanyService {
 	public Company getCompanyFromId(String memberId) {
 		return companyMapper.selectCompanyFromId(memberId);
 	}
+	//등록한 숙소의 전체 개수를 얻어온다.
+	public int getCompanyCount() {
+		return companyMapper.selectCompanyCount();
+	}
+	
 	
 	public void companyRecognitionModify(int companyNo) {
 		companyMapper.updateCompanyRecognition(companyNo); // 업체(호스트) 승인 유무 변경(Y)

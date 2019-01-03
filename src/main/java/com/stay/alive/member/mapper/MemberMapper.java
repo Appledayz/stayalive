@@ -15,7 +15,6 @@ public interface MemberMapper {
 	public abstract Member selectMemberOne(int memberNo);
 	*/
 	int insertMember(Member member);
-	int selectCountMemberAll();
 	List<Member> selectMember(HashMap<String, Integer> pagingInfo);
 	Member idCheck(Member memberId);
 	Member nicknameCheck(Member memberNickname);
@@ -24,5 +23,5 @@ public interface MemberMapper {
 	public abstract Member selectOne(String memberId);
 	int updateGroupOfMember(Member member);
 	int selectMemberGroupNoFromId(String memberId);
-	
+	int selectMemberCount();
 }

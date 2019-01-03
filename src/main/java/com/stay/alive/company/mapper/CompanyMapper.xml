@@ -118,4 +118,8 @@
 			company_recognition = 'Y'
 		WHERE company_no = #{companyNo}
 	</update>
+	<select id="selectCompanyCount" resultType="int">
+		SELECT count(*)
+		FROM company
+	</select>
 </mapper>

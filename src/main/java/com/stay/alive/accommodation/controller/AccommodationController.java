@@ -19,6 +19,7 @@ import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.company.service.CompanyService;
 import com.stay.alive.company.vo.Company;
+import com.stay.alive.member.service.MemberService;
 
 @Controller
 @RequestMapping("accommodation")
@@ -27,9 +28,19 @@ public class AccommodationController {
 	private AccommodationService accommodationService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private MemberService memberService;
 	//숙소 메인
 	@GetMapping("main")
-	public String accommodation() {
+	public String accommodation(Model model) {
+		int companyCount = companyService.getCompanyCount();
+		int accommodationCount = accommodationService.getAccommodationCount();
+		int memberCount = memberService.getMemberCount();
+		int guestRoomCount = accommodationService.getGuestroomCount();
+		model.addAttribute("companyCount", companyCount);
+		model.addAttribute("accommodationCount", accommodationCount);
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("guestRoomCount", guestRoomCount);
 		return "accommodation/accommodation";
 	}
 	//등록 뷰

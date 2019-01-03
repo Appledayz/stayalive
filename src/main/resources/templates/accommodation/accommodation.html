@@ -83,7 +83,7 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="300ms">
                         <div class="scf-text">
                             <i class="icon-cocktail-1"></i>
-                            <h2><span class="counter">231</span></h2>
+                            <h2><span class="counter" th:text="${companyCount}">231</span></h2>
                             <p>업체 등록 수</p>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="500ms">
                         <div class="scf-text">
                             <i class="icon-swimming-pool"></i>
-                            <h2><span class="counter">425</span></h2>
+                            <h2><span class="counter" th:text="${accommodationCount}">425</span></h2>
                             <p>숙소 등록 수</p>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="700ms">
                         <div class="scf-text">
                             <i class="icon-resort"></i>
-                            <h2><span class="counter">1534</span></h2>
+                            <h2><span class="counter" th:text="${guestRoomCount}">1534</span></h2>
                             <p>객실 등록 수</p>
                         </div>
                     </div>
@@ -116,8 +116,8 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="900ms">
                         <div class="scf-text">
                             <i class="icon-restaurant"></i>
-                            <h2><span class="counter">25,843</span></h2>
-                            <p>전체 이용자 수</p>
+                            <h2><span class="counter" th:text="${memberCount}">25,843</span></h2>
+                            <p>가입된 회원 수</p>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,7 @@ import com.stay.alive.common.PageMaker;
 import com.stay.alive.common.PageMakerService;
 import com.stay.alive.file.ImageFile;
 import com.stay.alive.file.mapper.ImageFileMapper;
+import com.stay.alive.guestroom.mapper.GuestRoomMapper;
 import com.stay.alive.member.group.mapper.MemberGroupMapper;
 import com.stay.alive.member.group.vo.MemberGroup;
 import com.stay.alive.member.mapper.MemberMapper;
@@ -34,6 +35,8 @@ public class AccommodationService {
 	private MemberGroupMapper memberGroupMapper;
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private GuestRoomMapper guestRoomMapper;
 	public String[] getAccommodationNames(String memberId) {
 		return accommodationMapper.selectAccommodationName(memberId);
 	}
@@ -166,8 +169,10 @@ public class AccommodationService {
 		PageMakerService.pageMakerService(pageMaker);
 		return accommodationMapper.selectAccommodationSearchList(pageMaker, searchKey, searchWord);
 	}
-	public int selectAccommodationSearchCount(String searchKey, String searchWord) {
-		return accommodationMapper.selectAccommodationSearchCount(searchKey, searchWord);
+	public int getAccommodationCount() {
+		return accommodationMapper.selectAccommodationCount();
 	}
-
+	public int getGuestroomCount() {
+		return guestRoomMapper.selectGuestroomCount();
+	}
 }

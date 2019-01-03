@@ -47,4 +47,7 @@ public class MemberService {
 	public int getMemberGroupNoFromId(String memberId) {
 		return memberMapper.selectMemberGroupNoFromId(memberId);
 	}
+	public int getMemberCount() {
+		return memberMapper.selectMemberCount();
+	}
 }

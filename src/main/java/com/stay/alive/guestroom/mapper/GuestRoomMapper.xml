@@ -14,5 +14,8 @@
 		INSERT INTO guestroom(member_id, company_no, company_name, accommodation_no, accommodation_name, guestroom_name, guestroom_capacity, guestroom_size, guestroom_detail, guestroom_register_date, image_file_no)
 		VALUES(#{memberId},#{companyNo},#{companyName},#{accommodationNo},#{accommodationName},#{guestroomName},#{guestroomCapacity},#{guestroomSize},#{guestroomDetail},now(),#{imageFileNo})
 	</insert>
-	
+	<select id="selectGuestroomCount" resultType="int">
+		SELECT count(*)
+		FROM guestroom
+	</select>
 </mapper>

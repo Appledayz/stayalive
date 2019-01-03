@@ -8,4 +8,5 @@ public interface GuestRoomMapper {
 	public String[] selectGuestroomNames(String accommodationName);
 	public GuestRoom selectGuestroomInfo(String accommodationName, String guestroomName);
 	public void insertGuestroom(GuestRoom guestRoom);
+	public int selectGuestroomCount();
 }
