@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stay.alive.accommodation.service.AccommodationService;
 import com.stay.alive.accommodation.vo.Accommodation;
@@ -22,8 +23,8 @@ public class AdminAccommodationController {
 	private AccommodationService accommodationService;
 	
 	@GetMapping("accommodationManagement")
-	public String accommodationManagement(Model model,PageMaker pageMaker) {
-		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationList(pageMaker);
+	public String accommodationManagement(Model model) {
+		ArrayList<Accommodation> accommodationList = accommodationService.getAccommodationManagementList();
 		model.addAttribute("accommodationList", accommodationList);
 		return "admin/accommodationManagement/accommodationManagement";
 	}

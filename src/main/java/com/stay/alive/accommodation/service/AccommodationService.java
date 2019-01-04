@@ -46,6 +46,9 @@ public class AccommodationService {
 	public Accommodation getAccommodationFromNo(int accommodationNo) {
 		return accommodationMapper.selectAccommodationFromNo(accommodationNo);
 	}
+	public ArrayList<Accommodation> getAccommodationManagementList() {
+		return accommodationMapper.selectAccommodationManagementList();
+	}
 	//숙소 리스트 
 	public ArrayList<Accommodation> getAccommodationList(PageMaker pageMaker) {
 		pageMaker.setPagePerBlock(10);

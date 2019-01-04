@@ -32,6 +32,10 @@
 		FROM accommodation 
 		WHERE accommodation_name = #{name}
 	</select>
+	<select id="selectAccommodationManagementList" resultType="com.stay.alive.accommodation.vo.Accommodation">
+		SELECT *
+		FROM accommodation
+	</select>
 	<select id="selectAccommodationList" resultType="com.stay.alive.accommodation.vo.Accommodation" parameterType="com.stay.alive.common.PageMaker">
 		SELECT *
 		FROM accommodation

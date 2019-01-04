@@ -24,4 +24,5 @@ public interface AccommodationMapper {
 	public Accommodation selectAccommodationFromNo(int accommodationNo);
 	public int selectAccommodationNo(String AccommodationName);
 	public void updateAccommodationRecognition(int accommodationNo);
+	public ArrayList<Accommodation> selectAccommodationManagementList();
 }
