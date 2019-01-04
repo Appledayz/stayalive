@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.stay.alive.accommodation.service.AccommodationService;
+import com.stay.alive.accommodation.vo.Accommodation;
 import com.stay.alive.common.PageMaker;
 import com.stay.alive.company.service.CompanyService;
 import com.stay.alive.company.vo.Company;
@@ -28,9 +30,18 @@ public class CompanyController {
 	private CompanyService companyService;
 	@Autowired
 	private MemberService memberService;
-	
+	@Autowired
+	private AccommodationService  accommodationService;
 	@GetMapping("main")
-	public String company() {
+	public String company(Model model) {
+		int companyCount = companyService.getCompanyCount();
+		int accommodationCount = accommodationService.getAccommodationCount();
+		int memberCount = memberService.getMemberCount();
+		int guestRoomCount = accommodationService.getGuestroomCount();
+		model.addAttribute("companyCount", companyCount);
+		model.addAttribute("accommodationCount", accommodationCount);
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("guestRoomCount", guestRoomCount);
 		return "company/company";
 	}
 	
