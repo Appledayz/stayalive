@@ -129,13 +129,13 @@
 						<nav>
 							<ul class="pagination">
 								<li class="page-item" th:if="${PM.prevPage}">
-									<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord})}">이전</a>
+									<a class="page-link" th:href="@{/accommodation/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord})}">이전</a>
 								</li>
 								<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-									<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord})}">1</a>
+									<a class="page-link" th:text="${i}" th:href="@{/accommodation/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord})}">1</a>
 								</li>
 								<li class="page-item" th:if="${PM.nextPage}">
-									<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord})}">다음</a>
+									<a class="page-link" th:href="@{/accommodation/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord})}">다음</a>
 								</li>
 							</ul>
 						</nav>
