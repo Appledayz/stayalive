@@ -81,6 +81,21 @@ public class MemberController {
         }
 		return "redirect:/main";
 	}
+	//2-3 비밀번호 수정폼
+	@GetMapping("modifyPassword")
+	public String modifyPassword(HttpSession session, Model model) {
+		String memberId = (String)session.getAttribute("memberId");
+		if(memberId == null) {
+			model.addAttribute("msg", "로그인이 필요합니다.");
+			model.addAttribute("url", "/login");
+			return "alert";
+		} else {
+			Member member = memberService.getMember(memberId);
+			model.addAttribute("member", member);
+			System.out.println(member+"<-세션에서 넘어온 값");
+			return "member/modifyPassword";
+		}
+	}
 	//3-1탈퇴폼
 	@GetMapping("removeMember")
 	public String deleteMember(HttpSession session, Model model) {

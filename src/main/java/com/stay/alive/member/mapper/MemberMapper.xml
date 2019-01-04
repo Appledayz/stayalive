@@ -89,10 +89,7 @@
 	<!-- 회원 정보 수정 액션 -->
 	<update id="updateMember" parameterType="com.stay.alive.member.vo.Member">
 		UPDATE member
-			SET member_name = #{memberName},
-			member_nickname = #{memberNickname},
-			member_birth = #{memberBirth},
-			member_phone_number1 = #{memberPhoneNumber1},
+			SET member_phone_number1 = #{memberPhoneNumber1},
 			member_email = #{memberEmail},
 			member_email_accept = #{memberEmailAccept},
 			member_sms_accept = #{memberSmsAccept}
