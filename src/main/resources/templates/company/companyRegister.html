@@ -10,8 +10,7 @@
     <!-- Title -->
     <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
 
-    <!-- Favicon -->
-    <link rel="icon" href="/main/img/core-img/favicon.ico">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.1.4/semantic.min.css" />
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
@@ -61,25 +60,25 @@
 				</div>
                 <div class="col-md-9">
                     <!-- Contact Form -->
-                    <form action="/company/register" method="post">
+                    <form action="/company/register" method="post" id="registerForm">
                         <div class="row">
                         	<div class="col-lg-4">
                                 <input type="text" class="form-control" name="memberId" readonly th:value="${memberId}">
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="companyName" placeholder="업체명">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="companyName" placeholder="업체명" required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="companyHomepage" placeholder="업체 홈페이지">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="companyHomepage" placeholder="업체 홈페이지" required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="companyAddress" placeholder="업체 주소">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="companyAddress" placeholder="업체 주소" required>
                             </div>
-                            <div class="col-lg-4">
-                                <input type="email" class="form-control" name="companyEmail" placeholder="업체 이메일">
+                            <div class="col-lg-4" style="padding-bottom: 40px">
+                                <input style="margin: 0 auto;" type="email" class="form-control" name="companyEmail" placeholder="업체 이메일" required>
                             </div>
                             <div class="col-12">
-                                <textarea name="companyDetail" class="form-control" id="message" cols="30" rows="10" placeholder="고객에게 보이는 상세 정보"></textarea>
+                                <textarea style="margin: 0 auto" name="companyDetail" class="form-control" id="message" cols="30" rows="10" placeholder="고객에게 보이는 상세 정보" required></textarea>
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn palatin-btn mt-50">업체 등록하기</button>
@@ -106,8 +105,13 @@
     <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
+    <!-- Validation -->
+    <script src="/validate/jquery.validate.js"></script>
+    <script src="/validate/additional-methods.js"></script>
+    <script src="/validate/localization/messages_ko.js"></script>
     <script>
 		$("#companyRegister").addClass('active');
+	    $("#registerForm").validate();
 	</script>
 </body>
 

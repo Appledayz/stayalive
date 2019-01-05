@@ -17,6 +17,7 @@
 			#{maximumDiscountPrice}, #{dutchauctionSaleUnit}, #{dutchauctionSaleInterval},
 			#{dutchauctionCloseDate}, #{dutchauctionCheckinDate}, #{dutchauctionCheckoutDate})
 	</insert>
+	<!-- 진행되고 있는 역경매의 현재 가격 업데이트  -->
 	<update id="updateCurrentPrice" parameterType="com.stay.alive.auction.dutch.vo.DutchAuction">
 		UPDATE dutchauction_register 
 		SET dutchauction_update_price = #{dutchauctionUpdatePrice}, dutchauction_update_date = now() 
@@ -102,7 +103,7 @@
 			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		WHERE d.auction_state_category_no = 1
-		ORDER BY d.dutchauction_register_date ASC
+		ORDER BY d.dutchauction_register_date DESC
 		LIMIT #{startRow}, #{rowPerPage}
 	</select>
 	<!-- 네덜란드식 역경매 검색 리스트 -->
@@ -125,7 +126,7 @@
 				AND d.dutchauction_checkin_date &gt; #{checkInDate} AND d.dutchauction_checkout_date &lt; #{checkOutDate}
 			</if>
 		</where>
-		ORDER BY d.dutchauction_register_date ASC
+		ORDER BY d.dutchauction_register_date DESC
 		LIMIT #{pageMaker.startRow}, #{pageMaker.rowPerPage}
 	</select>
 	<select id="selectDutchAuctionSearchCount" resultType="int">
@@ -155,10 +156,16 @@
 			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
 			INNER JOIN accommodation as a on d.accommodation_no = a.accommodation_no
 		WHERE d.auction_state_category_no = 1
-		ORDER BY d.dutchauction_register_date ASC
+		ORDER BY d.dutchauction_register_date DESC
 		LIMIT 0, 3
 	</select>
-	<select id="selectClosedDutchAuctionList" resultMap="DutchAuctionListResultMap" >
+	<select id="selectDutchAuctionCount" resultType="int">
+		SELECT count(*) 
+		FROM dutchauction_register
+		WHERE auction_state_category_no = 1
+	</select>
+	<!-- 종료된 역경매 리스트  -->
+	<select id="selectClosedDutchAuctionList" resultMap="DutchAuctionListResultMap" parameterType="com.stay.alive.common.PageMaker">
 		SELECT d.accommodation_name, d.guestroom_name, d.dutchauction_startprice, d.auction_state_category_name,
 			d.dutchauction_sale_unit, d.dutchauction_sale_interval, d.dutchauction_update_price,
 			d.dutchauction_checkin_date, d.dutchauction_checkout_date, d.dutchauction_register_date,
@@ -169,18 +176,16 @@
 			INNER JOIN image_file as i on g.image_file_no = i.image_file_no
 			LEFT OUTER JOIN dutchauction_successfulbid as ds on ds.dutchauction_register_no = d.dutchauction_no
 		WHERE NOT(d.auction_state_category_no = 1)
-		ORDER BY d.dutchauction_register_date ASC
-	</select>
-	<select id="selectDutchAuctionCount" resultType="int">
-		SELECT count(*) 
-		FROM dutchauction_register
-		WHERE auction_state_category_no = 1
+		ORDER BY d.dutchauction_register_date DESC
+		LIMIT #{startRow}, #{rowPerPage}
 	</select>
 	<select id="selectClosedDutchAuctionCount" resultType="int">
 		SELECT count(*) 
 		FROM dutchauction_register
 		WHERE NOT(auction_state_category_no = 1) 
 	</select>
+
+
 	<select id="selectDutchAuctionsFromId" resultType="com.stay.alive.auction.dutch.vo.DutchAuction" parameterType="String">
 		SELECT
 			dutchauction_no,
@@ -201,4 +206,9 @@
 		FROM dutchauction_register
 		WHERE dutchauction_no = #{dutchauctionNo}
 	</select>
+	<!-- 현재 진행되고 있는 경매 삭제  -->
+	<delete id="deleteDutchAuction" parameterType="int">
+		DELETE FROM dutchauction_register
+		WHERE dutchauction_no = #{dutchauctionNo}
+	</delete>
 </mapper>

@@ -31,6 +31,7 @@
     :: 18.3.0 Tabs Area CSS
 */
 /* :: 1.0 Import Fonts */
+@import url("http://fonts.googleapis.com/earlyaccess/notosanskr.css");
 @import url(css/bootstrap.min.css);
 @import url(css/classy-nav.css);
 @import url(css/owl.carousel.min.css);
@@ -1557,7 +1558,16 @@ img {
     margin-bottom: 0; }
   .palatin-tabs-content .tab-content h6 {
     font-size: 18px; }
-
+/* validate */
+.error {
+	color: red; 
+}
+input + label {
+	 font-family : "Noto Sans KR";
+}
+textarea + label {
+	 font-family : "Noto Sans KR";
+}
 /* ====== The End ====== */
 
 /*# sourceMappingURL=style.css.map */

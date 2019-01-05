@@ -16,6 +16,7 @@ import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
@@ -102,6 +103,7 @@ public class DutchauctionService {
 		Trigger  closetrigger = closeJobTrigger(dutchAuction);
 		try {
 			scheduler.scheduleJob(registerjobDetail, registertrigger);
+			scheduler.start();
 			scheduler.scheduleJob(closejobDetail, closetrigger);
 			scheduler.start();
 		} catch (SchedulerException e) {
@@ -170,7 +172,7 @@ public class DutchauctionService {
 				folder.mkdirs();
 			}
 			File storedFile = new File(path + "/" + storedFileName + "." + ext); //실제 저장될 파일객체
-			if(imageFileMapper.insertImageFile(imageFile)) {
+			if(imageFileMapper.insertImageFile(imageFile)) { //이미지파일 정보 데이터베이스에 등록
 				try {
 					guestroomImageFile.transferTo(storedFile);
 				}
@@ -179,28 +181,29 @@ public class DutchauctionService {
 				}
 			}
 		}
+		else {
+			imageFile.setImageFileNo(1); //파일을 등록하지않을시 기본 이미지를 사용.
+		}
 	return imageFile.getImageFileNo();
 	}
 	public void modifyUpdatePrice(DutchAuction dutchAuction) {
 		dutchauctionMapper.updateCurrentPrice(dutchAuction);
 	}
 	public ArrayList<Map<String, Object>> getDutchAuctionList(PageMaker pageMaker) {
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(6);
 		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionCount());
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionList(pageMaker);
 	}
 	public ArrayList<Map<String, Object>> getDutchAuctionSearchList(PageMaker pageMaker,String searchKey, String searchWord, String checkInDate, String checkOutDate) {
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(6);
 		pageMaker.setAllCount(dutchauctionMapper.selectDutchAuctionSearchCount(searchKey, searchWord, checkInDate, checkOutDate));
 		PageMakerService.pageMakerService(pageMaker);
 		return dutchauctionMapper.selectDutchAuctionSearchList(pageMaker, searchKey, searchWord, checkInDate, checkOutDate);
 	}
-	//종료된 역경매 리스트(전체)
-	public ArrayList<Map<String, Object>> getClosedDutchAuctionList() {
-		return dutchauctionMapper.selectClosedDutchAuctionList();
+	//종료된 역경매 리스트
+	public ArrayList<Map<String, Object>> getClosedDutchAuctionList(PageMaker pageMaker) {
+		pageMaker.setAllCount(dutchauctionMapper.selectClosedDutchAuctionCount());
+		PageMakerService.pageMakerService(pageMaker);
+		return dutchauctionMapper.selectClosedDutchAuctionList(pageMaker);
 	}
 	public Map<String, Object> getDutchAuctionDetail(int dutchauctionNo) {
 		return dutchauctionMapper.selectDutchAuctionDetail(dutchauctionNo);
@@ -217,4 +220,21 @@ public class DutchauctionService {
 	public ArrayList<Map<String, Object>> getRecentDutchAuctionList() {//main화면에 최근에 올린 3개의 경매를 가져온다
 		return dutchauctionMapper.selectRecentDutchAuctionList();
 	};
+	//역경매 삭제
+	public int removeDutchAuction(int dutchauctionNo) {
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		int result = dutchauctionMapper.deleteDutchAuction(dutchauctionNo);
+		if(result != 0) {
+			JobKey registerJobKey = JobKey.jobKey("registerJob"+dutchauctionNo);
+			JobKey closeJobKey = JobKey.jobKey("closeJob"+dutchauctionNo);
+			try {
+				scheduler.deleteJob(registerJobKey);
+				scheduler.deleteJob(closeJobKey);
+			} catch (SchedulerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }

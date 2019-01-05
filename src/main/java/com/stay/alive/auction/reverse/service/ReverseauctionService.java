@@ -29,8 +29,6 @@ public class ReverseauctionService {
 	// 3. 역경매 목록 검색
 	public List<Reverseauction> getReverseauctionSearchList(PageMaker pageMaker, String sk, String sv, String date1, String date2) {
 		System.out.println("ReverseauctionService.getReverseauctionSearchList()");
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(10);
 		pageMaker.setAllCount(reverseauctionMapper.selectCountReverseauctionSearch(pageMaker, sk, sv, date1, date2));
 		PageMakerService.pageMakerService(pageMaker);
 		return reverseauctionMapper.selectReverseauctionSearchList(pageMaker, sk, sv, date1, date2);

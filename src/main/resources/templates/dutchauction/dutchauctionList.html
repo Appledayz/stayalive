@@ -114,7 +114,7 @@
 						<div class="container">
 							<div class="row">
 								<!-- Single Rooms Area -->
-								<div class="col-12 col-md-6" th:each="item : ${list}" >
+								<div class="col-12 col-md-6" th:if="${#lists.size(list) != 0}" th:each="item : ${list}" >
 									<a th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}"   style="padding:0 15px 0 15px" >
 										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms" style="height: 400px">
 											<!-- Limit -->
@@ -146,67 +146,53 @@
 										</div>
 									</a>
 								</div>
+								<div class="col-lg-12 text-center" th:unless="${#lists.size(list) != 0}" style="padding-top: 40px;">
+									<h3>현재 진행되고 있는 경매가 없습니다.</h3>
+								</div>
+							</div>
+							<div class="col-12" >
+								<!-- Pagination -->
+								<div class="pagination-area wow fadeInUp" data-wow-delay="200ms" th:if="${PM.allCount} > 0">
+									<nav>
+										<ul class="pagination">
+											<li class="page-item" th:if="${PM.prevPage}">
+												<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
+											</li>
+											<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
+												<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
+											</li>
+											<li class="page-item" th:if="${PM.nextPage}">
+												<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</div>
+							<div class="col-lg-12" style="padding-top: 50px">
+								<button type="button" class="btn palatin-btn form-control" style="margin-bottom:30px;" id="closeBtn">종료된 경매 보기</button>
 							</div>
 						</div>
-						<button type="button" class="btn palatin-btn form-control" style="margin-bottom:30px" id="closeBtn">종료된 경매 보기</button>
 					</section>
-					<!-- ##### Auction Area End ##### -->
+						<!-- ##### Auction Area End ##### -->
+	
 					<!-- ##### ClosedAuction Area Start ##### -->
 					<section class="rooms-area section-padding-0-0" id="close">
 						<div class="container" >
-							<div class="row">
+							<div class="row" id="roomArea">
 								<!-- Single Rooms Area -->
-								<div class="col-12 col-md-6" th:each="item : ${closedList}" >
-									<a style="padding:0 15px 0 15px" >
-										<div class="single-rooms-area" style="height: 400px">
-											<!-- Limit -->
-                        						<p class="price-from" th:utext = "|낙찰가<br>****원|" style="font-size: 16px;"></p>
-											<!-- Thumbnail -->
-											<div class="bg-thumbnail bg-img" th:style="'background-image: url(/image/guestroom/'+${item.imageFileStoredName}+'.'+${item.imageFileExt}+');'" ></div>
-											<!-- Rooms Text -->
-											<div class="rooms-text" >
-												<div class="line"></div>
-												<h4 th:text="${item.accommodationName}">Deluxe Room</h4>
-												<p style="word-break: break-all;" th:text="${item.guestroomName}">Room Content</p>
-												<div class="line"></div>
-												<!-- 시작 -->
-												<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
-												<!-- 할인 -->
-												<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
-												<!-- 판매가 -->
-												<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
-												<!-- Date -->
-												<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
-												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
-												<p th:text="'종료 상태 :' + ${item.auctionStateCategoryName}">퇴실 시간</p>
-												<p th:if="${item.get('memberId') != null}" th:text="'낙찰자 : ' + ${item.memberId}">퇴실 시간</p>
-												<p th:if="${item.get('dutchauctionSuccessfulbidDate') != null}" th:text="'낙찰일 : ' + ${#strings.substring(item.dutchauctionSuccessfulbidDate,0,16)}">낙찰일</p>
-											</div>
-										</div>
-									</a>
-								</div>
+							</div>
+						<div class="col-12">
+							<!-- Pagination -->
+							<div class="pagination-area wow fadeInUp" data-wow-delay="200ms">
+								<nav>
+									<ul class="pagination" id="pager">														
+									</ul>		
+								</nav>
 							</div>
 						</div>
-					</section>
-					<!-- ##### ClosedAuction Area Start ##### -->
-					<div class="col-12" >
-						<!-- Pagination -->
-						<div class="pagination-area wow fadeInUp" data-wow-delay="200ms" th:if="${PM.allCount} > 0">
-							<nav>
-								<ul class="pagination">
-									<li class="page-item" th:if="${PM.prevPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${(PM.currentBlock - 1) * PM.pagePerBlock},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">이전</a>
-									</li>
-									<li class="page-item" th:each="i : ${#numbers.sequence(PM.startPage, PM.endPage)}" th:classappend="${PM.currentPage} == ${i} ? active : null">
-										<a class="page-link" th:text="${i}" th:href="@{/auction/dutch/list(currentPage=${i},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">01.</a>
-									</li>
-									<li class="page-item" th:if="${PM.nextPage}">
-										<a class="page-link" th:href="@{/auction/dutch/list(currentPage=${PM.currentBlock * PM.pagePerBlock + 1},searchKey=${searchKey},searchWord=${searchWord},checkInDate=${checkInDate},checkOutDate=${checkOutDate})}">다음</a>
-									</li>
-								</ul>
-							</nav>
 						</div>
-					</div>
+					</section>
+					<!-- ##### ClosedAuction Area End ##### -->
 				</div>
 			</div>
 		</div>
@@ -230,18 +216,7 @@
     <script src="/datepicker/js/i18n/datepicker.en.js"></script>
 	<script>
 		$("#dutchauctionList").addClass('active');
-		$("#close").hide();
-		var closeSwitch = false;
-		$("#closeBtn").click(function() {
-			if(!closeSwitch) {
-				closeSwitch = true;
-				$("#close").show();
-			}
-			else {
-				closeSwitch = false;
-				$("#close").hide();
-			}
-		});
+
 		//Datepicker
 		$('#checkInDate').datepicker({
 		    language: 'en',
@@ -288,7 +263,87 @@
 				checkOutDate.attr("disabled",true);
 			}
 		})
-		
+
+		function call(currentPage) {
+			console.log(currentPage);
+		}
+		var currentPage = 1;
+		function closedutchauctionList(currentPage) { //Ajax를 이용한 리스트 + 페이징
+			$.ajax({
+				url:"closedlist",
+				method:"get",
+				data:{"currentPage":currentPage},
+				contentType :"application/x-www-form-urlencoded",
+				success:function(data) {
+					console.log(data);
+					
+				//리스트 관련 코드	
+					var list = ""
+					$.each(data.closedList, function(index,item) {
+						list += "<div class='col-12 col-md-6'>";
+						list += "<a href='javascript:void(0)'  style='padding:0 15px 0 15px'>";
+						list += "<div class='single-rooms-area' style='height: 400px'>";
+						list += "<p class='price-from' style='font-size: 16px;'>낙찰가<br>****원</p>";
+						list += "<div class='bg-thumbnail bg-img' style='background-image: url(/image/guestroom/"+ item.imageFileStoredName +"."+item.imageFileExt+";'></div>";
+						list += "<div class='rooms-text'>";
+						list += "<div class='line'></div>";
+						list += "<h4>"+ item.accommodationName +"</h4>";
+						list += "<p style='word-break: break-all;'>"+ item.guestroomName +"</p>";
+						list += "<div class='line'></div>";
+						list += "<p>시작 일시 : " + item.dutchauctionRegisterDate.substring(0,16) + "</p>";
+						list += "<p>할인 : 매 " + item.dutchauctionSaleInterval + "시간마다</p>";
+						list += "<p>판매가 : " + item.dutchauctionStartprice + "원</p>";
+						list += "<p>입실 시간 : " + item.dutchauctionCheckinDate.substring(0,16) + "</p>";
+						list += "<p>퇴실 시간 : " + item.dutchauctionCheckoutDate.substring(0,16) + "</p>";
+						list += "<p>종료 상태 : " + item.auctionStateCategoryName + "</p>";
+						if(item.memberId != null && item.dutchauctionSuccessfulbidDate != null) {
+							list += "<p>낙찰자 : " + item.memberId + "</p>";
+							list += "<p>낙찰일 : " + item.dutchauctionSuccessfulbidDate.substring(0,16) + "</p>";
+						}
+						list += "</div></div></a></div>";
+					});
+					//페이징 관련 코드
+					var pager = "";
+					if(data.PM.prevPage) {
+						var prevPage = (data.PM.currentBlock - 1) * data.PM.pagePerBlock;
+						pager += "<li class='page-item'>";
+						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ prevPage +")'>이전</a>";
+						pager += "</li>";
+					}
+					for(var i = data.PM.startPage; i <= data.PM.endPage; i++) {
+						if(i == currentPage) {
+							pager += "<li class='page-item active'>";
+						}
+						else {
+							pager += "<li class='page-item'>";
+						}
+						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ i +")'>"+ i +"</a>";
+						pager += "</li>";
+					}
+					if(data.PM.nextPage) {
+						var nextPage = data.PM.currentBlock * data.PM.pagePerBlock + 1
+						pager += "<li class='page-item'>";
+						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ nextPage +")'>다음</a>";
+						pager += "</li>";
+					}
+					$("#roomArea").html(list);
+					$("#pager").html(pager);
+				}
+			});
+		}
+		closedutchauctionList(currentPage); //페이지 최초 로딩시 종료된 리스트 추가
+		$("#close").hide();
+		var closeSwitch = false;
+		$("#closeBtn").click(function() {
+			if(!closeSwitch) {
+				closeSwitch = true;
+				$("#close").show();
+			}
+			else {
+				closeSwitch = false;
+				$("#close").hide();
+			}
+		});
 	</script>
 </body>
 </html>

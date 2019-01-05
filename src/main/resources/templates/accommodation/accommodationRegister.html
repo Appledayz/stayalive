@@ -60,26 +60,26 @@
 					</a>
 				</div>
                 <div class="col-md-9">
-			 		<form id="insertBoardFrm" enctype="multipart/form-data">
+			 		<form id="registerForm" enctype="multipart/form-data">
 			 			<div class="row">
 			    			<input type="hidden" name="companyNo" th:value="${companyNo}">
 			    			<div class="col-lg-6">
                                 <input type="text" class="form-control" name="companyName" th:value="${companyName}" readonly>
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" class="form-control" name="accommodationName" placeholder="숙소명">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="accommodationName" placeholder="숙소명" required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="memberBusinessNumber" placeholder="사업자번호">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="memberBusinessNumber" placeholder="사업자번호(10자리 숫자)" required>
                             </div>
                             <div class="col-lg-4">
-                                <input class="form-control" type="file" name="businessNumberFile">
+                                <input style="margin: 0 auto" class="form-control" type="file" name="businessNumberFile" accept="image/*" required>
                             </div>
                             <div class="col-lg-4">
                                <p>사업자 번호 등록 시 <br> 사업자 번호 인증 사진이 필요합니다</p>
                             </div>
                             <div class="col-lg-12">
-                               <select name = "accommodationCategoryNo" class="form-control">
+                               <select name = "accommodationCategoryNo" id = "accommodationCategoryNo" class="form-control" >
 									<option value="0">== 분류 선택 ==</option>
 									<option value="1">숙소</option>
 									<option value="2">모텔</option>
@@ -87,22 +87,26 @@
 								</select>
                             </div>
 							<div class="col-lg-8">
-								<input class="form-control" type="text" name="accommodationAddress" id="accommodationAddress" placeholder="주소">
+								<input style="margin: 0 auto" class="form-control" type="text" name="accommodationAddress" id="accommodationAddress" placeholder="주소" required>
                             </div>
                             <div class="col-lg-4">
-   								<button class="btn palatin-btn btn-3 m-1" type="button" id="addressSearch">주소 검색</button>
+   								<button class="btn palatin-btn btn-3 m-1" type="button" id="addressSearch" >주소 검색</button>
                             </div>
-			    			<input type="hidden" name="accommodationLatitude" id="accommodationLatitude">
-			   				<input type="hidden" name="accommodationLongitude" id="accommodationLongitude">	
+                            <div class="col-lg-4">
+                            	<input style="margin: 0 auto" type="text" name="accommodationLatitude" id="accommodationLatitude"  placeholder="위도" required readonly>
+                            </div>
+                            <div class="col-lg-4">
+                            	<input style="margin: 0 auto" type="text" name="accommodationLongitude" id="accommodationLongitude"  placeholder="경도" readonly>	
+                            </div>
 							<input type="hidden"  name="addressSidoName" id="addressSidoName">
 							<input type="hidden" name="addressSigunguName" id="addressSigunguName">
 							<div class="col-lg-6">
-								<input class="form-control" type="text" name="accommodationPhone" placeholder="연락처">
+								<input style="margin: 0 auto" class="form-control" type="text" name="accommodationPhone" placeholder="연락처" required>
                             </div>
                             <div class="col-lg-6">
-								<input class="form-control" type="email" name="accommodationEmail" placeholder="이메일">
+								<input style="margin: 0 auto" class="form-control" type="email" name="accommodationEmail" placeholder="이메일" required>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" style="padding-top: 30px">
                             	<p>숙소 소개글을 작성해주세요.(이미지 파일을 선택 후 업로드 버튼을 누르면 아래글에서 편집 가능)</p>
                             </div>
                             <div class="col-lg-4">
@@ -144,12 +148,31 @@
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=48ed4ce03423252b26250f66a5ece330&libraries=services"></script>
 	<!-- smarteditor 플러그인(2.9.1)  -->
 	<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+    <!-- Validation -->
+    <script src="/validate/jquery.validate.js"></script>
+    <script src="/validate/additional-methods.js"></script>
+    <script src="/validate/localization/messages_ko.js"></script>
 
 	<script type="text/javascript">
 	    $(function(){
 	    	var count = 1;
 	        //전역변수
-	        var obj = [];              
+	        var obj = [];
+		    $("#registerForm").validate({
+		    	rules: {
+		    		businessNumberFile: {
+		    			accept: "image/*"
+		    		},
+		    		memberBusinessNumber: {
+		    			digits:true,
+		    			minlength:10,
+		    			maxlength:10
+		    		}
+		    	},
+		    	messages: {
+		    		accommodationLatitude: "주소검색이 필요합니다."	
+		    	}
+		    });
 	        //스마트에디터 프레임생성
 	        nhn.husky.EZCreator.createInIFrame({
 	            oAppRef: obj,
@@ -159,11 +182,18 @@
 	        });
 	        //전송버튼
 	        $("#insertBoard").click(function(){
-	            var setForm = $('#insertBoardFrm');
-	            setForm.attr('action','register');
-	            setForm.attr('method','post');
-	            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
-	            $("#insertBoardFrm").submit();
+	        	var select = $("#accommodationCategoryNo");
+	        	if(select.val() == "0") {
+	        		alert("분류를 선택해 주세요");
+	        	}
+	        	else {
+		            var setForm = $('#registerForm');
+		            setForm.attr('action','register');
+		            setForm.attr('method','post');
+		            obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []);
+		            $("#registerForm").submit();
+	        	}
+
 	        });
 	        $("#uploadbutton").click(function(){
 	        	if(count > 1) {
@@ -171,7 +201,7 @@
 	        		return;
 	        	}
 	        	count++;
-	            var form = $('#insertBoardFrm')[0];
+	            var form = $('#registerForm')[0];
 	            var formData = new FormData(form);
 	      	  $.ajax({
 	      	    url: 'addDetailImage',

@@ -126,8 +126,6 @@ public class BoardService {
 		PageMaker pageMaker = (PageMaker)map.get("pageMaker");
 		int boardListCount = boardMapper.selectBoardSearchListCount(map);
 		map.put("boardListCount", boardListCount);
-		pageMaker.setRowPerPage(10);
-		pageMaker.setPagePerBlock(10);
 		pageMaker.setAllCount(boardListCount);
 		pageMaker = PageMakerService.pageMakerService(pageMaker);
 		return boardMapper.selectBoardSearchList(map);

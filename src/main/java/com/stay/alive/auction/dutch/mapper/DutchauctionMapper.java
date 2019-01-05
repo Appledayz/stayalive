@@ -15,7 +15,7 @@ public interface DutchauctionMapper {
 	public void updateStateCategory(DutchAuction dutchAuction);
 	public ArrayList<Map<String, Object>> selectDutchAuctionList(PageMaker pageMaker);
 	public ArrayList<Map<String, Object>> selectRecentDutchAuctionList();
-	public ArrayList<Map<String, Object>> selectClosedDutchAuctionList();
+	public ArrayList<Map<String, Object>> selectClosedDutchAuctionList(PageMaker pageMaker);
 	public int selectDutchAuctionCount();
 	public int selectDutchAuctionSearchCount(String searchKey,String searchWord,String checkInDate,String checkOutDate);
 	public int selectClosedDutchAuctionCount();
@@ -23,4 +23,5 @@ public interface DutchauctionMapper {
 	public DutchAuction selectDutchAuctionFromNo(int dutchauctionNo);
 	public ArrayList<DutchAuction> selectDutchAuctionsFromId(String mamberId);
 	public ArrayList<Map<String, Object>> selectDutchAuctionSearchList(PageMaker pageMaker,String searchKey, String searchWord, String checkInDate, String checkOutDate);
+	public int deleteDutchAuction(int dutchauctionNo);
 }

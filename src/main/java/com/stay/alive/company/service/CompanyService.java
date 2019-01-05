@@ -64,8 +64,6 @@ public class CompanyService {
 		PageMaker pageMaker = (PageMaker)map.get("pageMaker");
 		int companyListCount = companyMapper.selectMemberAndCompanySearchListCount(map);
 		map.put("companyListCount", companyListCount);
-		pageMaker.setRowPerPage(10);
-		pageMaker.setPagePerBlock(10);
 		pageMaker.setAllCount(companyListCount);
 		pageMaker = PageMakerService.pageMakerService(pageMaker);
 		return companyMapper.selectMemberAndCompanySearchList(map);

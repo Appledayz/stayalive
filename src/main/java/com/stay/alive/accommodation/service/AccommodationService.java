@@ -51,8 +51,6 @@ public class AccommodationService {
 	}
 	//숙소 리스트 
 	public ArrayList<Accommodation> getAccommodationList(PageMaker pageMaker) {
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(6);
 		pageMaker.setAllCount(accommodationMapper.selectAccommodationCount());
 		PageMakerService.pageMakerService(pageMaker);
 		return accommodationMapper.selectAccommodationList(pageMaker);
@@ -166,8 +164,6 @@ public class AccommodationService {
 		}
 	}
 	public ArrayList<Accommodation> getAccommodationSearchList(PageMaker pageMaker, String searchKey, String searchWord) {
-		pageMaker.setPagePerBlock(10);
-		pageMaker.setRowPerPage(6);
 		pageMaker.setAllCount(accommodationMapper.selectAccommodationSearchCount(searchKey, searchWord));
 		PageMakerService.pageMakerService(pageMaker);
 		return accommodationMapper.selectAccommodationSearchList(pageMaker, searchKey, searchWord);
@@ -178,4 +174,5 @@ public class AccommodationService {
 	public int getGuestroomCount() {
 		return guestRoomMapper.selectGuestroomCount();
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.stay.alive.auction.dutch.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -43,23 +44,46 @@ public class DutchauctionController {
 		else {
 			list = dutchauctionService.getDutchAuctionList(pageMaker);
 		}
-		
-		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList();
 		model.addAttribute("PM", pageMaker);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("checkInDate", checkInDate);
 		model.addAttribute("checkOutDate", checkOutDate);
 		model.addAttribute("list",list);
-		model.addAttribute("closedList",closedList);
 		return "dutchauction/dutchauctionList";
 	}
 	//역경매 상세
 	@GetMapping("detail")
-	public String dutchauctionDetail(Model model, int dutchauctionNo){
+	public String dutchauctionDetail(Model model, int dutchauctionNo, HttpSession session){
 		Map<String, Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
+		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupName");
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("groupName", groupName);
 		model.addAttribute("detail", detail);
 		return "dutchauction/dutchauctionDetail";
+	}
+	//역경매 삭제
+	@GetMapping("delete")
+	public String dutchauctionDelete(Model model, int dutchauctionNo, HttpSession session){
+		String memberId = (String)session.getAttribute("memberId");
+		String groupName = (String)session.getAttribute("groupName");
+		DutchAuction dutchAuction = dutchauctionService.getDutchAuctionFromNo(dutchauctionNo);
+		String hostId = dutchAuction.getMemberId();
+		if(hostId.equals(memberId) && groupName.equals("호스트") && dutchAuction.getAuctionStateCategoryNo() == 1) {
+			int result = dutchauctionService.removeDutchAuction(dutchauctionNo);
+			if(result == 0) {
+				model.addAttribute("msg","삭제에 실패했습니다.");
+				model.addAttribute("url","list");
+				return "alert";
+			}
+		}
+		else {
+			model.addAttribute("msg","호스트가 아니거나 이미 낙찰된 경매입니다.");
+			model.addAttribute("url","list");
+			return "alert";
+		}
+		return "redirect:list";
 	}
 	//역경매 등록
 	@GetMapping("register")
@@ -125,7 +149,7 @@ public class DutchauctionController {
 		else { //기존의 객실로 역경매 등록
 			dutchauctionService.addDutchAuction(dutchAuction, memberId, accommodationName);
 		}
-		return "redirect:/main";
+		return "redirect:list";
 	}
 	@GetMapping("findGuestroomName")
 	public @ResponseBody String[] findGuestroomName(String accommodationName) {
@@ -134,5 +158,14 @@ public class DutchauctionController {
 	@GetMapping("guestroomInfo")
 	public @ResponseBody GuestRoom guestroomInfo(String accommodationName,String guestroomName) {
 		return dutchauctionService.getGuestroomInfo(accommodationName, guestroomName);
+	}
+	@GetMapping("closedlist")
+	public @ResponseBody Map<String, Object> dutchauctionClosedList(int currentPage, PageMaker pageMaker) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		pageMaker.setCurrentPage(currentPage);
+		ArrayList<Map<String, Object>> closedList = dutchauctionService.getClosedDutchAuctionList(pageMaker);
+		map.put("closedList", closedList);
+		map.put("PM", pageMaker);
+		return map;
 	}
 }

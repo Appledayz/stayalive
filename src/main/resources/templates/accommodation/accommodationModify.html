@@ -69,25 +69,25 @@
 			 					</select>
 			 				</div>
 			    			<div class="col-lg-12" style="padding-top: 10px">
-                                <input type="text" class="form-control" name="accommodationName" placeholder="숙소명">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="accommodationName" placeholder="숙소명" required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="memberBusinessNumber" placeholder="사업자번호">
+                                <input style="margin: 0 auto" type="text" class="form-control" name="memberBusinessNumber" placeholder="사업자번호" required>
                             </div>
                             <div class="col-lg-4">
-                                <input class="form-control" type="file" name="businessNumberFile">
+                                <input style="margin: 0 auto" class="form-control" type="file" name="businessNumberFile" accept="image/*">
                             </div>
                             <div class="col-lg-4">
                                <p>필요시 사업자 등록 관련 파일을 <br> 변경할 수 있습니다.</p>
                             </div>
 
 							<div class="col-lg-6">
-								<input class="form-control" type="text" name="accommodationPhone" placeholder="연락처">
+								<input style="margin: 0 auto" class="form-control" type="text" name="accommodationPhone" placeholder="연락처" required>
                             </div>
                             <div class="col-lg-6">
-								<input class="form-control" type="email" name="accommodationEmail" placeholder="이메일">
+								<input style="margin: 0 auto" class="form-control" type="email" name="accommodationEmail" placeholder="이메일" required>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" style="padding-top: 30px">
                             	<p>숙소 소개글을 작성해주세요.(이미지 파일을 선택 후 업로드 버튼을 누르면 아래글에서 편집 가능)</p>
                             </div>
                             <div class="col-lg-4">
@@ -129,12 +129,28 @@
     <script src="/main/js/active.js"></script>
 	<!-- smarteditor 플러그인(2.9.1)  -->
 	<script src="/smarteditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+    <!-- Validation -->
+    <script src="/validate/jquery.validate.js"></script>
+    <script src="/validate/additional-methods.js"></script>
+    <script src="/validate/localization/messages_ko.js"></script>
 	<script type="text/javascript">
 		$("#accommodationModify").addClass('active');
 	    $(function(){
 	    	var count = 1;
 	        //전역변수
-	        var obj = [];              
+	        var obj = [];
+		    $("#updateBoardFrm").validate({
+		    	rules: {
+		    		businessNumberFile: {
+		    			accept: "image/*"
+		    		},
+		    		memberBusinessNumber: {
+		    			digits:true,
+		    			minlength:10,
+		    			maxlength:10
+		    		}
+		    	}
+		    });
 	        //스마트에디터 프레임생성
 	        nhn.husky.EZCreator.createInIFrame({
 	            oAppRef: obj,
@@ -172,23 +188,23 @@
 	        $("#selectAccommodation").on('change',function() {
 	        	var name = $("#selectAccommodation").val();
 	        	if(name != "") {
-	            	  $.ajax({
-	                	    url: 'findModify',
-	                	    data : {name},
-	                	    type: 'GET',
-							contentType:"application/x-www-form-urlencoded",
-	                	    success: function(data){
-								/* console.log(data); */
-								$("input[name='accommodationNo']").val(data.accommodationNo);
-								$("input[name='accommodationName']").val(data.accommodationName);
-								$("input[name='memberBusinessNumber']").val(data.memberBusinessNumber);
-								$("input[name='accommodationPhone']").val(data.accommodationPhone);
-								$("input[name='accommodationEmail']").val(data.accommodationEmail);
-								$("input[name='imageFileNo']").val(data.imageFileNo);
-								obj.getById["editor"].exec("SET_IR", [""]);
-								obj.getById["editor"].exec("PASTE_HTML", [data.accommodationDetail]);
-	                	    }
-	                	});
+	            	$.ajax({
+	               	    url: 'findModify',
+	               	    data : {name},
+	               	    type: 'GET',
+						contentType:"application/x-www-form-urlencoded",
+	               	    success: function(data){
+							/* console.log(data); */
+							$("input[name='accommodationNo']").val(data.accommodationNo);
+							$("input[name='accommodationName']").val(data.accommodationName);
+							$("input[name='memberBusinessNumber']").val(data.memberBusinessNumber);
+							$("input[name='accommodationPhone']").val(data.accommodationPhone);
+							$("input[name='accommodationEmail']").val(data.accommodationEmail);
+							$("input[name='imageFileNo']").val(data.imageFileNo);
+							obj.getById["editor"].exec("SET_IR", [""]);
+							obj.getById["editor"].exec("PASTE_HTML", [data.accommodationDetail]);
+	                	}
+	                });
 	        	}      	
 	        });       
 	    });

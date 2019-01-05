@@ -93,43 +93,43 @@
    							<div class="form-group">
    								<div class="row">
    									<div class="col-lg-4">
-   										<input class="form-control" type="text" name="guestroomName" id="guestroomName" placeholder="객실명">
+   										<input style="margin: 0 auto" class="form-control" type="text" name="guestroomName" id="guestroomName" placeholder="객실명" required>
    									</div>
    									<div class="col-lg-2">
    										<p class="text-right"><br>객실 대표이미지</p>
    									</div>
    									<div class="col-lg-6" id="imagefile">
-   										<input class="form-control" type="file" name="guestroomImageFile" id="guestroomImageFile">
+   										<input style="margin: 0 auto" class="form-control" type="file" name="guestroomImageFile" id="guestroomImageFile" accept="image/*">
    									</div>
    								</div>
    							</div>
    							<div class="form-group">
    								<div class="row">
 		   							<div class="col-lg-6">
-		   								<input class="form-control" type="text" name="guestroomSize" id="guestroomSize" placeholder="객실 크기">
+		   								<input style="margin: 0 auto" class="form-control" type="text" name="guestroomSize" id="guestroomSize" placeholder="객실 크기" required>
 		   							</div>
 		   							<div class="col-lg-6">
-		   								<input class="form-control" type="text" name="guestroomCapacity" id="guestroomCapacity" placeholder="수용 인원">
+		   								<input style="margin: 0 auto" class="form-control" type="text" name="guestroomCapacity" id="guestroomCapacity" placeholder="수용 인원" required>
 		   							</div>
    							   	</div>
    							</div>	
    							<div class="form-group">
    								<div class="row">
 		   							<div class="col-12">
-		   								<textarea name="guestroomDetail" class="form-control" id="guestroomDetail" placeholder="고객에게 보이는 객실 세부 정보" style="height: 70px"></textarea>
+		   								<textarea  name="guestroomDetail" class="form-control" id="guestroomDetail" placeholder="고객에게 보이는 객실 세부 정보" style="margin: 0 auto" required></textarea>
 		   							</div>
    							   	</div>
    							</div>	
    							<div class="form-group">
    								<div class="row">
 		   							<div class="col-lg-4">
-		   								<input class="form-control" type="text" name="dutchauctionStartprice" placeholder="경매 시작가(원)">
+		   								<input style="margin: 0 auto" class="form-control" type="text" name="dutchauctionStartprice" placeholder="경매 시작가(원)" required>
 		   							</div>
 		   							<div class="col-lg-4">
-		   								<input class="form-control" type="text" name="maximumDiscountPrice" placeholder="최대 할인가(원)">
+		   								<input style="margin: 0 auto" class="form-control" type="text" name="maximumDiscountPrice" placeholder="최대 할인가(원)" required>
 		   							</div>
-		   							<div class="col-lg-4">
-		   								<input class="form-control" type="text" name="dutchauctionSaleUnit" placeholder="할인 단위(원)">
+		   							<div class="col-lg-4" >
+		   								<input style="margin: 0 auto;" class="form-control" type="text" name="dutchauctionSaleUnit" placeholder="할인 단위(원)" required >
 		   							</div>
    							   	</div>
    							</div>
@@ -149,8 +149,8 @@
 						    		<div class="col-lg-3">
 		   								<p class="text-right"><br>경매 종료시간</p>
 					 				</div>
-					 				<div class="col-lg-3">
-		   								<input class="datepicker-here" data-timepicker="true" name="dutchauctionCloseDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
+					 				<div class="col-lg-3" >
+		   								<input style="margin: 0 auto" type="text" class="datepicker-here" data-timepicker="true" name="dutchauctionCloseDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly required>
 					 				</div>
    							   	</div>
    							</div>	
@@ -160,14 +160,14 @@
 		   								<p class="text-right"><br>입실 일자</p>
 					 				</div>
 					 				<div class="col-lg-3">
-					 					<input class="datepicker-here" data-timepicker="true" name="dutchauctionCheckinDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
+					 					<input style="margin: 0 auto" type="text" class="datepicker-here" data-timepicker="true" name="dutchauctionCheckinDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly required>
 					 				</div>
 									
 					 				<div class="col-lg-3">
 		   								<p class="text-right"><br>퇴실 일자</p>
 					 				</div>
 					 				<div class="col-lg-3">
-					 					<input data-timepicker="true" name="dutchauctionCheckoutDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly>
+					 					<input style="margin: 0 auto" type="text" data-timepicker="true" name="dutchauctionCheckoutDate" placeholder="클릭해서 날짜를 선택해 주세요" autocomplete=off readonly required>
 					 				</div>
    							   	</div>
    							</div>
@@ -201,8 +201,44 @@
     <!-- datepicker js  -->
     <script src="/datepicker/js/datepicker.js"></script>
     <script src="/datepicker/js/i18n/datepicker.en.js"></script>
+    <!-- Validation -->
+    <script src="/validate/jquery.validate.js"></script>
+    <script src="/validate/additional-methods.js"></script>
+    <script src="/validate/localization/messages_ko.js"></script>
+    
 	<script>
 		$("#dutchauctionRegister").addClass('active');
+		$.validator.addMethod("compareTime", function(value, element) {
+			var currentTime = new Date();
+			var closeTime = new Date(value);
+			return this.optional(element) || currentTime.getTime() < closeTime.getTime();
+		}, "현재시간 이후로 설정 필요");
+		$("#registerForm").validate({
+			rules: {
+				guestroomImageFile: {
+					accept:"image/*",
+				},
+				guestroomSize: {
+					digits:true
+				},
+				guestroomCapacity: {
+					digits:true
+				},
+				dutchauctionStartprice: {
+					digits:true
+				},
+				maximumDiscountPrice: {
+					digits:true
+				},
+				dutchauctionSaleUnit: {
+					digits:true
+				},
+				dutchauctionCloseDate: {
+					compareTime:true
+				}
+			}
+		});
+
 		$("#selectAcc").change(function(e) {
 			if($(this).val() != 0 ) {
 				var selectedAcc = $("#selectAcc option:selected").val();
@@ -339,7 +375,6 @@
 			}
 		}
 	});
-
 	</script>
 </body>
 </html>

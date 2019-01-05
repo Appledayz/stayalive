@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PageMakerService {
-	
 	public static PageMaker pageMakerService(PageMaker pageMaker) {
+		pageMaker.setRowPerPage(6); // 한 페이지에서 보이는 레코드의 개수
+		pageMaker.setPagePerBlock(3); // 한 블럭에서 보이는 페이지의 개수
 		// 페이징에 필요한 값 계산하여 설정
 		pageMaker.setStartRow();
 		pageMaker.setLastPage();
