@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Canvas text</title>
+    <link rel="stylesheet" href="main/style.css">
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script lang="javascript" type="text/javascript" src="/admin/vendor/flot/jquery.js"></script>
+	<script lang="javascript" type="text/javascript" src="/admin/vendor/flot/jquery.flot.js"></script>
+	<script lang="javascript" type="text/javascript" src="/admin/vendor/flot/jquery.flot.pie.js"></script>
+	<script lang="javascript" type="text/javascript" src="/admin/vendor/flot/jquery.flot.canvas.js"></script>
+	<script type="text/javascript">
+	$(document).ready(()=>{
+		$(function() {
+			$.ajax({
+				url:"memberCount",
+				type:'get',
+				success:(data)=>{
+					console.log(data);
+					console.log($('#placeholder2').attr('t'));
+					console.log($('#placeholder3').attr('t'));
+					console.log(`[{label:'게스트',data:3},{label:'호스트',data:2}]`);
+					var dataSet = data;
+					var dataSet2 = $('#placeholder2').attr('t');
+					var dataSet3 = $('#placeholder3').attr('t');
+					var dataSet4 = [{label:'게스트',data:3},{label:'호스트',data:2}];
+					var options = {
+							series:{
+								pie:{
+									show:true,
+									label:{show:true}
+									},
+							},
+							legend:{show:false}
+						}
+					$.plot("#placeholder", dataSet, options);
+					$.plot("#placeholder2", dataSet2, options);
+					$.plot("#placeholder3", dataSet3, options);
+					$.plot("#placeholder4", dataSet4, options);
+			}});
+			
+			$("input").change(function () {
+				options.canvas = $(this).is(":checked");
+				$.plot("#placeholder", data, options);
+			});
+			// Add the Flot version string to the footer
+			$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+		});
+	});
+	</script>
+</head>
+<body>
+	<div id="header">
+		<h2>Canvas text</h2>
+	</div>
+
+	<div id="content">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder" style="width:400px;height:300px"></div>
+		</div>
+		<div class="demo-container">
+			<div id="placeholder2" class="demo-placeholder" style="width:400px;height:300px" th:t="${JsonArray}"></div>
+		</div>
+		<div class="demo-container">
+			<div id="placeholder3" class="demo-placeholder" style="width:400px;height:300px" th:t="${ArrayListString}"></div>
+		</div>
+		<div class="demo-container">
+			<div id="placeholder4" class="demo-placeholder" style="width:400px;height:300px"></div>
+		</div>
+
+		<p>This example uses the same dataset (raw oil price in US $/barrel of crude oil vs. the exchange rate from US $ to €) as the multiple-axes example, but uses the canvas plugin to render axis tick labels using canvas text.</p>
+
+		<p><input type="checkbox" checked="checked">Enable canvas text</input></p>
+
+	</div>
+
+	<div id="footer">
+		Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+	</div>
+
+</body>
+</html>

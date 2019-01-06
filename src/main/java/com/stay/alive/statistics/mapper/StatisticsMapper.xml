@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.stay.alive.statistics.mapper.StatisticsMapper">
+  <select id="selectGuestCount" resultType="int">
+    SELECT COUNT(*)
+    FROM member
+    WHERE group_name='게스트'
+  </select>
+  <select id="selectHostCount" resultType="int">
+    SELECT COUNT(*)
+    FROM member
+    WHERE group_name='호스트'
+  </select>
+</mapper>

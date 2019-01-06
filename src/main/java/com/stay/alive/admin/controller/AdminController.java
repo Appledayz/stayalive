@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.stay.alive.common.SHA256Util;
 import com.stay.alive.login.service.LoginService;
 import com.stay.alive.login.vo.LoginVo;
+import com.stay.alive.statistics.service.StatisticsService;
 
 @Controller
 @RequestMapping("admin")
@@ -21,6 +22,8 @@ public class AdminController {
 	
 	@Autowired
 	private LoginService loginService;
+	@Autowired
+	private StatisticsService statisticService;
 	
 	@GetMapping("main")
 	public String admin(Model model, HttpSession session) {
@@ -31,6 +34,7 @@ public class AdminController {
 		}
 		String groupName = (String)session.getAttribute("groupName");
 		if(groupName.equals("관리자")) {
+			model.addAttribute("memberCount", statisticService.getMemberCount());
 			return "admin/admin";
 		} else {
 			model.addAttribute("msg", "관리자 로그인이 필요합니다.");
