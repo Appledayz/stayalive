@@ -24,25 +24,32 @@ public class DutchauctionBidController {
 	@GetMapping("successfulbid")
 	public String DutchauctionBid(int dutchauctionNo, HttpSession session, Model model) {
 		String memberId = (String)session.getAttribute("memberId");
-		DutchAuction dutchAuction = dutchauctionService.getDutchAuctionFromNo(dutchauctionNo);
-		if(dutchAuction.getAuctionStateCategoryName().equals("낙찰대기중") && dutchAuction.getAuctionStateCategoryNo() == 1) {
-			dutchauctionBidService.removeJobInCurrentScheduler(dutchauctionNo); // 현재 진행되고 있는 스케줄링 종료
-			dutchAuction.setAuctionStateCategoryNo(2);
-			dutchAuction.setAuctionStateCategoryName("낙찰완료");
-			dutchauctionService.modifyStateCategory(dutchAuction); //등록한 역경매 상태 데이터베이스에서 변경
-			DutchAuctionBid dutchAuctionBid = new DutchAuctionBid();
-			dutchAuctionBid.setDutchauctionRegisterNo(dutchAuction.getDutchauctionNo());
-			dutchAuctionBid.setMemberId(memberId);
-			dutchAuctionBid.setDutchauctionSuccessfulbidPrice(dutchAuction.getDutchauctionUpdatePrice());
-			dutchAuctionBid.setDutchauctionCheckinDate(dutchAuction.getDutchauctionCheckinDate());
-			dutchAuctionBid.setDutchauctionChechoutDate(dutchAuction.getDutchauctionCheckoutDate());
-			dutchAuctionBid.setAuctionStateCategoryNo(2);
-			dutchAuctionBid.setAuctionStateCategoryName("낙찰완료");
-			dutchauctionBidService.addDutchauctionSuccessfulbid(dutchAuctionBid); //낙찰정보 데이터베이스에 추가
-			return "redirect:/main";
+		if(memberId != null) {
+			DutchAuction dutchAuction = dutchauctionService.getDutchAuctionFromNo(dutchauctionNo);
+			if(dutchAuction.getAuctionStateCategoryName().equals("낙찰대기중") && dutchAuction.getAuctionStateCategoryNo() == 1) {
+				dutchauctionBidService.removeJobInCurrentScheduler(dutchauctionNo); // 현재 진행되고 있는 스케줄링 종료
+				dutchAuction.setAuctionStateCategoryNo(2);
+				dutchAuction.setAuctionStateCategoryName("낙찰완료");
+				dutchauctionService.modifyStateCategory(dutchAuction); //등록한 역경매 상태 데이터베이스에서 변경
+				DutchAuctionBid dutchAuctionBid = new DutchAuctionBid();
+				dutchAuctionBid.setDutchauctionRegisterNo(dutchAuction.getDutchauctionNo());
+				dutchAuctionBid.setMemberId(memberId);
+				dutchAuctionBid.setDutchauctionSuccessfulbidPrice(dutchAuction.getDutchauctionUpdatePrice());
+				dutchAuctionBid.setDutchauctionCheckinDate(dutchAuction.getDutchauctionCheckinDate());
+				dutchAuctionBid.setDutchauctionChechoutDate(dutchAuction.getDutchauctionCheckoutDate());
+				dutchAuctionBid.setAuctionStateCategoryNo(2);
+				dutchAuctionBid.setAuctionStateCategoryName("낙찰완료");
+				dutchauctionBidService.addDutchauctionSuccessfulbid(dutchAuctionBid); //낙찰정보 데이터베이스에 추가
+				return "redirect:/main";
+			}
+			else {
+				model.addAttribute("msg","낙찰되었거나 만료된 경매입니다.");
+				model.addAttribute("url","/auction/dutch/list");
+				return "alert";
+			}
 		}
 		else {
-			model.addAttribute("msg","낙찰되었거나 만료된 경매입니다.");
+			model.addAttribute("msg","비회원은 낙찰할 수 없습니다.");
 			model.addAttribute("url","/auction/dutch/list");
 			return "alert";
 		}

@@ -44,7 +44,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="search-result bg-gray">
+					<div class="search-result bg-gray" id="offsetPos">
 					<h2>"<span th:text="${searchWord}"></span>"의 검색 결과</h2>
 					<p><span th:text="${PM.allCount}"></span> 개의 항목을 찾았습니다</p>
 					</div>
@@ -215,59 +215,76 @@
     <script src="/datepicker/js/datepicker.js"></script>
     <script src="/datepicker/js/i18n/datepicker.en.js"></script>
 	<script>
-		$("#dutchauctionList").addClass('active');
+		$(function() {
+			$("#dutchauctionList").addClass('active');
 
-		//Datepicker
-		$('#checkInDate').datepicker({
-		    language: 'en',
-		    dateFormat:'yyyy-mm-dd',
-		    timeFormat:'hh:ii',
-			autoClose:true
-		});
-		var select = false;
-		var checkInDate = $('#checkInDate');
-		var checkOutDate = $('#checkOutDate');
-		checkOutDate.click(function() {
-			if(checkInDate.val() == "") {
-				alert("입실 일자를 선택해 주세요");
-			}
-			else {
-				if(!select) {
-					select = true;
-					checkOutDate.datepicker({
-					    language: 'en',
-					    dateFormat:'yyyy-mm-dd',
-					    timeFormat:'hh:ii',
-					    minDate: new Date(checkInDate.val()),
-						autoClose:true,
-						Defaults : "focus"
-					});
-					checkOutDate.datepicker().data('datepicker').show();
+			//Datepicker
+			$('#checkInDate').datepicker({
+			    language: 'en',
+			    dateFormat:'yyyy-mm-dd',
+			    timeFormat:'hh:ii',
+				autoClose:true
+			});
+			var select = false;
+			var checkInDate = $('#checkInDate');
+			var checkOutDate = $('#checkOutDate');
+			checkOutDate.click(function() {
+				if(checkInDate.val() == "") {
+					alert("입실 일자를 선택해 주세요");
 				}
-			}
-		});	
-		if($("#searchSelect").val() == "0") {
-			$("#search").attr("disabled",true);
-		}
-		$("#searchSelect").change(function() {
+				else {
+					if(!select) {
+						select = true;
+						checkOutDate.datepicker({
+						    language: 'en',
+						    dateFormat:'yyyy-mm-dd',
+						    timeFormat:'hh:ii',
+						    minDate: new Date(checkInDate.val()),
+							autoClose:true,
+							Defaults : "focus"
+						});
+						checkOutDate.datepicker().data('datepicker').show();
+					}
+				}
+			});	
 			if($("#searchSelect").val() == "0") {
 				$("#search").attr("disabled",true);
-				checkInDate.attr("disabled",false);
-				checkOutDate.attr("disabled",false);
 			}
-			else {
-				$("#search").attr("disabled",false);
-				checkInDate.val("");
-				checkOutDate.val("");
-				checkInDate.attr("disabled",true);
-				checkOutDate.attr("disabled",true);
-			}
-		})
+			$("#searchSelect").change(function() {
+				if($("#searchSelect").val() == "0") {
+					$("#search").attr("disabled",true);
+					checkInDate.attr("disabled",false);
+					checkOutDate.attr("disabled",false);
+				}
+				else {
+					$("#search").attr("disabled",false);
+					checkInDate.val("");
+					checkOutDate.val("");
+					checkInDate.attr("disabled",true);
+					checkOutDate.attr("disabled",true);
+				}
+			})
 
-		function call(currentPage) {
-			console.log(currentPage);
-		}
-		var currentPage = 1;
+			function call(currentPage) {
+				console.log(currentPage);
+			}
+			var currentPage = 1;
+
+			closedutchauctionList(currentPage); //페이지 최초 로딩시 종료된 리스트 추가
+			$("#close").hide();
+			var closeSwitch = false;
+			$("#closeBtn").click(function() {
+				if(!closeSwitch) {
+					closeSwitch = true;
+					$("#close").show();
+				}
+				else {
+					closeSwitch = false;
+					$("#close").hide();
+				}
+			});
+		});
+		
 		function closedutchauctionList(currentPage) { //Ajax를 이용한 리스트 + 페이징
 			$.ajax({
 				url:"closedlist",
@@ -275,8 +292,6 @@
 				data:{"currentPage":currentPage},
 				contentType :"application/x-www-form-urlencoded",
 				success:function(data) {
-					console.log(data);
-					
 				//리스트 관련 코드	
 					var list = ""
 					$.each(data.closedList, function(index,item) {
@@ -328,22 +343,11 @@
 					}
 					$("#roomArea").html(list);
 					$("#pager").html(pager);
+					var offset = $("#offsetPos").offset();
+					$('html, body').animate({scrollTop : offset.top}, 600);
 				}
 			});
 		}
-		closedutchauctionList(currentPage); //페이지 최초 로딩시 종료된 리스트 추가
-		$("#close").hide();
-		var closeSwitch = false;
-		$("#closeBtn").click(function() {
-			if(!closeSwitch) {
-				closeSwitch = true;
-				$("#close").show();
-			}
-			else {
-				closeSwitch = false;
-				$("#close").hide();
-			}
-		});
 	</script>
 </body>
 </html>

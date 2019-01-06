@@ -12,6 +12,10 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
+	
+	<!-- DataTables CSS  -->
+	<link rel="stylesheet" type="text/css" href="/DataTables/datatables.min.css"/>
+	 
 </head>
 
 <body class="body-wrapper">
@@ -34,7 +38,7 @@
     <!-- ##### Breadcumb Area End ##### -->
 
 <section class="contact-form-area mb-100">
-	<div class="container">
+	<div class="container" style="max-width: 1500px">
 		<div class="row">
 	        <div class="col-12">
 	            <div class="section-heading text-center" style="padding-top: 10px">
@@ -44,7 +48,7 @@
 	        </div>
         </div>
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-2">
 				<p>더치옥션은 무엇인가요?</p>
 				<a href="/auction">
 					<button type="button" class="btn palatin-btn btn-2">Click Now</button><br><br>
@@ -70,7 +74,7 @@
 					<button type="button" class="btn palatin-btn btn-2">Click Now</button>
 				</a>
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-10">
 				 <!-- ##### Tabs ##### -->
 	            <div class="palatin-tabs-content">
 	                <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -98,36 +102,43 @@
 	                            <div class="palatin-tab-text">
 	                            	<div class="row">
 										<div class="col-md-12">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>상세보기</th>
-														<th>숙소명</th>
-														<th>객실명</th>
-														<th>등록일</th>
-														<th>경매시작가</th>
-														<th>최대할인가</th>
-														<th>할인가격</th>
-														<th>시간주기</th>
-														<th>경매종료일</th>
-														<th>경매 상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="item : ${dutchauctionList}" class="table-secondary">
-														<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}" th:text="상세보기"></a></td>
-														<td th:text="${item.accommodationName}"></td>
-														<td th:text="${item.guestroomName}"></td>
-														<td th:text="${#strings.substring(item.dutchauctionRegisterDate,0,16)}"></td>
-														<td th:text="${item.dutchauctionStartprice}"></td>
-														<td th:text="${item.maximumDiscountPrice}"></td>
-														<td th:text="${item.dutchauctionSaleUnit}"></td>
-														<td th:text="${item.dutchauctionSaleInterval}"></td>
-														<td th:text="${#strings.substring(item.dutchauctionCloseDate,0,16)}"></td>
-														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
-													</tr>
-												</tbody>
-											</table>
+											<div class="card">
+												<div class="card-header">
+												   역경매(네던란드식) 등록 목록
+												</div>
+												 <div class="card-body">
+												 	<table width="100%" class="table table-bordered table-striped table-hover" id="tab1Table">
+														<thead>
+															<tr>
+																<th>상세보기</th>
+																<th>숙소명</th>
+																<th>객실명</th>
+																<th>등록일</th>
+																<th>경매시작가</th>
+																<th>최대할인가</th>
+																<th>할인가격</th>
+																<th>시간주기</th>
+																<th>경매종료일</th>
+																<th>경매 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="item : ${dutchauctionList}" >
+																<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}" th:text="상세보기"></a></td>
+																<td th:text="${item.accommodationName}"></td>
+																<td th:text="${item.guestroomName}"></td>
+																<td th:text="${#strings.substring(item.dutchauctionRegisterDate,0,16)}"></td>
+																<td th:text="${item.dutchauctionStartprice}"></td>
+																<td th:text="${item.maximumDiscountPrice}"></td>
+																<td th:text="${item.dutchauctionSaleUnit}"></td>
+																<td th:text="${item.dutchauctionSaleInterval}"></td>
+																<td th:text="${#strings.substring(item.dutchauctionCloseDate,0,16)}"></td>
+																<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+															</tr>
+														</tbody>
+													</table>
+												 </div>
+											</div>
 										</div>
 									</div>
 	                            </div>
@@ -139,28 +150,35 @@
 	                            <div class="palatin-tab-text">
 	                            	<div class="row">
 										<div class="col-md-12">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>상세보기</th>
-														<th>낙찰가</th>
-														<th>낙찰일</th>
-														<th>숙소 입실일</th>
-														<th>숙소 퇴실일</th>
-														<th>경매 상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="item : ${dutchauctionSuccessfulbidList}" class="table-secondary">
-														<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionRegisterNo})}" th:text="상세보기"></a></td>
-														<td th:text="${item.dutchauctionSuccessfulbidPrice}"></td>
-														<td th:text="${#strings.substring(item.dutchauctionSuccessfulbidDate,0,16)}"></td>
-														<td th:text="${#strings.substring(item.dutchauctionCheckinDate,0,16)}"></td>
-														<td th:text="${#strings.substring(item.dutchauctionChechoutDate,0,16)}"></td>
-														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
-													</tr>
-												</tbody>
-											</table>
+											<div class="card">
+												<div class="card-header">
+												   역경매(네던란드식) 낙찰 목록
+												</div>
+												<div class="card-body">
+													<table width="100%" class="table table-bordered table-striped table-hover" id="tab2Table">
+														<thead>
+															<tr>
+																<th>상세보기</th>
+																<th>낙찰가</th>
+																<th>낙찰일</th>
+																<th>숙소 입실일</th>
+																<th>숙소 퇴실일</th>
+																<th>경매 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="item : ${dutchauctionSuccessfulbidList}">
+																<td><a class="text-primary" th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionRegisterNo})}" th:text="상세보기"></a></td>
+																<td th:text="${item.dutchauctionSuccessfulbidPrice}"></td>
+																<td th:text="${#strings.substring(item.dutchauctionSuccessfulbidDate,0,16)}"></td>
+																<td th:text="${#strings.substring(item.dutchauctionCheckinDate,0,16)}"></td>
+																<td th:text="${#strings.substring(item.dutchauctionChechoutDate,0,16)}"></td>
+																<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 	                            </div>
@@ -172,31 +190,38 @@
 	                            <div class="palatin-tab-text">
 	                            	<div class="row">
 										<div class="col-md-12">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>상세보기</th>
-														<th>제목</th>
-														<th>등록일</th>
-														<th>수정일</th>
-														<th>입찰한도가</th>
-														<th>입찰건수</th>
-														<th>경매 상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="item : ${reverseauctionList}" class="table-secondary">
-														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
-														<td th:text="${item.reverseauctionTitle}"></td>
-														<td th:text="${#strings.substring(item.reverseauctionRegisterDate,0,16)}"></td>
-														<td th:if='${#strings.equals(item.reverseauctionUpdateDate,"")}'></td>
-														<td th:unless='${#strings.equals(item.reverseauctionUpdateDate,"")}' th:text="${#strings.substring(item.reverseauctionUpdateDate,0,16)}"></td>
-														<td th:text="${item.reverseauctionTenderLimit}"></td>
-														<td th:text="${item.reverseauctionTenderCount}"></td>
-														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
-													</tr>
-												</tbody>
-											</table>
+											<div class="card">
+												<div class="card-header">
+												   역경매 등록 목록
+												</div>
+												<div class="card-body">
+													<table width="100%" class="table table-bordered table-striped table-hover" id="tab3Table">
+														<thead>
+															<tr>
+																<th>상세보기</th>
+																<th>제목</th>
+																<th>등록일</th>
+																<th>수정일</th>
+																<th>입찰한도가</th>
+																<th>입찰건수</th>
+																<th>경매 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="item : ${reverseauctionList}">
+																<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+																<td th:text="${item.reverseauctionTitle}"></td>
+																<td th:text="${#strings.substring(item.reverseauctionRegisterDate,0,16)}"></td>
+																<td th:if='${#strings.equals(item.reverseauctionUpdateDate,"")}'></td>
+																<td th:unless='${#strings.equals(item.reverseauctionUpdateDate,"")}' th:text="${#strings.substring(item.reverseauctionUpdateDate,0,16)}"></td>
+																<td th:text="${item.reverseauctionTenderLimit}"></td>
+																<td th:text="${item.reverseauctionTenderCount}"></td>
+																<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 	                            </div>
@@ -208,33 +233,40 @@
 	                            <div class="palatin-tab-text">
 	                            	<div class="row">
 										<div class="col-md-12">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>상세보기</th>
-														<th>숙소명</th>
-														<th>객실명</th>
-														<th>입찰일</th>
-														<th>수정일</th>
-														<th>입찰가격</th>
-														<th>경매 상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="item : ${reverseauctionTenderList}" class="table-secondary">
-														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
-														<td th:text="${item.accommodationName}"></td>
-														<td th:text="${item.guestroomName}"></td>
-														<td th:text="${#strings.substring(item.reverseauctionTenderDate,0,16)}"></td>
-														<td th:if='${#strings.equals(item.reverseauctionTenderUpdateDate,"")}'></td>
-														<td th:unless='${#strings.equals(item.reverseauctionTenderUpdateDate,"")}' th:text="${#strings.substring(item.reverseauctionTenderUpdateDate,0,16)}"></td>
-														
-														
-														<td th:text="${item.reverseauctionTenderPrice}"></td>
-														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
-													</tr>
-												</tbody>
-											</table>
+											<div class="card">
+												<div class="card-header">
+												   역경매 입찰 목록
+												</div>
+												<div class="card-body">
+													<table width="100%" class="table table-bordered table-striped table-hover" id="tab4Table">
+														<thead>
+															<tr>
+																<th>상세보기</th>
+																<th>숙소명</th>
+																<th>객실명</th>
+																<th>입찰일</th>
+																<th>수정일</th>
+																<th>입찰가격</th>
+																<th>경매 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="item : ${reverseauctionTenderList}">
+																<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+																<td th:text="${item.accommodationName}"></td>
+																<td th:text="${item.guestroomName}"></td>
+																<td th:text="${#strings.substring(item.reverseauctionTenderDate,0,16)}"></td>
+																<td th:if='${#strings.equals(item.reverseauctionTenderUpdateDate,"")}'></td>
+																<td th:unless='${#strings.equals(item.reverseauctionTenderUpdateDate,"")}' th:text="${#strings.substring(item.reverseauctionTenderUpdateDate,0,16)}"></td>
+																
+																
+																<td th:text="${item.reverseauctionTenderPrice}"></td>
+																<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
 										</div>
 									</div>
 	                            </div>
@@ -246,28 +278,36 @@
 	                            <div class="palatin-tab-text">
 	                            	<div class="row">
 										<div class="col-md-12">
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th>상세보기</th>
-														<th>낙찰가</th>
-														<th>낙찰일</th>
-														<th>숙소 입실일</th>
-														<th>숙소 퇴실일</th>
-														<th>경매 상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr th:each="item : ${reverseauctionSuccessfulbidList}" class="table-secondary">
-														<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
-														<td th:text="${item.reverseauctionSuccessfulbidPrice}"></td>
-														<td th:text="${#strings.substring(item.reverseauctionSuccessfulbidDate,0,16)}"></td>
-														<td th:text="${item.reverseauctionRoomingDate}"></td>
-														<td th:text="${item.reverseauctionLeavingDate}"></td>
-														<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
-													</tr>
-												</tbody>
-											</table>
+											<div class="card">
+												<div class="card-header">
+												  역경매 낙찰 목록
+												</div>
+												<div class="card-body">
+													<table width="100%" class="table table-bordered table-striped table-hover" id="tab5Table">
+														<thead>
+															<tr>
+																<th>상세보기</th>
+																<th>낙찰가</th>
+																<th>낙찰일</th>
+																<th>숙소 입실일</th>
+																<th>숙소 퇴실일</th>
+																<th>경매 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="item : ${reverseauctionSuccessfulbidList}">
+																<td><a class="text-primary" th:href="@{/auction/reverse/detail(reverseauctionNo=${item.reverseauctionNo})}" th:text="상세보기"></a></td>
+																<td th:text="${item.reverseauctionSuccessfulbidPrice}"></td>
+																<td th:text="${#strings.substring(item.reverseauctionSuccessfulbidDate,0,16)}"></td>
+																<td th:text="${item.reverseauctionRoomingDate}"></td>
+																<td th:text="${item.reverseauctionLeavingDate}"></td>
+																<td class="text-success" th:text="${item.auctionStateCategoryName}"></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+
 										</div>
 									</div>
 	                            </div>
@@ -293,7 +333,15 @@
     <script src="/main/js/plugins/plugins.js"></script>
     <!-- Active js -->
     <script src="/main/js/active.js"></script>
+    <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+
     <script th:inline="javascript">
+    	for(var i = 1; i <= 5; i++) {
+        	$("#tab"+i+"Table").dataTable({
+       		 responsive: true
+       	});
+    	}
+
 		$("#myAuctionList").addClass('active');
 		var groupName = [[${groupName}]];
 		if(groupName != "호스트" && groupName != "관리자") {

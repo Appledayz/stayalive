@@ -10,9 +10,6 @@
     <!-- Title -->
     <title>stayalive &amp; 내가 원하는 숙소를 싸게 구하자</title>
 
-    <!-- Favicon -->
-    <link rel="icon" href="/main/img/core-img/favicon.ico">
-
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="/main/style.css">
 </head>
@@ -101,7 +98,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<table class="table table-bordered">
+						<table class="table table-bordered table-striped table-hover">
 							<thead>
 								<tr>
 									<td>업체명</td>
@@ -109,7 +106,7 @@
 								</tr>
 							</thead>
 							<tbody th:each = "map : ${memberAndCompanyList}">
-					            <tr class="table-secondary">
+					            <tr>
 					               <td><a href="#" class="text-primary" data-toggle="modal" data-target="#theModal" th:attr="data-remote=${map['companyNo']}" th:text="${map['companyName']}"></a></td>
 					               <td th:text="${map['memberNickname'] + ' (' + map['memberId'] + ')'}"></td>
 					            </tr>

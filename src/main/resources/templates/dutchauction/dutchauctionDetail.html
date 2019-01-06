@@ -66,7 +66,7 @@
 							<div class="col-sm-4" th:if="${!#strings.equals(detail.memberId,memberId) && !#strings.equals(groupName,'호스트')}">
 								<button class="btn palatin-btn mt-30" id="bidBtn">낙찰하기</button>
 							</div>
-							<div class="col-sm-4" th:unless="${!#strings.equals(detail.memberId,memberId) && !#strings.equals(groupName,'호스트')}">
+							<div class="col-sm-4" th:if="${#strings.equals(detail.memberId,memberId)}">
 								<button class="btn palatin-btn mt-30" id="bidBtn">삭제하기</button>
 							</div>
 						</div>
@@ -231,10 +231,9 @@
 	        });
 	        var detailmemberId =  [[${detail.memberId}]]; //등록한 호스트의 id
 	        var memberId =  [[${memberId}]]; //현재 로그인하고있는 회원의 id
-	        var groupName =  [[${groupName}]]; //현재 로그인하고있는 그룹명
 	        var dutchauctionNo = [[${detail.dutchauctionNo}]];
 	        $("#bidBtn").click(function() {
-	        	if(memberId != detailmemberId && groupName != "호스트") {
+	        	if(memberId != detailmemberId) {
 		        	if(confirm("낙찰하시겠습니까?")) {
 		        		window.location.href="/auction/dutch/successfulbid?dutchauctionNo="+dutchauctionNo;
 		        	}
@@ -244,9 +243,7 @@
 		        		window.location.href="/auction/dutch/delete?dutchauctionNo="+dutchauctionNo; //삭제 로직으로 이동할수 있도록 연결 필요
 		        	}
 	        	}
-
 	        });
-	        
 		});
 	// ]]>
 	</script>
