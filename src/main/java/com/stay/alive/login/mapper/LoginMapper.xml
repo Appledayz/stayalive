@@ -6,7 +6,7 @@
 <mapper namespace="com.stay.alive.login.mapper.LoginMapper" >
 	<!-- 로그인 -->
 	<select id="selectLogin" parameterType="com.stay.alive.login.vo.LoginVo" resultType="com.stay.alive.login.vo.LoginVo">
-		SELECT member_id, group_name, member_nickname FROM member WHERE member_id = #{memberId} AND member_password = #{memberPassword}
+		SELECT member_id, group_no, group_name, member_nickname FROM member WHERE member_id = #{memberId} AND member_password = #{memberPassword}
 	</select>
 	<select id="selectMemberSaltFromId" resultType="String">
 		SELECT salt FROM member WHERE  member_id = #{memberId}

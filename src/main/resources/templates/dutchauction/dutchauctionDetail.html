@@ -60,13 +60,13 @@
 						<h2 th:text="${detail.accommodationName}">숙소 이름</h2>
 						<p th:text="${detail.accommodationCategoryName}">숙소 분류</p>
 						<p th:text="${detail.guestroomName}">객실 이름</p>
-						<p th:text="'등록일 : '+${detail.dutchauctionRegisterDate}">경매 등록일</p>
+						<p th:text="'등록일 : '+ ${detail.dutchauctionRegisterDate}">경매 등록일</p>
 						<div class="row">
 							<div class="col-sm-4"></div>
-							<div class="col-sm-4" th:if="${!#strings.equals(detail.memberId,memberId) && !#strings.equals(groupName,'호스트')}">
+							<div class="col-sm-4" th:if="${!#strings.equals(detail.memberId,memberId) && groupNo == 1}">
 								<button class="btn palatin-btn mt-30" id="bidBtn">낙찰하기</button>
 							</div>
-							<div class="col-sm-4" th:if="${#strings.equals(detail.memberId,memberId)}">
+							<div class="col-sm-4" th:if="${#strings.equals(detail.memberId,memberId) && groupNo == 2}">
 								<button class="btn palatin-btn mt-30" id="bidBtn">삭제하기</button>
 							</div>
 						</div>

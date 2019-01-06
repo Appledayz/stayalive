@@ -57,9 +57,11 @@ public class DutchauctionController {
 	public String dutchauctionDetail(Model model, int dutchauctionNo, HttpSession session){
 		Map<String, Object> detail = dutchauctionService.getDutchAuctionDetail(dutchauctionNo);
 		String memberId = (String)session.getAttribute("memberId");
-		String groupName = (String)session.getAttribute("groupName");
-		model.addAttribute("memberId", memberId);
-		model.addAttribute("groupName", groupName);
+		if(memberId != null) {
+			int groupNo = (int)session.getAttribute("groupNo");
+			model.addAttribute("groupNo", groupNo);
+			model.addAttribute("memberId", memberId);
+		}
 		model.addAttribute("detail", detail);
 		return "dutchauction/dutchauctionDetail";
 	}
@@ -67,10 +69,10 @@ public class DutchauctionController {
 	@GetMapping("delete")
 	public String dutchauctionDelete(Model model, int dutchauctionNo, HttpSession session){
 		String memberId = (String)session.getAttribute("memberId");
-		String groupName = (String)session.getAttribute("groupName");
+		int groupNo = (int)session.getAttribute("groupNo");
 		DutchAuction dutchAuction = dutchauctionService.getDutchAuctionFromNo(dutchauctionNo);
 		String hostId = dutchAuction.getMemberId();
-		if(hostId.equals(memberId) && groupName.equals("호스트") && dutchAuction.getAuctionStateCategoryNo() == 1) {
+		if(hostId.equals(memberId) && groupNo == 2 && dutchAuction.getAuctionStateCategoryNo() == 1) {
 			int result = dutchauctionService.removeDutchAuction(dutchauctionNo);
 			if(result == 0) {
 				model.addAttribute("msg","삭제에 실패했습니다.");
@@ -89,19 +91,21 @@ public class DutchauctionController {
 	@GetMapping("register")
 	public String dutchauctionRegister(Model model, HttpSession session) throws SchedulerException {
 		String memberId = (String)session.getAttribute("memberId");
-		String groupName = (String)session.getAttribute("groupName");
 		if(memberId == null) {
 			return "redirect:/login";
 		}
-		else if(memberId != null && (groupName.equals("호스트") || groupName.equals("관리자"))) {//회원이 호스트,관리자 일때 역경매 등록가능
-			String[] accommodationName = dutchauctionService.getAccommodationName(memberId);
-			model.addAttribute("name", accommodationName);
-			return "dutchauction/dutchauctionRegister";
-		}
 		else {
-			model.addAttribute("msg","호스트만 경매 등록이 가능합니다.");
-			model.addAttribute("url","/main");
-			return "alert";
+			int groupNo = (int)session.getAttribute("groupNo");
+			if(groupNo == 2 || groupNo == 3) {//회원이 호스트,관리자 일때 역경매 등록가능
+				String[] accommodationName = dutchauctionService.getAccommodationName(memberId);
+				model.addAttribute("name", accommodationName);
+				return "dutchauction/dutchauctionRegister";
+			}
+			else {
+				model.addAttribute("msg","호스트만 경매 등록이 가능합니다.");
+				model.addAttribute("url","/main");
+				return "alert";
+			}
 		}
 	}
 	//역경매 등록액션

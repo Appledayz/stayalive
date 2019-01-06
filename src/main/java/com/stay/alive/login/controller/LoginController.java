@@ -43,13 +43,10 @@ public class LoginController {
 			sessionLogin = loginService.memberLogin(loginVo);
 		}
 		if(sessionLogin != null) {
-			session.setAttribute("sessionLogin", sessionLogin);		
 			session.setAttribute("memberId", sessionLogin.getMemberId());
-			System.out.println(sessionLogin.getMemberId() + "<--memberId");
+			session.setAttribute("groupNo", sessionLogin.getGroupNo());
 			session.setAttribute("groupName", sessionLogin.getGroupName());
-			System.out.println(sessionLogin.getGroupName() + "<--groupName");
 			session.setAttribute("memberNickname", sessionLogin.getMemberNickname());
-			System.out.println(sessionLogin.getMemberNickname() + "<--memberNickname");
 			return "redirect:/main";
 		}else {
 			return "/login/login";

@@ -37,26 +37,33 @@ public class AuctionController {
 	@GetMapping("myAuctionList")
 	public String myAuctionList(Model model, HttpSession session, Reverseauction reverseauction, ReverseauctionTender reverseauctionTender) {
 		String memberId = (String)session.getAttribute("memberId");
-		String groupName = (String)session.getAttribute("groupName");
+		String groupName;
+		int groupNo;
 		reverseauction.setMemberId(memberId);
 		reverseauctionTender.setMemberId(memberId);
 		if(memberId == null) {
 			model.addAttribute("msg", "로그인이 필요합니다.");
 			model.addAttribute("url", "/login");
 			return "alert";
-		} else if(groupName.equals("호스트") || groupName.equals("관리자")) {
-			model.addAttribute("dutchauctionList", dutchauctionService.getDutchAuctionsFromId(memberId));
-			model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupName));
-			model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
-			model.addAttribute("reverseauctionTenderList", reverseauctionTenderService.getReverseauctionTenderListById(reverseauctionTender));
-			model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupName));
-			
-		} else {
-			model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupName));
-			model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
-			model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupName));
+		}
+		else {
+			groupName = (String)session.getAttribute("groupName");
+			groupNo = (int)session.getAttribute("groupNo");
+			if(groupNo == 2 || groupNo == 3) {
+				model.addAttribute("dutchauctionList", dutchauctionService.getDutchAuctionsFromId(memberId));
+				model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupNo));
+				model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
+				model.addAttribute("reverseauctionTenderList", reverseauctionTenderService.getReverseauctionTenderListById(reverseauctionTender));
+				model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupNo));
+			}
+			else {
+				model.addAttribute("dutchauctionSuccessfulbidList", dutchauctionBidService.getDutchauctionSuccessfulbidFromId(memberId, groupNo));
+				model.addAttribute("reverseauctionList", reverseauctionService.getReverseauctionListById(reverseauction));
+				model.addAttribute("reverseauctionSuccessfulbidList", reverseauctionSuccessfulbidService.getReverseauctionSuccessfulbid(memberId, groupNo));
+			}
 		}
 		model.addAttribute("groupName",groupName);
+		model.addAttribute("groupNo",groupNo);
 		return "auction/myAuctionList";
 	}
 	

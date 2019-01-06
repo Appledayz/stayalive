@@ -19,8 +19,8 @@ public class DutchauctionBidService {
 	DutchauctionBidMapper dutchauctionBidMapper;
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
-	public ArrayList<Map<String, Object>> getDutchauctionSuccessfulbidFromId(String memberId, String groupName) {
-		return dutchauctionBidMapper.selectDutchauctionSuccessfulbidFromId(memberId, groupName);
+	public ArrayList<Map<String, Object>> getDutchauctionSuccessfulbidFromId(String memberId, int groupNo) {
+		return dutchauctionBidMapper.selectDutchauctionSuccessfulbidFromId(memberId, groupNo);
 	}
 	public void addDutchauctionSuccessfulbid(DutchAuctionBid dutchAuctionBid) {
 		dutchauctionBidMapper.insertDutchauctionSuccessfulbid(dutchAuctionBid);
@@ -37,7 +37,6 @@ public class DutchauctionBidService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
 	}
 }

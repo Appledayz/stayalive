@@ -78,7 +78,7 @@
 				 <!-- ##### Tabs ##### -->
 	            <div class="palatin-tabs-content">
 	                <ul class="nav nav-tabs" id="myTab" role="tablist">
-	                    <li class="nav-item" th:if="${#strings.equals(groupName,'호스트') or #strings.equals(groupName,'관리자')}">
+	                    <li class="nav-item" th:if="${groupNo == 2 or groupNo == 3}">
 	                        <a class="nav-link active" id="tab--1" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="false">더치옥션 등록 목록</a>
 	                    </li>
 	                    <li class="nav-item">
@@ -87,7 +87,7 @@
 	                    <li class="nav-item">
 	                        <a class="nav-link" id="tab--3" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="true">역경매 등록 목록</a>
 	                    </li>
-   	                    <li class="nav-item" th:if="${#strings.equals(groupName,'호스트') or #strings.equals(groupName,'관리자')}">
+   	                    <li class="nav-item" th:if="${groupNo == 2 or groupNo == 3}">
 	                        <a class="nav-link" id="tab--4" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4" aria-selected="false">역경매 입찰 목록</a>
 	                    </li>
 	                    <li class="nav-item">
@@ -96,7 +96,7 @@
 	                </ul>
 	
 	                <div class="tab-content mb-100" id="myTabContent">
-	                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab--1" th:if="${#strings.equals(groupName,'호스트') or #strings.equals(groupName,'관리자')}">
+	                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab--1" th:if="${groupNo == 2 or groupNo == 3}">
 	                        <div class="palatin-tab-content">
 	                            <!-- Tab Text -->
 	                            <div class="palatin-tab-text">
@@ -227,7 +227,7 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab--4" th:if="${#strings.equals(groupName,'호스트') or #strings.equals(groupName,'관리자')}">
+	                    <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab--4" th:if="${groupNo == 2 or groupNo == 3}">
 	                        <div class="palatin-tab-content">
 	                            <!-- Tab Text -->
 	                            <div class="palatin-tab-text">
@@ -341,10 +341,9 @@
        		 responsive: true
        	});
     	}
-
 		$("#myAuctionList").addClass('active');
-		var groupName = [[${groupName}]];
-		if(groupName != "호스트" && groupName != "관리자") {
+		var groupNo = [[${groupNo}]];
+		if(groupNo != 2 && groupNo != 3) {
 			$("#tab--2").addClass('show active');
 			$("#tab2").addClass('show active');
 		}

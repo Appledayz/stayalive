@@ -11,7 +11,7 @@
 		<result javaType="String" column="dutchauction_chechout_date" property="dutchauctionChechoutDate"/>
 		<result javaType="String" column="auction_state_category_name" property="auctionStateCategoryName"/>
 	</resultMap>
-	<select id="selectDutchauctionSuccessfulbidFromId" resultMap="successfulbidResultMap" parameterType="String">
+	<select id="selectDutchauctionSuccessfulbidFromId" resultMap="successfulbidResultMap">
 		SELECT ds.dutchauction_register_no,
 				ds.dutchauction_successfulbid_price,
 				ds.dutchauction_successfulbid_date,
@@ -22,7 +22,7 @@
 		INNER JOIN dutchauction_successfulbid AS ds
 		ON d.dutchauction_no = ds.dutchauction_register_no
 		<choose>
-			<when test='groupName.equals("호스트") or groupName.equals("관리자")'>
+			<when test="groupNo == 2 or groupNo == 3"> <!-- 호스트이거나 관리자일때 -->
 				WHERE d.member_id = #{memberId}
 			</when>
 			<otherwise>

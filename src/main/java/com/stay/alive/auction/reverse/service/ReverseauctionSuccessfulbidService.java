@@ -60,9 +60,9 @@ public class ReverseauctionSuccessfulbidService {
 	}
 	
 	// 낙찰목록 조회 (memberId로)
-	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(String memberId, String groupName) {
+	public List<ReverseauctionSuccessfulbid> getReverseauctionSuccessfulbid(String memberId, int groupNo) {
 		System.out.println("ReverseauctionService.getReverseauctionSuccessfulbid()");
-		if(groupName.equals("호스트") || groupName.equals("관리자")) {
+		if(groupNo == 2 || groupNo == 3) {
 			return reverseauctionSuccessfulbidMapper.getSuccessfulbidByHostId(memberId);
 		}else {
 			return reverseauctionSuccessfulbidMapper.getSuccessfulbidByGuestId(memberId);

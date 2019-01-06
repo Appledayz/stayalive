@@ -8,6 +8,6 @@ import com.stay.alive.auction.dutch.vo.DutchAuctionBid;
 
 @Mapper
 public interface DutchauctionBidMapper {
-	ArrayList<Map<String, Object>> selectDutchauctionSuccessfulbidFromId(String memberId, String groupName);
+	ArrayList<Map<String, Object>> selectDutchauctionSuccessfulbidFromId(String memberId, int groupNo);
 	public void insertDutchauctionSuccessfulbid(DutchAuctionBid dutchAuctionBid);
 }
