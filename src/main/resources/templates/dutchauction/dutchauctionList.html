@@ -111,44 +111,10 @@
 					</div>
 					<!-- ##### Auction Area Start ##### -->
 					<section class="rooms-area section-padding-0-0">
-						<div class="container">
-							<div class="row">
+						<div class="container" >
+							<div class="row" id="listRoomsArea">
 								<!-- Single Rooms Area -->
-								<div class="col-12 col-md-6" th:if="${#lists.size(list) != 0}" th:each="item : ${list}" >
-									<a th:href="@{/auction/dutch/detail(dutchauctionNo=${item.dutchauctionNo})}"   style="padding:0 15px 0 15px" >
-										<div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms" style="height: 400px">
-											<!-- Limit -->
-											<div th:with="result=${100-((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice *100)}">
-                        						<p class="price-from" th:utext = "|${item.dutchauctionUpdatePrice}원 <br><span style='color:red;font-size:20px'>${#numbers.formatInteger(result, 0,'COMMA')}%</span> 할인|" style="font-size: 16px;"></p>
-                        					</div>
-											<!-- Thumbnail -->
-											<div class="bg-thumbnail bg-img" th:style="'background-image: url(/image/guestroom/'+${item.imageFileStoredName}+'.'+${item.imageFileExt}+');'" ></div>
-											<!-- Rooms Text -->
-											<div class="rooms-text" >
-												<div class="line"></div>
-												<h4 th:text="${item.accommodationName}">Deluxe Room</h4>
-												<p style="word-break: break-all;" th:text="${item.guestroomName}">Room Content</p>
-												<div class="line"></div>
-												<!-- 주소 -->
-												<p th:text="'위치 : ' + ${item.accommodationAddress}">Address</p>
-												<!-- 시작 -->
-												<p th:text="'시작 일시 : ' + ${#strings.substring(item.dutchauctionRegisterDate,0,16)}">Limit</p>
-												<!-- 할인 -->
-												<p th:text="'할인 : 매 ' + ${item.dutchauctionSaleInterval}+'시간마다'">할인주기</p>
-												<!-- 할인 -->
-												<p th:text="'할인단위 : ' + ${item.dutchauctionSaleUnit}+'원'">할인단위</p>
-												<!-- 판매가 -->
-												<p th:text="'판매가 : ' + ${item.dutchauctionStartprice}+'원'">할인단위</p>
-												<!-- Date -->
-												<p th:text="'입실 시간 : ' + ${#strings.substring(item.dutchauctionCheckinDate,0,16)}">입실 시간</p>
-												<p th:text="'퇴실 시간 : ' + ${#strings.substring(item.dutchauctionCheckoutDate,0,16)}">퇴실 시간</p>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="col-lg-12 text-center" th:unless="${#lists.size(list) != 0}" style="padding-top: 40px;">
-									<h3>현재 진행되고 있는 경매가 없습니다.</h3>
-								</div>
+								
 							</div>
 							<div class="col-12" >
 								<!-- Pagination -->
@@ -214,10 +180,10 @@
     <!-- datepicker js  -->
     <script src="/datepicker/js/datepicker.js"></script>
     <script src="/datepicker/js/i18n/datepicker.en.js"></script>
-	<script>
+	<script th:inline="javascript">
+	
 		$(function() {
 			$("#dutchauctionList").addClass('active');
-
 			//Datepicker
 			$('#checkInDate').datepicker({
 			    language: 'en',
@@ -264,13 +230,10 @@
 					checkOutDate.attr("disabled",true);
 				}
 			})
-
-			var currentPage = 1;
-
-			closedutchauctionList(currentPage, true); //페이지 최초 로딩시 종료된 리스트 추가
+			//종료된 경매 리스트 처음에는 보이지 않게
 			$("#close").hide();
 			var closeSwitch = false;
-			$("#closeBtn").click(function() {
+			$("#closeBtn").click(function() {//버튼 클릭시 종료된 경매 리스트 show/hide
 				if(!closeSwitch) {
 					closeSwitch = true;
 					$("#close").show();
@@ -280,9 +243,60 @@
 					$("#close").hide();
 				}
 			});
+			closedutchauctionList(1, true); //페이지 최초 로딩시 종료된 경매 리스트 추가
+			var currentPage = [[${currentPage}]];
+			var searchKey = [[${searchKey}]];
+			var searchWord = [[${searchWord}]];
+			var checkInDate = [[${checkInDate}]];
+			var checkOutDate = [[${checkOutDate}]];
+			var currentlist = [[${list}]];
+			var interval;
+			if(currentlist.length != 0) {
+				currentList(currentPage, searchKey, searchWord, checkInDate, checkOutDate);
+			}
 		});
-		
-		function closedutchauctionList(currentPage, isFirsePage) { //Ajax를 이용한 리스트 + 페이징
+		//Ajax를 이용한 현재 경매 진행중인 리스트
+		function currentList(currentPage, searchKey, searchWord,checkInDate ,checkOutDate) {
+			setTimeout(function() {
+				$.ajax({
+					url:"currentList",
+					method:"get",
+					data:{"currentPage": currentPage, 
+						  "searchKey" : searchKey,
+						  "searchKey" : searchWord,
+						  "checkInDate" : checkInDate,
+						  "checkOutDate" : checkOutDate},
+					contentType :"application/x-www-form-urlencoded",
+					success:function(data) {
+						var list = ""
+						$.each(data, function(index,item) {
+							result = Math.round(100 - ((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice * 100));
+							list += "<div class='col-12 col-md-6'>";
+							list += "<a href='/auction/dutch/detail?dutchauctionNo=" + item.dutchauctionNo + "' style='padding:0 15px 0 15px'>";
+							list += "<div class='single-rooms-area' style='height: 400px'>";
+							list += "<p class='price-from' style='font-size: 16px;'>"+ item.dutchauctionUpdatePrice + "원<br><span style='color:red;font-size:20px'>" + result + "%</span> 할인" +"</p>";
+							list += "<div class='bg-thumbnail bg-img' style='background-image: url(/image/guestroom/"+ item.imageFileStoredName +"."+item.imageFileExt+";'></div>";
+							list += "<div class='rooms-text'>";
+							list += "<div class='line'></div>";
+							list += "<h4>"+ item.accommodationName +"</h4>";
+							list += "<p style='word-break: break-all;'>"+ item.guestroomName +"</p>";
+							list += "<div class='line'></div>";
+							list += "<p>위치 : " + item.accommodationAddress + "</p>";
+							list += "<p>시작 일시 : " + item.dutchauctionRegisterDate.substring(0,16) + "</p>";
+							list += "<p>할인 : 매 " + item.dutchauctionSaleInterval + "시간마다</p>";
+							list += "<p>할인단위 : " + item.dutchauctionSaleUnit + "원</p>";
+							list += "<p>판매가 : " + item.dutchauctionStartprice + "원</p>";
+							list += "<p>입실 시간 : " + item.dutchauctionCheckinDate.substring(0,16) + "</p>";
+							list += "<p>퇴실 시간 : " + item.dutchauctionCheckoutDate.substring(0,16) + "</p>";
+							list += "</div></div></a></div>";
+						});
+						$("#listRoomsArea").html(list);
+						currentList(currentPage, searchKey, searchWord, checkInDate, checkOutDate);
+					}
+				});
+			},2000);
+		}
+		function closedutchauctionList(currentPage, isFirstPage) { //Ajax를 이용한 종료된 경매 리스트 + 페이징
 			$.ajax({
 				url:"closedlist",
 				method:"get",
@@ -319,7 +333,7 @@
 					if(data.PM.prevPage) {
 						var prevPage = (data.PM.currentBlock - 1) * data.PM.pagePerBlock;
 						pager += "<li class='page-item'>";
-						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ prevPage +")'>이전</a>";
+						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ prevPage +", false)'>이전</a>";
 						pager += "</li>";
 					}
 					for(var i = data.PM.startPage; i <= data.PM.endPage; i++) {
@@ -335,12 +349,12 @@
 					if(data.PM.nextPage) {
 						var nextPage = data.PM.currentBlock * data.PM.pagePerBlock + 1
 						pager += "<li class='page-item'>";
-						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ nextPage +")'>다음</a>";
+						pager += "<a class='page-link' href='javascript:closedutchauctionList("+ nextPage +", false)'>다음</a>";
 						pager += "</li>";
 					}
 					$("#roomArea").html(list);
 					$("#pager").html(pager);
-					if(isFirsePage == false) {
+					if(isFirstPage == false) {
 						var offset = $("#offsetPos").offset();
 						$('html, body').animate({scrollTop : offset.top}, 600);
 					}

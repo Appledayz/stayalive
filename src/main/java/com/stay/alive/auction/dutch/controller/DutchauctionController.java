@@ -45,6 +45,7 @@ public class DutchauctionController {
 			list = dutchauctionService.getDutchAuctionList(pageMaker);
 		}
 		model.addAttribute("PM", pageMaker);
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("checkInDate", checkInDate);
@@ -171,5 +172,24 @@ public class DutchauctionController {
 		map.put("closedList", closedList);
 		map.put("PM", pageMaker);
 		return map;
+	}
+	@GetMapping("currentList")
+	public @ResponseBody ArrayList<Map<String, Object>> realTimeList( 
+			   @RequestParam(defaultValue = "1")int currentPage,
+			   @RequestParam(defaultValue = "") String searchKey, 
+			   @RequestParam(defaultValue = "") String searchWord,
+			   @RequestParam(defaultValue = "") String checkInDate,
+			   @RequestParam(defaultValue = "") String checkOutDate)
+	{
+	PageMaker pageMaker = new PageMaker();
+	pageMaker.setCurrentPage(currentPage);
+	ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	if((!searchKey.equals("") && !searchKey.equals("0")) || (!checkInDate.equals("") && !checkOutDate.equals(""))) {
+		list = dutchauctionService.getDutchAuctionSearchList(pageMaker, searchKey, searchWord, checkInDate, checkOutDate);
+	}
+	else {
+		list = dutchauctionService.getDutchAuctionList(pageMaker);
+	}
+	return list;
 	}
 }
