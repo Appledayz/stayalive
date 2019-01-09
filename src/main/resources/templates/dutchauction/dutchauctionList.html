@@ -252,9 +252,50 @@
 			var currentlist = [[${list}]];
 			var interval;
 			if(currentlist.length != 0) {
+				initCurrentList(currentPage, searchKey, searchWord,checkInDate ,checkOutDate);
 				currentList(currentPage, searchKey, searchWord, checkInDate, checkOutDate);
 			}
-		});
+		});	
+		function render(currentList) {
+			var list = ""
+				$.each(currentList, function(index,item) {
+					var result = Math.round(100 - ((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice * 100));
+					list += "<div class='col-12 col-md-6'>";
+					list += "<a href='/auction/dutch/detail?dutchauctionNo=" + item.dutchauctionNo + "' style='padding:0 15px 0 15px'>";
+					list += "<div class='single-rooms-area' style='height: 400px'>";
+					list += "<p class='price-from' style='font-size: 16px;'>"+ item.dutchauctionUpdatePrice + "원<br><span style='color:red;font-size:20px'>" + result + "%</span> 할인" +"</p>";
+					list += "<div class='bg-thumbnail bg-img' style='background-image: url(/image/guestroom/"+ item.imageFileStoredName +"."+item.imageFileExt+";'></div>";
+					list += "<div class='rooms-text'>";
+					list += "<div class='line'></div>";
+					list += "<h4>"+ item.accommodationName +"</h4>";
+					list += "<p style='word-break: break-all;'>"+ item.guestroomName +"</p>";
+					list += "<div class='line'></div>";
+					list += "<p>위치 : " + item.accommodationAddress + "</p>";
+					list += "<p>시작 일시 : " + item.dutchauctionRegisterDate.substring(0,16) + "</p>";
+					list += "<p>할인 : 매 " + item.dutchauctionSaleInterval + "시간마다</p>";
+					list += "<p>할인단위 : " + item.dutchauctionSaleUnit + "원</p>";
+					list += "<p>판매가 : " + item.dutchauctionStartprice + "원</p>";
+					list += "<p>입실 시간 : " + item.dutchauctionCheckinDate.substring(0,16) + "</p>";
+					list += "<p>퇴실 시간 : " + item.dutchauctionCheckoutDate.substring(0,16) + "</p>";
+					list += "</div></div></a></div>";
+				});
+				$("#listRoomsArea").html(list);
+		}
+		function initCurrentList(currentPage, searchKey, searchWord,checkInDate ,checkOutDate) {
+			$.ajax({
+				url:"currentList",
+				method:"get",
+				data:{"currentPage": currentPage, 
+					  "searchKey" : searchKey,
+					  "searchKey" : searchWord,
+					  "checkInDate" : checkInDate,
+					  "checkOutDate" : checkOutDate},
+				contentType :"application/x-www-form-urlencoded",
+				success:function(data) {
+					render(data);
+				}
+			});
+		}
 		//Ajax를 이용한 현재 경매 진행중인 리스트
 		function currentList(currentPage, searchKey, searchWord,checkInDate ,checkOutDate) {
 			setTimeout(function() {
@@ -268,29 +309,7 @@
 						  "checkOutDate" : checkOutDate},
 					contentType :"application/x-www-form-urlencoded",
 					success:function(data) {
-						var list = ""
-						$.each(data, function(index,item) {
-							result = Math.round(100 - ((item.dutchauctionUpdatePrice*1.0) / item.dutchauctionStartprice * 100));
-							list += "<div class='col-12 col-md-6'>";
-							list += "<a href='/auction/dutch/detail?dutchauctionNo=" + item.dutchauctionNo + "' style='padding:0 15px 0 15px'>";
-							list += "<div class='single-rooms-area' style='height: 400px'>";
-							list += "<p class='price-from' style='font-size: 16px;'>"+ item.dutchauctionUpdatePrice + "원<br><span style='color:red;font-size:20px'>" + result + "%</span> 할인" +"</p>";
-							list += "<div class='bg-thumbnail bg-img' style='background-image: url(/image/guestroom/"+ item.imageFileStoredName +"."+item.imageFileExt+";'></div>";
-							list += "<div class='rooms-text'>";
-							list += "<div class='line'></div>";
-							list += "<h4>"+ item.accommodationName +"</h4>";
-							list += "<p style='word-break: break-all;'>"+ item.guestroomName +"</p>";
-							list += "<div class='line'></div>";
-							list += "<p>위치 : " + item.accommodationAddress + "</p>";
-							list += "<p>시작 일시 : " + item.dutchauctionRegisterDate.substring(0,16) + "</p>";
-							list += "<p>할인 : 매 " + item.dutchauctionSaleInterval + "시간마다</p>";
-							list += "<p>할인단위 : " + item.dutchauctionSaleUnit + "원</p>";
-							list += "<p>판매가 : " + item.dutchauctionStartprice + "원</p>";
-							list += "<p>입실 시간 : " + item.dutchauctionCheckinDate.substring(0,16) + "</p>";
-							list += "<p>퇴실 시간 : " + item.dutchauctionCheckoutDate.substring(0,16) + "</p>";
-							list += "</div></div></a></div>";
-						});
-						$("#listRoomsArea").html(list);
+						render(data);
 						currentList(currentPage, searchKey, searchWord, checkInDate, checkOutDate);
 					}
 				});

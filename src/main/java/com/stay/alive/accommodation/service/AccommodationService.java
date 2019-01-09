@@ -77,7 +77,6 @@ public class AccommodationService {
 		if(!accommodationMapper.selectSigunguName(sigunguName)) {//시군구 이름이 데이터베이스에 없으면 추가
 			accommodationMapper.insertSigunguName(sigunguName);
 		}
-		
 		int imageFileNo = addBusinessImageFiles(accommodation.getBusinessNumberFile(), path, accommodation.getMemberId());
 		accommodation.setImageFileNo(imageFileNo); //사업자 등록증 파일번호 세팅
 		int categoryNo = accommodation.getAccommodationCategoryNo();

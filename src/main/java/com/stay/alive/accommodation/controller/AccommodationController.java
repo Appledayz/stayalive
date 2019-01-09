@@ -142,7 +142,7 @@ public class AccommodationController {
 	@ResponseBody
 	public String addDetailImage(MultipartFile[] file,HttpSession session) {
 		String path = session.getServletContext().getRealPath("image/accommodation");
-		String memberId = "ID1";
+		String memberId = (String)session.getAttribute("memberId");
 		return accommodationService.addDetailImageFiles(file, path, memberId);
 	}
 }
