@@ -40,7 +40,8 @@ public class DutchauctionBidController {
 				dutchAuctionBid.setAuctionStateCategoryNo(2);
 				dutchAuctionBid.setAuctionStateCategoryName("낙찰완료");
 				dutchauctionBidService.addDutchauctionSuccessfulbid(dutchAuctionBid); //낙찰정보 데이터베이스에 추가
-				return "redirect:/main";
+				model.addAttribute("paymentPrice", dutchAuctionBid.getDutchauctionSuccessfulbidPrice());
+				return "payment/payment";
 			}
 			else {
 				model.addAttribute("msg","낙찰되었거나 만료된 경매입니다.");
